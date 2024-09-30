@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\sem5pi-24-25-g051.props" />
-</Project>

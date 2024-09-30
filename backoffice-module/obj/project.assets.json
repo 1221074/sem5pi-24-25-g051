@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\sem5pi-24-25-g051.csproj",
-      "projectName": "sem5pi-24-25-g051",
-      "projectPath": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\sem5pi-24-25-g051.csproj",
+      "projectUniqueName": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\backoffice-module\\backoffice-module.csproj",
+      "projectName": "backoffice-module",
+      "projectPath": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\backoffice-module\\backoffice-module.csproj",
       "packagesPath": "C:\\Users\\Guilherme Pinto\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\obj\\",
+      "outputPath": "C:\\Users\\Guilherme Pinto\\IdeaProjects\\sem5pi-24-25-g051\\backoffice-module\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Guilherme Pinto\\AppData\\Roaming\\NuGet\\NuGet.Config"
