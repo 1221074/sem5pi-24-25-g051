@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/backoffice-module/backoffice-module.iml" filepath="$PROJECT_DIR$/backoffice-module/backoffice-module.iml" />
       <module fileurl="file://$PROJECT_DIR$/sem5pi-24-25-g051.iml" filepath="$PROJECT_DIR$/sem5pi-24-25-g051.iml" />
     </modules>
   </component>

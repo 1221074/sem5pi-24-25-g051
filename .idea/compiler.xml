@@ -9,10 +9,12 @@
         <module name="3D-visualization-module" />
         <module name="business-continuity-plan" />
         <module name="GDPR-module" />
-        <module name="sem5pi-24-25-g051" />
         <module name="planning-module" />
-        <module name="backoffice-module" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="backoffice-module" target="21" />
+      <module name="sem5pi-24-25-g051" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
