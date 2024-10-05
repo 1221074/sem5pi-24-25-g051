@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace sem5pi_24_25_g051.Data
+namespace sem5pi_24_25_g051.Domain.User
 {
-    public class Users
+    public class User
     {
         public int Id { get; set; }
 

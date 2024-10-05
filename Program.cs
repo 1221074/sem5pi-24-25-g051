@@ -1,10 +1,10 @@
-using sem5pi_24_25_g051.Data;
+using sem5pi_24_25_g051.Domain;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<UserContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=sem5pi-G051;User Id=sa;Password=password;Integrated Security = True"));
+    options.UseSqlServer("DefaultConnection"));
 
 builder.Services.AddControllersWithViews(); 
 
