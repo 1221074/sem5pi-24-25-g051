@@ -1,0 +1,80 @@
+@startuml
+
+' Classes
+class Utilizador {
+  - Username
+  - Função (Administrador, Médico, Enfermeiro, Técnico, Paciente)
+  - Email
+}
+
+class Paciente {
+  - Primeiro Nome
+  - Último Nome
+  - Nome Completo
+  - Data de Nascimento
+  - Sexo
+  - Número de Processo Clínico
+  - Informação de Contacto (email, telefone)
+  - Alergias/Condições Médicas (opcional)
+  - Contacto de Emergência
+  - Histórico de Consultas
+}
+
+class ProfissionalDeSaúde {
+  - Primeiro Nome
+  - Último Nome
+  - Nome Completo
+  - Número de Cédula Profissional
+  - Especialização
+  - Informação de Contacto (email, telefone)
+  - Intervalos de Disponibilidade
+}
+
+class PedidoDeCirurgia {
+  - ID
+  - ID do Paciente
+  - ID do Médico
+  - ID do Tipo de Cirurgia
+  - Data Limite
+  - Prioridade
+}
+
+class TipoDeCirurgia {
+  - ID
+  - Nome
+  - Pessoal Necessário por Especialização
+  - Duração Estimada
+}
+
+class Consulta {
+  - ID
+  - ID do Pedido
+  - ID da Sala
+  - Data e Hora
+  - Estado (agendado, concluído, cancelado)
+}
+
+class SalaDeCirurgia {
+  - Número da Sala
+  - Tipo (apenas sala de operações)
+  - Capacidade (número de pessoal)
+  - Equipamento Atribuído (assume-se totalmente equipado)
+  - Estado Atual (disponível, ocupado, em manutenção)
+  - Intervalos de Manutenção
+}
+
+' Relacionamentos
+Utilizador <|-- Paciente
+Utilizador <|-- ProfissionalDeSaúde
+
+PedidoDeCirurgia "*" -- "1" Paciente
+PedidoDeCirurgia "*" -- "1" ProfissionalDeSaúde
+PedidoDeCirurgia "*" -- "1" TipoDeCirurgia
+
+Consulta "*" -- "1" PedidoDeCirurgia
+Consulta "*" -- "1" SalaDeCirurgia
+Consulta "*" -- "*" ProfissionalDeSaúde
+
+TipoDeCirurgia "*" -- "*" Especialização
+
+@enduml
