@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace sem5pi_24_25_g051.Domain.Appointment
 {
@@ -12,12 +12,18 @@ namespace sem5pi_24_25_g051.Domain.Appointment
     }
     public class Appointment
     {
+        [Key]
         public int Id { get; set; }
+        [Required]
         public int RequestId { get; set; }
+        [Required]
         public int RoomId { get; set; }
+        [Required]
         public DateTime DateTime { get; set; }
+        [Required]
+        [EnumDataType(typeof(AppointmentStatus))]
         public AppointmentStatus Status { get; set; }
-        public string Description { get; set; } 
+        public string? Description { get; set; } 
 
       /*public bool CanScheduleAppointment(Set<Staff> staffList,Room room, DateTime appointmentTime, TimeSpan estimatedTime){}
         public bool IsOverEstimatedTime(DateTime endTime){}
