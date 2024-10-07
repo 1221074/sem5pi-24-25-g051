@@ -8,9 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-builder.Services.AddDbContext<UserContext>(options =>
-    options.UseSqlServer("DefaultConnection"));
-
 builder.Services.AddControllersWithViews(); 
 
 // Add services to the container.

@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using sem5pi_24_25_g051.Domain.User;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using sem5pi_24_25_g051.Pages;
 using sem5pi_24_25_g051.Infraestructure;
-using System.ComponentModel.DataAnnotations;
 
 
 
@@ -25,10 +23,6 @@ public class US511Controller : Controller
         _emailSender = emailSender;
     }
 
-
-
-
-        
         [HttpGet]
         public IActionResult RegisterUser()
         {
@@ -50,20 +44,11 @@ public class US511Controller : Controller
                     return View(model);
                 }
 
-                var user = new User
-                {
-                    Id = model.Id,
-                    Email = model.Email,
-                    Role = model.Role,
-                    Username = model.Username,
-                    Phone = model.Phone
-                };
+                var user = new User(model.Email,model.Username,model.Phone,model.Role,null,null);
 
                 var result = await _userAdmin.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    await _userAdmin.AddToRoleAsync(user, model.Role);
-
                     var token = await _userAdmin.GeneratePasswordResetTokenAsync(user);
 
                     var callbackUrl = Url.Action(
@@ -75,7 +60,7 @@ public class US511Controller : Controller
                     await _emailSender.SendEmailAsync(
                         email: user.Email,
                         subject: "Activate Your Account",
-                        htmlMessage: $"Please activate your account by setting your password: <a href='{callbackUrl}'>Activate Account</a>");
+                        htmlMessage: $"Please activate your account by setting your password and your NIF: <a href='{callbackUrl}'>Activate Account</a>");
 
                     TempData["Message"] = "User registered successfully. An activation email has been sent.";
                     return RedirectToAction("RegisterUser");
@@ -111,7 +96,7 @@ public class US511Controller : Controller
             if (user == null)
                {
                 return RedirectToAction("ActivationConfirmation");
-                           }
+                }
                 var result = await _userAdmin.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
