@@ -1,0 +1,24 @@
+@page
+@model sem5pi_24_25_g051.Infraestructure.ActivateAccountViewModel
+@{
+    ViewBag.Title = "Activate Account";
+}
+
+<h2>Activate Your Account</h2>
+
+<form asp-action="ActivateAccount" method="post">
+    <input type="hidden" asp-for="Token" />
+    <input type="hidden" asp-for="Email" />
+    
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <button type="submit">Set Password</button>
+</form>
