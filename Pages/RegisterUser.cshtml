@@ -1,0 +1,44 @@
+@page  
+@model sem5pi_24_25_g051.Infraestructure.RegisterBackofficeUserViewModel
+@{
+    ViewBag.Title = "Register Backoffice User";
+}
+
+<h2>Register Backoffice User</h2>
+
+<form asp-action="RegisterUser" method="post">
+    <div>
+        <label asp-for="Id"></label>
+        <input asp-for="Id" />
+        <span asp-validation-for="Id"></span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" />
+        <span asp-validation-for="Phone"></span>
+    </div>
+    <div>
+        <label asp-for="Role"></label>
+        <select asp-for="Role" asp-items="new SelectList(ViewBag.Roles)"></select>
+        <span asp-validation-for="Role"></span>
+    </div>
+    <button type="submit">Register User</button>
+</form>
+
+@if (TempData["Message"] != null)
+{
+<p>@TempData["Message"]</p>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

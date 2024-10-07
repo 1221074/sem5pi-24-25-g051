@@ -1,0 +1,33 @@
+@page
+@model sem5pi_24_25_g051.Infraestructure.LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <form method="post">
+        <div>
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" type="password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <input asp-for="RememberMe" />
+            <label asp-for="RememberMe"></label>
+        </div>
+        <button type="submit">Log in</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
