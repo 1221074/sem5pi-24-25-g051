@@ -8,6 +8,7 @@
   </PropertyGroup>
 	
 	<ItemGroup>
+		<PackageReference Include="Google.Apis.Iam.v1" Version="1.68.0.3548" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />

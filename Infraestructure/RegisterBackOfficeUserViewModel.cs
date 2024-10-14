@@ -1,9 +1,11 @@
 
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using sem5pi_24_25_g051.Domain.User;
 
 namespace sem5pi_24_25_g051.Infraestructure;
 
+[Authorize(Roles = "Admin")]
 public class RegisterBackofficeUserViewModel
 {
       [Key]
