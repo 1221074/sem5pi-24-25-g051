@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Domain.Shared;
+using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Infrastructure.Shared
 {
