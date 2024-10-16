@@ -1,16 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace sem5pi_24_25_g051.Models.SurgeryRoom
 {
     public class SurgeryRoom
     {
+        [Key]
         public required int RoomNumber { get; set; }
+        [Required]
         public required RoomType Type { get; set; } 
+        [Required]
         public required int Capacity { get; set; }
+        [Required]
         public List<string>? AssignedEquipment { get; set; } 
+        [Required]
         public required RoomStatus CurrentStatus { get; set; } 
+        [Required]
+        [NotMapped]
         public required List<Maintenance> MaintenanceSlots { get; set; }
 
        /* public bool CanHostEvent(DateTime eventTime, TimeSpan eventDuration) {}
@@ -35,8 +44,11 @@ namespace sem5pi_24_25_g051.Models.SurgeryRoom
 
     public class Maintenance
     {
+        [Required]
         public required DateTime StartDate { get; set; }
+        [Required]
         public required TimeSpan Duration { get; set; }
+        [Required]
         public string? Description { get; set; }
     }
 

@@ -8,7 +8,6 @@ namespace sem5pi_24_25_g051.Models;
 
         public string RoleId { get; private set; }
 
-
         protected UserRole() {}
 
         public UserRole(string roleID, RoleType roleType)
