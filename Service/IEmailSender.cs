@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace sem5pi_24_25_g051.Service;
 public class EmailSender : IEmailSender

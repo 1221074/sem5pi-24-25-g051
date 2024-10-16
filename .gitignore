@@ -199,3 +199,6 @@ backoffice-module/bin
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Java,Intellij,JetBrains,DotnetCore,VisualStudioCode,C#
 
 sem5pi-24-25-g051.sln
+
+.fake
+.idea/*

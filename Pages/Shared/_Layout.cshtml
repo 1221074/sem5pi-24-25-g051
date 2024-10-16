@@ -25,9 +25,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">                          
-                            <a class="nav-link text-dark" asp-area="" asp-page="/RegisterUser">RegisterUser</a>
-                        </li>
+                        
                     </ul>
                   <ul class="navbar-nav ms-auto">
                     @if (User.Identity != null && User.Identity.IsAuthenticated) 
@@ -37,6 +35,29 @@
                                 <button type="submit" class="nav-link btn btn-link text-dark" style="text-decoration: none;">Logout</button>
                             </form>
                         </li>
+
+                        if (User.IsInRole("Doctor")) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctor/ListOperation">List Operation</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctor/RemoveOperation">Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctor/RequestOperation">Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctor/UpdateOperation">Details</a>
+                            </li>
+
+                        }
+
+                        if (User.IsInRole("Admin")) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/RegisterUser">Register User</a>
+                            </li>
+                        }
                     }
                     else
                     {
