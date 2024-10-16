@@ -1,18 +1,36 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using sem5pi_24_25_g051.Domain.Shared;
 
 namespace sem5pi_24_25_g051.Domain.OperationType
 {
-    public class OperationType
+    public class OperationType : Entity<OperationTypeId>
     {
-       [Key]
-       public int Id { get; set; } 
-       public required string Name { get; set; } 
-       public required TimeSpan EstimatedDuration { get; set; } 
-    
-        //public List<SpecializationRequirement> RequiredStaffBySpecialization { get; set; }
-       
+     
+        public string Description { get;  private set; }
 
+        public bool Active{ get;  private set; }
+
+        private OperationType()
+        {
+            this.Active = true;
+        }
+
+        public OperationType(string description)
+        {
+            this.Id = new OperationTypeId(Guid.NewGuid());
+            this.Description = description;
+            this.Active = true;
+        }
+
+        public void ChangeDescription(string description)
+        {
+           /* if (!this.Active)
+                throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
+            this.Description = description;*/
+        }
+        public void MarkAsInative()
+        {
+            this.Active = false;
+        }
     }
 }
