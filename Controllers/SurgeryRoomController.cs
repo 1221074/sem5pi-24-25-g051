@@ -6,53 +6,53 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infrastructure;
-using sem5pi_24_25_g051.Models;
+using sem5pi_24_25_g051.Models.SurgeryRoom;
 
 namespace sem5pi_24_25_g051.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class SurgeryRoomController : ControllerBase
     {
         private readonly backofficeDbContext _context;
 
-        public PatientController(backofficeDbContext context)
+        public SurgeryRoomController(backofficeDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Patient
+        // GET: api/SurgeryRoom
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        public async Task<ActionResult<IEnumerable<SurgeryRoom>>> GetSurgeryRoom()
         {
-            return await _context.Patients.ToListAsync();
+            return await _context.SurgeryRoom.ToListAsync();
         }
 
-        // GET: api/Patient/5
+        // GET: api/SurgeryRoom/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(int id)
+        public async Task<ActionResult<SurgeryRoom>> GetSurgeryRoom(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var surgeryRoom = await _context.SurgeryRoom.FindAsync(id);
 
-            if (patient == null)
+            if (surgeryRoom == null)
             {
                 return NotFound();
             }
 
-            return patient;
+            return surgeryRoom;
         }
 
-        // PUT: api/Patient/5
+        // PUT: api/SurgeryRoom/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        public async Task<IActionResult> PutSurgeryRoom(int id, SurgeryRoom surgeryRoom)
         {
-            if (id != patient.Id)
+            if (id != surgeryRoom.RoomNumber)
             {
                 return BadRequest();
             }
 
-            _context.Entry(patient).State = EntityState.Modified;
+            _context.Entry(surgeryRoom).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace sem5pi_24_25_g051.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PatientExists(id))
+                if (!SurgeryRoomExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace sem5pi_24_25_g051.Controllers
             return NoContent();
         }
 
-        // POST: api/Patient
+        // POST: api/SurgeryRoom
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
+        public async Task<ActionResult<SurgeryRoom>> PostSurgeryRoom(SurgeryRoom surgeryRoom)
         {
-            _context.Patients.Add(patient);
+            _context.SurgeryRoom.Add(surgeryRoom);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPatient", new { id = patient.Id }, patient);
+            return CreatedAtAction("GetSurgeryRoom", new { id = surgeryRoom.RoomNumber }, surgeryRoom);
         }
 
-        // DELETE: api/Patient/5
+        // DELETE: api/SurgeryRoom/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id)
+        public async Task<IActionResult> DeleteSurgeryRoom(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var surgeryRoom = await _context.SurgeryRoom.FindAsync(id);
+            if (surgeryRoom == null)
             {
                 return NotFound();
             }
 
-            _context.Patients.Remove(patient);
+            _context.SurgeryRoom.Remove(surgeryRoom);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PatientExists(int id)
+        private bool SurgeryRoomExists(int id)
         {
-            return _context.Patients.Any(e => e.Id == id);
+            return _context.SurgeryRoom.Any(e => e.RoomNumber == id);
         }
     }
 }

@@ -6,53 +6,53 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infrastructure;
-using sem5pi_24_25_g051.Models;
+using sem5pi_24_25_g051.Models.Appointment;
 
 namespace sem5pi_24_25_g051.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class AppointmentController : ControllerBase
     {
         private readonly backofficeDbContext _context;
 
-        public PatientController(backofficeDbContext context)
+        public AppointmentController(backofficeDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Patient
+        // GET: api/Appointment
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointment()
         {
-            return await _context.Patients.ToListAsync();
+            return await _context.Appointment.ToListAsync();
         }
 
-        // GET: api/Patient/5
+        // GET: api/Appointment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(int id)
+        public async Task<ActionResult<Appointment>> GetAppointment(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var appointment = await _context.Appointment.FindAsync(id);
 
-            if (patient == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            return patient;
+            return appointment;
         }
 
-        // PUT: api/Patient/5
+        // PUT: api/Appointment/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
         {
-            if (id != patient.Id)
+            if (id != appointment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(patient).State = EntityState.Modified;
+            _context.Entry(appointment).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace sem5pi_24_25_g051.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PatientExists(id))
+                if (!AppointmentExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace sem5pi_24_25_g051.Controllers
             return NoContent();
         }
 
-        // POST: api/Patient
+        // POST: api/Appointment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
+        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {
-            _context.Patients.Add(patient);
+            _context.Appointment.Add(appointment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPatient", new { id = patient.Id }, patient);
+            return CreatedAtAction("GetAppointment", new { id = appointment.Id }, appointment);
         }
 
-        // DELETE: api/Patient/5
+        // DELETE: api/Appointment/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id)
+        public async Task<IActionResult> DeleteAppointment(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var appointment = await _context.Appointment.FindAsync(id);
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            _context.Patients.Remove(patient);
+            _context.Appointment.Remove(appointment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PatientExists(int id)
+        private bool AppointmentExists(int id)
         {
-            return _context.Patients.Any(e => e.Id == id);
+            return _context.Appointment.Any(e => e.Id == id);
         }
     }
 }

@@ -11,7 +11,7 @@ public class EmailSender : IEmailSender
         var mail = "";
         var password = "";
 
-        var smtpClient = new SmtpClient("smtp.gmail.com", 587) {   
+        var smtpClient = new SmtpClient("sem5-pi24-25-g051.gmail.com", 587) {   
             EnableSsl = true,
             Credentials = new NetworkCredential(mail, password),
         };

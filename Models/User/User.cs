@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,6 +9,7 @@ namespace sem5pi_24_25_g051.Models
     public class User : IdentityUser
     {
         [Required]
+        [NotMapped]
         public UserRole Role { get;  set; }
         [Required]
         public UserPassword Password {get;  set; }
@@ -24,21 +26,20 @@ namespace sem5pi_24_25_g051.Models
 
         protected User() {}
 
-        public User(string email, string username, string phoneNumber, UserRole role, string nif, string password) {
+
+        public User(string email, string username, string phoneNumber, UserRole role, UserNif nif, UserPassword password) {
             if (!EmailVerification(email)) {
                 throw new ArgumentException("Email inválido", nameof(email));
             }
             Email = email;
             Role = role;
-            Nif = new UserNif(nif);
-            Password = new UserPassword(password);
+            Nif = nif;
+            Password = password;
             Username = username;       
             Phone = phoneNumber;
             
         }
 
-
-   
         public static bool EmailVerification(string mail) {
              if (string.IsNullOrEmpty(mail)){
             return false;
@@ -56,8 +57,5 @@ namespace sem5pi_24_25_g051.Models
             }
             return true;
         }
-        
-      
-
     }
 }

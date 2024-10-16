@@ -6,53 +6,53 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infrastructure;
-using sem5pi_24_25_g051.Models;
+using sem5pi_24_25_g051.Models.Staff;
 
 namespace sem5pi_24_25_g051.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class StaffController : ControllerBase
     {
         private readonly backofficeDbContext _context;
 
-        public PatientController(backofficeDbContext context)
+        public StaffController(backofficeDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Patient
+        // GET: api/Staff
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        public async Task<ActionResult<IEnumerable<Staff>>> GetStaff()
         {
-            return await _context.Patients.ToListAsync();
+            return await _context.Staff.ToListAsync();
         }
 
-        // GET: api/Patient/5
+        // GET: api/Staff/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(int id)
+        public async Task<ActionResult<Staff>> GetStaff(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var staff = await _context.Staff.FindAsync(id);
 
-            if (patient == null)
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            return patient;
+            return staff;
         }
 
-        // PUT: api/Patient/5
+        // PUT: api/Staff/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        public async Task<IActionResult> PutStaff(int id, Staff staff)
         {
-            if (id != patient.Id)
+            if (id != staff.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(patient).State = EntityState.Modified;
+            _context.Entry(staff).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace sem5pi_24_25_g051.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PatientExists(id))
+                if (!StaffExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace sem5pi_24_25_g051.Controllers
             return NoContent();
         }
 
-        // POST: api/Patient
+        // POST: api/Staff
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
+        public async Task<ActionResult<Staff>> PostStaff(Staff staff)
         {
-            _context.Patients.Add(patient);
+            _context.Staff.Add(staff);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPatient", new { id = patient.Id }, patient);
+            return CreatedAtAction("GetStaff", new { id = staff.Id }, staff);
         }
 
-        // DELETE: api/Patient/5
+        // DELETE: api/Staff/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id)
+        public async Task<IActionResult> DeleteStaff(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var staff = await _context.Staff.FindAsync(id);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            _context.Patients.Remove(patient);
+            _context.Staff.Remove(staff);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PatientExists(int id)
+        private bool StaffExists(int id)
         {
-            return _context.Patients.Any(e => e.Id == id);
+            return _context.Staff.Any(e => e.Id == id);
         }
     }
 }
