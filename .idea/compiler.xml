@@ -11,10 +11,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="backoffice-module" target="21" />
-      <module name="business-continuity-plan" target="21" />
-      <module name="GDPR-module" target="21" />
-      <module name="planning-module" target="21" />
-      <module name="sem5pi-24-25-g051" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
