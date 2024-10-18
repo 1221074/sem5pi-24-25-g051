@@ -5,7 +5,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
 {
     public class OperationType : Entity<OperationTypeId>
     {
-     
+        public string Name { get; set; }
         public string Description { get;  private set; }
 
         public bool Active{ get;  private set; }
@@ -15,18 +15,19 @@ namespace sem5pi_24_25_g051.Models.OperationType
             this.Active = true;
         }
 
-        public OperationType(string description)
+        public OperationType(string name, string description)
         {
             this.Id = new OperationTypeId(Guid.NewGuid());
+            this.Name = name;
             this.Description = description;
             this.Active = true;
         }
 
         public void ChangeDescription(string description)
         {
-           /* if (!this.Active)
+            if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
-            this.Description = description;*/
+            this.Description = description;
         }
         public void MarkAsInative()
         {
