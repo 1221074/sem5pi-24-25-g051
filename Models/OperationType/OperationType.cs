@@ -1,5 +1,5 @@
 using System;
-using sem5pi_24_25_g051.Domain.Shared;
+using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.OperationType
 {
