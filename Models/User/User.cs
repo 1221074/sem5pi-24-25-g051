@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 
-namespace sem5pi_24_25_g051.Models
+namespace sem5pi_24_25_g051.Models.User
 {
     public class User : IdentityUser
     {
@@ -37,8 +37,14 @@ namespace sem5pi_24_25_g051.Models
             Password = password;
             Username = username;       
             Phone = phoneNumber;
-            
         }
+
+            public bool Active { get; set; } = true;
+
+    public void MarkAsInactive()
+    {
+        this.Active = false;
+    }
 
         public static bool EmailVerification(string mail) {
              if (string.IsNullOrEmpty(mail)){

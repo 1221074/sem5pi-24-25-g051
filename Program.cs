@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infrastructure;
-using sem5pi_24_25_g051.Models;
 using sem5pi_24_25_g051.Service;
 
 
@@ -17,12 +16,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add DBcontext to the container 
+// Add DBcontext to the project
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseInMemoryDatabase("BackofficeDatabase"));
 
 
 var app = builder.Build();
+
+
+app.UseHttpsRedirection();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -31,7 +33,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -5,6 +5,7 @@ using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.SurgeryRoom;
 using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Models.OperationType;
+using sem5pi_24_25_g051.Models.User;
 
 
 namespace sem5pi_24_25_g051.Infrastructure

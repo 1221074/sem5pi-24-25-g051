@@ -1,6 +1,6 @@
 using System;
 
-namespace sem5pi_24_25_g051.Models;
+namespace sem5pi_24_25_g051.Models.User;
 
     public class UserRole 
     {

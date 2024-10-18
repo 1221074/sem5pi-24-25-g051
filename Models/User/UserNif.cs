@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace sem5pi_24_25_g051.Models;
+namespace sem5pi_24_25_g051.Models.User;
 public class UserNif  {
         private const int PORTUGUESE_NIF_SIZE = 9;
 
