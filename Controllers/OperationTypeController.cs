@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Infrastructure;
 using sem5pi_24_25_g051.Models.OperationType;
+using sem5pi_24_25_g051.Models.Shared;
+
 
 namespace sem5pi_24_25_g051.Controllers
 {
@@ -14,95 +15,87 @@ namespace sem5pi_24_25_g051.Controllers
     [ApiController]
     public class OperationTypeController : ControllerBase
     {
-        private readonly backofficeDbContext _context;
+        private readonly OperationTypeService _service;
 
-        public OperationTypeController(backofficeDbContext context)
+        public OperationTypeController(OperationTypeService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/OperationType
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationType>>> GetOperationType()
+        public async Task<ActionResult<List<OperationTypeDTO>>> GetAllAsync()
         {
-            return await _context.OperationType.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
-        // GET: api/OperationType/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationType>> GetOperationType(int id)
+        public async Task<ActionResult<OperationTypeDTO>> GetByIdAsync(Guid id)
         {
-            var operationType = await _context.OperationType.FindAsync(id);
+            var OT = await _service.GetByIdAsync(new OperationTypeId(id));
 
-            if (operationType == null)
+            if (OT == null)
             {
                 return NotFound();
             }
 
-            return operationType;
+            return OT;
         }
 
-        // PUT: api/OperationType/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOperationType(int id, OperationType operationType)
+        [HttpPost] 
+        public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
-            if (id != operationType.Id)
+            var OT = await _service.AddAsync(OTDTO);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = OT.Id}, OT);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, OperationTypeDTO OTDTO)
+        {
+            if (id != OTDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(operationType).State = EntityState.Modified;
+            try {
+                var OT = await _service.UpdateAsync(OTDTO);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OperationTypeExists(id))
-                {
+                if (OT == null) {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                return Ok(OT);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
             }
-
-            return NoContent();
         }
 
-        // POST: api/OperationType
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<OperationType>> PostOperationType(OperationType operationType)
-        {
-            _context.OperationType.Add(operationType);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOperationType", new { id = operationType.Id }, operationType);
-        }
-
-        // DELETE: api/OperationType/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOperationType(int id)
+        public async Task<IActionResult> SoftDelete(Guid id)
         {
-            var operationType = await _context.OperationType.FindAsync(id);
-            if (operationType == null)
+            var OT = await _service.InactivateAsync(new OperationTypeId(id));
+
+            if (OT == null)
             {
                 return NotFound();
             }
-
-            _context.OperationType.Remove(operationType);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(OT);
         }
 
-        private bool OperationTypeExists(int id)
+        [HttpDelete("{id}/hard")]
+        public async Task<IActionResult> HardDelete(Guid id)
         {
-            return _context.OperationType.Any(e => e.Id == id);
+            try {
+                var OT = await _service.DeleteAsync(new OperationTypeId(id));
+
+                if (OT == null) {
+                    return NotFound();
+                }
+                return Ok(OT);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
+            }
         }
+
     }
 }
