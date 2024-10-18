@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sem5pi_24_25_g051.Models.Shared;
 
-namespace sem5pi_24_25_g051.Infrastructure.Shared
+namespace sem5pi_24_25_g051.Infraestructure.Shared
 {
     /// <summary>
     /// Based on https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/

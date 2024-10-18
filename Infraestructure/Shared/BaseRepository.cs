@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models.Shared;
 
-namespace sem5pi_24_25_g051.Infrastructure.Shared
+namespace sem5pi_24_25_g051.Infraestructure.Shared
 {
     public class BaseRepository<TEntity,TEntityId> : IRepository<TEntity,TEntityId>
     where TEntity : Entity<TEntityId>
