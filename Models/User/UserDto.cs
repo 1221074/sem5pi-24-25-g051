@@ -3,8 +3,8 @@ using System;
 
 namespace sem5pi_24_25_g051.Models.User
 {
-   public class UserDto
-{
+    public class UserDto
+    {
     public string Id { get; set; }
 
     public string Email { get; set; }
@@ -17,6 +17,5 @@ namespace sem5pi_24_25_g051.Models.User
 
     public UserNif Nif { get; set; }
 
-    // Do not include Password in DTOs for security reasons
-}
+    }
 }

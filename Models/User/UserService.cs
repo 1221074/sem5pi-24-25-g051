@@ -55,7 +55,7 @@ namespace sem5pi_24_25_g051.Models.User
 
         public async Task<UserDto> AddAsync(UserDto dto)
         {
-            var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role, dto.Nif, dto.Password);
+            var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role, dto.Nif, new UserPassword("password"));
 
             await this._repo.AddAsync(user);
 

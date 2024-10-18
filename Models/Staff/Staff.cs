@@ -2,31 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.Staff
 {
-    public class Staff
+    public class Staff : Entity<StaffId>
     {
-         [Key]
+        [Key]
         public int Id { get; set; }
         [Required]
-        public required string FirstName { get; set; } 
+        public string FirstName { get; set; } 
         [Required]
-        public required string LastName { get; set; } 
+        public string LastName { get; set; } 
         public string FullName => $"{FirstName} {LastName}"; 
         [Required]
-        public required string LicenseNumber { get; set; } 
+        public string LicenseNumber { get; set; } 
         [Required]
-        public required string Specialization { get; set; } 
+        public string Specialization { get; set; } 
         [Required]
-        public required string Email { get; set; } 
+        public string Email { get; set; } 
         [Required]
-        public required string Phone { get; set; } 
+        public string Phone { get; set; } 
         [Required]
-        public required Boolean IsAvailable { get; set; }
+        public bool Active { get; set; } = true;
         [Required]
         [NotMapped]
-        public required List<AvailabilitySlot> AvailabilitySlots { get; set; } 
+        public List<AvailabilitySlot> AvailabilitySlots { get; set; } 
+        public void MarkAsInactive()
+        {
+            this.Active = false;
+        }
+
+        public Staff(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, List<AvailabilitySlot> availabilitySlots)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            LicenseNumber = licenseNumber;
+            Specialization = specialization;
+            Email = email;
+            Phone = phone;
+            AvailabilitySlots = availabilitySlots;
+        }
     }
 
     public class AvailabilitySlot
