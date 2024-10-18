@@ -18,6 +18,8 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public required string Phone { get; set; }
 
-        public required List<AvailabilitySlot> AvailabilitySlots { get; set; }
+        //public required List<AvailabilitySlot> AvailabilitySlots { get; set; }
+
+        public required Dictionary<DateTime, TimeSpan> Slots { get; set; }
     }
 }

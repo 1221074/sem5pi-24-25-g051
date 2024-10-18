@@ -26,14 +26,17 @@ namespace sem5pi_24_25_g051.Models.Staff
         [Required]
         public bool Active { get; set; } = true;
         [Required]
-        [NotMapped]
-        public List<AvailabilitySlot> AvailabilitySlots { get; set; } 
+        /*[NotMapped]
+        public List<AvailabilitySlot> AvailabilitySlots { get; set; } */
+
+        public Dictionary<DateTime, TimeSpan> Slots { get; set; }
+
         public void MarkAsInactive()
         {
             this.Active = false;
         }
 
-        public Staff(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, List<AvailabilitySlot> availabilitySlots)
+        public Staff(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -41,15 +44,20 @@ namespace sem5pi_24_25_g051.Models.Staff
             Specialization = specialization;
             Email = email;
             Phone = phone;
-            AvailabilitySlots = availabilitySlots;
+            //AvailabilitySlots = availabilitySlots;
+            Slots = slots;
+        }
+
+        protected Staff()
+        {
         }
     }
-
+    /*
     public class AvailabilitySlot
     {
         [Required]
         public required List<DateTime> Slot { get; set; } 
         [Required]
         public required TimeSpan Duration { get; set; } 
-    }
+    }*/
 }

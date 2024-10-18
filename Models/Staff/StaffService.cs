@@ -29,7 +29,8 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             });
 
             return listDto;
@@ -53,13 +54,14 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             };
         }
 
         public async Task<StaffDto> AddAsync(StaffDto dto)
         {
-            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.LicenseNumber, dto.Specialization, dto.Email, dto.Phone, dto.AvailabilitySlots);
+            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.LicenseNumber, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
 
             await this._repo.AddAsync(staff);
 
@@ -75,7 +77,8 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             };
         }
 
@@ -95,7 +98,8 @@ namespace sem5pi_24_25_g051.Models.Staff
             staff.Specialization = dto.Specialization;
             staff.Email = dto.Email;
             staff.Phone = dto.Phone;
-            staff.AvailabilitySlots = dto.AvailabilitySlots;
+            //staff.AvailabilitySlots = dto.AvailabilitySlots;
+            staff.Slots = dto.Slots;
             
             await this._unitOfWork.CommitAsync();
 
@@ -109,7 +113,8 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             };
         }
 
@@ -135,7 +140,8 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             };
         }
 
@@ -163,7 +169,8 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Specialization = staff.Specialization,
                 Email = staff.Email,
                 Phone = staff.Phone,
-                AvailabilitySlots = staff.AvailabilitySlots
+                //AvailabilitySlots = staff.AvailabilitySlots
+                Slots = staff.Slots
             };
         }
     }
