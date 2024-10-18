@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infrastructure;
-using sem5pi_24_25_g051.Models;
+using sem5pi_24_25_g051.Models.User;
 
 namespace sem5pi_24_25_g051.Controllers
 {
