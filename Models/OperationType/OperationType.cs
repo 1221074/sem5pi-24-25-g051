@@ -1,9 +1,10 @@
 using System;
+using Microsoft.OpenApi.Models;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.OperationType
 {
-    public class OperationType : Entity<OperationTypeId>
+    public class OperationType : Entity<OperationType>
     {
         public string Name { get; set; }
         public string Description { get;  private set; }

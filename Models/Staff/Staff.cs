@@ -23,6 +23,8 @@ namespace sem5pi_24_25_g051.Models.Staff
         [Required]
         public required string Phone { get; set; } 
         [Required]
+        public required Boolean IsAvailable { get; set; }
+        [Required]
         [NotMapped]
         public required List<AvailabilitySlot> AvailabilitySlots { get; set; } 
     }
