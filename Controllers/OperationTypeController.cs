@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models.OperationType;
+
 using sem5pi_24_25_g051.Models.Shared;
 
 
@@ -31,12 +33,14 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDTO>> GetByIdAsync(Guid id)
         {
+
             var OT = await _service.GetByIdAsync(new OperationTypeId(id));
 
             if (OT == null)
             {
                 return NotFound();
             }
+          
 
             return OT;
         }
@@ -44,14 +48,19 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPost] 
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
+                        
+            var dto = OperationTypeMapper.toDTO(OTDTO);
             var OT = await _service.AddAsync(OTDTO);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = OT.Id}, OT);
+                        
+
+            return OT;
+    
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, OperationTypeDTO OTDTO)
         {
-            if (id != OTDTO.Id)
+            if (id.ToString() != OTDTO.Id)
             {
                 return BadRequest();
             }

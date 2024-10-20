@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 
 // Add DBcontext to the container 
 builder.Services.AddDbContext<backofficeDbContext>(options =>
-    options.UseInMemoryDatabase("BackofficeDatabase").ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
+    options.UseInMemoryDatabase("BackofficeDatabase"));
 
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 

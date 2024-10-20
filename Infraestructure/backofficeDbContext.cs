@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models;
 using sem5pi_24_25_g051.Models.Appointment;
-using sem5pi_24_25_g051.Models.Staff;
+//using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.SurgeryRoom;
 using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Models.OperationType;
@@ -27,7 +27,7 @@ namespace sem5pi_24_25_g051.Infraestructure
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
         }
         public DbSet<Appointment> Appointment { get; set; } = default!;
-        public DbSet<Staff> Staff { get; set; } = default!;
+        //public DbSet<Staff> Staff { get; set; } = default!;
         public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Patient> Patients { get; set; }

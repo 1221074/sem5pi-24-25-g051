@@ -17,7 +17,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
             var list = await this._OTrepo.GetAllAsync();
 
             List<OperationTypeDTO> listDTO = list.ConvertAll(OT => new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
+                Id = OT.Id.AsGuid().ToString(),
                 Name = OT.Name,
                 Description = OT.Description
             });
@@ -26,45 +26,41 @@ namespace sem5pi_24_25_g051.Models.OperationType {
         }
         
         public async Task<OperationTypeDTO> GetByIdAsync(OperationTypeId id) {
+            
             var OT = await this._OTrepo.GetByIdAsync(id);
 
             if (OT == null) {
                 return null;
             }
 
-            return new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Description = OT.Description
-            };
+            return OperationTypeMapper.toDTO(OT);
         }
 
         public async Task<OperationTypeDTO> AddAsync(CreatingOperationTypeDTO OTDTO) {
             var OT = new OperationType(OTDTO.Name, OTDTO.Description);
 
+            
+
             await this._OTrepo.AddAsync(OT);
             await this._unitOfWork.CommitAsync();
 
-            return new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Description = OT.Description
-            };
+            return OperationTypeMapper.toDTO(OT);
+
+
         }
 
         public async Task<OperationTypeDTO> UpdateAsync(OperationTypeDTO OTDTO) {
-            var OT = await this._OTrepo.GetByIdAsync(new OperationTypeId(OTDTO.Id));
+            var OT = await this._OTrepo.GetByIdAsync(new OperationTypeId(OTDTO.Id));    
 
             if (OT == null) {
                 return null;
             }
 
-            OT.ChangeDescription(OTDTO.Description);
+            OT.ChangeDescription(OTDTO.Name,OTDTO.Description);
 
             await this._unitOfWork.CommitAsync();
 
-            return new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Description = OT.Description
-            };
+            return OperationTypeMapper.toDTO(OT);
         }
 
         public async Task<OperationTypeDTO> InactivateAsync(OperationTypeId id) {
@@ -78,10 +74,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
 
             await this._unitOfWork.CommitAsync();
 
-            return new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Description = OT.Description
-            };
+            return OperationTypeMapper.toDTO(OT);
         }
 
         public async Task<OperationTypeDTO> DeleteAsync(OperationTypeId id) {
@@ -98,10 +91,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
             this._OTrepo.Remove(OT);
             await this._unitOfWork.CommitAsync();
 
-            return new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Description = OT.Description
-            };
+            return OperationTypeMapper.toDTO(OT);
 
         }
     }

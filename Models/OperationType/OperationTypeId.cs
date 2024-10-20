@@ -29,5 +29,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
         public Guid AsGuid(){
             return (Guid) base.ObjValue;
         }
+        
+       
     }
 }
