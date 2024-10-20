@@ -9,7 +9,9 @@ namespace sem5pi_24_25_g051.Models.OperationType
     {
 
         public string Name { get; private set; }
-        public string Description { get;  private set; }
+        public List<string> RequiredStaff { get;  private set; }
+
+        public string Duration { get;  private set; }
 
         public bool Active{ get;  private set; }
 
@@ -19,20 +21,23 @@ namespace sem5pi_24_25_g051.Models.OperationType
         }
         
 
-        public OperationType(string name, string description)
+        public OperationType(string name, List<string> requiredStaff, string duration)
         {
             this.Id = new OperationTypeId(Guid.NewGuid());
             this.Name = name;
-            this.Description = description;
+            this.RequiredStaff = requiredStaff;
+            this.Duration = duration;
             this.Active = true;
         }
+        
 
-        public void ChangeDescription(string name ,string description)
+        public void Change(string name, List<string> requiredStaff, string duration)
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
             this.Name = name;
-            this.Description = description;
+            this.RequiredStaff = requiredStaff;
+            this.Duration = duration;
         }
         public void MarkAsInative()
         {

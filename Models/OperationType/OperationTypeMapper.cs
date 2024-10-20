@@ -9,12 +9,12 @@ namespace sem5pi_24_25_g051.Models.OperationType
     {
         public static OperationTypeDTO toDTO(CreatingOperationTypeDTO dto)
         {
-            return new OperationTypeDTO(dto.Name, dto.Description);
+            return new OperationTypeDTO(dto.Name, dto.RequiredStaff, dto.Duration);
         }
 
         public static OperationTypeDTO toDTO(OperationType OT)
         {
-            return new OperationTypeDTO(OT.Id.AsString(), OT.Name, OT.Description);
+            return new OperationTypeDTO(OT.Id.AsString(), OT.Name, OT.RequiredStaff, OT.Duration);
         }
     }
 }
