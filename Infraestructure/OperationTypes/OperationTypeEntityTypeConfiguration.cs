@@ -11,6 +11,9 @@ namespace sem5pi_24_25_g051.Infraestructure.OperationTypes
             
             //builder.ToTable("Categories", SchemaNames.DDDSample1);
             builder.HasKey(b => b.Id);
+            builder.Property(b => b.Id).HasConversion(
+                v => v.AsGuid(),
+                v => new OperationTypeId(v));
         
             
             
