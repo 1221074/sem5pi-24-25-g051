@@ -38,9 +38,25 @@ public class PasswordPolicy
         return true;
     }
 
-    internal static string? GenerateRandomPassword()
+    public static string GenerateRandomPassword()
     {
-        throw new NotImplementedException();
+       //created a uniquely has password that contains a 1 uppercase, 1 lowercase, 1 digit and one symbol
+        string password = "";
+        Random random = new Random();
+        string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        string lower = "abcdefghijklmnopqrstuvwxyz";
+        string digit = "0123456789";
+        string symbol = "!@#$%^&*()-_=+[]{}|;:'\"<>,.?/";
+        password += upper[random.Next(upper.Length)];
+        password += lower[random.Next(lower.Length)];
+        password += digit[random.Next(digit.Length)];
+        password += symbol[random.Next(symbol.Length)];
+        for (int i = 4; i < MIN_LENGTH; i++)
+        {
+            string chars = upper + lower + digit + symbol;
+            password += chars[random.Next(chars.Length)];
+        }
+        return password; 
     }
 
     private static bool IsSymbol(char c)

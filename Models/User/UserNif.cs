@@ -1,53 +1,65 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using sem5pi_24_25_g051.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.User;
-public class UserNif  {
-        private const int PORTUGUESE_NIF_SIZE = 9;
+namespace sem5pi_24_25_g051.Models.User
+{
+    public class UserNif : EntityId
+    {
+        private const int PORTUGUESE_NIF_SIZE = 8;
 
-        [Key]
-        public string Value { get; private set; }
-
-        protected UserNif() {}
-
-        // This is a very simple implementation of a NIF validation, in a real world cenario there should be validators
-        // for each country
-        public UserNif(string nif)
+        // Constructor using string value
+      public UserNif(string value) : base(value)
         {
-            // Check if nif is null or empty
-            if (string.IsNullOrEmpty(nif))
+        }
+
+        private void ValidateNif(string value)
+        {
+            // Check if NIF is null or empty
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(nif));
+                throw new ArgumentNullException(nameof(value));
             }
 
-           // Check if nif has valid size
-            if (nif.Length != PORTUGUESE_NIF_SIZE)
+            // Check if NIF has valid size
+            if (value.Length != PORTUGUESE_NIF_SIZE)
             {
-                throw new ArgumentException("NIF must be have 9 characters");
+                throw new ArgumentException("NIF must have 9 characters.");
             }
 
             int digitsSum = 0;
-            for (int i = 0; i < nif.Length - 1; i++)
+            for (int i = 0; i < value.Length - 1; i++)
             {
-                // Multiplies the 1st digit by 9, the 2nd by 8, the 3rd by 7 and so on and so on
-                digitsSum += (int)char.GetNumericValue(nif[i]) * (nif.Length - i);
+                digitsSum += (int)char.GetNumericValue(value[i]) * (value.Length - i);
             }
 
-            // Calculates the check digit according to the Portuguese NIF rules.
+            // Calculate the check digit according to the Portuguese NIF rules
             int checkDigit = 11 - digitsSum % 11;
+            if (checkDigit >= 10) checkDigit = 0;
 
-            // If it is greater than 10, the check digit is 0.
-            if (checkDigit >= 10)
-            {
-                checkDigit = 0;
-            }
-
-            // Checks if the check digit is the same as the last digit of the NIF.
-            if (checkDigit != (int)char.GetNumericValue(nif[^1]))
+            // Check if the check digit is the same as the last digit of the NIF
+            if (checkDigit != (int)char.GetNumericValue(value[^1]))
             {
                 throw new ArgumentException("NIF is invalid according to Portuguese rules!");
             }
-
-            Value = nif;
         }
+
+        override
+        public string AsString()
+        {
+            return base.ObjValue.ToString();
+        }
+
+          override
+        protected Object createFromString(String text){
+            // Directly return the string or apply validation as needed
+            if (string.IsNullOrEmpty(text) && text.Length != PORTUGUESE_NIF_SIZE)
+            {
+                throw new ArgumentException("Invalid NIF format");
+            }
+            return text;
+        }
+      
+    }
 }

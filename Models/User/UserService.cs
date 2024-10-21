@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
@@ -21,7 +19,7 @@ namespace sem5pi_24_25_g051.Models.User
             
             List<UserDto> listDto = list.ConvertAll(user => new UserDto
             {
-                Nif = user.Nif.Value,
+                Nif = user.Id.Value,
                 Email = user.Email,
                 UserName = user.Username,
                 PhoneNumber = user.Phone,
@@ -32,7 +30,7 @@ namespace sem5pi_24_25_g051.Models.User
             return listDto;
         }
 
-        public async Task<UserDto> GetByIdAsync(UserId id)
+        public async Task<UserDto> GetByIdAsync(UserNif id)
         {
             var user = await this._repo.GetByIdAsync(id);
             if(user == null)
@@ -43,7 +41,7 @@ namespace sem5pi_24_25_g051.Models.User
 
         public async Task<UserDto> AddAsync(CreatingUserDTO dto)
         {
-            var user = new User(new UserNif(dto.Nif),dto.Email, dto.UserName, dto.PhoneNumber, dto.Role);
+            var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role,dto.Nif);
 
             await this._repo.AddAsync(user);
 
@@ -54,22 +52,19 @@ namespace sem5pi_24_25_g051.Models.User
 
         public async Task<UserDto> UpdateAsync(UserDto dto)
         {
-            var user = await this._repo.GetByIdAsync(new UserId(dto.Nif));    
+            var user = await this._repo.GetByIdAsync(new UserNif(dto.Nif));    
 
             if (user == null)
                 return null;   
 
-            user.Email = dto.Email;
-            user.Username = dto.UserName;
-            user.Phone = dto.PhoneNumber;
-            user.Role = dto.Role;
+            user.Change(dto.Email,dto.UserName,dto.PhoneNumber,dto.Role);
 
            await this._unitOfWork.CommitAsync();
            
            return UserMapper.toDTO(user);
         }
 
-        public async Task<UserDto> InactivateAsync(UserId id)
+        public async Task<UserDto> InactivateAsync(UserNif id)
         {
             var user = await this._repo.GetByIdAsync(id); 
 
@@ -83,7 +78,7 @@ namespace sem5pi_24_25_g051.Models.User
             return UserMapper.toDTO(user);
         }
 
-        public async Task<UserDto> DeleteAsync(UserId id)
+        public async Task<UserDto> DeleteAsync(UserNif id)
         {
             var user = await this._repo.GetByIdAsync(id); 
 

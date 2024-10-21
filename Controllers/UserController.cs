@@ -28,7 +28,7 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetByIdAsync(string id)
         {
-            var user = await _service.GetByIdAsync(new UserId(id));
+            var user = await _service.GetByIdAsync(new UserNif(id));
 
             if (user == null)
             {
@@ -41,6 +41,10 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateAsync(CreatingUserDTO userDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             // Check if a user with the same email already exists
             var existingUsers = await _service.GetAllAsync();
             foreach (var existingUser in existingUsers)
@@ -49,9 +53,14 @@ namespace sem5pi_24_25_g051.Controllers
                 {
                     return BadRequest(new { message = "User with this email already exists." });
                 }
+
+                if (existingUser.Nif.Equals(userDto.Nif))
+                {
+                    return BadRequest(new { message = "User with this NIF already exists." });
+                }
             }
                 var createdUser = await _service.AddAsync(userDto);
-               return CreatedAtAction(nameof(GetByIdAsync), new { id = createdUser.Nif }, createdUser);
+                return createdUser;
         }
 
         [HttpPut("{id}")]
@@ -82,7 +91,7 @@ namespace sem5pi_24_25_g051.Controllers
         {
             try
             {
-                var user = await _service.InactivateAsync(new UserId(id));
+                var user = await _service.InactivateAsync(new UserNif(id));
                 if (user == null)
                 {
                     return NotFound(new { message = "User not found." });
@@ -101,10 +110,10 @@ namespace sem5pi_24_25_g051.Controllers
         {
             try
             {
-                var user = await _service.DeleteAsync(new UserId(id));
+                var user = await _service.DeleteAsync(new UserNif(id));
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found." });
+                    return NotFound(new { message = "User not found."});
                 }
 
                 return Ok(user);

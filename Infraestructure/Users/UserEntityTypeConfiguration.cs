@@ -8,19 +8,8 @@ namespace sem5pi_24_25_g051.Infraestructure.Users
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(b => b.Id);
-            builder.Property(b => b.Id)
-                   .HasConversion(
-                       v => v.Value,           
-                       v => new UserId(v))      
-                   .HasColumnName("Nif");        
-
-            builder.Property(b => b.Email).IsRequired();
-            builder.Property(b => b.Username).IsRequired();
-            builder.Property(b => b.Phone).IsRequired();
-            builder.Property(b => b.Role).IsRequired();
-            builder.Property(b => b.Password).IsRequired();
-            builder.Property(b => b.Active).IsRequired();
+           builder.HasKey(b => b.Id);
+            // Configure the Id property to convert UserNif to string and vice versa
         }
     }
 }
