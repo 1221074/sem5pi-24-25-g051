@@ -38,6 +38,7 @@ namespace sem5pi_24_25_g051.Controllers
             return Ok(user);
         }
 
+        [HttpPost]
         public async Task<ActionResult<UserDto>> CreateAsync(CreatingUserDTO userDto)
         {
             // Check if a user with the same email already exists
