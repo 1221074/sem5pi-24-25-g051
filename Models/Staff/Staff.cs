@@ -8,8 +8,6 @@ namespace sem5pi_24_25_g051.Models.Staff
 {
     public class Staff : Entity<StaffId>
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; } 
         [Required]
@@ -31,6 +29,11 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public Dictionary<DateTime, TimeSpan> Slots { get; set; }
 
+        private Staff()
+        {
+            this.Active = true;
+        }
+
         public void MarkAsInactive()
         {
             this.Active = false;
@@ -38,19 +41,31 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public Staff(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            LicenseNumber = licenseNumber;
-            Specialization = specialization;
-            Email = email;
-            Phone = phone;
+            this.Id = new StaffId(Guid.NewGuid());
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.LicenseNumber = licenseNumber;
+            this.Specialization = specialization;
+            this.Email = email;
+            this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;
-            Slots = slots;
+            this.Slots = slots;
         }
 
-        protected Staff()
+        public void EditStaffProfile(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
         {
+            if (!this.Active)
+                throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.LicenseNumber = licenseNumber;
+            this.Specialization = specialization;
+            this.Email = email;
+            this.Phone = phone;
+            //AvailabilitySlots = availabilitySlots;
+            this.Slots = slots;
         }
+
     }
     /*
     public class AvailabilitySlot

@@ -11,8 +11,8 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public StaffService(IUnitOfWork unitOfWork, IStaffRepository repo)
         {
-            this._unitOfWork = unitOfWork;
-            this._repo = repo;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
         }
 
         public async Task<List<StaffDto>> GetAllAsync()
@@ -21,7 +21,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             
             List<StaffDto> listDto = list.ConvertAll(staff => new StaffDto
             {
-                Id = staff.Id,
+                Id = staff.Id.AsGuid().ToString(),
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 FullName = staff.FullName,
@@ -36,30 +36,17 @@ namespace sem5pi_24_25_g051.Models.Staff
             return listDto;
         }
 
-        public async Task<StaffDto> GetByIdAsync(string id)
+        public async Task<StaffDto> GetByIdAsync(StaffId id)
         {
-            var staffId = new StaffId(id);
-            var staff = await this._repo.GetByIdAsync(staffId);
+            var staff = await this._repo.GetByIdAsync(id);
             
             if(staff == null)
                 return null;
 
-            return new StaffDto
-            {
-                Id = staff.Id,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                LicenseNumber = staff.LicenseNumber,
-                Specialization = staff.Specialization,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
-            };
+            return StaffMapper.toDTO(staff);
         }
 
-        public async Task<StaffDto> AddAsync(StaffDto dto)
+        public async Task<StaffDto> AddAsync(CreatingStaffDto dto)
         {
             var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.LicenseNumber, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
 
@@ -67,61 +54,27 @@ namespace sem5pi_24_25_g051.Models.Staff
 
             await this._unitOfWork.CommitAsync();
 
-            return new StaffDto
-            {
-                Id = staff.Id,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                LicenseNumber = staff.LicenseNumber,
-                Specialization = staff.Specialization,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
-            };
+            return StaffMapper.toDTO(staff);
         }
 
         public async Task<StaffDto> UpdateAsync(StaffDto dto)
         {
-            var staffId = new StaffId(dto.Id.ToString());
-            var staff = await this._repo.GetByIdAsync(staffId); 
+            var staff = await this._repo.GetByIdAsync(new StaffId(dto.Id));    
 
-            if (staff == null)
-                return null;   
+            if (staff == null) {
+                return null;
+            }
 
-            // Update fields
-            staff.FirstName = dto.FirstName;
-            staff.LastName = dto.LastName;
-            //staff.FullName = dto.FullName;
-            staff.LicenseNumber = dto.LicenseNumber;
-            staff.Specialization = dto.Specialization;
-            staff.Email = dto.Email;
-            staff.Phone = dto.Phone;
-            //staff.AvailabilitySlots = dto.AvailabilitySlots;
-            staff.Slots = dto.Slots;
-            
+            staff.EditStaffProfile(dto.FirstName, dto.LastName, dto.FullName, dto.LicenseNumber, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
+
             await this._unitOfWork.CommitAsync();
 
-            return new StaffDto
-            {
-                Id = staff.Id,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                LicenseNumber = staff.LicenseNumber,
-                Specialization = staff.Specialization,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
-            };
+            return StaffMapper.toDTO(staff);
         }
 
-        public async Task<StaffDto> InactivateAsync(string id)
+        public async Task<StaffDto> InactivateAsync(StaffId id)
         {
-            var staffId = new StaffId(id);
-            var staff = await this._repo.GetByIdAsync(staffId); 
+            var staff = await this._repo.GetByIdAsync(id); 
 
             if (staff == null)
                 return null;   
@@ -130,25 +83,12 @@ namespace sem5pi_24_25_g051.Models.Staff
             
             await this._unitOfWork.CommitAsync();
 
-            return new StaffDto
-            {
-                Id = staff.Id,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                LicenseNumber = staff.LicenseNumber,
-                Specialization = staff.Specialization,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
-            };
+            return StaffMapper.toDTO(staff);
         }
 
-        public async Task<StaffDto> DeleteAsync(string id)
+        public async Task<StaffDto> DeleteAsync(StaffId id)
         {
-            var staffId = new StaffId(id);
-            var staff = await this._repo.GetByIdAsync(staffId); 
+            var staff = await this._repo.GetByIdAsync(id); 
 
             if (staff == null)
                 return null;   
@@ -159,19 +99,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             this._repo.Remove(staff);
             await this._unitOfWork.CommitAsync();
 
-            return new StaffDto
-            {
-                Id = staff.Id,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                LicenseNumber = staff.LicenseNumber,
-                Specialization = staff.Specialization,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
-            };
+            return StaffMapper.toDTO(staff);
         }
     }
 }
