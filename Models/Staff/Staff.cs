@@ -14,8 +14,6 @@ namespace sem5pi_24_25_g051.Models.Staff
         public string LastName { get; set; } 
         public string FullName => $"{FirstName} {LastName}"; 
         [Required]
-        public string LicenseNumber { get; set; } 
-        [Required]
         public string Specialization { get; set; } 
         [Required]
         public string Email { get; set; } 
@@ -39,12 +37,11 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Active = false;
         }
 
-        public Staff(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public Staff(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
         {
             this.Id = new StaffId(Guid.NewGuid());
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.LicenseNumber = licenseNumber;
             this.Specialization = specialization;
             this.Email = email;
             this.Phone = phone;
@@ -52,13 +49,12 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Slots = slots;
         }
 
-        public void EditStaffProfile(string firstName, string lastName, string fullName, string licenseNumber, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public void EditStaffProfile(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.LicenseNumber = licenseNumber;
             this.Specialization = specialization;
             this.Email = email;
             this.Phone = phone;
