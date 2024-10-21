@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models;
 using sem5pi_24_25_g051.Models.Appointment;
-//using sem5pi_24_25_g051.Models.Staff;
+using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.SurgeryRoom;
 using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
+using sem5pi_24_25_g051.Infraestructure.Staff_;
 using sem5pi_24_25_g051.Models.User;
-using sem5pi_24_25_g051.Models.Staff;
 
 
 namespace sem5pi_24_25_g051.Infraestructure
@@ -22,10 +22,11 @@ namespace sem5pi_24_25_g051.Infraestructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         //have a keyless entity named Availability Slot
-           // modelBuilder.Entity<AvailabilitySlot>().HasNoKey();
+            //modelBuilder.Entity<AvailabilitySlot>().HasNoKey();
             modelBuilder.Entity<Maintenance>().HasNoKey();
             //modelBuilder.Entity<UserRole>().HasNoKey();
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
         }
         public DbSet<Appointment> Appointment { get; set; } = default!;
         //public DbSet<Staff> Staff { get; set; } = default!;

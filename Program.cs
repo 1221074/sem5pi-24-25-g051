@@ -4,7 +4,9 @@ using sem5pi_24_25_g051.Infraestructure;
 using sem5pi_24_25_g051.Models;
 using sem5pi_24_25_g051.Service;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
+using sem5pi_24_25_g051.Infrastructure.Staff_;
 using sem5pi_24_25_g051.Models.OperationType;
+using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Infraestructure.Shared;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -27,10 +29,12 @@ builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseInMemoryDatabase("BackofficeDatabase"));
 
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<OperationTypeService>();
+builder.Services.AddScoped<StaffService>();
 
 var app = builder.Build();
 
