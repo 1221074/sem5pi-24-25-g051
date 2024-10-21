@@ -48,8 +48,16 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPost] 
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
+            List<OperationTypeDTO> list = await _service.GetAllAsync();
+            foreach (OperationTypeDTO OpT in list)
+            {
+                if (OpT.Name == OTDTO.Name)
+                {
+                    return BadRequest(new { message = "Operation Type already exists" });
+                }
+            }
                         
-            var dto = OperationTypeMapper.toDTO(OTDTO);
+            
             var OT = await _service.AddAsync(OTDTO);
                         
 
@@ -60,7 +68,7 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, OperationTypeDTO OTDTO)
         {
-            if (id.ToString() != OTDTO.Id)
+            if (id != OTDTO.Id)
             {
                 return BadRequest();
             }

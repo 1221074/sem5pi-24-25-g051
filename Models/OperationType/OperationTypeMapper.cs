@@ -14,4 +14,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
 
         public static OperationTypeDTO toDTO(OperationType OT)
         {
-            return new OperationTypeDTO(OT.Id.AsGuid(), OT.Name, OT.RequiredStaff, OT.Du
+            return new OperationTypeDTO(OT.Id.AsGuid(), OT.Name, OT.RequiredStaff, OT.Duration);
+        }
+    }
+}

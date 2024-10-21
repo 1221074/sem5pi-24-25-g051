@@ -17,9 +17,10 @@ namespace sem5pi_24_25_g051.Models.OperationType {
             var list = await this._OTrepo.GetAllAsync();
 
             List<OperationTypeDTO> listDTO = list.ConvertAll(OT => new OperationTypeDTO {
-                Id = OT.Id.AsGuid().ToString(),
+                Id = OT.Id.AsGuid(),
                 Name = OT.Name,
-                Description = OT.Description
+                RequiredStaff = OT.RequiredStaff,
+                Duration = OT.Duration
             });
 
             return listDTO;
@@ -37,7 +38,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
         }
 
         public async Task<OperationTypeDTO> AddAsync(CreatingOperationTypeDTO OTDTO) {
-            var OT = new OperationType(OTDTO.Name, OTDTO.Description);
+            var OT = new OperationType(OTDTO.Name, OTDTO.RequiredStaff, OTDTO.Duration);
 
             
 
@@ -56,7 +57,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
                 return null;
             }
 
-            OT.ChangeDescription(OTDTO.Name,OTDTO.Description);
+            OT.Change(OTDTO.Name,OTDTO.RequiredStaff,OTDTO.Duration);
 
             await this._unitOfWork.CommitAsync();
 
