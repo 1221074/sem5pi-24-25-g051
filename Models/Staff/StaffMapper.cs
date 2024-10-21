@@ -13,7 +13,7 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public static StaffDto toDTO(Staff staff)
         {
-            return new StaffDto(staff.Id.AsString(), staff.FirstName, staff.LastName, staff.FullName, staff.Specialization, staff.Email, staff.Phone/*, staff.AvailabilitySlots*/);
+            return new StaffDto(staff.Id.AsGuid(), staff.FirstName, staff.LastName, staff.FullName, staff.Specialization, staff.Email, staff.Phone/*, staff.AvailabilitySlots*/);
         }
     }
 }
