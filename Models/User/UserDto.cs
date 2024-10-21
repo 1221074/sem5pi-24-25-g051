@@ -5,7 +5,8 @@ namespace sem5pi_24_25_g051.Models.User
 {
     public class UserDto
     {
-    public string Id { get; set; }
+
+    public string Nif { get; set; }
 
     public string Email { get; set; }
 
@@ -15,7 +16,16 @@ namespace sem5pi_24_25_g051.Models.User
 
     public UserRole Role { get; set; }
 
-    public UserNif Nif { get; set; }
+
+     public UserDto(string nif,string email, string username, string phone, UserRole role ) {
+            Nif = nif;
+            Email = email;
+            UserName = username;
+            PhoneNumber = phone;
+            Role = role;
+        }
+
+        public UserDto(){}
 
     }
 }

@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Infraestructure;
 using sem5pi_24_25_g051.Models.User;
+using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Controllers
 {
@@ -14,109 +11,107 @@ namespace sem5pi_24_25_g051.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly backofficeDbContext _context;
+        private readonly UserService _service;
 
-        public UserController(backofficeDbContext context)
+        public UserController(UserService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public async Task<ActionResult<List<UserDto>>> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _service.GetAllAsync();
+            return Ok(users);
         }
 
-        // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(string id)
+        public async Task<ActionResult<UserDto>> GetByIdAsync(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _service.GetByIdAsync(new UserId(id));
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return Ok(user);
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        public async Task<ActionResult<UserDto>> CreateAsync(CreatingUserDTO userDto)
+        {
+            // Check if a user with the same email already exists
+            var existingUsers = await _service.GetAllAsync();
+            foreach (var existingUser in existingUsers)
+            {
+                if (existingUser.Email.Equals(userDto.Email))
+                {
+                    return BadRequest(new { message = "User with this email already exists." });
+                }
+            }
+                var createdUser = await _service.AddAsync(userDto);
+               return CreatedAtAction(nameof(GetByIdAsync), new { id = createdUser.Nif }, createdUser);
+        }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, User user)
+        public async Task<IActionResult> UpdateAsync(string id, UserDto userDto)
         {
-            if (id != user.Id)
+            if (id != userDto.Nif)
             {
-                return BadRequest();
+                return BadRequest(new { message = "ID mismatch between URL and payload." });
             }
-
-            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
+                var updatedUser = await _service.UpdateAsync(userDto);
+                if (updatedUser == null)
                 {
-                    return NotFound();
+                    return NotFound(new { message = "User not found." });
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                return Ok(updatedUser);
+            } catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+       [HttpDelete("{id}")]
+        public async Task<IActionResult> SoftDeleteAsync(string id)
         {
-            _context.Users.Add(user);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserExists(user.Id))
+                var user = await _service.InactivateAsync(new UserId(id));
+                if (user == null)
                 {
-                    return Conflict();
+                    return NotFound(new { message = "User not found." });
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+                return Ok(user);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+       [HttpDelete("{id}/hard")]
+        public async Task<IActionResult> HardDeleteAsync(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                var user = await _service.DeleteAsync(new UserId(id));
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+
+                return Ok(user);
             }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

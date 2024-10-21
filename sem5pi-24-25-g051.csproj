@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     <RootNamespace>sem5pi_24_25_g051</RootNamespace>
   </PropertyGroup>
 
