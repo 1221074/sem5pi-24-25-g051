@@ -12,7 +12,7 @@ namespace sem5pi_24_25_g051.Models.Staff
         public string FirstName { get; set; } 
         [Required]
         public string LastName { get; set; } 
-        public string FullName => $"{FirstName} {LastName}"; 
+        public string FullName { get; set; } 
         [Required]
         public string Specialization { get; set; } 
         [Required]
@@ -41,6 +41,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Id = new StaffId(Guid.NewGuid());
             this.FirstName = firstName;
             this.LastName = lastName;
+            this.FullName = fullName;
             this.Specialization = specialization;
             this.Email = email;
             this.Phone = phone;
@@ -53,6 +54,7 @@ namespace sem5pi_24_25_g051.Models.Staff
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
             this.FirstName = firstName;
             this.LastName = lastName;
+            this.FullName = fullName;
             this.Specialization = specialization;
             this.Email = email;
             this.Phone = phone;
