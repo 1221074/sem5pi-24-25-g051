@@ -36,10 +36,16 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(5280); // Bind to IPv4 localhost (127.0.0.1) for HTTP
+    options.ListenLocalhost(7252, listenOptions => // Bind to IPv4 localhost (127.0.0.1) for HTTPS
+    {
+        listenOptions.UseHttps();
+    });
+});
+
 var app = builder.Build();
-
-
-app.UseHttpsRedirection();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
