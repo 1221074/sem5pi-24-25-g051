@@ -21,7 +21,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             
             List<StaffDto> listDto = list.ConvertAll(staff => new StaffDto
             {
-                Id = staff.Id.AsGuid().ToString(),
+                Id = staff.Id.AsGuid(),
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 FullName = staff.FullName,

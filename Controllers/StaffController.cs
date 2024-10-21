@@ -43,15 +43,27 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPost]
         public async Task<ActionResult<StaffDto>> Create(CreatingStaffDto staffDto)
         {
-            var dto = StaffMapper.toDTO(staffDto);
-            var staff = await _service.AddAsync(staffDto);
-            return staff;
+            List<StaffDto> list = await _service.GetAllAsync();
+            foreach (StaffDto staff in list)
+            {
+                if (staff.Phone == staffDto.Phone)
+                {
+                    return BadRequest(new { message = "Staff already exists" });
+                }
+                if (staff.Email == staffDto.Email)
+                {
+                    return BadRequest(new { message = "Staff already exists" });
+                }
+            }
+            var dto = await _service.AddAsync(staffDto);
+
+            return dto;
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, StaffDto staffDto)
         {
-            if (id.ToString() != staffDto.Id)
+            if (id != staffDto.Id)
             {
                 return BadRequest();
             }
