@@ -8,12 +8,12 @@ namespace sem5pi_24_25_g051.Models.Staff
     {
         public static StaffDto toDTO(CreatingStaffDto dto)
         {
-            return new StaffDto(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
+            return new StaffDto(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
         }
 
         public static StaffDto toDTO(Staff staff)
         {
-            return new StaffDto(staff.Id.AsString(), staff.FirstName, staff.LastName, staff.FullName, staff.Specialization, staff.Email, staff.Phone, /*staff.AvailabilitySlots*/ staff.Slots);
+            return new StaffDto(staff.Id.AsString(), staff.FirstName, staff.LastName, staff.FullName, staff.Specialization, staff.Email, staff.Phone/*, staff.AvailabilitySlots*/);
         }
     }
 }

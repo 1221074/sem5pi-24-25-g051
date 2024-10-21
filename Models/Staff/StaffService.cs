@@ -29,7 +29,6 @@ namespace sem5pi_24_25_g051.Models.Staff
                 Email = staff.Email,
                 Phone = staff.Phone,
                 //AvailabilitySlots = staff.AvailabilitySlots
-                Slots = staff.Slots
             });
 
             return listDto;
@@ -47,7 +46,7 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public async Task<StaffDto> AddAsync(CreatingStaffDto dto)
         {
-            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
+            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
 
             await this._repo.AddAsync(staff);
 
@@ -64,7 +63,7 @@ namespace sem5pi_24_25_g051.Models.Staff
                 return null;
             }
 
-            staff.EditStaffProfile(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone, /*dto.AvailabilitySlots*/ dto.Slots);
+            staff.EditStaffProfile(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
 
             await this._unitOfWork.CommitAsync();
 

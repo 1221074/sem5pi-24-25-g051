@@ -9,9 +9,8 @@ namespace sem5pi_24_25_g051.Models.Staff
         public string Email { get; set; }
         public string Phone { get; set; }
         //public required List<AvailabilitySlot> AvailabilitySlots { get; set; }
-        public Dictionary<DateTime, TimeSpan> Slots { get; set; }
 
-        public CreatingStaffDto(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public CreatingStaffDto(string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
@@ -20,7 +19,6 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Email = email;
             this.Phone = phone;
             //this.AvailabilitySlots = availabilitySlots;
-            this.Slots = slots;
         }
     }
 }

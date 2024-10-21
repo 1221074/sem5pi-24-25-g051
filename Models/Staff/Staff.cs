@@ -21,11 +21,10 @@ namespace sem5pi_24_25_g051.Models.Staff
         public string Phone { get; set; } 
         [Required]
         public bool Active { get; set; } = true;
-        [Required]
-        /*[NotMapped]
+        /*[Required]
+        [NotMapped]
         public List<AvailabilitySlot> AvailabilitySlots { get; set; } */
 
-        public Dictionary<DateTime, TimeSpan> Slots { get; set; }
 
         private Staff()
         {
@@ -37,7 +36,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Active = false;
         }
 
-        public Staff(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public Staff(string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             this.Id = new StaffId(Guid.NewGuid());
             this.FirstName = firstName;
@@ -46,10 +45,9 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Email = email;
             this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;
-            this.Slots = slots;
         }
 
-        public void EditStaffProfile(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public void EditStaffProfile(string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");
@@ -59,7 +57,6 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Email = email;
             this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;
-            this.Slots = slots;
         }
 
     }

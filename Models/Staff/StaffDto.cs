@@ -18,9 +18,8 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         //public required List<AvailabilitySlot> AvailabilitySlots { get; set; }
 
-        public Dictionary<DateTime, TimeSpan> Slots { get; set; }
 
-        public StaffDto(string id, string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public StaffDto(string id, string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             Id = id;
             FirstName = firstName;
@@ -30,10 +29,9 @@ namespace sem5pi_24_25_g051.Models.Staff
             Email = email;
             Phone = phone;
             //AvailabilitySlots = availabilitySlots;
-            Slots = slots;
         }
 
-        public StaffDto(string firstName, string lastName, string fullName, string specialization, string email, string phone, /*List<AvailabilitySlot> availabilitySlots*/ Dictionary<DateTime, TimeSpan> slots)
+        public StaffDto(string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -42,7 +40,6 @@ namespace sem5pi_24_25_g051.Models.Staff
             Email = email;
             Phone = phone;
             //AvailabilitySlots = availabilitySlots;
-            Slots = slots;
         }
 
         public StaffDto()
