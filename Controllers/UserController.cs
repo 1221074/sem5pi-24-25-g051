@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sem5pi_24_25_g051.Models.User;
 using sem5pi_24_25_g051.Models.Shared;
+using sem5pi_24_25_g051.Service;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace sem5pi_24_25_g051.Controllers
 {
@@ -13,9 +14,12 @@ namespace sem5pi_24_25_g051.Controllers
     {
         private readonly UserService _service;
 
-        public UserController(UserService service)
+        private readonly EmailSender _mailSender;
+
+        public UserController(UserService service, EmailSender emailSender)
         {
             _service = service;
+            _mailSender = emailSender;
         }
 
         [HttpGet]
@@ -59,6 +63,15 @@ namespace sem5pi_24_25_g051.Controllers
                     return BadRequest(new { message = "User with this NIF already exists." });
                 }
             }
+               try
+{
+    await _mailSender.SendEmailAsync(userDto.Email, "User Created", "Activate the account and change your password");
+}
+catch (Exception ex)
+{
+    return StatusCode(500, $"Failed to send email: {ex.Message}");
+} 
+
                 var createdUser = await _service.AddAsync(userDto);
                 return createdUser;
         }

@@ -9,6 +9,7 @@ using sem5pi_24_25_g051.Infraestructure.OperationTypes;
 using sem5pi_24_25_g051.Infraestructure.Staff_;
 using sem5pi_24_25_g051.Models.User;
 using sem5pi_24_25_g051.Infraestructure.Users;
+using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 
 
 namespace sem5pi_24_25_g051.Infraestructure
@@ -29,6 +30,7 @@ namespace sem5pi_24_25_g051.Infraestructure
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
 
     modelBuilder.Entity<User>()
         .Property(u => u.Id)

@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Infraestructure;
 using sem5pi_24_25_g051.Models.OperationRequest;
+using sem5pi_24_25_g051.Models.Shared;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace sem5pi_24_25_g051.Controllers
 {
@@ -14,95 +11,99 @@ namespace sem5pi_24_25_g051.Controllers
     [ApiController]
     public class OperationRequestController : ControllerBase
     {
-        private readonly backofficeDbContext _context;
+        private readonly OperationRequestService _service;
 
-        public OperationRequestController(backofficeDbContext context)
+        public OperationRequestController(OperationRequestService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/OperationRequest
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationRequest>>> GetOperationRequest()
+        public async Task<ActionResult<List<OperationRequestDto>>> GetAllAsync()
         {
-            return await _context.OperationRequest.ToListAsync();
+            var requests = await _service.GetAllAsync();
+            return Ok(requests);
         }
 
-        // GET: api/OperationRequest/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OperationRequest>> GetOperationRequest(int id)
+        public async Task<ActionResult<OperationRequestDto>> GetByIdAsync(Guid id)
         {
-            var operationRequest = await _context.OperationRequest.FindAsync(id);
+            var request = await _service.GetByIdAsync(new OperationRequestId(id));
 
-            if (operationRequest == null)
+            if (request == null)
             {
                 return NotFound();
             }
 
-            return operationRequest;
+            return Ok(request);
         }
 
-        // PUT: api/OperationRequest/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOperationRequest(int id, OperationRequest operationRequest)
+        [HttpPost]
+        public async Task<ActionResult<OperationRequestDto>> CreateAsync(CreatingOperationRequestDto requestDto)
         {
-            if (id != operationRequest.Id)
-            {
-                return BadRequest();
-            }
+            List<OperationRequestDto> list = await _service.GetAllAsync();
 
-            _context.Entry(operationRequest).State = EntityState.Modified;
+            foreach (OperationRequestDto OpT in list)
+            {
+                if (OpT.DeadlineDate == requestDto.DeadlineDate)
+                {
+                    return BadRequest(new { message = "Operation Type already exists" });
+                }
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+                var createdRequest = await _service.AddAsync(requestDto);
+                return createdRequest;
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!OperationRequestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, $"Failed to create operation request: {ex.Message}");
+            }    
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(Guid id, OperationRequestDto requestDto)
+        {
+            if (id != requestDto.Id)
+            {
+                return BadRequest(new { message = "ID mismatch between URL and payload." });
             }
 
-            return NoContent();
+            try
+            {
+                var updatedRequest = await _service.UpdateAsync(requestDto);
+                
+                if (updatedRequest == null)
+                {
+                    return NotFound(new { message = "Operation request not found." });
+                }
+
+                return Ok(updatedRequest);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // POST: api/OperationRequest
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<OperationRequest>> PostOperationRequest(OperationRequest operationRequest)
-        {
-            _context.OperationRequest.Add(operationRequest);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOperationRequest", new { id = operationRequest.Id }, operationRequest);
-        }
-
-        // DELETE: api/OperationRequest/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOperationRequest(int id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var operationRequest = await _context.OperationRequest.FindAsync(id);
-            if (operationRequest == null)
+            try
             {
-                return NotFound();
+                var request = await _service.DeleteAsync(new OperationRequestId(id));
+                if (request == null)
+                {
+                    return NotFound(new { message = "Operation request not found." });
+                }
+
+                return Ok(request);
             }
-
-            _context.OperationRequest.Remove(operationRequest);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool OperationRequestExists(int id)
-        {
-            return _context.OperationRequest.Any(e => e.Id == id);
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

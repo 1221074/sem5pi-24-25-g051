@@ -1,20 +1,18 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infraestructure;
-using sem5pi_24_25_g051.Models;
 using sem5pi_24_25_g051.Service;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
 using sem5pi_24_25_g051.Infrastructure.Staff_;
 using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Infraestructure.Shared;
 using sem5pi_24_25_g051.Models.User;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using System.Security.Claims;
-using Microsoft.Extensions.DependencyInjection;
+using sem5pi_24_25_g051.Models.OperationRequest;
+using sem5pi_24_25_g051.Infraestructure.Users;
+using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,13 +31,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseInMemoryDatabase("BackofficeDatabase"));
 
+
+builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<OperationRequestService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
