@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using sem5pi_24_25_g051.Models.User;
 using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Service;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authorization;
 
@@ -14,12 +13,11 @@ namespace sem5pi_24_25_g051.Controllers
     {
         private readonly UserService _service;
 
-        private readonly EmailSender _mailSender;
 
-        public UserController(UserService service, EmailSender emailSender)
+        public UserController(UserService service)
         {
             _service = service;
-            _mailSender = emailSender;
+
         }
 
         [HttpGet]
@@ -64,17 +62,15 @@ namespace sem5pi_24_25_g051.Controllers
                 }
             }
                try
-{
-    await _mailSender.SendEmailAsync(userDto.Email, "User Created", "Activate the account and change your password");
+                {
+                    _service.SendEmailAsync(userDto.Email, "FINALMENTE", "Se estas a ler isto o serviço de mails ta a funcionar");
+                    Console.WriteLine("Chega aqui 1 ");
+                    var createdUser = await _service.AddAsync(userDto);
+                    return createdUser;
+                        } catch (Exception ex) {
+                    return StatusCode(500, $"Failed to send email: {ex.Message}");
+                } 
 }
-catch (Exception ex)
-{
-    return StatusCode(500, $"Failed to send email: {ex.Message}");
-} 
-
-                var createdUser = await _service.AddAsync(userDto);
-                return createdUser;
-        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(string id, UserDto userDto)

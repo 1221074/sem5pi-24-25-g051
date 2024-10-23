@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Mail;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
@@ -92,6 +94,22 @@ namespace sem5pi_24_25_g051.Models.User
             await this._unitOfWork.CommitAsync();
 
             return UserMapper.toDTO(user);
+        }
+
+        public Task SendEmailAsync(string toEmail, string subject, string body)
+        {
+        var mail = "porfavor@isep.ipp.pt";  // Your real Gmail address
+        var password = "1234"; // The generated App Password
+
+        var smtpClient = new SmtpClient("dei.isep.ipp.pt", 25)
+        {
+            EnableSsl = false,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(mail, password),
+        };
+
+        var mailMessage = new MailMessage(mail, toEmail, subject, body);
+        return smtpClient.SendMailAsync(mailMessage);
         }
     }
 }
