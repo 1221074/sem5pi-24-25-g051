@@ -31,6 +31,21 @@ namespace sem5pi_24_25_g051.Models.Patient
             this.Sex = Sex;
             this.AllergyList = AllergyList;
         }
-    
+
+        public void Change(string FirstName, string LastName, string FullName, string BirthDate, string Sex, List<string> AllergyList)
+        {
+            if (!this.Active)
+                throw new BusinessRuleValidationException("It is not possible to change the description to an inactive patient.");
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.FullName = FullName;
+            this.BirthDate = BirthDate;
+            this.Sex = Sex;
+            this.AllergyList = AllergyList;
+        }
+        public void MarkAsInative()
+        {
+            this.Active = false;
+        }
     }
 }

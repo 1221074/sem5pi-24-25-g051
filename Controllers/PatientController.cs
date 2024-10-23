@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Infraestructure;
-using sem5pi_24_25_g051.Models;
+using sem5pi_24_25_g051.Models.Patient;
+
+using sem5pi_24_25_g051.Models.Shared;
+
 
 namespace sem5pi_24_25_g051.Controllers
 {
@@ -14,95 +17,102 @@ namespace sem5pi_24_25_g051.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly backofficeDbContext _context;
+        private readonly PatientService _service;
 
-        public PatientController(backofficeDbContext context)
+        public PatientController(PatientService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/Patient
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        public async Task<ActionResult<List<PatientDTO>>> GetAllAsync()
         {
-            return await _context.Patients.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
-        // GET: api/Patient/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(int id)
+        public async Task<ActionResult<PatientDTO>> GetByIdAsync(Guid id)
         {
-            var patient = await _context.Patients.FindAsync(id);
 
-            if (patient == null)
+            var P = await _service.GetByIdAsync(new PatientId(id));
+
+            if (P == null)
             {
                 return NotFound();
             }
+          
 
-            return patient;
+            return P;
         }
 
-        // PUT: api/Patient/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        [HttpPost] 
+        public async Task<ActionResult<PatientDTO>> Create(CreatingPatientDTO PDTO)
         {
-            if (id != patient.Id)
+            List<PatientDTO> list = await _service.GetAllAsync();
+            foreach (PatientDTO Pdto in list)
+            {
+                if (Pdto.FullName == PDTO.FullName)
+                {
+                    return BadRequest(new { message = "Patient already exists" });
+                }
+            }
+                        
+            
+            var P = await _service.AddAsync(PDTO);
+                        
+
+            return P;
+    
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, PatientDTO PDTO)
+        {
+            if (id != PDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(patient).State = EntityState.Modified;
+            try {
+                var P = await _service.UpdateAsync(PDTO);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PatientExists(id))
-                {
+                if (P == null) {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                return Ok(P);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
             }
-
-            return NoContent();
         }
 
-        // POST: api/Patient
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
-        {
-            _context.Patients.Add(patient);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPatient", new { id = patient.Id }, patient);
-        }
-
-        // DELETE: api/Patient/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id)
+        public async Task<IActionResult> SoftDelete(Guid id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var P = await _service.InactivateAsync(new PatientId(id));
+
+            if (P == null)
             {
                 return NotFound();
             }
-
-            _context.Patients.Remove(patient);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(P);
         }
 
-        private bool PatientExists(int id)
+        [HttpDelete("{id}/hard")]
+        public async Task<IActionResult> HardDelete(Guid id)
         {
-            return _context.Patients.Any(e => e.Id == id);
+            try {
+                var P = await _service.DeleteAsync(new PatientId(id));
+
+                if (P == null) {
+                    return NotFound();
+                }
+                return Ok(P);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
+            }
         }
+
     }
 }
