@@ -25,7 +25,7 @@ namespace sem5pi_24_25_g051.Models.Staff
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 FullName = staff.FullName,
-                Specialization = staff.Specialization,
+                Specialization = staff.SpecializationName,
                 Email = staff.Email,
                 Phone = staff.Phone,
                 //AvailabilitySlots = staff.AvailabilitySlots
