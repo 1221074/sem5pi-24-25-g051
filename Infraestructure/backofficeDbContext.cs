@@ -23,6 +23,17 @@ namespace sem5pi_24_25_g051.Infraestructure
 
         }
 
+        public DbSet<Appointment> Appointment { get; set; } = default!;
+        public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
+        //public DbSet<Patient> Patients { get; set; }
+        public DbSet<OperationRequest> OperationRequest { get; set; } = default!;
+        public DbSet<OperationType> OperationType { get; set; } = default!;
+        public DbSet<Staff> Staff { get; set; } = default!;
+        public DbSet<Specialization> Specialization { get; set; } = default!;
+
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         //have a keyless entity named Availability Slot
@@ -35,20 +46,18 @@ namespace sem5pi_24_25_g051.Infraestructure
             modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
 
-    modelBuilder.Entity<User>()
-        .Property(u => u.Id)
-        .HasConversion(
-            v => v.AsString(), // Convert UserNif to string for storage
-            v => new UserNif(v) // Convert string back to UserNif when reading
-        );
+        modelBuilder.Entity<User>()
+            .Property(u => u.Id)
+            .HasConversion(
+                v => v.AsString(), // Convert UserNif to string for storage
+                v => new UserNif(v) // Convert string back to UserNif when reading
+            );
+
+            modelBuilder.Entity<OperationType>().ToTable("OperationType");
+            modelBuilder.Entity<Staff>().ToTable("Staff");
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<OperationRequest>().ToTable("OperationRequest");
+            modelBuilder.Entity<Specialization>().ToTable("Specialization");
 }
-        public DbSet<Appointment> Appointment { get; set; } = default!;
-        public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;
-        public DbSet<User> Users { get; set; } = default!;
-        //public DbSet<Patient> Patients { get; set; }
-        public DbSet<OperationRequest> OperationRequest { get; set; } = default!;
-        public DbSet<OperationType> OperationType { get; set; } = default!;
-        public DbSet<Staff> Staff { get; set; } = default!;
-        public DbSet<Specialization> Specialization { get; set; } = default!;
     }
 }

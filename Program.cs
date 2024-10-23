@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infraestructure;
-using sem5pi_24_25_g051.Service;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
 using sem5pi_24_25_g051.Infrastructure.Staffs;
 using sem5pi_24_25_g051.Infrastructure.Specializations;
@@ -24,15 +23,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add DBcontext to the container 
 builder.Services.AddDbContext<backofficeDbContext>(options =>
-    options.UseInMemoryDatabase("BackofficeDatabase"));
-
+    options.UseSqlite("Data Source=lapr5.db"));
 
 builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
