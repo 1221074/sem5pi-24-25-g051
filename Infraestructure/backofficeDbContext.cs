@@ -8,6 +8,7 @@ using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
 using sem5pi_24_25_g051.Infraestructure.Staff_;
 using sem5pi_24_25_g051.Models.User;
+using sem5pi_24_25_g051.Infraestructure.Users;
 
 
 namespace sem5pi_24_25_g051.Infraestructure
@@ -27,7 +28,15 @@ namespace sem5pi_24_25_g051.Infraestructure
             //modelBuilder.Entity<UserRole>().HasNoKey();
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
-        }
+            modelBuilder.ApplyConfiguration(new UserTypeEntityTypeConfiguration());
+
+    modelBuilder.Entity<User>()
+        .Property(u => u.Id)
+        .HasConversion(
+            v => v.AsString(), // Convert UserNif to string for storage
+            v => new UserNif(v) // Convert string back to UserNif when reading
+        );
+}
         public DbSet<Appointment> Appointment { get; set; } = default!;
         //public DbSet<Staff> Staff { get; set; } = default!;
         public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;

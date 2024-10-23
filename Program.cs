@@ -9,7 +9,12 @@ using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Infraestructure.Shared;
+using sem5pi_24_25_g051.Models.User;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,16 +41,55 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+}).AddCookie().AddGoogle(options =>
+{
+    IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+    options.ClientId = googleAuthNSection["ClientId"] ?? throw new InvalidOperationException("Google ClientId is not configured.");
+    options.ClientSecret = googleAuthNSection["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
+    options.SaveTokens = true;
+    /*options.Events.OnCreatingTicket = async context =>
+    {
+        // Add your async code here, for example:
+        var unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+        var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+        UserService _service = new UserService(unitOfWork, userRepository);
+        var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
+        UserDto user = await _service.GetByEmailAsync(email);
+
+        var roleClaim = new Claim(ClaimTypes.Role, user.Role.ToString());
+        var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
+        claimsIdentity.AddClaim(roleClaim); 
+
+
+
+        //claim
+    };*/
+    
+    
+});
+
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenLocalhost(5280); // Bind to IPv4 localhost (127.0.0.1) for HTTP
-    options.ListenLocalhost(7252, listenOptions => // Bind to IPv4 localhost (127.0.0.1) for HTTPS
+    options.ListenLocalhost(5280); // HTTP port
+    options.ListenLocalhost(7252, listenOptions =>
     {
-        listenOptions.UseHttps();
+        listenOptions.UseHttps(); // HTTPS port with SSL
     });
 });
 
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,9 +99,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapRazorPages();
 app.Run();

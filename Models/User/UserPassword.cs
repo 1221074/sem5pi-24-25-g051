@@ -12,7 +12,10 @@ public class UserPassword  {
         [Key]
         public string Value { get; private set; }
 
-        protected UserPassword() {}
+        public UserPassword() {
+            //generate random password that meets the criteria
+            Value = PasswordPolicy.GenerateRandomPassword();
+        }
 
         public UserPassword(string password)
         {

@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
@@ -21,92 +19,54 @@ namespace sem5pi_24_25_g051.Models.User
             
             List<UserDto> listDto = list.ConvertAll(user => new UserDto
             {
-                Id = user.Id,
+                Nif = user.Id.Value,
                 Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            });
+                UserName = user.Username,
+                PhoneNumber = user.Phone,
+                Role = user.Role
+                });
+
 
             return listDto;
         }
 
-        public async Task<UserDto> GetByIdAsync(string id)
+        public async Task<UserDto> GetByIdAsync(UserNif id)
         {
-            var userId = new UserId(id);
-            var user = await this._repo.GetByIdAsync(userId);
-            
+            var user = await this._repo.GetByIdAsync(id);
             if(user == null)
                 return null;
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            };
+            return UserMapper.toDTO(user);
         }
 
-        public async Task<UserDto> AddAsync(UserDto dto)
+        public async Task<UserDto> AddAsync(CreatingUserDTO dto)
         {
-            var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role, dto.Nif, new UserPassword("password"));
+            var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role,dto.Nif);
 
             await this._repo.AddAsync(user);
 
             await this._unitOfWork.CommitAsync();
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            };
+            return UserMapper.toDTO(user);
         }
 
         public async Task<UserDto> UpdateAsync(UserDto dto)
         {
-            var userId = new UserId(dto.Id);
-            var user = await this._repo.GetByIdAsync(userId); 
+            var user = await this._repo.GetByIdAsync(new UserNif(dto.Nif));    
 
             if (user == null)
                 return null;   
 
-            // Update fields
-            user.Email = dto.Email;
-            user.UserName = dto.UserName;
-            user.PhoneNumber = dto.PhoneNumber;
-            user.Role = dto.Role;
-            user.Nif = dto.Nif;
-            // Handle password change securely (e.g., hashing)
-            
-            await this._unitOfWork.CommitAsync();
+            user.Change(dto.Email,dto.UserName,dto.PhoneNumber,dto.Role);
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            };
+           await this._unitOfWork.CommitAsync();
+           
+           return UserMapper.toDTO(user);
         }
 
-        public async Task<UserDto> InactivateAsync(string id)
+        public async Task<UserDto> InactivateAsync(UserNif id)
         {
-            var userId = new UserId(id);
-            var user = await this._repo.GetByIdAsync(userId); 
+            var user = await this._repo.GetByIdAsync(id); 
 
             if (user == null)
                 return null;   
@@ -115,22 +75,12 @@ namespace sem5pi_24_25_g051.Models.User
             
             await this._unitOfWork.CommitAsync();
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            };
+            return UserMapper.toDTO(user);
         }
 
-        public async Task<UserDto> DeleteAsync(string id)
+        public async Task<UserDto> DeleteAsync(UserNif id)
         {
-            var userId = new UserId(id);
-            var user = await this._repo.GetByIdAsync(userId); 
+            var user = await this._repo.GetByIdAsync(id); 
 
             if (user == null)
                 return null;   
@@ -141,16 +91,7 @@ namespace sem5pi_24_25_g051.Models.User
             this._repo.Remove(user);
             await this._unitOfWork.CommitAsync();
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role,
-                Nif = user.Nif,
-                // Exclude Password for security reasons
-            };
+            return UserMapper.toDTO(user);
         }
     }
 }

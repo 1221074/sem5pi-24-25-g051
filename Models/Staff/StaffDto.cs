@@ -10,7 +10,7 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public string FullName { get; set; }
 
-        public string Specialization { get; set; }
+        public Specialization.Specialization Specialization { get; set; }
 
         public string Email { get; set; }
 
@@ -19,7 +19,7 @@ namespace sem5pi_24_25_g051.Models.Staff
         //public required List<AvailabilitySlot> AvailabilitySlots { get; set; }
 
 
-        public StaffDto(Guid id, string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
+        public StaffDto(Guid id, string firstName, string lastName, string fullName, Specialization.Specialization specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             Id = id;
             FirstName = firstName;
@@ -31,7 +31,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             //AvailabilitySlots = availabilitySlots;
         }
 
-        public StaffDto(string firstName, string lastName, string fullName, string specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
+        public StaffDto(string firstName, string lastName, string fullName, Specialization.Specialization specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             FirstName = firstName;
             LastName = lastName;
