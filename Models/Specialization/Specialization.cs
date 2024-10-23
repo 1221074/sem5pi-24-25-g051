@@ -11,15 +11,15 @@ namespace sem5pi_24_25_g051.Models.Specialization
         [Required]
         public string SpecializationName { get; set; }
         
-        private Specialization(string specializationName)
+        public Specialization(string specializationName)
         {
             this.Id = new SpecializationId(Guid.NewGuid());
             this.SpecializationName = specializationName;   
         }
 
-        public void EditSpecialization(Specialization specializationName)
+        public void EditSpecialization(String specializationName)
         {
-            this.SpecializationName = specializationName.SpecializationName; //pq q isto n dá erro??????
+            this.SpecializationName = specializationName; //pq q isto n dá erro??????
         }
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using sem5pi_24_25_g051.Models.Shared;
+using sem5pi_24_25_g051.Models.Specialization;
 
 namespace sem5pi_24_25_g051.Models.Staff
 {

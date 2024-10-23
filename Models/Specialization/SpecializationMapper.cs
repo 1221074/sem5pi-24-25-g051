@@ -7,12 +7,12 @@ namespace sem5pi_24_25_g051.Models.Specialization
     {
         public static SpecializationDto toDTO(CreatingSpecializationDto dto)
         {
-            return new SpecializationDto(dto.Specialization);
+            return new SpecializationDto(dto.specializationName);
         }
 
         public static SpecializationDto toDTO(Specialization spec)
         {
-            return new SpecializationDto(spec.Id.AsGuid(), spec);
+            return new SpecializationDto(spec.Id.AsGuid(), spec.SpecializationName);
         }
     }
 }

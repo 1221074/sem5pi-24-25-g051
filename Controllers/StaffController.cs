@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.Staff;
+using sem5pi_24_25_g051.Models.Specialization;
 
 
 namespace sem5pi_24_25_g051.Controllers
@@ -17,9 +18,11 @@ namespace sem5pi_24_25_g051.Controllers
     public class StaffController : ControllerBase
     {
         private readonly StaffService _service;
-        public StaffController(StaffService service)
+        private readonly SpecializationService _serviceSpecialization;
+        public StaffController(StaffService service, SpecializationService serviceSpecialization)
         {
             _service = service;
+            _serviceSpecialization = serviceSpecialization;
         }
 
         [HttpGet]
@@ -32,6 +35,78 @@ namespace sem5pi_24_25_g051.Controllers
         public async Task<ActionResult<StaffDto>> GetByIdAsync(Guid id)
         {
             var staff = await _service.GetByIdAsync(new StaffId(id));
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/firstname/{name}")]
+        public async Task<ActionResult<List<StaffDto>>> GetByFirstNameAsync(string name)
+        {
+            var staff = await _service.GetByFirstNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/lastname/{name}")]
+        public async Task<ActionResult<List<StaffDto>>> GetByLastNameAsync(string name)
+        {
+            var staff = await _service.GetByLastNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/fullname/{name}")]
+        public async Task<ActionResult<List<StaffDto>>> GetByFullNameAsync(string name)
+        {
+            var staff = await _service.GetByFullNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/email/{email}")]
+        public async Task<ActionResult<StaffDto>> GetByEmailAsync(string email)
+        {
+            var staff = await _service.GetByEmailAsync(email);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/phone/{phone}")]
+        public async Task<ActionResult<StaffDto>> GetByPhoneAsync(string phone)
+        {
+            var staff = await _service.GetByPhoneAsync(phone);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return staff;
+        }
+
+        [HttpGet("/specialization/{specialization}")]
+        public async Task<ActionResult<List<StaffDto>>> GetBySpecializationAsync(string specialization)
+        {
+            var staff = await _service.GetBySpecializationAsync(specialization);
 
             if (staff == null)
             {
@@ -55,7 +130,22 @@ namespace sem5pi_24_25_g051.Controllers
                     return BadRequest(new { message = "Staff already exists" });
                 }
             }
-            var dto = await _service.AddAsync(staffDto);
+            var dtoSpec = new SpecializationDto();
+
+            List<SpecializationDto> listSpecialization = await _serviceSpecialization.GetAllAsync();
+            foreach (SpecializationDto specialization in listSpecialization)
+            {
+                if (specialization.SpecializationName == staffDto.SpecializationName)
+                {
+                    dtoSpec = specialization;
+                }
+            }
+            if (dtoSpec.SpecializationName == null)
+            {
+                return BadRequest(new { message = "Specialization does not exist" });
+            }
+
+            var dto = await _service.AddAsync(new StaffDto(staffDto.FirstName, staffDto.LastName, staffDto.FullName, new Specialization(dtoSpec.SpecializationName), staffDto.Email, staffDto.Phone));
 
             return dto;
         }

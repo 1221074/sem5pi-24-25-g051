@@ -46,7 +46,7 @@ namespace sem5pi_24_25_g051.Controllers
             List<SpecializationDto> list = await _service.GetAllAsync();
             foreach (SpecializationDto specialization in list)
             {
-                if (specialization.Specialization.SpecializationName.ToString().Equals(specializationDto))
+                if (specialization.SpecializationName.Equals(specializationDto.specializationName))
                 {
                     return BadRequest(new { message = "Specialization already exists" });
                 }

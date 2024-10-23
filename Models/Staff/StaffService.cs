@@ -44,7 +44,127 @@ namespace sem5pi_24_25_g051.Models.Staff
             return StaffMapper.toDTO(staff);
         }
 
-        public async Task<StaffDto> AddAsync(CreatingStaffDto dto)
+        public async Task<List<StaffDto>> GetByFirstNameAsync(string name)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            List<StaffDto> dto = new List<StaffDto>();
+
+            foreach (var s in staff)
+            {
+                if (s.FirstName == name)
+                {
+                    dto.Add(StaffMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<StaffDto>> GetByLastNameAsync(string name)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            List<StaffDto> dto = new List<StaffDto>();
+
+            foreach (var s in staff)
+            {
+                if (s.LastName == name)
+                {
+                    dto.Add(StaffMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<StaffDto>> GetByFullNameAsync(string name)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            List<StaffDto> dto = new List<StaffDto>();
+
+            foreach (var s in staff)
+            {
+                if (s.FullName == name)
+                {
+                    dto.Add(StaffMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<StaffDto> GetByEmailAsync(string email)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            StaffDto dto = new StaffDto();
+
+            foreach (var s in staff)
+            {
+                if (s.Email == email)
+                {
+                    dto = StaffMapper.toDTO(s);
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<StaffDto> GetByPhoneAsync(string phone)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            StaffDto dto = new StaffDto();
+
+            foreach (var s in staff)
+            {
+                if (s.Phone == phone)
+                {
+                    dto = StaffMapper.toDTO(s);
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<StaffDto>> GetBySpecializationAsync(string specName)
+        {
+            var staff = await this._repo.GetAllAsync();
+
+            List<StaffDto> dto = new List<StaffDto>();
+
+            foreach (var s in staff)
+            {
+                if (s.SpecializationName.Equals(specName))
+                {
+                    dto.Add(StaffMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<StaffDto> AddAsync(StaffDto dto)
         {
             var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
 

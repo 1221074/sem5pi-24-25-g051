@@ -3,17 +3,17 @@ namespace sem5pi_24_25_g051.Models.Specialization
     public class SpecializationDto
     {
         public Guid Id { get; set; }
-        public Specialization Specialization { get; set; }
+        public string SpecializationName { get; set; }
 
-        public SpecializationDto(Guid id, Specialization specialization)
+        public SpecializationDto(Guid id, string specializationName)
         {
             Id = id;
-            Specialization = specialization;
+            SpecializationName = specializationName;
         }
 
-        public SpecializationDto(Specialization specialization)
+        public SpecializationDto(String specializationName)
         {
-            Specialization = specialization;
+            SpecializationName = specializationName;
         }
 
         public SpecializationDto()

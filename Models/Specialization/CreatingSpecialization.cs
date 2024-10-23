@@ -2,11 +2,11 @@ namespace sem5pi_24_25_g051.Models.Specialization
 {
     public class CreatingSpecializationDto
     {
-        public Specialization Specialization { get; set; }
+        public string specializationName { get; set; }
         
-        public CreatingSpecializationDto(Specialization specialization)
+        public CreatingSpecializationDto(string specializationName)
         {
-            this.Specialization = specialization;
+            this.specializationName = specializationName;
         }
     }
 }

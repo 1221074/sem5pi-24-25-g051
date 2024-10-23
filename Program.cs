@@ -46,6 +46,7 @@ builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<OperationRequestService>();
+builder.Services.AddScoped<SpecializationService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

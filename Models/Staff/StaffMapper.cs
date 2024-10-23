@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Staff;
+using sem5pi_24_25_g051.Models.Specialization;
 
 namespace sem5pi_24_25_g051.Models.Staff
 {
     public class StaffMapper
     {
-        public static StaffDto toDTO(CreatingStaffDto dto)
+        /*public static StaffDto toDTO(CreatingStaffDto dto)
         {
-            return new StaffDto(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
-        }
+            return new StaffDto(dto.FirstName, dto.LastName, dto.FullName, new Specialization(dto.SpecializationName), dto.Email, dto.Phone/*, dto.AvailabilitySlots);
+        }*/
 
         public static StaffDto toDTO(Staff staff)
         {
