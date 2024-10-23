@@ -9,16 +9,22 @@ using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Infraestructure.Shared;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sem5pi_24_25_g051.Models.User;
-using sem5pi_24_25_g051.Infraestructure.Users;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add services to the container.
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,41 +33,78 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseInMemoryDatabase("BackofficeDatabase"));
 
-// Add repositories to the container
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// Add transients to the container
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// Add services to the container 
 builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
-builder.Services.AddScoped<UserService>();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+}).AddCookie().AddGoogle(options =>
+{
+    IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+    options.ClientId = googleAuthNSection["ClientId"] ?? throw new InvalidOperationException("Google ClientId is not configured.");
+    options.ClientSecret = googleAuthNSection["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
+    options.SaveTokens = true;
+    /*options.Events.OnCreatingTicket = async context =>
+    {
+        // Add your async code here, for example:
+        var unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+        var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+        UserService _service = new UserService(unitOfWork, userRepository);
+        var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
+        UserDto user = await _service.GetByEmailAsync(email);
+
+        var roleClaim = new Claim(ClaimTypes.Role, user.Role.ToString());
+        var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
+        claimsIdentity.AddClaim(roleClaim); 
+
+
+
+        //claim
+    };*/
+    
+    
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(5280); // HTTP port
+    options.ListenLocalhost(7252, listenOptions =>
+    {
+        listenOptions.UseHttps(); // HTTPS port with SSL
+    });
+});
+
 
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-app.UseStaticFiles(); 
-
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapRazorPages();
-
 app.Run();
