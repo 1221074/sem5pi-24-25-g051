@@ -9,11 +9,17 @@ namespace sem5pi_24_25_g051.Models.Specialization
     public class Specialization : Entity<SpecializationId>
     {
         [Required]
-        public string Name { get; set; }
+        public string SpecializationName { get; set; }
         
-        private Specialization(string name)
+        private Specialization(string specializationName)
         {
-            this.Name = name;   
+            this.Id = new SpecializationId(Guid.NewGuid());
+            this.SpecializationName = specializationName;   
+        }
+
+        public void EditSpecialization(Specialization specializationName)
+        {
+            this.SpecializationName = specializationName.SpecializationName; //pq q isto n dá erro??????
         }
 
     }

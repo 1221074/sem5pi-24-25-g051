@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Infraestructure;
 using sem5pi_24_25_g051.Service;
 using sem5pi_24_25_g051.Infraestructure.OperationTypes;
-using sem5pi_24_25_g051.Infrastructure.Staff_;
+using sem5pi_24_25_g051.Infrastructure.Staffs;
+using sem5pi_24_25_g051.Infrastructure.Specializations;
 using sem5pi_24_25_g051.Models.OperationType;
 using sem5pi_24_25_g051.Models.Staff;
+using sem5pi_24_25_g051.Models.Specialization;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -35,6 +37,8 @@ builder.Services.AddDbContext<backofficeDbContext>(options =>
 builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
