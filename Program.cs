@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Infraestructure.Users;
 using sem5pi_24_25_g051.Infraestructure.OperationRequests;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,7 +61,7 @@ builder.Services.AddAuthentication(option =>
     options.ClientId = googleAuthNSection["ClientId"] ?? throw new InvalidOperationException("Google ClientId is not configured.");
     options.ClientSecret = googleAuthNSection["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
     options.SaveTokens = true;
-    /*options.Events.OnCreatingTicket = async context =>
+     options.Events.OnCreatingTicket = async context =>
     {
         // Add your async code here, for example:
         var unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
@@ -68,15 +69,22 @@ builder.Services.AddAuthentication(option =>
         UserService _service = new UserService(unitOfWork, userRepository);
         var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
         UserDto user = await _service.GetByEmailAsync(email);
+                Console.WriteLine($"User {email} logged");
+                Console.WriteLine($"User: {user.Email}");
+                Console.WriteLine($"Role: {user.Role.ToString()}");
+        string role = RoleTypeExtensions.GetRoleDescription(user.Role);
+                Console.WriteLine($"Role: {role}");
 
-        var roleClaim = new Claim(ClaimTypes.Role, user.Role.ToString());
+
+        var roleClaim = new Claim(ClaimTypes.Role, role);
         var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
         claimsIdentity.AddClaim(roleClaim); 
 
+    
 
 
         //claim
-    };*/
+    };
     
     
 });
