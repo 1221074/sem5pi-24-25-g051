@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.Specialization;
 
@@ -26,6 +27,7 @@ namespace sem5pi_24_25_g051.Models.Staff
         [NotMapped]
         public List<AvailabilitySlot> AvailabilitySlots { get; set; } */
 
+        public static readonly Regex MailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
         private Staff()
         {
@@ -39,6 +41,9 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public Staff(string firstName, string lastName, string fullName, Specialization.Specialization specializationName, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
+            if (!EmailVerification(email)) {
+                throw new ArgumentException("Email inválido", nameof(email));
+            }
             this.Id = new StaffId(Guid.NewGuid());
             this.FirstName = firstName;
             this.LastName = lastName;
@@ -53,6 +58,10 @@ namespace sem5pi_24_25_g051.Models.Staff
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change data of an inactive Staff member.");
+
+            if (!EmailVerification(email)) {
+                throw new ArgumentException("Invalid email.", nameof(email));
+            }
             this.FirstName = firstName;
             this.LastName = lastName;
             this.FullName = fullName;
@@ -60,6 +69,19 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Email = email;
             this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;
+        }
+
+        public static bool EmailVerification(string mail) {
+             if (string.IsNullOrEmpty(mail)){
+            return false;
+            }
+
+            // Regex to check if email is valid
+            if (!MailRegex.IsMatch(mail))
+            {
+                return false;
+            }
+            return true;
         }
 
     }

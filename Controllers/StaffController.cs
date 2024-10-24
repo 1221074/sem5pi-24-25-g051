@@ -123,11 +123,11 @@ namespace sem5pi_24_25_g051.Controllers
             {
                 if (staff.Phone == staffDto.Phone)
                 {
-                    return BadRequest(new { message = "Staff already exists" });
+                    return BadRequest(new { message = "This phone number is already associated to a staff member." });
                 }
                 if (staff.Email == staffDto.Email)
                 {
-                    return BadRequest(new { message = "Staff already exists" });
+                    return BadRequest(new { message = "This email is already associated to a staff member." });
                 }
             }
             var dtoSpec = new SpecializationDto();
