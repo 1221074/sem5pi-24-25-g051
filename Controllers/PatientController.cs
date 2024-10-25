@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Azure;
 using Microsoft.AspNetCore.Http;
@@ -242,32 +243,50 @@ namespace sem5pi_24_25_g051.Controllers
         //=======================================================================================================
         //=======================================  Patient Perms  ===============================================
         //=======================================================================================================
-        /*
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProfile(Guid id, PatientDTO PDTO)
+        
+        
+        [HttpPut("profile")]
+        public async Task<IActionResult> UpdateProfile(PatientDTO PDTO)
         {
-            if (id != PDTO.Id)
+            
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    
+            if (userId == null || Guid.Parse(userId) != PDTO.Id)
             {
-                return BadRequest();
+                return BadRequest("Invalid user ID.");
             }
-
-            try {
+    
+            try
+            {
                 var P = await _service.UpdateAsync(PDTO);
-
-                if (P == null) {
+    
+                if (P == null)
+                {
                     return NotFound();
                 }
                 return Ok(P);
-
-            } catch (BusinessRuleValidationException ex) {
+            }
+            catch (BusinessRuleValidationException ex)
+            {
                 return BadRequest(new { message = ex.Message });
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> SoftDeleteProfile(Guid id)
+
+
+
+        [HttpDelete("profile")]
+        public async Task<IActionResult> SoftDeleteProfile()
         {
-            var P = await _service.InactivateAsync(new PatientId(id));
+            
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            var P = await _service.InactivateAsync(new PatientId(Guid.Parse(userId)));
 
             if (P == null)
             {
@@ -276,26 +295,32 @@ namespace sem5pi_24_25_g051.Controllers
             return Ok(P);
         }
 
-        [HttpDelete("{id}/hard")]
-        public async Task<IActionResult> HardDeleteProfile(Guid id)
+        [HttpDelete("profile/hard")]
+        public async Task<IActionResult> HardDeleteProfile()
         {
-            try {
-                var P = await _service.DeleteAsync(new PatientId(id));
+            
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                if (P == null) {
+            if (userId == null)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            try
+            {
+                var P = await _service.DeleteAsync(new PatientId(Guid.Parse(userId)));
+
+                if (P == null)
+                {
                     return NotFound();
                 }
                 return Ok(P);
-
-            } catch (BusinessRuleValidationException ex) {
+            }
+            catch (BusinessRuleValidationException ex)
+            {
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-        */
-
-
-
 
     }
 }
