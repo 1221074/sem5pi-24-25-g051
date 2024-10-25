@@ -38,12 +38,133 @@ namespace sem5pi_24_25_g051.Controllers
 
             if (P == null)
             {
-                return NotFound();
+                return NotFound("Patient not found");
             }
           
 
             return P;
         }
+
+        [HttpGet("/api/patient/firstname/{name}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByFirstNameAsync(string name)
+        {
+            var staff = await _service.GetByFirstNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/lastname/{name}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByLastNameAsync(string name)
+        {
+            var staff = await _service.GetByLastNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/fullname/{name}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByFullNameAsync(string name)
+        {
+            var staff = await _service.GetByFullNameAsync(name);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/birthdate/{date}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByBirthDateAsync(string date)
+        {
+            var staff = await _service.GetByBirthDateAsync(date);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/sex/{sex}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetBySexAsync(string sex)
+        {
+            var staff = await _service.GetBySexAsync(sex);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/email/{email}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByEmailAsync(string email)
+        {
+            var staff = await _service.GetByEmailAsync(email);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/phone/{phone}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByPhoneAsync(string phone)
+        {
+            var staff = await _service.GetByPhoneAsync(phone);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/emergencycontact/{emergencycontact}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByEmergencyContactAsync(string emergencycontact)
+        {
+            var staff = await _service.GetByEmergencyContactAsync(emergencycontact);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/allergy/{allergy}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByAllergyAsync(string allergy)
+        {
+            var staff = await _service.GetByAllergyAsync(allergy);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
+        [HttpGet("/api/patient/appointment/{appointment}")]
+        public async Task<ActionResult<List<PatientDTO>>> GetByAppointmentAsync(string appointment)
+        {
+            var staff = await _service.GetByAppointmentAsync(appointment);
+
+            if (staff == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            return staff;
+        }
+
 
         [HttpPost] 
         public async Task<ActionResult<PatientDTO>> Create(CreatingPatientDTO PDTO)

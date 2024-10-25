@@ -36,6 +36,212 @@ namespace sem5pi_24_25_g051.Models.Patient {
             return PatientMapper.toDTO(P);
         }
 
+        public async Task<List<PatientDTO>> GetByFirstNameAsync(string name)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.FirstName == name)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByLastNameAsync(string name)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.LastName == name)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByFullNameAsync(string name)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.FullName == name)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByBirthDateAsync(string date)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.BirthDate == date)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetBySexAsync(string sex)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.Sex == sex)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByEmailAsync(string email)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.Email == email)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByPhoneAsync(string phone)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.Phone == phone)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByEmergencyContactAsync(string emergencyContact)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                if (s.EmergencyContact == emergencyContact)
+                {
+                    dto.Add(PatientMapper.toDTO(s));
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByAllergyAsync(string allergy)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                foreach(var a in s.AllergyList){
+                    if (a == allergy)
+                    {
+                        dto.Add(PatientMapper.toDTO(s));
+                        break;
+                    }
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<PatientDTO>> GetByAppointmentAsync(string appointment)
+        {
+            var staff = await this._Prepo.GetAllAsync();
+
+            List<PatientDTO> dto = new List<PatientDTO>();
+
+            foreach (var s in staff)
+            {
+                foreach(var a in s.AppointmentList){
+                    if (a == appointment)
+                    {
+                        dto.Add(PatientMapper.toDTO(s));
+                        break;
+                    }
+                }
+            }
+            
+            if(staff == null)
+                return null;
+
+            return dto;
+        }
+
         public async Task<PatientDTO> AddAsync(CreatingPatientDTO PDTO) {
             var P = new Patient(PDTO.FirstName, PDTO.LastName, PDTO.FullName, PDTO.BirthDate, PDTO.Sex, PDTO.Email, PDTO.Phone, PDTO.EmergencyContact, PDTO.AppointmentList, PDTO.AllergyList);
 

@@ -60,7 +60,6 @@ namespace sem5pi_24_25_g051.Models.Patient
             this.EmergencyContact = emergencyContact;
             this.AppointmentList = appointmentList;
             this.AllergyList = allergyList;
-            
         }
         public void MarkAsInative()
         {
