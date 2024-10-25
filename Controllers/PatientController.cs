@@ -48,121 +48,121 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpGet("/api/patient/firstname/{name}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFirstNameAsync(string name)
         {
-            var staff = await _service.GetByFirstNameAsync(name);
+            var patients = await _service.GetByFirstNameAsync(name);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/lastname/{name}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByLastNameAsync(string name)
         {
-            var staff = await _service.GetByLastNameAsync(name);
+            var patients = await _service.GetByLastNameAsync(name);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/fullname/{name}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFullNameAsync(string name)
         {
-            var staff = await _service.GetByFullNameAsync(name);
+            var patients = await _service.GetByFullNameAsync(name);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/birthdate/{date}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByBirthDateAsync(string date)
         {
-            var staff = await _service.GetByBirthDateAsync(date);
+            var patients = await _service.GetByBirthDateAsync(date);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/sex/{sex}")]
         public async Task<ActionResult<List<PatientDTO>>> GetBySexAsync(string sex)
         {
-            var staff = await _service.GetBySexAsync(sex);
+            var patients = await _service.GetBySexAsync(sex);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/email/{email}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByEmailAsync(string email)
         {
-            var staff = await _service.GetByEmailAsync(email);
+            var patients = await _service.GetByEmailAsync(email);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/phone/{phone}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByPhoneAsync(string phone)
         {
-            var staff = await _service.GetByPhoneAsync(phone);
+            var patients = await _service.GetByPhoneAsync(phone);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/emergencycontact/{emergencycontact}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByEmergencyContactAsync(string emergencycontact)
         {
-            var staff = await _service.GetByEmergencyContactAsync(emergencycontact);
+            var patients = await _service.GetByEmergencyContactAsync(emergencycontact);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/allergy/{allergy}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAllergyAsync(string allergy)
         {
-            var staff = await _service.GetByAllergyAsync(allergy);
+            var patients = await _service.GetByAllergyAsync(allergy);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
         [HttpGet("/api/patient/appointment/{appointment}")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAppointmentAsync(string appointment)
         {
-            var staff = await _service.GetByAppointmentAsync(appointment);
+            var patients = await _service.GetByAppointmentAsync(appointment);
 
-            if (staff == null)
+            if (patients == null)
             {
                 return NotFound(new { message = "Patient not found" });
             }
-            return staff;
+            return patients;
         }
 
 

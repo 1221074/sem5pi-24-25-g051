@@ -38,11 +38,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByFirstNameAsync(string name)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.FirstName == name)
                 {
@@ -50,7 +50,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -58,11 +58,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByLastNameAsync(string name)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.LastName == name)
                 {
@@ -70,7 +70,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -78,11 +78,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByFullNameAsync(string name)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.FullName == name)
                 {
@@ -90,7 +90,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -98,11 +98,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByBirthDateAsync(string date)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.BirthDate == date)
                 {
@@ -110,7 +110,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -118,11 +118,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetBySexAsync(string sex)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.Sex == sex)
                 {
@@ -130,7 +130,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -138,11 +138,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByEmailAsync(string email)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.Email == email)
                 {
@@ -150,7 +150,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -158,11 +158,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByPhoneAsync(string phone)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.Phone == phone)
                 {
@@ -170,7 +170,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -178,11 +178,11 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByEmergencyContactAsync(string emergencyContact)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
                 if (s.EmergencyContact == emergencyContact)
                 {
@@ -190,7 +190,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -198,13 +198,14 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByAllergyAsync(string allergy)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
-                foreach(var a in s.AllergyList){
+                foreach(var a in s.AllergyList)
+                {
                     if (a == allergy)
                     {
                         dto.Add(PatientMapper.toDTO(s));
@@ -213,7 +214,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
@@ -221,13 +222,14 @@ namespace sem5pi_24_25_g051.Models.Patient {
 
         public async Task<List<PatientDTO>> GetByAppointmentAsync(string appointment)
         {
-            var staff = await this._Prepo.GetAllAsync();
+            var patients = await this._Prepo.GetAllAsync();
 
             List<PatientDTO> dto = new List<PatientDTO>();
 
-            foreach (var s in staff)
+            foreach (var s in patients)
             {
-                foreach(var a in s.AppointmentList){
+                foreach(var a in s.AppointmentList)
+                {
                     if (a == appointment)
                     {
                         dto.Add(PatientMapper.toDTO(s));
@@ -236,7 +238,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 }
             }
             
-            if(staff == null)
+            if(patients == null)
                 return null;
 
             return dto;
