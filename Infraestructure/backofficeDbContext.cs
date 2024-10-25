@@ -12,8 +12,8 @@ using sem5pi_24_25_g051.Infraestructure.Staffs;
 using sem5pi_24_25_g051.Infraestructure.Specializations;
 using sem5pi_24_25_g051.Models.Specialization;
 using sem5pi_24_25_g051.Infraestructure.OperationRequests;
-//using sem5pi_24_25_g051.Models.Patient;
-//using sem5pi_24_25_g051.Infraestructure.Patients;
+using sem5pi_24_25_g051.Models.Patient;
+using sem5pi_24_25_g051.Infraestructure.Patients;
 
 
 namespace sem5pi_24_25_g051.Infraestructure
@@ -27,7 +27,7 @@ namespace sem5pi_24_25_g051.Infraestructure
         public DbSet<Appointment> Appointment { get; set; } = default!;
         public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
-        //public DbSet<Patient> Patients { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<OperationRequest> OperationRequest { get; set; } = default!;
         public DbSet<OperationType> OperationType { get; set; } = default!;
         public DbSet<Staff> Staff { get; set; } = default!;
@@ -40,12 +40,12 @@ namespace sem5pi_24_25_g051.Infraestructure
             //have a keyless entity named Availability Slot
             //modelBuilder.Entity<AvailabilitySlot>().HasNoKey();
             modelBuilder.Entity<Maintenance>().HasNoKey();
-           modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
-            //modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
 
             modelBuilder.Entity<User>()
             .Property(u => u.Id)
@@ -68,7 +68,7 @@ namespace sem5pi_24_25_g051.Infraestructure
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<OperationRequest>().ToTable("OperationRequest");
             modelBuilder.Entity<Specialization>().ToTable("Specialization");
-           // modelBuilder.Entity<Patient>().ToTable("Patient");
+            modelBuilder.Entity<Patient>().ToTable("Patient");
 }
     }
 }

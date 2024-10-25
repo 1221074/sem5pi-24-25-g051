@@ -15,6 +15,8 @@ using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Infraestructure.Users;
 using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 using System.Security.Claims;
+using sem5pi_24_25_g051.Models.Patient;
+using sem5pi_24_25_g051.Infrastructure.Patients;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,7 @@ builder.Services.AddScoped<IOperationRequestRepository, OperationRequestReposito
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -43,6 +46,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
 
