@@ -1,4 +1,4 @@
-/*using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Shared;
 
@@ -100,4 +100,4 @@ namespace sem5pi_24_25_g051.Models.Patient {
         }
     }
 
-}*/
+}
