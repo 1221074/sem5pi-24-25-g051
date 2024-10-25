@@ -19,7 +19,7 @@ namespace sem5pi_24_25_g051.Models.User
 
         public User(string email, string username, string phoneNumber, RoleType role,string nif) {
             if (!EmailVerification(email)) {
-                throw new ArgumentException("Email inválido", nameof(email));
+                throw new ArgumentException("Email Inválido", nameof(email));
             }
             Id = new UserNif(nif);
             Email = email;
@@ -27,15 +27,19 @@ namespace sem5pi_24_25_g051.Models.User
             Password = new UserPassword();
             Username = username;       
             Phone = phoneNumber;
+            Active = true;
         }
 
-        public bool Active { get; set; } = true;
+        public bool Active { get; set; }
 
         public void MarkAsInactive()
         {
         this.Active = false;
         }
 
+        public void MarkAsActive() {
+            this.Active = true;
+        }
         public static bool EmailVerification(string mail) {
              if (string.IsNullOrEmpty(mail)){
             return false;
@@ -57,10 +61,6 @@ namespace sem5pi_24_25_g051.Models.User
             this.Username = username;
             this.Phone = phoneNumber;
             this.Role = role;
-        }
-        public void MarkAsInative()
-        {
-            this.Active = false;
         }
     }
 }

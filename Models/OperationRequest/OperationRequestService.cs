@@ -1,4 +1,6 @@
 using sem5pi_24_25_g051.Models.OperationRequest;
+using sem5pi_24_25_g051.Models.OperationType;
+using sem5pi_24_25_g051.Models.Patient;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.User;
 
@@ -7,13 +9,16 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
     public class OperationRequestService
     {
 
-           private readonly IOperationRequestRepository _ORrepo;
+        private readonly IOperationRequestRepository _ORrepo;
         private readonly IUnitOfWork _unitOfWork;
-
-        public OperationRequestService(IOperationRequestRepository ORrepo, IUnitOfWork unitOfWork)
+        private readonly UserService _userService;
+        private readonly OperationTypeService _operationTypeService;
+        public OperationRequestService(IOperationRequestRepository ORrepo, IUnitOfWork unitOfWork , UserService doctorService, OperationTypeService operationTypeService)
         {
             _ORrepo = ORrepo;
             _unitOfWork = unitOfWork;
+            _userService = doctorService;
+            _operationTypeService = operationTypeService;
         }
         public async Task<List<OperationRequestDto>> GetAllAsync()
         {
@@ -85,6 +90,19 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
             return OperationRequestMapper.toDTO(OR);
         }
 
+       /*   public async Task<UserDto> GetDoctorByIdAsync(string doctorId)
+        {
+            return await _userService.GetByIdAsync(new UserNif(doctorId));
+        }
 
+       public async Task<PatientDto> GetPatientByIdAsync(string patientId)
+        {
+            return await _patientService.GetPatientByIdAsync(patientId);
+        }
+
+        public async Task<OperationTypeDTO> GetOperationTypeByIdAsync(string operationTypeId)
+        {
+            return await _operationTypeService.GetByIdAsync(new OperationTypeId(operationTypeId));
+        }*/
     }
 }

@@ -47,12 +47,22 @@ namespace sem5pi_24_25_g051.Controllers
             {
                 if (OpT.DeadlineDate == requestDto.DeadlineDate)
                 {
-                    return BadRequest(new { message = "Operation Type already exists" });
+                    return BadRequest(new { message = "Date of the operation cannot be equal" });
                 }
             }
 
             try
-            {
+            { 
+               /* if (await _service.GetDoctorByIdAsync(requestDto.DoctorId) == false ){
+                    return BadRequest(new { message = "Doctor doesn't exist" });
+                }
+                if (await _service.GetPatientByIdAsync(requestDto.PatientId) == false ){ 
+                    return BadRequest(new { message = "Patient doesn't exist" });
+                }
+               
+                if (await _service.GetOperationTypeByIdAsync(requestDto.OperationTypeId) == false){
+                    return BadRequest(new { message = "Operation Type doesn't exist" });
+                } */
                 var createdRequest = await _service.AddAsync(requestDto);
                 return createdRequest;
             }

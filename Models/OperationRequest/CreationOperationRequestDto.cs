@@ -6,13 +6,13 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
 public class CreatingOperationRequestDto
     {
         [Required]
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
 
         [Required]
-        public int DoctorId { get; set; }
+        public string DoctorId { get; set; }
 
         [Required]
-        public int OperationTypeId { get; set; }
+        public string OperationTypeId { get; set; }
 
         [Required]
         public DateTime DeadlineDate { get; set; }
@@ -20,7 +20,7 @@ public class CreatingOperationRequestDto
         [Required]
         public string PriorityState { get; set; }  
 
-     public CreatingOperationRequestDto(int patientId, int doctorId, int operationTypeId, DateTime deadlineDate, string priorityState)
+     public CreatingOperationRequestDto(string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, string priorityState)
         {
             PatientId = patientId;
             DoctorId = doctorId;

@@ -11,18 +11,18 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
     public class OperationRequest : Entity<OperationRequestId>
     {   
         [Required]
-        public int PatientId { get; set; } 
+        public string PatientId { get; set; } 
         [Required]
-        public int DoctorId { get; set; } 
+        public string DoctorId { get; set; } 
         [Required]
-        public int OperationTypeId { get; set; } 
+        public string OperationTypeId { get; set; } 
         [Required]
         public DateTime DeadlineDate { get; set; } 
         [Required]
         public Priority PriorityState {get; set;}
 
         public bool Active{ get;  private set; }
-     public OperationRequest(int patientId, int doctorId, int operationTypeId, DateTime deadlineDate, Priority priorityState) 
+     public OperationRequest(string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, Priority priorityState) 
     {
         this.Id = new OperationRequestId(Guid.NewGuid());
         this.PatientId = patientId;
@@ -30,14 +30,14 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
         this.OperationTypeId = operationTypeId;
         this.DeadlineDate = deadlineDate;
         this.PriorityState = priorityState;
-        this.Active = true;  // Setting default value for Active
+        this.Active = true;
     }
 
         public void MarkAsInative()
         {
             this.Active = false;
         }
-        internal void Change(int patientId, int doctorId, int operationTypeId, DateTime deadlineDate, string priorityState)
+        internal void Change(string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, string priorityState)
         {
             this.PatientId = patientId;
             this.DoctorId = doctorId;
