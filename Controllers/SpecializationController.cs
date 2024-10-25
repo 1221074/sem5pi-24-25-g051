@@ -35,7 +35,7 @@ namespace sem5pi_24_25_g051.Controllers
 
             if (specialization == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Specialization not found" });
             }
             return specialization;
         }
@@ -69,7 +69,7 @@ namespace sem5pi_24_25_g051.Controllers
 
                 if (dto == null)
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Specialization not found" });
                 }
                 return Ok(dto);
             } catch (BusinessRuleValidationException ex)
@@ -86,7 +86,7 @@ namespace sem5pi_24_25_g051.Controllers
                 var specialization = await _service.DeleteAsync(new SpecializationId(id));
                 if (specialization == null)
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Specialization not found" });
                 }
                 return Ok(specialization);
             } catch (BusinessRuleValidationException ex)

@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.Specialization;
+using System.Net.Mail;
+using System.Net;
 
 namespace sem5pi_24_25_g051.Models.Staff
 {
@@ -172,8 +174,9 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public async Task<StaffDto> UpdateAsync(StaffDto dto)
         {
-            var staff = await this._repo.GetByIdAsync(new StaffId(dto.Id));    
-
+            StaffId id = new StaffId(dto.Id);
+            var staff = await this._repo.GetByIdAsync(id);    
+            
             if (staff == null) {
                 return null;
             }
@@ -213,6 +216,22 @@ namespace sem5pi_24_25_g051.Models.Staff
             await this._unitOfWork.CommitAsync();
 
             return StaffMapper.toDTO(staff);
+        }
+
+        public Task SendEmailAsync(string toEmail, string subject, string body)
+        {
+        var mail = "porfavor@isep.ipp.pt";  // Your real Gmail address
+        var password = "1234"; // The generated App Password
+
+        var smtpClient = new SmtpClient("dei.isep.ipp.pt", 25)
+        {
+            EnableSsl = false,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(mail, password),
+        };
+
+        var mailMessage = new MailMessage(mail, toEmail, subject, body);
+        return smtpClient.SendMailAsync(mailMessage);
         }
     }
 }

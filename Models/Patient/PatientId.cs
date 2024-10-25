@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+/*using System.Text.Json.Serialization;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.Patient
@@ -32,4 +32,4 @@ namespace sem5pi_24_25_g051.Models.Patient
         
        
     }
-}
+}*/

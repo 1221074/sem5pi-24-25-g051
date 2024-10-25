@@ -40,79 +40,79 @@ namespace sem5pi_24_25_g051.Controllers
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/firstname/{name}")]
+        [HttpGet("/api/staff/firstname/{name}")]
         public async Task<ActionResult<List<StaffDto>>> GetByFirstNameAsync(string name)
         {
             var staff = await _service.GetByFirstNameAsync(name);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/lastname/{name}")]
+        [HttpGet("/api/staff/lastname/{name}")]
         public async Task<ActionResult<List<StaffDto>>> GetByLastNameAsync(string name)
         {
             var staff = await _service.GetByLastNameAsync(name);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/fullname/{name}")]
+        [HttpGet("/api/staff/fullname/{name}")]
         public async Task<ActionResult<List<StaffDto>>> GetByFullNameAsync(string name)
         {
             var staff = await _service.GetByFullNameAsync(name);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/email/{email}")]
+        [HttpGet("/api/staff/email/{email}")]
         public async Task<ActionResult<StaffDto>> GetByEmailAsync(string email)
         {
             var staff = await _service.GetByEmailAsync(email);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/phone/{phone}")]
+        [HttpGet("/api/staff/phone/{phone}")]
         public async Task<ActionResult<StaffDto>> GetByPhoneAsync(string phone)
         {
             var staff = await _service.GetByPhoneAsync(phone);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
 
-        [HttpGet("/specialization/{specialization}")]
+        [HttpGet("/api/staff/specialization/{specialization}")]
         public async Task<ActionResult<List<StaffDto>>> GetBySpecializationAsync(Guid specialization)
         {
             var staff = await _service.GetBySpecializationAsync(specialization);
 
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return staff;
         }
@@ -161,9 +161,8 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, StaffDto staffDto)
         {
-            if (id != staffDto.Id)
-            {
-                return BadRequest();
+            if(id != staffDto.Id){
+                return BadRequest(new { message = "Id in the URL does not match the Id in the body" });
             }
             try
             {
@@ -190,8 +189,9 @@ namespace sem5pi_24_25_g051.Controllers
 
                 if (dto == null)
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Staff member not found" });
                 }
+                _service.SendEmailAsync(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
                 return Ok(dto);
             } catch (BusinessRuleValidationException ex)
             {
@@ -205,7 +205,7 @@ namespace sem5pi_24_25_g051.Controllers
             var staff = await _service.InactivateAsync(new StaffId(id));
             if (staff == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Staff member not found" });
             }
             return Ok(staff);
         }
@@ -218,7 +218,7 @@ namespace sem5pi_24_25_g051.Controllers
                 var staff = await _service.DeleteAsync(new StaffId(id));
                 if (staff == null)
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Staff member not found" });
                 }
                 return Ok(staff);
             } catch (BusinessRuleValidationException ex)

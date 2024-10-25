@@ -1,6 +1,6 @@
 using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Patient;
+//using sem5pi_24_25_g051.Models.Patient;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.User;
 
