@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using sem5pi_24_25_g051.Models.Shared;
+using sem5pi_24_25_g051.Models.Specialization;
 
 namespace sem5pi_24_25_g051.Models.Staff
 {
@@ -18,18 +19,11 @@ namespace sem5pi_24_25_g051.Models.Staff
         public async Task<List<StaffDto>> GetAllAsync()
         {
             var list = await this._repo.GetAllAsync();
-            
-            List<StaffDto> listDto = list.ConvertAll(staff => new StaffDto
+            List<StaffDto> listDto = new List<StaffDto>();
+            foreach (var s in list)
             {
-                Id = staff.Id.AsGuid(),
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                FullName = staff.FullName,
-                Specialization = staff.SpecializationName,
-                Email = staff.Email,
-                Phone = staff.Phone,
-                //AvailabilitySlots = staff.AvailabilitySlots
-            });
+                listDto.Add(StaffMapper.toDTO(s));
+            }
 
             return listDto;
         }
@@ -144,7 +138,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             return dto;
         }
 
-        public async Task<List<StaffDto>> GetBySpecializationAsync(string specName)
+        public async Task<List<StaffDto>> GetBySpecializationAsync(Guid specId)
         {
             var staff = await this._repo.GetAllAsync();
 
@@ -152,7 +146,7 @@ namespace sem5pi_24_25_g051.Models.Staff
 
             foreach (var s in staff)
             {
-                if (s.SpecializationName.Equals(specName))
+                if (s.SpecializationId == specId)
                 {
                     dto.Add(StaffMapper.toDTO(s));
                 }
@@ -166,7 +160,8 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public async Task<StaffDto> AddAsync(StaffDto dto)
         {
-            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
+    
+            var staff = new Staff(dto.FirstName, dto.LastName, dto.FullName, dto.SpecializationId, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
 
             await this._repo.AddAsync(staff);
 
@@ -183,7 +178,7 @@ namespace sem5pi_24_25_g051.Models.Staff
                 return null;
             }
 
-            staff.EditStaffProfile(dto.FirstName, dto.LastName, dto.FullName, dto.Specialization, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
+            staff.EditStaffProfile(dto.FirstName, dto.LastName, dto.FullName, dto.SpecializationId, dto.Email, dto.Phone/*, dto.AvailabilitySlots*/);
 
             await this._unitOfWork.CommitAsync();
 

@@ -61,6 +61,8 @@ namespace sem5pi_24_25_g051.Infraestructure
                 v => new OperationRequestId(v) 
             );
 
+            
+
             modelBuilder.Entity<OperationType>().ToTable("OperationType");
             modelBuilder.Entity<Staff>().ToTable("Staff");
             modelBuilder.Entity<User>().ToTable("User");

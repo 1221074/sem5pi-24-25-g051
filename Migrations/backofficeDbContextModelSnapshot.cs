@@ -138,12 +138,10 @@ namespace sem5pi_24_25_g051.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("SpecializationNameId")
+                    b.Property<Guid>("SpecializationId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SpecializationNameId");
 
                     b.ToTable("Staff", (string)null);
                 });
@@ -229,17 +227,6 @@ namespace sem5pi_24_25_g051.Migrations
                     b.HasKey("Value");
 
                     b.ToTable("UserPassword");
-                });
-
-            modelBuilder.Entity("sem5pi_24_25_g051.Models.Staff.Staff", b =>
-                {
-                    b.HasOne("sem5pi_24_25_g051.Models.Specialization.Specialization", "SpecializationName")
-                        .WithMany()
-                        .HasForeignKey("SpecializationNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SpecializationName");
                 });
 
             modelBuilder.Entity("sem5pi_24_25_g051.Models.User.User", b =>

@@ -85,6 +85,24 @@ namespace sem5pi_24_25_g051.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Staff",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    FullName = table.Column<string>(type: "TEXT", nullable: false),
+                    SpecializationId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Phone = table.Column<string>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staff", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurgeryRoom",
                 columns: table => new
                 {
@@ -112,30 +130,6 @@ namespace sem5pi_24_25_g051.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staff",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", nullable: false),
-                    SpecializationNameId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Phone = table.Column<string>(type: "TEXT", nullable: false),
-                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staff", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Staff_Specialization_SpecializationNameId",
-                        column: x => x.SpecializationNameId,
-                        principalTable: "Specialization",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -159,11 +153,6 @@ namespace sem5pi_24_25_g051.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staff_SpecializationNameId",
-                table: "Staff",
-                column: "SpecializationNameId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_User_PasswordValue",
                 table: "User",
                 column: "PasswordValue");
@@ -185,6 +174,9 @@ namespace sem5pi_24_25_g051.Migrations
                 name: "OperationType");
 
             migrationBuilder.DropTable(
+                name: "Specialization");
+
+            migrationBuilder.DropTable(
                 name: "Staff");
 
             migrationBuilder.DropTable(
@@ -192,9 +184,6 @@ namespace sem5pi_24_25_g051.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Specialization");
 
             migrationBuilder.DropTable(
                 name: "UserPassword");
