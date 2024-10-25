@@ -1,4 +1,4 @@
-using sem5pi_24_25_g051.Models.ActivationTokens;
+
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
