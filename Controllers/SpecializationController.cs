@@ -31,7 +31,7 @@ namespace sem5pi_24_25_g051.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SpecializationDto>> GetByIdAsync(Guid id)
         {
-            var specialization = await _service.GetByIdAsync(new SpecializationId(id));
+            var specialization = await _service.GetByIdAsync(id);
 
             if (specialization == null)
             {

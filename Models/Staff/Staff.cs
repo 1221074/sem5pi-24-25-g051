@@ -16,7 +16,7 @@ namespace sem5pi_24_25_g051.Models.Staff
         public string LastName { get; set; } 
         public string FullName { get; set; } 
         [Required]
-        public Specialization.Specialization SpecializationName { get; set; } 
+        public Guid SpecializationId { get; set; } 
         [Required]
         public string Email { get; set; } 
         [Required]
@@ -39,7 +39,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.Active = false;
         }
 
-        public Staff(string firstName, string lastName, string fullName, Specialization.Specialization specializationName, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
+        public Staff(string firstName, string lastName, string fullName, Guid specialization, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             if (!EmailVerification(email)) {
                 throw new ArgumentException("Email inválido", nameof(email));
@@ -48,13 +48,13 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.FirstName = firstName;
             this.LastName = lastName;
             this.FullName = fullName;
-            this.SpecializationName = specializationName;
+            this.SpecializationId = specialization;
             this.Email = email;
             this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;
         }
 
-        public void EditStaffProfile(string firstName, string lastName, string fullName, Specialization.Specialization specializationName, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
+        public void EditStaffProfile(string firstName, string lastName, string fullName, Guid specializationId, string email, string phone/*, List<AvailabilitySlot> availabilitySlots*/)
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change data of an inactive Staff member.");
@@ -65,7 +65,7 @@ namespace sem5pi_24_25_g051.Models.Staff
             this.FirstName = firstName;
             this.LastName = lastName;
             this.FullName = fullName;
-            this.SpecializationName = specializationName;
+            this.SpecializationId = specializationId;
             this.Email = email;
             this.Phone = phone;
             //AvailabilitySlots = availabilitySlots;

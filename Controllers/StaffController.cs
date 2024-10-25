@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Specialization;
+using Microsoft.AspNetCore.Authorization;
+using System.Runtime.InteropServices;
 
 
 namespace sem5pi_24_25_g051.Controllers
@@ -104,7 +106,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/specialization/{specialization}")]
-        public async Task<ActionResult<List<StaffDto>>> GetBySpecializationAsync(string specialization)
+        public async Task<ActionResult<List<StaffDto>>> GetBySpecializationAsync(Guid specialization)
         {
             var staff = await _service.GetBySpecializationAsync(specialization);
 
@@ -130,22 +132,28 @@ namespace sem5pi_24_25_g051.Controllers
                     return BadRequest(new { message = "This email is already associated to a staff member." });
                 }
             }
-            var dtoSpec = new SpecializationDto();
+            Guid specId = Guid.Empty;
 
             List<SpecializationDto> listSpecialization = await _serviceSpecialization.GetAllAsync();
             foreach (SpecializationDto specialization in listSpecialization)
             {
-                if (specialization.SpecializationName == staffDto.SpecializationName)
+                if (specialization.Id == staffDto.SpecializationId)
                 {
-                    dtoSpec = specialization;
+                    specId = specialization.Id; 
                 }
             }
-            if (dtoSpec.SpecializationName == null)
-            {
-                return BadRequest(new { message = "Specialization does not exist" });
-            }
 
-            var dto = await _service.AddAsync(new StaffDto(staffDto.FirstName, staffDto.LastName, staffDto.FullName, new Specialization(dtoSpec.SpecializationName), staffDto.Email, staffDto.Phone));
+            SpecializationDto specDto = await _serviceSpecialization.GetByIdAsync(specId);
+            if (specDto == null)
+                {
+                    return BadRequest(new { message = "Specialization does not exist" });
+                }
+
+            
+
+            
+
+            var dto = await _service.AddAsync(new StaffDto(staffDto.FirstName, staffDto.LastName, staffDto.FullName, specId, staffDto.Email, staffDto.Phone));
 
             return dto;
         }
@@ -159,6 +167,25 @@ namespace sem5pi_24_25_g051.Controllers
             }
             try
             {
+                Guid specId = Guid.Empty;
+
+                List<SpecializationDto> listSpecialization = await _serviceSpecialization.GetAllAsync();
+                foreach (SpecializationDto specialization in listSpecialization)
+                {
+                    if (specialization.Id == staffDto.SpecializationId)
+                    {
+                        specId = specialization.Id; 
+                    }
+                }
+
+                SpecializationDto specDto = await _serviceSpecialization.GetByIdAsync(specId);
+                if (specDto == null)
+                    {
+                        return BadRequest(new { message = "Specialization does not exist" });
+                    }
+
+                
+
                 var dto = await _service.UpdateAsync(staffDto);
 
                 if (dto == null)

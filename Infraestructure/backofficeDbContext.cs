@@ -53,6 +53,8 @@ namespace sem5pi_24_25_g051.Infraestructure
                 v => new UserNif(v) // Convert string back to UserNif when reading
             );
 
+            
+
             modelBuilder.Entity<OperationType>().ToTable("OperationType");
             modelBuilder.Entity<Staff>().ToTable("Staff");
             modelBuilder.Entity<User>().ToTable("User");

@@ -28,9 +28,9 @@ namespace sem5pi_24_25_g051.Models.Specialization
             return listDto;
         }
 
-        public async Task<SpecializationDto> GetByIdAsync(SpecializationId id)
+        public async Task<SpecializationDto> GetByIdAsync(Guid id)
         {
-            var specialization = await this._repo.GetByIdAsync(id);
+            var specialization = await this._repo.GetByIdAsync(new SpecializationId(id));
             
             if(specialization == null)
                 return null;

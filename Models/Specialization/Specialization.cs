@@ -8,7 +8,7 @@ namespace sem5pi_24_25_g051.Models.Specialization
 {
     public class Specialization : Entity<SpecializationId>
     {
-        [Required]
+    
         public string SpecializationName { get; set; }
         
         public Specialization(string specializationName)
@@ -17,7 +17,7 @@ namespace sem5pi_24_25_g051.Models.Specialization
             this.SpecializationName = specializationName;   
         }
 
-        public void EditSpecialization(String specializationName)
+        public void EditSpecialization(string specializationName)
         {
             this.SpecializationName = specializationName; //pq q isto n dá erro??????
         }
