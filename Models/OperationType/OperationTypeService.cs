@@ -37,6 +37,69 @@ namespace sem5pi_24_25_g051.Models.OperationType {
             return OperationTypeMapper.toDTO(OT);
         }
 
+        public async Task<List<OperationTypeDTO>> GetByNameAsync(string name)
+        {
+            var operationTypes = await this._OTrepo.GetAllAsync();
+
+            List<OperationTypeDTO> dto = new List<OperationTypeDTO>();
+
+            foreach (var ot in operationTypes)
+            {
+                if (ot.Name == name)
+                {
+                    dto.Add(OperationTypeMapper.toDTO(ot));
+                }
+            }
+            
+            if(operationTypes == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<OperationTypeDTO>> GetByStaffAsync(string staff)
+        {
+            var operationTypes = await this._OTrepo.GetAllAsync();
+
+            List<OperationTypeDTO> dto = new List<OperationTypeDTO>();
+
+            foreach (var ot in operationTypes)
+            {
+                foreach (var rs in ot.RequiredStaff)
+                {
+                    if (rs == staff)
+                {
+                    dto.Add(OperationTypeMapper.toDTO(ot));
+                }
+                }
+            }
+            
+            if(operationTypes == null)
+                return null;
+
+            return dto;
+        }
+
+        public async Task<List<OperationTypeDTO>> GetByDurationAsync(string duration)
+        {
+            var operationTypes = await this._OTrepo.GetAllAsync();
+
+            List<OperationTypeDTO> dto = new List<OperationTypeDTO>();
+
+            foreach (var ot in operationTypes)
+            {
+                if (ot.Duration == duration)
+                {
+                    dto.Add(OperationTypeMapper.toDTO(ot));
+                }
+            }
+            
+            if(operationTypes == null)
+                return null;
+
+            return dto;
+        }
+
         public async Task<OperationTypeDTO> AddAsync(CreatingOperationTypeDTO OTDTO) {
             var OT = new OperationType(OTDTO.Name, OTDTO.RequiredStaff, OTDTO.Duration);
 

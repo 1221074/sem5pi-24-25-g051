@@ -45,6 +45,42 @@ namespace sem5pi_24_25_g051.Controllers
             return OT;
         }
 
+        [HttpGet("/api/operationtype/name/{name}")]
+        public async Task<ActionResult<List<OperationTypeDTO>>> GetByNameAsync(string name)
+        {
+            var operationtype = await _service.GetByNameAsync(name);
+
+            if (operationtype == null)
+            {
+                return NotFound(new { message = "Operation Type not found" });
+            }
+            return operationtype;
+        }
+
+        [HttpGet("/api/operationtype/requiredstaff/{staff}")]
+        public async Task<ActionResult<List<OperationTypeDTO>>> GetByStaffAsync(string staff)
+        {
+            var operationtype = await _service.GetByStaffAsync(staff);
+
+            if (operationtype == null)
+            {
+                return NotFound(new { message = "Operation Type not found" });
+            }
+            return operationtype;
+        }
+
+        [HttpGet("/api/operationtype/duration/{duration}")]
+        public async Task<ActionResult<List<OperationTypeDTO>>> GetByDurationAsync(string duration)
+        {
+            var operationtype = await _service.GetByDurationAsync(duration);
+
+            if (operationtype == null)
+            {
+                return NotFound(new { message = "Operation Type not found" });
+            }
+            return operationtype;
+        }
+
         [HttpPost] 
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
