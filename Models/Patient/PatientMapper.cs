@@ -9,12 +9,12 @@ namespace sem5pi_24_25_g051.Models.Patient
     {
         public static PatientDTO toDTO(CreatingPatientDTO dto)
         {
-            return new PatientDTO(dto.FirstName, dto.LastName, dto.FullName, dto.BirthDate, dto.Sex, dto.AllergyList);
+            return new PatientDTO(dto.FirstName, dto.LastName, dto.FullName, dto.BirthDate, dto.Sex, dto.Email, dto.Phone, dto.EmergencyContact, dto.AppointmentList, dto.AllergyList);
         }
 
         public static PatientDTO toDTO(Patient OT)
         {
-            return new PatientDTO(OT.Id.AsGuid(),OT.FirstName,OT.LastName,OT.FullName, OT.BirthDate, OT.Sex, OT.AllergyList);
+            return new PatientDTO(OT.Id.AsGuid(), OT.FirstName, OT.LastName, OT.FullName, OT.BirthDate, OT.Sex, OT.Email, OT.Phone, OT.EmergencyContact, OT.AppointmentList, OT.AllergyList);
         }
     }
 }

@@ -16,17 +16,13 @@ namespace sem5pi_24_25_g051.Models.Patient {
         public async Task<List<PatientDTO>> GetAllAsync() {
             var list = await this._Prepo.GetAllAsync();
 
-            List<PatientDTO> listDTO = list.ConvertAll(P => new PatientDTO {
-                Id = P.Id.AsGuid(),
-                FirstName = P.FirstName,
-                LastName = P.LastName,
-                FullName = P.LastName,
-                BirthDate = P.BirthDate,
-                Sex = P.Sex,
-                AllergyList = P.AllergyList
-            });
+            List<PatientDTO> listDto = new List<PatientDTO>();
+            foreach (var s in list)
+            {
+                listDto.Add(PatientMapper.toDTO(s));
+            }
 
-            return listDTO;
+            return listDto;
         }
         
         public async Task<PatientDTO> GetByIdAsync(PatientId id) {
@@ -41,16 +37,12 @@ namespace sem5pi_24_25_g051.Models.Patient {
         }
 
         public async Task<PatientDTO> AddAsync(CreatingPatientDTO PDTO) {
-            var P = new Patient(PDTO.FirstName, PDTO.LastName, PDTO.FullName, PDTO.BirthDate, PDTO.Sex, PDTO.AllergyList);
-
-            
+            var P = new Patient(PDTO.FirstName, PDTO.LastName, PDTO.FullName, PDTO.BirthDate, PDTO.Sex, PDTO.Email, PDTO.Phone, PDTO.EmergencyContact, PDTO.AppointmentList, PDTO.AllergyList);
 
             await this._Prepo.AddAsync(P);
             await this._unitOfWork.CommitAsync();
 
             return PatientMapper.toDTO(P);
-
-
         }
 
         public async Task<PatientDTO> UpdateAsync(PatientDTO PDTO) {
@@ -60,7 +52,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
                 return null;
             }
 
-            P.Change(PDTO.FirstName, PDTO.LastName, PDTO.FullName, PDTO.BirthDate, PDTO.Sex, PDTO.AllergyList);
+            P.Change(PDTO.FirstName, PDTO.LastName, PDTO.FullName, PDTO.BirthDate, PDTO.Sex, PDTO.Email, PDTO.Phone, PDTO.EmergencyContact, PDTO.AppointmentList, PDTO.AllergyList);
 
             await this._unitOfWork.CommitAsync();
 
@@ -89,7 +81,7 @@ namespace sem5pi_24_25_g051.Models.Patient {
             }
 
             if (P.Active) {
-                throw new BusinessRuleValidationException("It is nP possible to delete an active patient.");
+                throw new BusinessRuleValidationException("It is not possible to delete an active patient.");
             }
 
             this._Prepo.Remove(P);

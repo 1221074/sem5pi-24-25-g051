@@ -29,7 +29,5 @@ namespace sem5pi_24_25_g051.Models.Patient
         public Guid AsGuid(){
             return (Guid) base.ObjValue;
         }
-        
-       
     }
 }
