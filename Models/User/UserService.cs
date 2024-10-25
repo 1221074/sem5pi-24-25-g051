@@ -41,6 +41,17 @@ namespace sem5pi_24_25_g051.Models.User
             return UserMapper.toDTO(user);
         }
 
+        public async Task<UserDto?> GetByEmailAsync(String email){
+            List<UserDto> list = await GetAllAsync();
+            foreach (UserDto userDto in list){
+                if (userDto.Email == email)
+                    return userDto;
+            }
+            return null!;
+
+
+        }
+
         public async Task<UserDto> AddAsync(CreatingUserDTO dto)
         {
             var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role,dto.Nif);
