@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using sem5pi_24_25_g051.Models.User;
 using sem5pi_24_25_g051.Models.Shared;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using sem5pi_24_25_g051.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+
 
 
 namespace sem5pi_24_25_g051.Controllers
@@ -13,11 +15,13 @@ namespace sem5pi_24_25_g051.Controllers
     {
         private readonly UserService _service;
 
+        private GetGmailService _mailService;
+
 
         public UserController(UserService service)
         {
             _service = service;
-
+            _mailService = new GetGmailService();
         }
 
         [HttpGet]
@@ -63,10 +67,21 @@ namespace sem5pi_24_25_g051.Controllers
             }
                try
                 {
-                    _service.SendEmailAsync(userDto.Email, "Activate Account", "Please set your new password following the policy of the system");
+                    // Create the user with Active set to false
                     var createdUser = await _service.AddAsync(userDto);
+                    var token = Guid.NewGuid().ToString();
+
+                    //await _service.SaveActivationTokenAsync(createdUser.Nif, token);
+
+                    var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/user/confirm?nif={userDto.Nif}&token={Uri.EscapeDataString(token)}";
+
+                    var emailBody = $"Please activate your account by clicking the following link: <a href=\"{confirmationLink}\">Activate Account</a>";
+
+                    // Send the email using Gmail API
+                    await _mailService.SendEmailUsingGmailApi(userDto.Email, "Activate Your Account", emailBody);
+                    
                     return createdUser;
-                        } catch (Exception ex) {
+                } catch (Exception ex) {
                     return StatusCode(500, $"Failed to send email: {ex.Message}");
                 } 
 }
@@ -131,5 +146,31 @@ namespace sem5pi_24_25_g051.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+      /*  [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail(string nif, string token) {
+            if (string.IsNullOrEmpty(nif) || string.IsNullOrEmpty(token)) {
+                return BadRequest("NIF or token is missing.");
+            }
+            // Retrieve the user by NIF
+            var user = await _service.GetByIdAsync(new UserNif(nif));
+            if (user == null) {
+                return BadRequest("User not found.");
+            }
+            // Retrieve the stored token associated with the UserNif
+            var storedToken = await _service.GetActivationTokenAsync(nif);
+
+            // Compare the tokens
+            if (nif != token) {
+                return BadRequest("Invalid or expired token.");
+            }
+            
+            // Activate the user
+            await _service.ActivateAsync(new UserNif(nif));
+
+            return Ok("Your account has been activated successfully.");
+        }  
+        */  
+
     }
 }

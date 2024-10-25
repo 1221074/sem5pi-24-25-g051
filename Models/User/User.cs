@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
@@ -25,9 +26,9 @@ namespace sem5pi_24_25_g051.Models.User
             Email = email;
             Role = role;
             Password = new UserPassword();
-            Username = username;       
+            Username = username; 
             Phone = phoneNumber;
-            Active = true;
+            Active = false;
         }
 
         public bool Active { get; set; }

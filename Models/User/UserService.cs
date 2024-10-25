@@ -1,5 +1,4 @@
-using System.Net;
-using System.Net.Mail;
+using sem5pi_24_25_g051.Models.ActivationTokens;
 using sem5pi_24_25_g051.Models.Shared;
 
 namespace sem5pi_24_25_g051.Models.User
@@ -71,6 +70,7 @@ namespace sem5pi_24_25_g051.Models.User
                 return null;   
 
             user.Change(dto.Email,dto.UserName,dto.PhoneNumber,dto.Role);
+            user.Active = true;
 
            await this._unitOfWork.CommitAsync();
            
@@ -91,6 +91,20 @@ namespace sem5pi_24_25_g051.Models.User
             return UserMapper.toDTO(user);
         }
 
+        public async Task<UserDto> ActivateAsync(UserNif id) {
+            var user = await this._repo.GetByIdAsync(id); 
+
+            if (user == null)
+                return null;   
+
+            user.MarkAsActive();
+            
+            await this._unitOfWork.CommitAsync();
+
+            return UserMapper.toDTO(user);
+        }
+
+
         public async Task<UserDto> DeleteAsync(UserNif id)
         {
             var user = await this._repo.GetByIdAsync(id); 
@@ -106,21 +120,15 @@ namespace sem5pi_24_25_g051.Models.User
 
             return UserMapper.toDTO(user);
         }
-
-        public Task SendEmailAsync(string toEmail, string subject, string body)
-        {
-        var mail = "sem5pi2425-g051@isep.ipp.pt";  // Your real Gmail address
-        var password = "1234"; // The generated App Password
-
-        var smtpClient = new SmtpClient("dei.isep.ipp.pt", 25)
-        {
-            EnableSsl = false,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(mail, password),
-        };
-
-        var mailMessage = new MailMessage(mail, toEmail, subject, body);
-        return smtpClient.SendMailAsync(mailMessage);
+      /*  public async Task<ActivationToken> GetActivationTokenAsync(string nif)
+         {
+           return await  _tokenService.GetActivationTokenAsync(nif);
         }
+
+        public async Task SaveActivationTokenAsync(string id, string token)
+        {
+            await _tokenService.SaveActivationTokenAsync(id,token);
+        }*/
     }
+
 }
