@@ -172,9 +172,13 @@ namespace sem5pi_24_25_g051.Controllers
             List<PatientDTO> list = await _service.GetAllAsync();
             foreach (PatientDTO Pdto in list)
             {
-                if (Pdto.FullName == PDTO.FullName)
+                if (Pdto.Phone == Pdto.Phone)
                 {
-                    return BadRequest(new { message = "Patient already exists" });
+                    return BadRequest(new { message = "This phone number is already associated to a patient." });
+                }
+                if (Pdto.Email == Pdto.Email)
+                {
+                    return BadRequest(new { message = "This email is already associated to a patient." });
                 }
             }
                         
@@ -234,6 +238,64 @@ namespace sem5pi_24_25_g051.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        //=======================================================================================================
+        //=======================================  Patient Perms  ===============================================
+        //=======================================================================================================
+        /*
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProfile(Guid id, PatientDTO PDTO)
+        {
+            if (id != PDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            try {
+                var P = await _service.UpdateAsync(PDTO);
+
+                if (P == null) {
+                    return NotFound();
+                }
+                return Ok(P);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> SoftDeleteProfile(Guid id)
+        {
+            var P = await _service.InactivateAsync(new PatientId(id));
+
+            if (P == null)
+            {
+                return NotFound();
+            }
+            return Ok(P);
+        }
+
+        [HttpDelete("{id}/hard")]
+        public async Task<IActionResult> HardDeleteProfile(Guid id)
+        {
+            try {
+                var P = await _service.DeleteAsync(new PatientId(id));
+
+                if (P == null) {
+                    return NotFound();
+                }
+                return Ok(P);
+
+            } catch (BusinessRuleValidationException ex) {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        */
+
+
+
 
     }
 }
