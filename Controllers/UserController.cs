@@ -63,8 +63,7 @@ namespace sem5pi_24_25_g051.Controllers
             }
                try
                 {
-                    _service.SendEmailAsync(userDto.Email, "FINALMENTE", "Se estas a ler isto o serviço de mails ta a funcionar");
-                    Console.WriteLine("Chega aqui 1 ");
+                    _service.SendEmailAsync(userDto.Email, "Activate Account", "Please set your new password following the policy of the system");
                     var createdUser = await _service.AddAsync(userDto);
                     return createdUser;
                         } catch (Exception ex) {
@@ -85,7 +84,7 @@ namespace sem5pi_24_25_g051.Controllers
                 var updatedUser = await _service.UpdateAsync(userDto);
                 if (updatedUser == null)
                 {
-                    return NotFound(new { message = "User not found." });
+                   return BadRequest(new { message = "User with this nif doesn't exist." });
                 }
 
                 return Ok(updatedUser);
