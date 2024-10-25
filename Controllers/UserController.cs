@@ -34,7 +34,7 @@ namespace sem5pi_24_25_g051.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "User with this nif doesn't exist." });
             }
 
             return Ok(user);

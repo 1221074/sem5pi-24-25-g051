@@ -29,7 +29,7 @@ namespace sem5pi_24_25_g051.Infraestructure.Shared
             //return await this._context.Categories.FindAsync(id);
             var entity = await this._objs
                 .Where(x => id.Equals(x.Id)).FirstOrDefaultAsync();
-            return entity ?? throw new InvalidOperationException("Entity not found.");
+            return entity;
         }
         public async Task<List<TEntity>> GetByIdsAsync(List<TEntityId> ids)
         {
