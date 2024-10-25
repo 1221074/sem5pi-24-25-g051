@@ -220,7 +220,7 @@ namespace sem5pi_24_25_g051.Models.Staff
 
         public Task SendEmailAsync(string toEmail, string subject, string body)
         {
-        var mail = "porfavor@isep.ipp.pt";  // Your real Gmail address
+        var mail = "sem5pi2425-g051@isep.ipp.pt";  // Your real Gmail address
         var password = "1234"; // The generated App Password
 
         var smtpClient = new SmtpClient("dei.isep.ipp.pt", 25)
