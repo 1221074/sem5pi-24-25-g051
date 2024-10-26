@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +24,14 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<SpecializationDto>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
         
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<SpecializationDto>> GetByIdAsync(Guid id)
         {
             var specialization = await _service.GetByIdAsync(id);
@@ -41,6 +44,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<SpecializationDto>> Create(CreatingSpecializationDto specializationDto)
         {
             List<SpecializationDto> list = await _service.GetAllAsync();
@@ -57,6 +61,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, SpecializationDto specializationDto)
         {
             if (id != specializationDto.Id)
@@ -79,6 +84,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}/hard")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try 

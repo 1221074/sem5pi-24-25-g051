@@ -29,12 +29,14 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<StaffDto>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
         
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StaffDto>> GetByIdAsync(Guid id)
         {
             var staff = await _service.GetByIdAsync(new StaffId(id));
@@ -47,6 +49,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/firstname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<StaffDto>>> GetByFirstNameAsync(string name)
         {
             var staff = await _service.GetByFirstNameAsync(name);
@@ -59,6 +62,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/lastname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<StaffDto>>> GetByLastNameAsync(string name)
         {
             var staff = await _service.GetByLastNameAsync(name);
@@ -71,6 +75,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/fullname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<StaffDto>>> GetByFullNameAsync(string name)
         {
             var staff = await _service.GetByFullNameAsync(name);
@@ -83,6 +88,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/email/{email}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StaffDto>> GetByEmailAsync(string email)
         {
             var staff = await _service.GetByEmailAsync(email);
@@ -95,6 +101,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/phone/{phone}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StaffDto>> GetByPhoneAsync(string phone)
         {
             var staff = await _service.GetByPhoneAsync(phone);
@@ -107,6 +114,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/staff/specialization/{specialization}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<StaffDto>>> GetBySpecializationAsync(Guid specialization)
         {
             var staff = await _service.GetBySpecializationAsync(specialization);
@@ -119,6 +127,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StaffDto>> Create(CreatingStaffDto staffDto)
         {
             List<StaffDto> list = await _service.GetAllAsync();
@@ -160,6 +169,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, StaffDto staffDto)
         {
             if(id != staffDto.Id){
@@ -203,6 +213,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
             var staff = await _service.InactivateAsync(new StaffId(id));
@@ -214,6 +225,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}/hard")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace sem5pi_24_25_g051.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class OperationTypeController : ControllerBase
     {
         private readonly OperationTypeService _service;
@@ -25,12 +27,14 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OperationTypeDTO>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationTypeDTO>> GetByIdAsync(Guid id)
         {
 
@@ -82,6 +86,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPost] 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
             List<OperationTypeDTO> list = await _service.GetAllAsync();
@@ -102,6 +107,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, OperationTypeDTO OTDTO)
         {
             if (id != OTDTO.Id)
@@ -123,6 +129,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
             var OT = await _service.InactivateAsync(new OperationTypeId(id));
@@ -135,6 +142,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}/hard")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try {
