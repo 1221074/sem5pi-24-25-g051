@@ -11,9 +11,9 @@ using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-// using sem5pi_24_25_g051.Models.OperationRequest;
+using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Infraestructure.Users;
-// using sem5pi_24_25_g051.Infraestructure.OperationRequests;
+using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 using System.Security.Claims;
 using sem5pi_24_25_g051.Models.Patient;
 using sem5pi_24_25_g051.Infrastructure.Patients;
@@ -39,7 +39,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseSqlite("Data Source=lapr5.db"));
 
-// builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
+builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
@@ -52,7 +52,7 @@ builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PatientService>();
-// builder.Services.AddScoped<OperationRequestService>();
+builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
 
 builder.Logging.ClearProviders();
