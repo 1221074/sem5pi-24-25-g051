@@ -136,24 +136,22 @@ namespace sem5pi_24_25_g051.Models.Patient {
             return dto;
         }
 
-        public async Task<List<PatientDTO>> GetByEmailAsync(string email)
+        public async Task<PatientDTO> GetByEmailAsync(string email)
         {
             var patients = await this._Prepo.GetAllAsync();
 
-            List<PatientDTO> dto = new List<PatientDTO>();
+            
 
             foreach (var s in patients)
             {
                 if (s.Email == email)
                 {
-                    dto.Add(PatientMapper.toDTO(s));
+                    return PatientMapper.toDTO(s);
                 }
             }
             
-            if(patients == null)
+            
                 return null;
-
-            return dto;
         }
 
         public async Task<List<PatientDTO>> GetByPhoneAsync(string phone)
@@ -279,6 +277,29 @@ namespace sem5pi_24_25_g051.Models.Patient {
             await this._unitOfWork.CommitAsync();
 
             return PatientMapper.toDTO(P);
+        }
+        public async Task<PatientDTO> ActivateAsync(Guid id) {
+            var P = await this._Prepo.GetByIdAsync(new PatientId(id));
+
+            if (P == null) {
+                return null;
+            }
+
+            P.MarkAsAnative();
+
+            await this._unitOfWork.CommitAsync();
+
+            return PatientMapper.toDTO(P);
+        }
+
+        public async Task<bool> CheckActive(Guid id) {
+            var P = await this._Prepo.GetByIdAsync(new PatientId(id));
+
+            if (P == null) {
+                return false;
+            }
+
+            return P.Active;
         }
 
         public async Task<PatientDTO> DeleteAsync(PatientId id) {
