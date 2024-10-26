@@ -2,6 +2,7 @@ using System;
 using Microsoft.OpenApi.Models;
 using System.ComponentModel.DataAnnotations;
 using sem5pi_24_25_g051.Models.Shared;
+using sem5pi_24_25_g051.Models.Specialization;
 
 namespace sem5pi_24_25_g051.Models.OperationType
 {
@@ -9,7 +10,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
     {
 
         public string Name { get; private set; }
-        public List<string> RequiredStaff { get;  private set; }
+        public List<Guid> RequiredStaff { get;  private set; }
 
         public string Duration { get;  private set; }
 
@@ -21,7 +22,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
         }
         
 
-        public OperationType(string name, List<string> requiredStaff, string duration)
+        public OperationType(string name, List<Guid> requiredStaff, string duration)
         {
             this.Id = new OperationTypeId(Guid.NewGuid());
             this.Name = name;
@@ -31,7 +32,7 @@ namespace sem5pi_24_25_g051.Models.OperationType
         }
         
 
-        public void Change(string name, List<string> requiredStaff, string duration)
+        public void Change(string name, List<Guid> requiredStaff, string duration)
         {
             if (!this.Active)
                 throw new BusinessRuleValidationException("It is not possible to change the description to an inactive category.");

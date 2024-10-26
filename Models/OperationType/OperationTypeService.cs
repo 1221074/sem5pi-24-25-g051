@@ -16,12 +16,10 @@ namespace sem5pi_24_25_g051.Models.OperationType {
         public async Task<List<OperationTypeDTO>> GetAllAsync() {
             var list = await this._OTrepo.GetAllAsync();
 
-            List<OperationTypeDTO> listDTO = list.ConvertAll(OT => new OperationTypeDTO {
-                Id = OT.Id.AsGuid(),
-                Name = OT.Name,
-                RequiredStaff = OT.RequiredStaff,
-                Duration = OT.Duration
-            });
+            List<OperationTypeDTO> listDTO = new List<OperationTypeDTO>();
+            foreach (var OT in list) {
+                listDTO.Add(OperationTypeMapper.toDTO(OT));
+            }
 
             return listDTO;
         }
@@ -67,7 +65,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
             {
                 foreach (var rs in ot.RequiredStaff)
                 {
-                    if (rs == staff)
+                    if (rs.ToString() == staff)
                 {
                     dto.Add(OperationTypeMapper.toDTO(ot));
                 }
@@ -101,6 +99,8 @@ namespace sem5pi_24_25_g051.Models.OperationType {
         }
 
         public async Task<OperationTypeDTO> AddAsync(CreatingOperationTypeDTO OTDTO) {
+
+            
             var OT = new OperationType(OTDTO.Name, OTDTO.RequiredStaff, OTDTO.Duration);
 
             
@@ -120,7 +120,7 @@ namespace sem5pi_24_25_g051.Models.OperationType {
                 return null;
             }
 
-            OT.Change(OTDTO.Name,OTDTO.RequiredStaff,OTDTO.Duration);
+            OT.Change(OTDTO.Name, OTDTO.RequiredStaff, OTDTO.Duration);
 
             await this._unitOfWork.CommitAsync();
 
