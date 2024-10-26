@@ -15,13 +15,9 @@ namespace sem5pi_24_25_g051.Controllers
     {
         private readonly UserService _service;
 
-        private GetGmailService _mailService;
-
-
         public UserController(UserService service)
         {
             _service = service;
-            _mailService = new GetGmailService();
         }
 
         [HttpGet]
@@ -75,10 +71,10 @@ namespace sem5pi_24_25_g051.Controllers
 
                     var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/user/confirm?nif={userDto.Nif}&token={Uri.EscapeDataString(token)}";
 
-                    var emailBody = $"Please activate your account by clicking the following link: <a href=\"{confirmationLink}\">Activate Account</a>";
+                    var emailBody = $@" <html><body><p>Please activate your account by clicking the button below:</p><a href=""{confirmationLink}"" style=""display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; text-align: center; text-decoration: none; border-radius: 5px;"">Activate Account</a></body></html>";
 
                     // Send the email using Gmail API
-                    await _mailService.SendEmailUsingGmailApi(userDto.Email, "Activate Your Account", emailBody);
+                    await GetGmailService.SendEmailUsingGmailApi(userDto.Email, "Activate your account", emailBody);
                     
                     return createdUser;
                 } catch (Exception ex) {
@@ -133,6 +129,7 @@ namespace sem5pi_24_25_g051.Controllers
         {
             try
             {
+
                 var user = await _service.DeleteAsync(new UserNif(id));
                 if (user == null)
                 {
@@ -147,30 +144,22 @@ namespace sem5pi_24_25_g051.Controllers
             }
         }
 
-      /*  [HttpGet("confirm")]
+        [HttpGet("confirm")]
         public async Task<IActionResult> ConfirmEmail(string nif, string token) {
             if (string.IsNullOrEmpty(nif) || string.IsNullOrEmpty(token)) {
                 return BadRequest("NIF or token is missing.");
             }
+
             // Retrieve the user by NIF
             var user = await _service.GetByIdAsync(new UserNif(nif));
             if (user == null) {
                 return BadRequest("User not found.");
             }
-            // Retrieve the stored token associated with the UserNif
-            var storedToken = await _service.GetActivationTokenAsync(nif);
 
-            // Compare the tokens
-            if (nif != token) {
-                return BadRequest("Invalid or expired token.");
-            }
-            
             // Activate the user
             await _service.ActivateAsync(new UserNif(nif));
 
             return Ok("Your account has been activated successfully.");
-        }  
-        */  
-
+        }           
     }
 }

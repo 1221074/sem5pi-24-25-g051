@@ -17,6 +17,7 @@ using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 using System.Security.Claims;
 using sem5pi_24_25_g051.Models.Patient;
 using sem5pi_24_25_g051.Infrastructure.Patients;
+using sem5pi_24_25_g051.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);

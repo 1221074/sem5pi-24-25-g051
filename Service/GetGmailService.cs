@@ -40,15 +40,15 @@ namespace sem5pi_24_25_g051.Services{
 
     return service;
     }
-    public async Task SendEmailUsingGmailApi(string toEmail, string subject, string body) {
+    public static async Task SendEmailUsingGmailApi(string toEmail, string subject, string body) {
         var service = GetMailService();
 
         // Create the email using MimeKit
         var emailMessage = new MimeMessage();
         emailMessage.From.Add(new MailboxAddress("lapr5", "sem5pi2425-g051@gmail.com"));
-        emailMessage.To.Add(new MailboxAddress("", toEmail));
+        emailMessage.To.Add(new MailboxAddress("Activate", toEmail));
         emailMessage.Subject = subject;
-        emailMessage.Body = new TextPart("plain") { Text = body };
+        emailMessage.Body = new TextPart("html") { Text = body };
 
         // Encode the email to Base64
         using (var stream = new MemoryStream()) {
