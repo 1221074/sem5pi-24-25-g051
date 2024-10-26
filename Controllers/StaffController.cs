@@ -204,7 +204,7 @@ namespace sem5pi_24_25_g051.Controllers
                 }
                 //_service.SendEmailAsync(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
 
-                GetGmailService.SendEmailUsingGmailApi(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
+                await GetGmailService.SendEmailUsingGmailApi(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
                 return Ok(dto);
             } catch (BusinessRuleValidationException ex)
             {
