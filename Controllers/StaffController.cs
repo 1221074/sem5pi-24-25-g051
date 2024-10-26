@@ -11,6 +11,7 @@ using sem5pi_24_25_g051.Models.Staff;
 using sem5pi_24_25_g051.Models.Specialization;
 using Microsoft.AspNetCore.Authorization;
 using System.Runtime.InteropServices;
+using sem5pi_24_25_g051.Services;
 
 
 namespace sem5pi_24_25_g051.Controllers
@@ -191,7 +192,9 @@ namespace sem5pi_24_25_g051.Controllers
                 {
                     return NotFound(new { message = "Staff member not found" });
                 }
-                _service.SendEmailAsync(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
+                //_service.SendEmailAsync(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
+
+                GetGmailService.SendEmailUsingGmailApi(staffDto.Email, "Updated Personal Data", "Your Staff personal data has been changed. Please check the changes.");
                 return Ok(dto);
             } catch (BusinessRuleValidationException ex)
             {
