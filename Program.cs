@@ -11,13 +11,17 @@ using sem5pi_24_25_g051.Models.Shared;
 using sem5pi_24_25_g051.Models.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using sem5pi_24_25_g051.Models.OperationRequest;
+// using sem5pi_24_25_g051.Models.OperationRequest;
 using sem5pi_24_25_g051.Infraestructure.Users;
-using sem5pi_24_25_g051.Infraestructure.OperationRequests;
+// using sem5pi_24_25_g051.Infraestructure.OperationRequests;
 using System.Security.Claims;
 using sem5pi_24_25_g051.Models.Patient;
 using sem5pi_24_25_g051.Infrastructure.Patients;
 using sem5pi_24_25_g051.Models;
+using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using sem5pi_24_25_g051.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +39,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseSqlite("Data Source=lapr5.db"));
 
-builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
+// builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
@@ -48,7 +52,7 @@ builder.Services.AddScoped<OperationTypeService>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PatientService>();
-builder.Services.AddScoped<OperationRequestService>();
+// builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
 
 builder.Logging.ClearProviders();
@@ -65,21 +69,57 @@ builder.Services.AddAuthentication(option =>
     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
     options.ClientId = googleAuthNSection["ClientId"] ?? throw new InvalidOperationException("Google ClientId is not configured.");
     options.ClientSecret = googleAuthNSection["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
-    options.SaveTokens = true;
+    //options.SaveTokens = true;
      options.Events.OnCreatingTicket = async context =>
     {
         // Add your async code here, for example:
         var unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
         var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
         UserService _service = new UserService(unitOfWork, userRepository);
+        var PatientRepository = context.HttpContext.RequestServices.GetRequiredService<IPatientRepository>();
+        PatientService _servicePatient = new PatientService(PatientRepository, unitOfWork);
+
         var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
         UserDto user = await _service.GetByEmailAsync(email);
-                Console.WriteLine($"User {email} logged");
-                Console.WriteLine($"User: {user.Email}");
-                Console.WriteLine($"Role: {user.Role.ToString()}");
-        string role = RoleTypeExtensions.GetRoleDescription(user.Role);
-                Console.WriteLine($"Role: {role}");
+        string role;
+        if (user == null){
+            PatientDTO patient = await _servicePatient.GetByEmailAsync(email);
+            if (patient != null){
 
+                if (!await _servicePatient.CheckActive(patient.Id)){
+                    try
+                    {
+                        // Create the user with Active set to false
+                        
+                        var token = Guid.NewGuid().ToString();
+
+                        //await _service.SaveActivationTokenAsync(createdUser.Nif, token);
+
+                        var confirmationLink = $"{context.Request.Scheme}://{context.Request.Host}/api/patient/confirm?id={patient.Id}&token={Uri.EscapeDataString(token)}";
+                        var emailBody = $@" <html><body><p>Please activate your account by clicking the button below:</p><a href=""{confirmationLink}"" style=""display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; text-align: center; text-decoration: none; border-radius: 5px;"">Activate Account</a></body></html>";
+
+                        // Send the email using Gmail API
+                        await GetGmailService.SendEmailUsingGmailApi(patient.Email, "Activate your account", emailBody);
+                        
+                        
+                    } catch (Exception ex) {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync($"Failed to send email: {ex.Message}");
+                    } 
+
+                    
+                }
+
+
+
+               
+            }
+            role = "Patient";
+        } else {
+            role = RoleTypeExtensions.GetRoleDescription(user.Role);
+        }
+
+        
 
         var roleClaim = new Claim(ClaimTypes.Role, role);
         var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;

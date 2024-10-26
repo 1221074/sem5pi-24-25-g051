@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +27,14 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<PatientDTO>> GetByIdAsync(Guid id)
         {
 
@@ -47,6 +50,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/firstname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFirstNameAsync(string name)
         {
             var patients = await _service.GetByFirstNameAsync(name);
@@ -59,6 +63,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/lastname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByLastNameAsync(string name)
         {
             var patients = await _service.GetByLastNameAsync(name);
@@ -71,6 +76,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/fullname/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFullNameAsync(string name)
         {
             var patients = await _service.GetByFullNameAsync(name);
@@ -83,6 +89,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/birthdate/{date}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByBirthDateAsync(string date)
         {
             var patients = await _service.GetByBirthDateAsync(date);
@@ -95,6 +102,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/sex/{sex}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetBySexAsync(string sex)
         {
             var patients = await _service.GetBySexAsync(sex);
@@ -107,7 +115,8 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/email/{email}")]
-        public async Task<ActionResult<List<PatientDTO>>> GetByEmailAsync(string email)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<PatientDTO>> GetByEmailAsync(string email)
         {
             var patients = await _service.GetByEmailAsync(email);
 
@@ -119,6 +128,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/phone/{phone}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByPhoneAsync(string phone)
         {
             var patients = await _service.GetByPhoneAsync(phone);
@@ -131,6 +141,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/emergencycontact/{emergencycontact}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByEmergencyContactAsync(string emergencycontact)
         {
             var patients = await _service.GetByEmergencyContactAsync(emergencycontact);
@@ -143,6 +154,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/allergy/{allergy}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAllergyAsync(string allergy)
         {
             var patients = await _service.GetByAllergyAsync(allergy);
@@ -155,6 +167,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("/api/patient/appointment/{appointment}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAppointmentAsync(string appointment)
         {
             var patients = await _service.GetByAppointmentAsync(appointment);
@@ -168,6 +181,7 @@ namespace sem5pi_24_25_g051.Controllers
 
 
         [HttpPost] 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<PatientDTO>> Create(CreatingPatientDTO PDTO)
         {
             List<PatientDTO> list = await _service.GetAllAsync();
@@ -192,6 +206,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, PatientDTO PDTO)
         {
             if (id != PDTO.Id)
@@ -213,6 +228,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
             var P = await _service.InactivateAsync(new PatientId(id));
@@ -225,6 +241,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpDelete("{id}/hard")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try {
@@ -246,6 +263,7 @@ namespace sem5pi_24_25_g051.Controllers
         
         
         [HttpPut("profile")]
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> UpdateProfile(PatientDTO PDTO)
         {
             
@@ -321,6 +339,24 @@ namespace sem5pi_24_25_g051.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail(Guid id, string token) {
+            if (id.ToString().Equals("") || string.IsNullOrEmpty(token)) {
+                return BadRequest("Id or token is missing.");
+            }
+
+            // Retrieve the user by NIF
+            var user = await _service.GetByIdAsync(new PatientId(id));
+            if (user == null) {
+                return BadRequest("User not found.");
+            }
+
+            // Activate the user
+            await _service.ActivateAsync(id);
+
+            return Ok("Your account has been activated successfully.");
+        }   
 
     }
 }

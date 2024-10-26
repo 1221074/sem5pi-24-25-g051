@@ -43,6 +43,7 @@ namespace sem5pi_24_25_g051.Models.Patient
             this.EmergencyContact = emergencyContact;
             this.AppointmentList = appointmentList;
             this.AllergyList = allergyList;
+            this.Active = false;
             
         }
 
@@ -61,10 +62,15 @@ namespace sem5pi_24_25_g051.Models.Patient
             this.AppointmentList = appointmentList;
             this.AllergyList = allergyList;
         }
+        public void MarkAsAnative()
+        {
+            this.Active = true;
+        }
         public void MarkAsInative()
         {
             this.Active = false;
         }
+
 
         public static bool EmailVerification(string mail) {
              if (string.IsNullOrEmpty(mail)){
@@ -78,5 +84,7 @@ namespace sem5pi_24_25_g051.Models.Patient
             }
             return true;
         }
+
+        
     }
 }
