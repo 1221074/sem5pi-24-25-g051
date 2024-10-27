@@ -1,6 +1,6 @@
 # Project Name
 
-Surgical Appointment and Resource Management
+### Surgical Appointment and Resource Management
 
 ## Table of Contents
 - [Overview](#overview)
