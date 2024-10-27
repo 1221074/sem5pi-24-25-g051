@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "9589f675-bb8b-459c-aa88-c9f10e7cc3e3",
+		"name": "Patient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38525104"
+	},
+	"item": [
+		{
+			"name": "Get patients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Response has expected properties\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData).to.be.an('array').that.is.not.empty;\r",
+							"\r",
+							"    const firstItem = jsonData[0];\r",
+							"    pm.expect(firstItem).to.have.property(\"firstname\");\r",
+							"    pm.expect(firstItem).to.have.property(\"lastname\");\r",
+							"    pm.expect(firstItem).to.have.property(\"fullname\");\r",
+							"    pm.expect(firstItem).to.have.property(\"birthdate\");\r",
+							"    pm.expect(firstItem).to.have.property(\"sex\");\r",
+							"    pm.expect(firstItem).to.have.property(\"email\");\r",
+							"    pm.expect(firstItem).to.have.property(\"phone\");\r",
+							"    pm.expect(firstItem).to.have.property(\"emergencycontact\");\r",
+							"    pm.expect(firstItem).to.have.property(\"allergy\");\r",
+							"    pm.expect(firstItem).to.have.property(\"appointment\");\r",
+							"    \r",
+							"\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7252/api/patient",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"patient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Patients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User is created\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"\r",
+							"    pm.expect(firstItem).to.have.property(\"firstName\");\r",
+							"    pm.expect(firstItem).to.have.property(\"lastName\");\r",
+							"    pm.expect(firstItem).to.have.property(\"fullName\");\r",
+							"    pm.expect(firstItem).to.have.property(\"birthDate\");\r",
+							"    pm.expect(firstItem).to.have.property(\"sex\");\r",
+							"    pm.expect(firstItem).to.have.property(\"email\");\r",
+							"    pm.expect(firstItem).to.have.property(\"phone\");\r",
+							"    pm.expect(firstItem).to.have.property(\"emergencyContact\");\r",
+							"    pm.expect(firstItem).to.have.property(\"allergyList\");\r",
+							"    pm.expect(firstItem).to.have.property(\"appointmentList\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"José\",\r\n    \"lastName\": \"Sá\",\r\n    \"fullName\": \"José Sá\",\r\n    \"birthdate\": \"19/08/2004\",\r\n    \"sex\": \"M\",\r\n    \"email\": \"wow@gmail.com\",\r\n    \"phone\": \"917063406\",\r\n    \"emergencyContact\": \"917063406\",\r\n    \"allergyList\": [\"917063406\"],\r\n    \"appointmentList\": [\"917063406\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/patient",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"patient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"User details updated successfully\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    // Parse the request body to get the expected data\r",
+							"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"    // Ensure the response is an object and contains the updated details\r",
+							"    pm.expect(jsonData).to.have.property(\"firstname\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"lastname\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"fullname\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"birthdate\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"sex\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"email\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"phone\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"emergencycontact\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"allergy\",requestBody);\r",
+							"    pm.expect(jsonData).to.have.property(\"appointment\",requestBody);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Check for error with invalid email format\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    \r",
+							"    if (/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/.test(pm.request.body.email)) {\r",
+							"        pm.expect(pm.response.code).to.equal(400);\r",
+							"        pm.expect(jsonData).to.have.property(\"message\").that.includes(\"invalid email format\");\r",
+							"    }\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"2233356390\",\r\n    \"firstName\": \"José\",\r\n    \"lastName\": \"Sá\",\r\n    \"fullName\": \"José Sá\",\r\n    \"birthdate\": \"19/08/2004\",\r\n    \"sex\": \"M\",\r\n    \"email\": \"guipinto04@gmail.com\",\r\n    \"phoneNumber\": \"917063406\",\r\n    \"emergencyContact\": \"917063406\",\r\n    \"allergyList\": [\"917063406\"],\r\n    \"appointmentList\": [\"917063406\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/patient/2233356390",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"patient",
+						"2233356390"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete Patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/patient/211256390",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"patient",
+						"211256390"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hard Delete Patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/patient/211256390/hard",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"patient",
+						"211256390",
+						"hard"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
