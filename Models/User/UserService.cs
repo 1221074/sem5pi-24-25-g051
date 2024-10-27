@@ -53,6 +53,15 @@ namespace sem5pi_24_25_g051.Models.User
 
         public async Task<UserDto> AddAsync(CreatingUserDTO dto)
         {
+             // Check if a user with the same email already exists
+            var existingUsers = await this._repo.GetAllAsync();
+            foreach (var existingUser in existingUsers) {
+            if (existingUser.Email == dto.Email)
+            {
+                throw new Exception("User with the same email already exists");
+            }
+        }
+
             var user = new User(dto.Email, dto.UserName, dto.PhoneNumber, dto.Role,dto.Nif);
 
             await this._repo.AddAsync(user);
@@ -120,15 +129,6 @@ namespace sem5pi_24_25_g051.Models.User
 
             return UserMapper.toDTO(user);
         }
-      /*  public async Task<ActivationToken> GetActivationTokenAsync(string nif)
-         {
-           return await  _tokenService.GetActivationTokenAsync(nif);
-        }
-
-        public async Task SaveActivationTokenAsync(string id, string token)
-        {
-            await _tokenService.SaveActivationTokenAsync(id,token);
-        }*/
     }
 
 }
