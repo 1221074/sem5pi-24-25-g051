@@ -13,6 +13,7 @@ namespace sem5pi_24_25_g051.Models.Patient
         public List<string> AppointmentList {get; set;}
         public List<string> AllergyList {get; set;}
         
+        public CreatingPatientDTO() { }
 
         public CreatingPatientDTO(string firstName, string lastName, string fullName, string birthDate, string sex, string email, string phone, string emergencyContact, List<string> appointmentList, List<string> allergyList)
         {
