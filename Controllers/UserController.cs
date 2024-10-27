@@ -68,11 +68,8 @@ namespace sem5pi_24_25_g051.Controllers
                 {
                     // Create the user with Active set to false
                     var createdUser = await _service.AddAsync(userDto);
-                    var token = Guid.NewGuid().ToString();
-
-                    //await _service.SaveActivationTokenAsync(createdUser.Nif, token);
-
-                    var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/user/confirm?nif={userDto.Nif}&token={Uri.EscapeDataString(token)}";
+                 
+                    var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/user/confirm?nif={userDto.Nif}";
 
                     var emailBody = $@" <html><body><p>Please activate your account by clicking the button below:</p><a href=""{confirmationLink}"" style=""display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; text-align: center; text-decoration: none; border-radius: 5px;"">Activate Account</a></body></html>";
 
@@ -152,8 +149,8 @@ namespace sem5pi_24_25_g051.Controllers
 
         [HttpGet("confirm")]
         [Authorize (Roles = "Admin")]
-        public async Task<IActionResult> ConfirmEmail(string nif, string token) {
-            if (string.IsNullOrEmpty(nif) || string.IsNullOrEmpty(token)) {
+        public async Task<IActionResult> ConfirmEmail(string nif) {
+            if (string.IsNullOrEmpty(nif)) {
                 return BadRequest("NIF or token is missing.");
             }
 
