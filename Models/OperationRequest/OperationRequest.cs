@@ -21,7 +21,18 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
         [Required]
         public Priority PriorityState {get; set;}
 
-        public bool Active{ get;  private set; }
+        public bool Active{ get; set; }
+
+         public OperationRequest(Guid Id,string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, Priority priorityState) 
+    {
+        this.Id = new OperationRequestId(Id);
+        this.PatientId = patientId;
+        this.DoctorId = doctorId;
+        this.OperationTypeId = operationTypeId;
+        this.DeadlineDate = deadlineDate;
+        this.PriorityState = priorityState;
+        this.Active = true;
+    }
      public OperationRequest(string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, Priority priorityState) 
     {
         this.Id = new OperationRequestId(Guid.NewGuid());
