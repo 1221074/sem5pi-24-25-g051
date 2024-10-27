@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "a72d125b-b783-456d-8f30-d0147a01e3ce",
+		"name": "Specialization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39082970"
+	},
+	"item": [
+		{
+			"name": "Get empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followRedirects": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SpecializationName\" : \"doctor\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/specialization",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post doctor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Specialization is created\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"specializationName\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SpecializationName\" : \"doctor5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/specialization",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/specialization",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7252/api/specialization/ab9cc2f9-a261-4d99-8ae7-6675d055e5b2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization",
+						"ab9cc2f9-a261-4d99-8ae7-6675d055e5b2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put doctor assistant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Check for error when required fields are missing\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    if (pm.request.body.specializationName ) {\r",
+							"        pm.expect(pm.response.code).to.equal(400);\r",
+							"        pm.expect(jsonData).to.have.property(\"message\").that.includes(\"missing required fields\");\r",
+							"    }\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"10232bff-fab6-4345-b3e0-675b197c16f5\",\r\n    \"specializationName\": \"doctor assistant\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/specialization/10232bff-fab6-4345-b3e0-675b197c16f5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization",
+						"10232bff-fab6-4345-b3e0-675b197c16f5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete doctor assistant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/specialization/03c4a7e3-c692-4fd2-9c95-0bcf783ff0db/hard",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"specialization",
+						"03c4a7e3-c692-4fd2-9c95-0bcf783ff0db",
+						"hard"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
