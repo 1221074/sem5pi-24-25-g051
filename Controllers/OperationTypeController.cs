@@ -89,14 +89,7 @@ namespace sem5pi_24_25_g051.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
-            List<OperationTypeDTO> list = await _service.GetAllAsync();
-            foreach (OperationTypeDTO OpT in list)
-            {
-                if (OpT.Name == OTDTO.Name)
-                {
-                    return BadRequest(new { message = "Operation Type already exists" });
-                }
-            }
+            
                         
             
             var OT = await _service.AddAsync(OTDTO);

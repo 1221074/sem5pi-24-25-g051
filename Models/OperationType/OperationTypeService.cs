@@ -99,7 +99,21 @@ namespace sem5pi_24_25_g051.Models.OperationType {
         }
 
         public async Task<OperationTypeDTO> AddAsync(CreatingOperationTypeDTO OTDTO) {
-
+            var operationTypes = await this._OTrepo.GetAllAsync();
+            if (operationTypes != null){
+                List<OperationTypeDTO> list = new List<OperationTypeDTO>();
+                foreach (var ot in operationTypes)
+                {
+                    list.Add(OperationTypeMapper.toDTO(ot));
+                }
+                foreach (OperationTypeDTO OpT in list)
+                {
+                    if (OpT.Name == OTDTO.Name)
+                    {
+                        throw new BusinessRuleValidationException("Operation Type already exists");
+                    }
+                }
+            }
             
             var OT = new OperationType(OTDTO.Name, OTDTO.RequiredStaff, OTDTO.Duration);
 
