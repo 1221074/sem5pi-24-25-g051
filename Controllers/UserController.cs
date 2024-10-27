@@ -21,7 +21,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize (Roles = "Admin")] 
         public async Task<ActionResult<List<UserDto>>> GetAllAsync()
         {
             var users = await _service.GetAllAsync();
@@ -29,7 +29,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult<UserDto>> GetByIdAsync(string id)
         {
             var user = await _service.GetByIdAsync(new UserNif(id));
@@ -43,7 +43,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult<UserDto>> CreateAsync(CreatingUserDTO userDto)
         {
             if (!ModelState.IsValid)
@@ -86,7 +86,7 @@ namespace sem5pi_24_25_g051.Controllers
 }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync(string id, UserDto userDto)
         {
             if (id != userDto.Nif)
@@ -110,7 +110,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
        [HttpDelete("{id}")]
-       [Authorize(Roles = "Admin")]
+       [Authorize (Roles = "Admin")]
         public async Task<IActionResult> SoftDeleteAsync(string id)
         {
             try
@@ -130,7 +130,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
        [HttpDelete("{id}/hard")]
-       [Authorize(Roles = "Admin")]
+       [Authorize (Roles = "Admin")]
         public async Task<IActionResult> HardDeleteAsync(string id)
         {
             try
@@ -151,6 +151,7 @@ namespace sem5pi_24_25_g051.Controllers
         }
 
         [HttpGet("confirm")]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> ConfirmEmail(string nif, string token) {
             if (string.IsNullOrEmpty(nif) || string.IsNullOrEmpty(token)) {
                 return BadRequest("NIF or token is missing.");
