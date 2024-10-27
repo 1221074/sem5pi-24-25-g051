@@ -4,9 +4,9 @@ namespace sem5pi_24_25_g051.Models.OperationType
     {
 
         public string Name { get; set; }
-        public List<Guid> RequiredStaff { get;  private set; }
+        public List<Guid> RequiredStaff { get;  set; }
 
-        public string Duration { get;  private set; }
+        public string Duration { get;  set; }
 
         public CreatingOperationTypeDTO(string name, List<Guid> requiredStaff, string duration)
         {
