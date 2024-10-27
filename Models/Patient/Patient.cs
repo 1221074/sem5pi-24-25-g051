@@ -47,6 +47,26 @@ namespace sem5pi_24_25_g051.Models.Patient
             
         }
 
+        public Patient(string firstName, string lastName, string fullName, string birthDate, string sex, string email, string phone, string emergencyContact)
+        {
+            if (!EmailVerification(email)) {
+                throw new ArgumentException("Email inválido", nameof(email));
+            }
+            this.Id = new PatientId(Guid.NewGuid());
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.FullName = fullName;
+            this.BirthDate = birthDate;
+            this.Sex = sex;
+            this.Email = email;
+            this.Phone = phone;
+            this.EmergencyContact = emergencyContact;
+            this.AppointmentList = [];
+            this.AllergyList = [];
+            this.Active = false;
+            
+        }
+
         public void Change(string firstName, string lastName, string fullName, string birthDate, string sex, string email, string phone, string emergencyContact, List<string> appointmentList, List<string> allergyList)
         {
             if (!this.Active)
