@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "f7dc7212-5f92-4e40-b0d4-77b1a163954d",
+		"name": "OperationRequest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38922645"
+	},
+	"item": [
+		{
+			"name": "GET All OperationRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Response has expected properties\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData).to.be.an('array').that.is.not.empty;\r",
+							"\r",
+							"    const firstItem = jsonData[0];\r",
+							"    pm.expect(firstItem).to.have.property(\"patientId\");\r",
+							"    pm.expect(firstItem).to.have.property(\"doctorId\");\r",
+							"    pm.expect(firstItem).to.have.property(\"operationTypeId\");\r",
+							"    pm.expect(firstItem).to.have.property(\"deadlineDate\");\r",
+							"    pm.expect(firstItem).to.have.property(\"priorityState\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/operationrequest",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"operationrequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST OperationRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"pm.test(\"Operation Request was created\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"patientId\", \"1\");\r",
+							"    pm.expect(jsonData).to.have.property(\"doctorId\", \"1\");\r",
+							"    pm.expect(jsonData).to.have.property(\"operationTypeId\", \"5\");\r",
+							"    pm.expect(jsonData).to.have.property(\"deadlineDate\");\r",
+							"    pm.expect(jsonData).to.have.property(\"priorityState\", \"Urgent\");\r",
+							"});\r",
+							"pm.test(\"Content-Type is JSON\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});\r",
+							"pm.test(\"Operation ID is available for follow-up\", function () {\r",
+							"        pm.expect(pm.environment.has(\"operationId\"));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"patientId\": \"1\",\r\n  \"doctorId\": \"1\",\r\n  \"operationTypeId\": \"5\",\r\n  \"deadlineDate\": \"2037-10-22T10:27:47.292Z\",\r\n  \"priorityState\": \"Urgent\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/operationrequest",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"operationrequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT OperationRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Operation Request details updated successfully\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"    if (jsonData.hasOwnProperty('operationId')) {\r",
+							"        pm.expect(jsonData.operationId).to.equal(requestBody.operationId);\r",
+							"    } else {\r",
+							"        console.warn(\"operationId is not present in the PUT response\");\r",
+							"    }\r",
+							"    \r",
+							"    pm.expect(jsonData).to.have.property(\"patientId\", requestBody.patientId);\r",
+							"    pm.expect(jsonData).to.have.property(\"doctorId\", requestBody.doctorId);\r",
+							"    pm.expect(jsonData).to.have.property(\"operationTypeId\", requestBody.operationTypeId);\r",
+							"    pm.expect(jsonData).to.have.property(\"deadlineDate\", requestBody.deadlineDate);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"04d28d58-1c99-4110-b122-308dca8f2636\",\r\n        \"patientId\": \"4\",\r\n        \"doctorId\": \"223456390\",\r\n        \"operationTypeId\": \"ec599f25-2b66-4fd5-af18-3dd5df87628e\",\r\n        \"deadlineDate\": \"2024-10-23T10:27:47.292\",\r\n        \"priorityState\": \"Urgent\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/operationrequest/04d28d58-1c99-4110-b122-308dca8f2636",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"operationrequest",
+						"04d28d58-1c99-4110-b122-308dca8f2636"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE OperationRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7252/api/operationrequest/6ee2dfb7-7b08-43bf-94f8-5280a9f7ce8c",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7252",
+					"path": [
+						"api",
+						"operationrequest",
+						"6ee2dfb7-7b08-43bf-94f8-5280a9f7ce8c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

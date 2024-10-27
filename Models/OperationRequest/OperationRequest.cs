@@ -31,7 +31,7 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
         this.OperationTypeId = operationTypeId;
         this.DeadlineDate = deadlineDate;
         this.PriorityState = priorityState;
-        this.Active = true;
+        this.Active = false;
     }
      public OperationRequest(string patientId, string doctorId, string operationTypeId, DateTime deadlineDate, Priority priorityState) 
     {
@@ -41,7 +41,7 @@ namespace sem5pi_24_25_g051.Models.OperationRequest
         this.OperationTypeId = operationTypeId;
         this.DeadlineDate = deadlineDate;
         this.PriorityState = priorityState;
-        this.Active = true;
+        this.Active = false;
     }
 
         public void MarkAsInative()
