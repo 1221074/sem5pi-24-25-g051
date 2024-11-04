@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { ApiService } from './services/api.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [RouterModule]
 })
 export class AppComponent implements OnInit {
 
   title = 'angular-three';
-  values: string[] = [];
+  items: any[] = [];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.apiService.getValues().subscribe(
-      (data) => (this.values = data),
+    this.apiService.getItems().subscribe(
+      (data) => (this.items = data),
       (error) => console.error(error)
     );
-}
+  }
 }

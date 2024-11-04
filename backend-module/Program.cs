@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using backend_module.Infraestructure;
 using backend_module.Infraestructure.OperationTypes;
@@ -17,12 +16,7 @@ using backend_module.Infraestructure.OperationRequests;
 using System.Security.Claims;
 using backend_module.Models.Patient;
 using backend_module.Infrastructure.Patients;
-using backend_module.Models;
-using Azure.Core;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using backend_module.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +25,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 // Add DBcontext to the container 
 builder.Services.AddDbContext<backofficeDbContext>(options =>
@@ -69,7 +72,7 @@ builder.Services.AddAuthentication(option =>
     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
     options.ClientId = googleAuthNSection["ClientId"] ?? throw new InvalidOperationException("Google ClientId is not configured.");
     options.ClientSecret = googleAuthNSection["ClientSecret"] ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
-    //options.SaveTokens = true;
+    
      options.Events.OnCreatingTicket = async context =>
     {
         // Add your async code here, for example:
@@ -92,46 +95,28 @@ builder.Services.AddAuthentication(option =>
                         // Create the user with Active set to false
                         
                         var token = Guid.NewGuid().ToString();
-
-                        //await _service.SaveActivationTokenAsync(createdUser.Nif, token);
-
                         var confirmationLink = $"{context.Request.Scheme}://{context.Request.Host}/api/patient/confirm?id={patient.Id}&token={Uri.EscapeDataString(token)}";
                         var emailBody = $@" <html><body><p>Please activate your account by clicking the button below:</p><a href=""{confirmationLink}"" style=""display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; text-align: center; text-decoration: none; border-radius: 5px;"">Activate Account</a></body></html>";
 
                         // Send the email using Gmail API
-                        await GetGmailService.SendEmailUsingGmailApi(patient.Email, "Activate your account", emailBody);
-                        
-                        
+                        await GetGmailService.SendEmailUsingGmailApi(patient.Email, "Activate your account", emailBody);  
                     } catch (Exception ex) {
                         context.Response.StatusCode = 500;
                         await context.Response.WriteAsync($"Failed to send email: {ex.Message}");
-                    } 
-
-                    
+                    }   
                 }
-
-
-
-               
             }
             role = "Patient";
         } else {
             role = RoleTypeExtensions.GetRoleDescription(user.Role);
         }
 
-        
-
         var roleClaim = new Claim(ClaimTypes.Role, role);
         var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
         claimsIdentity.AddClaim(roleClaim); 
 
-    
-
-
         //claim
     };
-    
-    
 });
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -147,30 +132,20 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-app.UseSpaStaticFiles();
-
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseRouting();
+app.UseCors("AllowAllOrigins");
 
 app.UseSpa(spa =>
 {
-    spa.Options.SourcePath = "ClientApp"; // Path to your Angular app
+    spa.Options.SourcePath = "3DVisualizationModule"; 
 });
 
 app.UseHttpsRedirection();
-app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();

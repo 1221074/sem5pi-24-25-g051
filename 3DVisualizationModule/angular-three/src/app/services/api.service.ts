@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root', // This makes the service available app-wide
@@ -11,9 +11,13 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   // Method to get values from the backend
-  getValues(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/api/user`);
+  getItems(): Observable<string[]> {
+    const endpoints = ['user', 'operationrequest', 'operationtype', 'patient'];
+
+    const requests = endpoints.map(item =>
+      this.http.get(`${this.apiUrl}/api/${item}`)
+    );
+    return forkJoin(requests) as Observable<string[]>;
   }
 
-  // Add other methods as needed, like POST, PUT, DELETE
 }
