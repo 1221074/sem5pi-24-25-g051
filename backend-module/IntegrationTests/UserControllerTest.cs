@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using sem5pi_24_25_g051.Controllers;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Controllers;
+using backend_module.Models.Shared;
+using backend_module.Models.User;
 
 public class UserControllerTest
 {

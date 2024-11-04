@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    <RootNamespace>sem5pi_24_25_g051</RootNamespace>
+    <RootNamespace>backend_module</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

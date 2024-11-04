@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Shared;
+using backend_module.Models.Specialization;
 
-namespace sem5pi_24_25_g051.Models.Staff
+namespace backend_module.Models.Staff
 {
     public class Staff : Entity<StaffId>
     {

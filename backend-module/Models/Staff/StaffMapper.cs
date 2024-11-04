@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using sem5pi_24_25_g051.Models.Staff;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Staff;
+using backend_module.Models.Specialization;
 
-namespace sem5pi_24_25_g051.Models.Staff
+namespace backend_module.Models.Staff
 {
     public class StaffMapper
     {

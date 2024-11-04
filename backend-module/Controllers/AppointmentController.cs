@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Infraestructure;
-using sem5pi_24_25_g051.Models.Appointment;
+using backend_module.Infraestructure;
+using backend_module.Models.Appointment;
 
-namespace sem5pi_24_25_g051.Controllers
+namespace backend_module.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.User
+namespace backend_module.Models.User
 {
     public class User : Entity<UserNif>
     {

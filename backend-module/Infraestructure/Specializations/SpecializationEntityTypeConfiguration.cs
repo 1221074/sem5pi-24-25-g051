@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.OperationType;
+using backend_module.Models.Specialization;
 
-namespace sem5pi_24_25_g051.Infraestructure.Specializations
+namespace backend_module.Infraestructure.Specializations
 {
     internal class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<Specialization>
     {

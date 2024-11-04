@@ -1,4 +1,4 @@
-namespace sem5pi_24_25_g051.Models.OperationType
+namespace backend_module.Models.OperationType
 {
     public class CreatingOperationTypeDTO
     {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.OperationType;
+using backend_module.Models.OperationType;
 
-namespace sem5pi_24_25_g051.Infraestructure.OperationTypes
+namespace backend_module.Infraestructure.OperationTypes
 {
     internal class OperationTypeEntityTypeConfiguration : IEntityTypeConfiguration<OperationType>
     {

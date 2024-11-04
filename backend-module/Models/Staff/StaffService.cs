@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Shared;
+using backend_module.Models.Specialization;
 using System.Net.Mail;
 using System.Net;
 
-namespace sem5pi_24_25_g051.Models.Staff
+namespace backend_module.Models.Staff
 {
     public class StaffService
     {

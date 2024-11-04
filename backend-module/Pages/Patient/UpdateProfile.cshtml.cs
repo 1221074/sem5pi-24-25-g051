@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace sem5pi_24_25_g051.Pages.Patient
+namespace backend_module.Pages.Patient
 {
     public class UpdateProfileModel : PageModel
     {

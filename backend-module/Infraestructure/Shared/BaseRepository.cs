@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Infraestructure.Shared
+namespace backend_module.Infraestructure.Shared
 {
     public class BaseRepository<TEntity,TEntityId> : IRepository<TEntity,TEntityId>
     where TEntity : Entity<TEntityId>

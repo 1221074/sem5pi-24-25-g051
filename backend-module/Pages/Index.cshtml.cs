@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace sem5pi_24_25_g051.Pages;
+namespace backend_module.Pages;
 
 public class IndexModel : PageModel
 {

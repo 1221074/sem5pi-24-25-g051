@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using sem5pi_24_25_g051.Models.Patient;
+using backend_module.Models.Patient;
 
 
-namespace sem5pi_24_25_g051.Models.Patient
+namespace backend_module.Models.Patient
 {
     public class PatientMapper
     {

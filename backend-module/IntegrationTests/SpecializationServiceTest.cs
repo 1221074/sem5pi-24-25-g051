@@ -1,8 +1,8 @@
 using Moq;
 using Xunit;
-using sem5pi_24_25_g051.Models.Staff;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Staff;
+using backend_module.Models.Shared;
+using backend_module.Models.Specialization;
 
 public class SpecializationServiceTest
 {

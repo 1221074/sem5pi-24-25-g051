@@ -1,10 +1,10 @@
 using System;
 using Microsoft.OpenApi.Models;
 using System.ComponentModel.DataAnnotations;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 using System.Text.RegularExpressions;
 
-namespace sem5pi_24_25_g051.Models.Patient
+namespace backend_module.Models.Patient
 {
     public class Patient : Entity<PatientId>
     {

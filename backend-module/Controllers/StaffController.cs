@@ -6,15 +6,15 @@ using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.Staff;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Shared;
+using backend_module.Models.Staff;
+using backend_module.Models.Specialization;
 using Microsoft.AspNetCore.Authorization;
 using System.Runtime.InteropServices;
-using sem5pi_24_25_g051.Services;
+using backend_module.Services;
 
 
-namespace sem5pi_24_25_g051.Controllers
+namespace backend_module.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

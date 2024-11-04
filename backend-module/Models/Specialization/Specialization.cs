@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.Specialization
+namespace backend_module.Models.Specialization
 {
     public class Specialization : Entity<SpecializationId>
     {

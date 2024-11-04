@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Models.User;
 
 
-namespace sem5pi_24_25_g051.Models.User
+namespace backend_module.Models.User
 {
     public class UserMapper
     {

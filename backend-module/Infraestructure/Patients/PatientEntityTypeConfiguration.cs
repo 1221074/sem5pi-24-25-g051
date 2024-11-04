@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Patient;
+using backend_module.Models.OperationType;
+using backend_module.Models.Patient;
 
-namespace sem5pi_24_25_g051.Infraestructure.Patients
+namespace backend_module.Infraestructure.Patients
 {
     internal class PatientEntityTypeConfiguration : IEntityTypeConfiguration<Patient>
     {

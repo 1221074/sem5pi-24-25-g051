@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.Specialization;
+using backend_module.Models.Shared;
+using backend_module.Models.Specialization;
 
 
-namespace sem5pi_24_25_g051.Controllers
+namespace backend_module.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

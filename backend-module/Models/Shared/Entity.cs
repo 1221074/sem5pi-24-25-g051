@@ -1,4 +1,4 @@
-namespace sem5pi_24_25_g051.Models.Shared
+namespace backend_module.Models.Shared
 {
     /// <summary>
     /// Base class for entities.

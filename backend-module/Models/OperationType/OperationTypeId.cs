@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.OperationType
+namespace backend_module.Models.OperationType
 {
     public class OperationTypeId : EntityId
     {

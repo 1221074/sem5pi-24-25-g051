@@ -1,8 +1,8 @@
-using sem5pi_24_25_g051.Models.Staff;
-using sem5pi_24_25_g051.Infraestructure.Shared;
-using sem5pi_24_25_g051.Infraestructure;
+using backend_module.Models.Staff;
+using backend_module.Infraestructure.Shared;
+using backend_module.Infraestructure;
 
-namespace sem5pi_24_25_g051.Infrastructure.Staffs
+namespace backend_module.Infrastructure.Staffs
 {
     public class StaffRepository : BaseRepository<Staff, StaffId>, IStaffRepository
     {

@@ -1,8 +1,8 @@
 using Microsoft.CodeAnalysis;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Infraestructure.Shared;
+using backend_module.Models.OperationType;
+using backend_module.Infraestructure.Shared;
 
-namespace sem5pi_24_25_g051.Infraestructure.OperationTypes
+namespace backend_module.Infraestructure.OperationTypes
 {
     public class OperationTypeRepository : BaseRepository<OperationType, OperationTypeId>, IOperationTypeRepository
     {

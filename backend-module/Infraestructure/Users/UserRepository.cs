@@ -1,8 +1,8 @@
 using Microsoft.CodeAnalysis;
-using sem5pi_24_25_g051.Infraestructure.Shared;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Infraestructure.Shared;
+using backend_module.Models.User;
 
-namespace sem5pi_24_25_g051.Infraestructure.Users
+namespace backend_module.Infraestructure.Users
 {
     public class UserRepository : BaseRepository<User, UserNif>, IUserRepository
     {

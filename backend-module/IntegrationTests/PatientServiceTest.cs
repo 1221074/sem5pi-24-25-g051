@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
-using sem5pi_24_25_g051.Models.Patient;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Patient;
+using backend_module.Models.Shared;
 
 public class PatientServiceTests
 {

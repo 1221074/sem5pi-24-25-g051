@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Infraestructure
+namespace backend_module.Infraestructure
 {
     public class UnitOfWork : IUnitOfWork
     {

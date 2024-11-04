@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace sem5pi_24_25_g051.Models;
+namespace backend_module.Models;
 
 public class PasswordPolicy
 {

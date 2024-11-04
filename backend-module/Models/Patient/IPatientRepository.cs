@@ -1,6 +1,6 @@
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.Patient
+namespace backend_module.Models.Patient
 {
     public interface IPatientRepository: IRepository<Patient, PatientId>
     {

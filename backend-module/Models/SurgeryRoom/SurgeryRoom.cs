@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace sem5pi_24_25_g051.Models.SurgeryRoom
+namespace backend_module.Models.SurgeryRoom
 {
     public class SurgeryRoom
     {

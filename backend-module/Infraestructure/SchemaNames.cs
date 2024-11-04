@@ -1,4 +1,4 @@
-namespace sem5pi_24_25_g051.Infraestructure
+namespace backend_module.Infraestructure
 {
     internal class SchemaNames
     {

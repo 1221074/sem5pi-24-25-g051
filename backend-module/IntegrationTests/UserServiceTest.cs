@@ -1,12 +1,12 @@
 using Xunit;
 using Moq;
-using sem5pi_24_25_g051.Models.User;
-using sem5pi_24_25_g051.Services;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.User;
+using backend_module.Services;
+using backend_module.Models.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace sem5pi_24_25_g051.IntegrationTests
+namespace backend_module.IntegrationTests
 {
     public class UserServiceTests
     {

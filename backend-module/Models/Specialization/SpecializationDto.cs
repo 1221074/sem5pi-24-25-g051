@@ -1,4 +1,4 @@
-namespace sem5pi_24_25_g051.Models.Specialization
+namespace backend_module.Models.Specialization
 {
     public class SpecializationDto
     {

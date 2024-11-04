@@ -1,7 +1,7 @@
 using System;
 
 
-namespace sem5pi_24_25_g051.Models.User
+namespace backend_module.Models.User
 {
     public class UserDto
     {

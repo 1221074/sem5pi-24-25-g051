@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Models.User;
 
-namespace sem5pi_24_25_g051.Infraestructure.Users
+namespace backend_module.Infraestructure.Users
 {
     internal class UserTypeEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {

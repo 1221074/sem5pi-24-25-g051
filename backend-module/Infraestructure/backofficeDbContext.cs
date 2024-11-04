@@ -1,22 +1,22 @@
 using Microsoft.EntityFrameworkCore;
-using sem5pi_24_25_g051.Models;
-using sem5pi_24_25_g051.Models.Appointment;
-using sem5pi_24_25_g051.Models.Staff;
-using sem5pi_24_25_g051.Models.SurgeryRoom;
-using sem5pi_24_25_g051.Models.OperationRequest;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Infraestructure.OperationTypes;
-using sem5pi_24_25_g051.Models.User;
-using sem5pi_24_25_g051.Infraestructure.Users;
-using sem5pi_24_25_g051.Infraestructure.Staffs;
-using sem5pi_24_25_g051.Infraestructure.Specializations;
-using sem5pi_24_25_g051.Models.Specialization;
-using sem5pi_24_25_g051.Infraestructure.OperationRequests;
-using sem5pi_24_25_g051.Models.Patient;
-using sem5pi_24_25_g051.Infraestructure.Patients;
+using backend_module.Models;
+using backend_module.Models.Appointment;
+using backend_module.Models.Staff;
+using backend_module.Models.SurgeryRoom;
+using backend_module.Models.OperationRequest;
+using backend_module.Models.OperationType;
+using backend_module.Infraestructure.OperationTypes;
+using backend_module.Models.User;
+using backend_module.Infraestructure.Users;
+using backend_module.Infraestructure.Staffs;
+using backend_module.Infraestructure.Specializations;
+using backend_module.Models.Specialization;
+using backend_module.Infraestructure.OperationRequests;
+using backend_module.Models.Patient;
+using backend_module.Infraestructure.Patients;
 
 
-namespace sem5pi_24_25_g051.Infraestructure
+namespace backend_module.Infraestructure
 {
     public class backofficeDbContext : DbContext
     {

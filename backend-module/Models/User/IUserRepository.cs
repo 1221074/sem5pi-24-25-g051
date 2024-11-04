@@ -1,8 +1,8 @@
-using sem5pi_24_25_g051.Models;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models;
+using backend_module.Models.Shared;
 
 
-namespace sem5pi_24_25_g051.Models.User
+namespace backend_module.Models.User
 {
     public interface IUserRepository:IRepository<User,UserNif> {}
 }

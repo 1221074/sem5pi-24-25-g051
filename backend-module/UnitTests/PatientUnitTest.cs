@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace sem5pi_24_25_g051.UnitTests;
+namespace backend_module.UnitTests;
 using Models.Patient;
 public class PatientUnitTest
 {

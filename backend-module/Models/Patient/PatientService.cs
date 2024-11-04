@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.Patient {
+namespace backend_module.Models.Patient {
     public class PatientService {
 
         private readonly IPatientRepository _Prepo;

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace sem5pi_24_25_g051.Models.Appointment
+namespace backend_module.Models.Appointment
 {
         public enum AppointmentStatus
     {

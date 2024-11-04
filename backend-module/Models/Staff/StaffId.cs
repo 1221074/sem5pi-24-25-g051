@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.Staff
+namespace backend_module.Models.Staff
 {
     public class StaffId : EntityId
     {

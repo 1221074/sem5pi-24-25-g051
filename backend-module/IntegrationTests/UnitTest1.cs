@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace sem5pi_24_25_g051.IntegrationTests;
+namespace backend_module.IntegrationTests;
 
 public class UnitTest1
 {

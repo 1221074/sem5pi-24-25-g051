@@ -1,4 +1,4 @@
-namespace sem5pi_24_25_g051.Models.Patient
+namespace backend_module.Models.Patient
 {
     public class CreatingPatientDTO
     {

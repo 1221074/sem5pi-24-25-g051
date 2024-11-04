@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Staff;
+using backend_module.Models.OperationType;
+using backend_module.Models.Staff;
 
-namespace sem5pi_24_25_g051.Infraestructure.Staffs
+namespace backend_module.Infraestructure.Staffs
 {
     internal class StaffEntityTypeConfiguration : IEntityTypeConfiguration<Staff>
     {
