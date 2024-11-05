@@ -1,7 +1,24 @@
-import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import { ApplicationConfig } from '@angular/core';
+import { provideProtractorTestingSupport } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { importProvidersFrom } from '@angular/core';
+
+import { HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientXsrfModule } from '@angular/common/http';
+
+// #endregion example helper services; not shown in docs
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideClientHydration(), provideHttpClient()]
+  providers: [
+    importProvidersFrom(HttpClientModule),
+    importProvidersFrom(HttpClientJsonpModule),
+    importProvidersFrom(
+        HttpClientXsrfModule.withOptions({
+        cookieName: 'My-Xsrf-Cookie',
+        headerName: 'My-Xsrf-Header',
+      })
+    ),
+
+    provideProtractorTestingSupport(), // essential for e2e testing
+  ]
 };
