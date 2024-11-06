@@ -1,9 +1,9 @@
-using sem5pi_24_25_g051.Models.OperationRequest;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Shared;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Models.OperationRequest;
+using backend_module.Models.OperationType;
+using backend_module.Models.Shared;
+using backend_module.Models.User;
 
-namespace sem5pi_24_25_g051.Models.OperationRequest
+namespace backend_module.Models.OperationRequest
 {
     public class OperationRequestService
     {

@@ -57,6 +57,13 @@ builder.Services.AddScoped<SpecializationService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost4000",
+        builder => builder.WithOrigins("http://localhost:4000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+});
 
 builder.Services.AddAuthentication(option =>
 {
@@ -154,6 +161,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowLocalhost4000");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

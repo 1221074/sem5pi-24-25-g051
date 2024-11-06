@@ -1,6 +1,6 @@
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.Shared;
 
-namespace sem5pi_24_25_g051.Models.OperationRequest
+namespace backend_module.Models.OperationRequest
 {
     public interface IOperationRequestRepository: IRepository<OperationRequest, OperationRequestId>
     {

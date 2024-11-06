@@ -18,7 +18,7 @@ export class DetailsComponent {
     specializationSub: SpecializationSub | undefined;
 
     constructor() {
-      const specializationName = String(this.route.snapshot.params['name']);
+      const specializationName = String(this.route.snapshot.params['specializationName']);
       this.specilizationService.getSpecializationByName(specializationName).then(specializationList => {
           this.specializationSub = specializationList;
         });

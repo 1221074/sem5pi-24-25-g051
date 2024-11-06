@@ -1,9 +1,9 @@
 using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using sem5pi_24_25_g051.Models.OperationRequest;
+using backend_module.Models.OperationRequest;
 
-namespace sem5pi_24_25_g051.Infraestructure.OperationRequests
+namespace backend_module.Infraestructure.OperationRequests
 {
     internal class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<OperationRequest>
     {

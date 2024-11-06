@@ -1,14 +1,14 @@
 using Xunit;
 using Moq;
-using sem5pi_24_25_g051.Models.OperationRequest;
-using sem5pi_24_25_g051.Models.OperationType;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.OperationRequest;
+using backend_module.Models.OperationType;
+using backend_module.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Models.User;
 
-namespace sem5pi_24_25_g051.UnitTests
+namespace backend_module.UnitTests
 {
     public class OperationRequestServiceTests
     {

@@ -4,17 +4,18 @@ import {SpecializationSub} from '../interface/specialization-sub';
   providedIn: 'root',
 })
 export class SpecializationService {
-  url = 'http://localhost:5280/api/specialization';
+  url = 'https://localhost:7252/api/specialization';
 
-  protected specializationList: SpecializationSub[] = [];
+  //protected specializationList: SpecializationSub[] = [];
+  constructor() { }
 
-    async getAllSpecilizations(): Promise<SpecializationSub[]> {
-      const data = await fetch(this.url);
-      return await data.json() ?? [];
-    }
+  async getAllSpecilizations(): Promise<SpecializationSub[]> {
+    const data = await fetch(this.url);
+    return await data.json() ?? [];
+  }
 
-    async getSpecializationByName(name: string): Promise<SpecializationSub | undefined> {
-      const data = await fetch(`${this.url}/${name}`);
-      return await data.json() ?? [];
-    }
+  async getSpecializationByName(id: string): Promise<SpecializationSub | undefined> {
+    const data = await fetch(`${this.url}/${id}`);
+        return await data.json() ?? [];
+  }
 }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SpecializationSubComponent } from '../specialization-sub/specialization-sub.component';
 import { SpecializationSub } from '../../interface/specialization-sub';
 import { SpecializationService } from '../../service/specialization.service';
@@ -27,7 +26,7 @@ export class SpecializationComponent {
 
   filterResults(text: string) {
     if (!text) this.filteredSpecializationList = this.specializationList;
-    this.filteredSpecializationList = this.specializationList.filter((specialization => specialization.name.toLowerCase().includes(text.toLowerCase()))
+    this.filteredSpecializationList = this.specializationList.filter((specialization => specialization.specializationName.toLowerCase().includes(text.toLowerCase()))
   );
   }
 

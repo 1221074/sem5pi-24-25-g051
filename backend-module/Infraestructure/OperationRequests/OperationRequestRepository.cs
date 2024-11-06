@@ -1,10 +1,10 @@
 using Microsoft.CodeAnalysis;
-using sem5pi_24_25_g051.Infraestructure.OperationTypes;
-using sem5pi_24_25_g051.Infraestructure.Shared;
-using sem5pi_24_25_g051.Models.OperationRequest;
-using sem5pi_24_25_g051.Models.User;
+using backend_module.Infraestructure.OperationTypes;
+using backend_module.Infraestructure.Shared;
+using backend_module.Models.OperationRequest;
+using backend_module.Models.User;
 
-namespace sem5pi_24_25_g051.Infraestructure.OperationRequests
+namespace backend_module.Infraestructure.OperationRequests
 {
     public class OperationRequestRepository : BaseRepository<OperationRequest, OperationRequestId>, IOperationRequestRepository
     {

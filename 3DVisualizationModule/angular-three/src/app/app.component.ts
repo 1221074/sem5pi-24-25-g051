@@ -11,7 +11,7 @@ import { SpecializationComponent } from './component/specialization/specializati
   template: `
   <main>
      <header class="brand-name">
-       <h1>Hello world!</h1>
+       <h1>Hello niggas!</h1>
       </header>
       <section class="content">
         <router-outlet></router-outlet>

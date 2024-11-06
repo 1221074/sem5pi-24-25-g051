@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using sem5pi_24_25_g051.Models.OperationRequest;
-using sem5pi_24_25_g051.Models.Shared;
+using backend_module.Models.OperationRequest;
+using backend_module.Models.Shared;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace sem5pi_24_25_g051.Controllers
+namespace backend_module.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
