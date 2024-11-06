@@ -1,0 +1,11 @@
+<section>
+  <form>
+    <input type="text" placeholder="Filter by Name" #filter />
+    <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+  </form>
+</section>
+<section class="results" >
+  <div *ngFor="let specialization of filteredSpecializationList" class="result-box" (click)="onSpecializationClick(specialization)">
+   <app-specialization-sub [specializationSub]="specialization"></app-specialization-sub>
+</div>
+ </section>

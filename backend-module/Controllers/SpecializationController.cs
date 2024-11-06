@@ -24,14 +24,14 @@ namespace backend_module.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<SpecializationDto>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
         
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<SpecializationDto>> GetByIdAsync(Guid id)
         {
             var specialization = await _service.GetByIdAsync(id);
@@ -44,7 +44,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         public async Task<ActionResult<SpecializationDto>> Create(CreatingSpecializationDto specializationDto)
         {
             List<SpecializationDto> list = await _service.GetAllAsync();
@@ -61,7 +61,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, SpecializationDto specializationDto)
         {
             if (id != specializationDto.Id)
@@ -84,7 +84,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}/hard")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try 

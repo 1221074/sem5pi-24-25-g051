@@ -1,0 +1,11 @@
+{"specialization": [
+  {
+    "name": "teste 1 ",
+    "description": "This is a description of Specialization 1"
+    },
+    {
+      "name": "teste 2",
+      "description": "This is a description of Specialization 2"
+    }
+]
+}
