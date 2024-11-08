@@ -7,31 +7,125 @@
    </section>
 
   <!-- Operation Request Section -->
-  <section [style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
+  <section class="registerOperation"[style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
     <h2>Register Operation</h2>
-    <p>Here you can register a new Operation.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
+    <p>Fill the information according to systems requirements.
+      the patient Id, doctorId, operationTypeId must be registered in the system
+    </p>
+
+    <form>
+      <div class="form-field">
+        <label for="patientId">Patient ID:</label>
+        <input type="text" id="patientId" #patientIdRef required />
+      </div>
+
+      <div class="form-field">
+        <label for="doctorId">Doctor ID:</label>
+        <input type="text" id="doctorId" #doctorIdRef required />
+      </div>
+
+      <div class="form-field">
+        <label for="operationTypeId">Operation Type ID:</label>
+        <input type="text" id="operationTypeId" #operationTypeIdRef required />
+      </div>
+
+      <div class="form-field">
+        <label for="deadlineDate">Deadline Date:</label>
+        <input type="datetime-local" id="deadlineDate" #deadlineDateRef required />
+      </div>
+
+      <div class="form-field">
+        <label for="priorityState">Priority State:</label>
+        <select id="priorityState" #priorityStateRef required>
+          <option value="Urgent">Urgent</option>
+          <option value="Normal">Normal</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <button class="operationBtn" type="button" (click)="registerOperation(patientIdRef.value, doctorIdRef.value, operationTypeIdRef.value, deadlineDateRef.value, priorityStateRef.value)">
+        Register Operation
+      </button>
+    </form>
+
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <!-- Operation Update Section -->
-  <section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
-    <h2>Update Operation</h2>
-    <p>Here you can update an existing operation.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
+<!-- Operation Update Section -->
+<section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
+  <h2>Update Operation</h2>
+  <p>Here you can update your existing operation(s).</p>
 
-  <!-- Operation Remove Section -->
-  <section [style.display]="selectedSection === 'removeOperation' ? 'block' : 'none'">
-    <h2>Remove Operation</h2>
-    <p>Here you can remove an existing operation.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
+  <!-- Table for Operations -->
+  <table class="table-display">
+    <tr>
+      <th>Operation ID</th>
+      <th>Patient ID</th>
+      <th>Doctor ID</th>
+      <th>Operation Type</th>
+      <th>Deadline Date</th>
+      <th>Priority State</th>
+      <th>Action</th>
+    </tr>
 
-  <!-- Operation List/Search Section -->
-   <section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
-    <h2>List/Search Operation</h2>
-    <p>Here you can list/search operations.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
-   </section>
+    <!--button (click)="submitUpdate(operations.id)">Submit Update</button-->
+
+  </table>
+
+  <button (click)="showSection('')">Back to Main Menu</button>
+</section>
+
+<!-- Operation Remove Section -->
+<section [style.display]="selectedSection === 'removeOperation' ? 'block' : 'none'">
+  <h2>Remove Operation</h2>
+  <p>Here you can remove your existing operation(s).</p>
+
+  <!-- Table for Operations -->
+  <table class="table-display">
+    <tr>
+      <th>Operation ID</th>
+      <th>Patient ID</th>
+      <th>Doctor ID</th>
+      <th>Operation Type</th>
+      <th>Deadline Date</th>
+      <th>Priority State</th>
+      <th>Action</th>
+    </tr>
+ </table>
+
+<!--button (click)="submitRemoval(operations.id)">Submit Removal</button-->
+
+
+  <button (click)="showSection('')">Back to Main Menu</button>
+</section>
+
+<!-- Operation List/Search Section -->
+<section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
+  <h2>List/Search Operation</h2>
+  <p>Here you can list/search your operation(s).</p>
+  <form>
+    <input type="text" placeholder="Search Operations" #filter />
+    <button class="operationBtn" type="button" (click)="filterResults(filter.value)">Search</button>
+  </form>
+  <!-- Table for Operations -->
+  <table class="table-display">
+    <tr>
+      <th>Operation ID</th>
+      <th>Patient ID</th>
+      <th>Doctor ID</th>
+      <th>Operation Type</th>
+      <th>Deadline Date</th>
+      <th>Priority State</th>
+      <th>Action</th>
+    </tr>
+
+
+  </table>
+
+  <button (click)="showSection('')">Back to Main Menu</button>
+</section>
+
+
 </div>
 
+<p>Current Section: {{ selectedSection }}</p>
