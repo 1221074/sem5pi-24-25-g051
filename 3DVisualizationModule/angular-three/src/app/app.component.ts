@@ -12,14 +12,14 @@ import { AdminComponent } from './component/admin/admin.component';
   standalone: true,
   imports: [RouterModule,CommonModule,LoginComponent,CubeComponent,SpecializationComponent,HomePageComponent, AdminComponent, CommonModule],
   template: `
-  <main>
+  
      <header class="brand-name">
        <h1>Surgical Appointment and Resource Management</h1>
       </header>
       <section class="content">
         <router-outlet></router-outlet>
       </section>
-    </main>
+  
   `,
   styleUrls: ['./app.component.scss'],
 

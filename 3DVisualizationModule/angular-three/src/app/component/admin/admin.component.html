@@ -1,27 +1,29 @@
+<h1>Admin</h1>
 <div class="admin-container">
   <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
-    <div>
+    
+    <div class="admin-panel">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
       <button (click)="showSection('syncBackoffice')">Information Sync Backoffice</button>
       <button (click)="showSection('syncPlanning')">Information Sync Planning</button>
     </div>
-    <div>
+    <div class="admin-patient-management">
       <h3>Patient Management:</h3>
       <button (click)="showSection('createPatient')">Create Patient Profile</button>
       <button (click)="showSection('editPatient')">Edit Patient Profile</button>
       <button (click)="showSection('deletePatient')">Delete Patient Profile</button>
       <button (click)="showSection('listPatients')">List/Search Patient Profiles</button>
     </div>
-    <div>
+    <div class="admin-staff-management">
       <h3>Staff Management:</h3>
       <button (click)="showSection('createStaff')">Create Staff Profile</button>
       <button (click)="showSection('editStaff')">Edit Staff Profile</button>
       <button (click)="showSection('deactivateStaff')">Deactivate Staff Profile</button>
       <button (click)="showSection('listStaff')">List/Search Staff Profiles</button>
     </div>
-    <div>
-      <h3>Operation Types:</h3>
+    <div class="admin-operation-type-management">
+      <h3>Operation Type Management:</h3>
       <button (click)="showSection('addOperationType')">Add Operation Type</button>
       <button (click)="showSection('editOperationType')">Edit Operation Type</button>
       <button (click)="showSection('removeOperationType')">Remove Operation Type</button>
