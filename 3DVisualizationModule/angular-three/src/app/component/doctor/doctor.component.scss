@@ -1,0 +1,54 @@
+.doctor-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px auto;
+  max-width: 1000px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px; /* Add padding to make content more readable */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.doctor-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  background-color: #ffffff; /* Light background color */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff; /* Cor azul primária */
+  width: 50%;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Transição suave */
+}
+
+button:hover {
+  background-color: #0056b3; /* Tom mais escuro de azul ao passar o mouse */
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
+}
+
+button:active {
+  background-color: #004494; /* Tom mais escuro quando o botão é pressionado */
+  transform: translateY(1px); /* Botão pressiona para baixo */
+}
+
+.hidden {
+  display: none;
+}

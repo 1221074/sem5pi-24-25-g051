@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-doctor',
   standalone: true,
   imports: [],
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  templateUrl: './doctor.component.html',
+  styleUrl: './doctor.component.scss'
 })
-export class AdminComponent {
+export class DoctorComponent {
   selectedSection: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -16,5 +16,6 @@ export class AdminComponent {
     this.selectedSection = section;
     this.cdr.detectChanges(); // Manually trigger change detection
   }
+
 
 }

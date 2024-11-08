@@ -1,0 +1,37 @@
+<div class="doctor-container">
+  <section class="doctor-section" [style.display]="selectedSection ? 'none' : 'block'">
+    <button (click)="showSection('registerOperation')">Request Operations</button>
+    <button (click)="showSection('updateOperation')">Update Operations</button>
+    <button (click)="showSection('removeOperation')">Remove Operations</button>
+    <button (click)="showSection('listOperation')">List/Search Operations</button>
+   </section>
+
+  <!-- Operation Request Section -->
+  <section [style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
+    <h2>Register Operation</h2>
+    <p>Here you can register a new Operation.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Operation Update Section -->
+  <section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
+    <h2>Update Operation</h2>
+    <p>Here you can update an existing operation.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Operation Remove Section -->
+  <section [style.display]="selectedSection === 'removeOperation' ? 'block' : 'none'">
+    <h2>Remove Operation</h2>
+    <p>Here you can remove an existing operation.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Operation List/Search Section -->
+   <section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
+    <h2>List/Search Operation</h2>
+    <p>Here you can list/search operations.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+   </section>
+</div>
+
