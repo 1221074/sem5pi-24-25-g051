@@ -4,11 +4,13 @@ import { CubeComponent } from './component/cube/cube.component';
 import { LoginComponent } from './component/login/login.component';
 import { SpecializationComponent } from './component/specialization/specialization.component';
 import { HomePageComponent } from './component/home-page/home-page.component';
+import { CommonModule } from '@angular/common';
+import { AdminComponent } from './component/admin/admin.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [LoginComponent,CubeComponent,SpecializationComponent,HomePageComponent,RouterModule],
+  imports: [RouterModule,CommonModule,LoginComponent,CubeComponent,SpecializationComponent,HomePageComponent, AdminComponent, CommonModule],
   template: `
   <main>
      <header class="brand-name">

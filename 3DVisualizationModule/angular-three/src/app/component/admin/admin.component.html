@@ -1,72 +1,117 @@
 <div class="admin-container">
-  <!--REGISTRATION-->
-
-  <section>
-    <button (click)="onClickToRegisterUser()">Register User</button>
+  <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
+    <button (click)="showSection('registerUser')">Register User</button>
+    <button (click)="showSection('syncBackoffice')">Information Sync Backoffice</button>
+    <button (click)="showSection('syncPlanning')">Information Sync Planning</button>
+    <button (click)="showSection('createPatient')">Create Patient Profile</button>
+    <button (click)="showSection('editPatient')">Edit Patient Profile</button>
+    <button (click)="showSection('deletePatient')">Delete Patient Profile</button>
+    <button (click)="showSection('listPatients')">List/Search Patient Profiles</button>
+    <button (click)="showSection('createStaff')">Create Staff Profile</button>
+    <button (click)="showSection('editStaff')">Edit Staff Profile</button>
+    <button (click)="showSection('deactivateStaff')">Deactivate Staff Profile</button>
+    <button (click)="showSection('listStaff')">List/Search Staff Profiles</button>
+    <button (click)="showSection('addOperationType')">Add Operation Type</button>
+    <button (click)="showSection('editOperationType')">Edit Operation Type</button>
+    <button (click)="showSection('removeOperationType')">Remove Operation Type</button>
+    <button (click)="showSection('listOperationTypes')">List/Search Operation Types</button>
   </section>
 
-<!--INFORMATION-->
-  <section>
-    <button (click)="onClickToInformationSyncBackoffice()"> Information in sync for the backoffice module</button>
+  <!-- Register User Section -->
+  <section [style.display]="selectedSection === 'registerUser' ? 'block' : 'none'">
+    <h2>Register User</h2>
+    <p>Here you can register a new user.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToInformationSyncPlanning()"> Information in sync for the planning module</button>
+  <!-- Information Sync Backoffice Section -->
+  <section [style.display]="selectedSection === 'syncBackoffice' ? 'block' : 'none'">
+    <h2>Information Sync Backoffice</h2>
+    <p>Here you can sync information with the backoffice.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-<!--PATIENT-->
-
-  <section>
-    <button (click)="onClickToCreatePatientProfile()"> Create Patient Profile</button>
+  <!-- Information Sync Planning Section -->
+  <section [style.display]="selectedSection === 'syncPlanning' ? 'block' : 'none'">
+    <h2>Information Sync Planning</h2>
+    <p>Here you can sync information with the planning module.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToEditPatientProfile()"> Edit Existing Patient Profile</button>
+  <!-- Patient Sections -->
+  <section [style.display]="selectedSection === 'createPatient' ? 'block' : 'none'">
+    <h2>Create Patient Profile</h2>
+    <p>Here you can create a new patient profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToDeletePatientProfile()"> Delete Patient Profile</button>
-  </section>
-  <section>
-    <button (click)="onClickToListSearchPatients()">  List/Search patient profiles</button>
-  </section>
-
-
-  <!--STAFF-->
-
-  <section>
-    <button (click)="onClickToCreatStaffProfile()">  Create New Staff Profile </button>
+  <section [style.display]="selectedSection === 'editPatient' ? 'block' : 'none'">
+    <h2>Edit Patient Profile</h2>
+    <p>Here you can edit an existing patient profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToEditStaff()">  Edit Staff Profile</button>
+  <section [style.display]="selectedSection === 'deletePatient' ? 'block' : 'none'">
+    <h2>Delete Patient Profile</h2>
+    <p>Here you can delete a patient profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToDeactivateStaff()">  Deactivate Staff Profile</button>
+  <section [style.display]="selectedSection === 'listPatients' ? 'block' : 'none'">
+    <h2>List/Search Patient Profiles</h2>
+    <p>Here you can list or search for patient profiles.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-
-  <section>
-    <button (click)="onClickToListSearchStaff()">  List/Search Staff profiles</button>
+  <!-- Staff Sections -->
+  <section [style.display]="selectedSection === 'createStaff' ? 'block' : 'none'">
+    <h2>Create Staff Profile</h2>
+    <p>Here you can create a new staff profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-<!-- OPERATION TYPES-->
-
-  <section>
-    <button (click)="onClickToAddOperationType()">  Add Operation Types</button>
+  <section [style.display]="selectedSection === 'editStaff' ? 'block' : 'none'">
+    <h2>Edit Staff Profile</h2>
+    <p>Here you can edit an existing staff profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToEditOperationType()">  Edit Existing Operation Types</button>
+  <section [style.display]="selectedSection === 'deactivateStaff' ? 'block' : 'none'">
+    <h2>Deactivate Staff Profile</h2>
+    <p>Here you can deactivate a staff profile.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToRemoveOperationType()">  Remove Obsolete Operation Types </button>
+  <section [style.display]="selectedSection === 'listStaff' ? 'block' : 'none'">
+    <h2>List/Search Staff Profiles</h2>
+    <p>Here you can list or search for staff profiles.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section>
-    <button (click)="onClickToListSearchOperationType()">  List/Search Operation Types profiles</button>
+  <!-- Operation Types Sections -->
+  <section [style.display]="selectedSection === 'addOperationType' ? 'block' : 'none'">
+    <h2>Add Operation Type</h2>
+    <p>Here you can add a new operation type.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
   </section>
-  
+
+  <section [style.display]="selectedSection === 'editOperationType' ? 'block' : 'none'">
+    <h2>Edit Operation Type</h2>
+    <p>Here you can edit an existing operation type.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <section [style.display]="selectedSection === 'removeOperationType' ? 'block' : 'none'">
+    <h2>Remove Operation Type</h2>
+    <p>Here you can remove an obsolete operation type.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
+    <h2>List/Search Operation Types</h2>
+    <p>Here you can list or search for operation types.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
 </div>
+
+<p>Current Section: {{ selectedSection }}</p>
