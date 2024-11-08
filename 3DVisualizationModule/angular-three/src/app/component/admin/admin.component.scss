@@ -52,3 +52,63 @@ button:active {
 .hidden {
   display: none;
 }
+
+
+// Staff Create Component Styles ============================================================================================
+
+.staff-create {
+
+  h1, h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Negrito para títulos */
+  }
+  p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400; /* Regular para parágrafos */
+  }
+  label {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500; /* Médio para rótulos */
+  }
+  select {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500; /* Médio para seleções */
+  }
+
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px; /* Limita a largura máxima para telas maiores */
+  background-color: #ffffff; /* Cor de fundo clara */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+  margin: 0 auto; /* Centraliza o formulário horizontalmente */
+}
+
+.staff-create input[type="text"],
+.staff-create input[type="email"],
+.staff-create input[type="tel"],
+.staff-create select {
+  width: 100%; /* Ocupa toda a largura do contêiner */
+  padding: 10px; /* Adiciona espaço interno para tornar os campos maiores */
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+.staff-name {
+  gap: 10px;
+  width: 100%; /* Garante que ocupe a largura completa do contêiner */
+}
+
+.staff-name input[type="text"] {
+  width: 50%; /* Cada campo ocupa metade da largura */
+}
+
+// ========================================================================================================================

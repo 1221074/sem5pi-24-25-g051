@@ -64,9 +64,55 @@
   </section>
 
   <!-- Staff Sections -->
-  <section [style.display]="selectedSection === 'createStaff' ? 'block' : 'none'">
+  <section class="staff-create" [style.display]="selectedSection === 'createStaff' ? 'block' : 'none'">
+    <head>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <style>
+          body {
+              font-family: 'Roboto', sans-serif;
+          }
+      </style>
+    </head>
+  
+    
     <h2>Create Staff Profile</h2>
     <p>Here you can create a new staff profile.</p>
+    <P>Please enter the following data about the new staff member.</P>
+    <div class="staff-name">
+      <form>
+        <label for="name">Staff Name:</label><br>
+        <input type="text" id="firstName" name="firstName" placeholder="Fist Name" required>
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+      </form>
+    </div>
+    <div class="staff-fullName">
+      <form>
+        <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+      </form>
+    </div>
+    <br>
+    <div class="staff-contact">
+      <form>  
+        <label for="contactInfo">Contact Information:</label><br>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+      </form>
+    </div>
+    <br>
+    <div class="staff-specialization">
+      <form>
+        <label for="specialization">Specialization:</label><br>
+        <select id="specialization" name="specialization" required>
+          <option value="1">Specialization 1</option>
+          <option value="2">Specialization 2</option>
+          <option value="3">Specialization 3</option>
+          <option value="4">Specialization 4</option>
+          <option value="" disabled selected>Select Specialization</option>
+        </select>
+      </form>
+    </div>
+    <br>
+    <button (click)="showSection('')">Submit</button>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
