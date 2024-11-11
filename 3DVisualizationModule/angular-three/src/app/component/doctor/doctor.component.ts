@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input } from '@angular/core';
+import { Operationrequest } from '../../interface/operationrequest';
+import { DoctorService } from '../../service/doctor.service';
 
 @Component({
   selector: 'app-doctor',
@@ -8,18 +10,21 @@ import { ChangeDetectorRef, Component } from '@angular/core';
   styleUrl: './doctor.component.scss'
 })
 export class DoctorComponent {
-  selectedSection: string = '';
-  operations = [
-    { id: 1, patientId: 'P001', doctorId: 'D001', type: 'Surgery', deadlineDate: '2024-11-10', priorityState: 'Urgent' },
-    { id: 2, patientId: 'P002', doctorId: 'D002', type: 'Checkup', deadlineDate: '2024-11-12', priorityState: 'Normal' },
-  ];
-  nextOperationId = 3;
+  selectedSection = '';
+  @Input() operationrequest!: Operationrequest;
+  doctorService: DoctorService = inject(DoctorService);
+  filteredOperationList: Operationrequest[] = [];
+  operationList : Operationrequest[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor() {
+    this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
+      this.operationList = operationList;
+      this.filteredOperationList = operationList;
+    });}
+
 
   showSection(section: string) {
     this.selectedSection = section;
-    this.cdr.detectChanges(); // Manually trigger change detection
   }
 
   registerOperation(patientId: string, doctorId: string, operationTypeId: string, deadlineDate: string, priorityState: string) {
@@ -65,7 +70,7 @@ export class DoctorComponent {
 
   filterResults(query: string) {
     const lowerQuery = query.toLowerCase();
-    const filtered = this.operations.filter(
+    const filtered = this.filteredOperationList.filter(
       op =>
         op.patientId.toLowerCase().includes(lowerQuery) ||
         op.doctorId.toLowerCase().includes(lowerQuery) ||
