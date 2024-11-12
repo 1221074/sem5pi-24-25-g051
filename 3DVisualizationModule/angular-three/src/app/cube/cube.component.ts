@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from
 '@angular/core';
 import * as THREE from "three";
 
+
 @Component({
   selector: 'app-cube',
   templateUrl: './cube.component.html',
@@ -87,6 +88,5 @@ export class CubeComponent implements AfterViewInit {
     this.createScene();
     this.render();
   }
-  
+
 }
-  

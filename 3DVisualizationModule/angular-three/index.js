@@ -3,12 +3,11 @@ import axios from 'axios';
 
 const app = express();
 app.use(express.json());
-app.use(express.static('angular-three/dist/angular-three'));
-const port = process.env.PORT || 3000;
+app.use(express.static('public'));
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
 
 app.get('/api/user', async (req, res) => {
     try {

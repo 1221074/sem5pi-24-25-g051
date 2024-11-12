@@ -205,7 +205,7 @@ export default class ThumbRaiser {
         document.body.appendChild(this.statistics.dom);
 
         // Create a renderer and turn on shadows in the renderer
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("myCanvas"), antialias: true });
         if (this.generalParameters.setDevicePixelRatio) {
             this.renderer.setPixelRatio(window.devicePixelRatio);
         }
