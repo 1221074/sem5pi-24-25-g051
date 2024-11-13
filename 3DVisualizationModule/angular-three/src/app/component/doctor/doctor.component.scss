@@ -11,20 +11,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-.doctor-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
-  background-color: #ffffff; /* Light background color */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
-}
-
 button {
   padding: 10px 20px;
   font-size: 16px;
@@ -129,3 +115,33 @@ button:active {
   color: green;
   margin-top: 10px;
 }
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between ;
+  padding: 10px;
+  background-color: #ffffff; /* Optional background color */
+}
+
+/* Style for the logout button */
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  size: 2px;
+  width: 3%;
+}
+
+.logout-button .material-icons {
+  font-size: 24px;
+  color: #333; /* Customize as needed */
+}
+
+.logout-button:hover .material-icons {
+  color: #555; /* Darker color on hover */
+}
+

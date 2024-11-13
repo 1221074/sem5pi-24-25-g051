@@ -3,6 +3,7 @@ import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor',
@@ -24,7 +25,7 @@ export class DoctorComponent {
   selectedSection = '';
   selectedOperation: Operationrequest | null = null;
 
-  constructor() {
+  constructor(private router: Router) {
     this.updateList();
   }
 
@@ -47,6 +48,11 @@ export class DoctorComponent {
     this.errorMessage = '';
     this.successMessage = '';
     this.selectedOperation = null;
+  }
+
+  logout() {
+    // Navigate to the HomePageComponent
+    this.router.navigate(['/']);
   }
 
 //REGISTER CLASSES

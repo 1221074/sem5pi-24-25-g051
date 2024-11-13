@@ -1,7 +1,11 @@
-<h1>Admin</h1>
-<div class="admin-container">
+<div class="admin-header">
+  <h2>Admin</h2>
+  <button class="logout-button" (click)="logout()">
+    <span class="material-icons">logout</span>
+  </button>
+</div>
   <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
-    
+
     <div class="admin-panel">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
@@ -87,8 +91,8 @@
           }
       </style>
     </head>
-  
-    
+
+
     <h2>Create Staff Profile</h2>
     <p>Here you can create a new staff profile.</p>
     <P>Please enter the following data about the new staff member.</P>
@@ -106,7 +110,7 @@
     </div>
     <br>
     <div class="staff-contact">
-      <form>  
+      <form>
         <label for="contactInfo">Contact Information:</label><br>
         <input type="email" id="email" name="email" placeholder="Email" required>
         <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
@@ -172,6 +176,6 @@
     <p>Here you can list or search for operation types.</p>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
-</div>
+
 
 <p>Current Section: {{ selectedSection }}</p>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -11,11 +12,15 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 export class AdminComponent {
   selectedSection: string = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private router: Router) {}
 
   showSection(section: string) {
     this.selectedSection = section;
-    this.cdr.detectChanges(); // Manually trigger change detection
+  }
+
+  logout() {
+    // Navigate to the HomePageComponent
+    this.router.navigate(['/']);
   }
 
 }

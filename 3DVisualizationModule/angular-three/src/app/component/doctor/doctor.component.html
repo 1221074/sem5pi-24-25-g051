@@ -1,6 +1,13 @@
 <div class="doctor-container">
   <section class="doctor-section" [style.display]="selectedSection ? 'none' : 'block'">
-    <h2>Doctor ______, welcome</h2>
+    <div class="header-container">
+      <h2>Doctor ______, welcome</h2>
+      <button class="logout-button" (click)="logout()">
+        <span class="material-icons">logout</span>
+      </button>
+
+    </div>
+
     <button (click)="showSection('registerOperation')">Request Operations</button>
     <button (click)="showSection('updateOperation')">Update Operations</button>
     <button (click)="showSection('removeOperation')">Remove Operations</button>

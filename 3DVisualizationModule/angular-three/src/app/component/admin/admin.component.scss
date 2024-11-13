@@ -13,6 +13,33 @@
   font-weight: 700;
 }
 
+.admin-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between ;
+  padding: 10px;
+  background-color: #ffffff; /* Optional background color */
+}
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  size: 2px;
+  width: 3%;
+}
+
+.logout-button .material-icons {
+  font-size: 24px;
+  color: #333; /* Customize as needed */
+}
+
+.logout-button:hover .material-icons {
+  color: #555; /* Darker color on hover */
+}
+
 .admin-panel {
   display: flex;
   flex-direction: column;
