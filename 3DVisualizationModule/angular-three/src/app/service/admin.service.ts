@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class DoctorService {
+export class AdminService {
   patient_url = 'https://localhost:7252/api/patient';
 
   constructor() {}
@@ -33,7 +33,7 @@ export class DoctorService {
       if (!response.ok) {
         // Handle non-200 responses
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error posting operation request');
+        throw new Error(errorData.message || 'Error posting Patient');
       }
 
       return await response.json();
@@ -46,7 +46,7 @@ export class DoctorService {
     //http.post(this.patient_url, operationData).subscribe((data) => {
   }
 
-  async updateOperationRequest( patientData: any) {
+  async updatePatient( patientData: any) {
     try {
       const response = await fetch(this.patient_url, {
         method: 'PUT',
@@ -60,7 +60,7 @@ export class DoctorService {
       if (!response.ok) {
         // Handle non-200 responses
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error updating operation request');
+        throw new Error(errorData.message || 'Error updating Patient');
       }
 
       return await response.json();
@@ -71,7 +71,7 @@ export class DoctorService {
     }
   }
 
-  async deleteOperationRequest(id: string) {
+  async deletePatient(id: string) {
     try {
       const response = await fetch(`${this.patient_url}/${id}`, {
         method: 'DELETE',
@@ -81,7 +81,7 @@ export class DoctorService {
       if (!response.ok) {
         // Handle non-200 responses
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error deleting operation request');
+        throw new Error(errorData.message || 'Error deleting Patient');
       }
 
       return await response.json();

@@ -69,6 +69,10 @@
     <h2>Create Patient Profile</h2>
     <p>Here you can create a new patient profile.</p>
     <P>Please enter the following data about the new patient.</P>
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
     <div class="patient-name">
       <form>
         <label for="name">Patient Name:</label><br>
@@ -104,15 +108,15 @@
     <button
       class="patientBtn"
       type="button"
-      (click)="registerOperation(
+      (click)="registerPatient(
         firstNameRef.value,
         lastNameRef.value,
         fullNameRef.value,
-        birthdateRef.value,
+        birthDateRef.value,
         sexRef.value,
         emailRef.value,
         phoneRef.value,
-        emergencyContactRef.value
+        emergencyRef.value
       )"
     >
       Register Patient

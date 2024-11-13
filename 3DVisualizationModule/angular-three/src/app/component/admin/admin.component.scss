@@ -154,4 +154,15 @@ button:active {
   width: 50%; /* Cada campo ocupa metade da largura */
 }
 
+/* Additional styling for error and success messages */
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+}
+
 // ========================================================================================================================
