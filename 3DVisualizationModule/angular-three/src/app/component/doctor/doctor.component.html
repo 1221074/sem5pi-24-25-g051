@@ -1,60 +1,80 @@
 <div class="doctor-container">
   <section class="doctor-section" [style.display]="selectedSection ? 'none' : 'block'">
+    <h2>Doctor ______, welcome</h2>
     <button (click)="showSection('registerOperation')">Request Operations</button>
     <button (click)="showSection('updateOperation')">Update Operations</button>
     <button (click)="showSection('removeOperation')">Remove Operations</button>
     <button (click)="showSection('listOperation')">List/Search Operations</button>
    </section>
 
-  <!-- Operation Request Section -->
-  <section class="registerOperation"[style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
-    <h2>Register Operation</h2>
-    <p>Fill the information according to systems requirements.
-      the patient Id, doctorId, operationTypeId must be registered in the system
-    </p>
+   <!-- Operation Request Section -->
+<section class="registerOperation" [style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
+  <h2>Register Operation</h2>
+  <p>
+    Fill in the information according to system requirements.
+    The Patient ID, Doctor ID, and Operation Type ID must be registered in the system.
+  </p>
 
-    <form>
-      <div class="form-field">
-        <label for="patientId">Patient ID:</label>
-        <input type="text" id="patientId" #patientIdRef required />
-      </div>
+  <!-- Display success or error messages -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-      <div class="form-field">
-        <label for="doctorId">Doctor ID:</label>
-        <input type="text" id="doctorId" #doctorIdRef required />
-      </div>
+  <form>
+    <div class="form-field">
+      <label for="patientId">Patient ID:</label>
+      <input type="text" id="patientId" #patientIdRef required />
+    </div>
 
-      <div class="form-field">
-        <label for="operationTypeId">Operation Type ID:</label>
-        <input type="text" id="operationTypeId" #operationTypeIdRef required />
-      </div>
+    <div class="form-field">
+      <label for="doctorId">Doctor ID:</label>
+      <input type="text" id="doctorId" #doctorIdRef required />
+    </div>
 
-      <div class="form-field">
-        <label for="deadlineDate">Deadline Date:</label>
-        <input type="datetime-local" id="deadlineDate" #deadlineDateRef required />
-      </div>
+    <div class="form-field">
+      <label for="operationTypeId">Operation Type ID:</label>
+      <input type="text" id="operationTypeId" #operationTypeIdRef required />
+    </div>
 
-      <div class="form-field">
-        <label for="priorityState">Priority State:</label>
-        <select id="priorityState" #priorityStateRef required>
-          <option value="Urgent">Urgent</option>
-          <option value="Normal">Normal</option>
-          <option value="Low">Low</option>
-        </select>
-      </div>
+    <div class="form-field">
+      <label for="deadlineDate">Deadline Date:</label>
+      <input type="datetime-local" id="deadlineDate" #deadlineDateRef required />
+    </div>
 
-      <button class="operationBtn" type="button" (click)="registerOperation(patientIdRef.value, doctorIdRef.value, operationTypeIdRef.value, deadlineDateRef.value, priorityStateRef.value)">
-        Register Operation
-      </button>
-    </form>
+    <div class="form-field">
+      <label for="priorityState">Priority State:</label>
+      <select id="priorityState" #priorityStateRef required>
+        <option value="Urgent">Urgent</option>
+        <option value="Normal">Normal</option>
+        <option value="Low">Low</option>
+      </select>
+    </div>
 
-    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
-  </section>
+    <button
+      class="operationBtn"
+      type="button"
+      (click)="registerOperation(
+        patientIdRef.value,
+        doctorIdRef.value,
+        operationTypeIdRef.value,
+        deadlineDateRef.value,
+        priorityStateRef.value
+      )"
+    >
+      Register Operation
+    </button>
+  </form>
+
+  <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+</section>
 
 <!-- Operation Update Section -->
 <section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
   <h2>Update Operation</h2>
   <p>Here you can update your existing operation(s).</p>
+
+  <!-- Display success or error messages -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
   <!-- Table for Operations -->
   <table class="table-display">
@@ -68,9 +88,56 @@
       <th>Action</th>
     </tr>
 
-    <!--button (click)="submitUpdate(operations.id)">Submit Update</button-->
-
+    <tr *ngFor="let operation of operationList">
+      <td>{{ operation.id }}</td>
+      <td>{{ operation.patientId }}</td>
+      <td>{{ operation.doctorId }}</td>
+      <td>{{ operation.operationTypeId}}</td>
+      <td>{{ operation.deadlineDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ operation.priorityState }}</td>
+      <td>
+        <button (click)="selectOperationForUpdate(operation)">Edit</button>
+      </td>
+    </tr>
   </table>
+
+  <!-- Update Form -->
+  <div *ngIf="selectedOperation">
+    <h3>Update Operation ID: {{ selectedOperation.id }}</h3>
+    <form>
+      <div class="form-field">
+        <label for="updatePatientId">Patient ID:</label>
+        <input type="text" id="updatePatientId" [(ngModel)]="selectedOperation.patientId" name="patientId" required />
+      </div>
+
+      <div class="form-field">
+        <label for="updateDoctorId">Doctor ID:</label>
+        <input type="text" id="updateDoctorId" [(ngModel)]="selectedOperation.doctorId" name="doctorId" required />
+      </div>
+
+      <div class="form-field">
+        <label for="updateOperationTypeId">Operation Type ID:</label>
+        <input type="text" id="updateOperationTypeId" [(ngModel)]="selectedOperation.operationTypeId" name="Optype" required />
+      </div>
+
+      <div class="form-field">
+        <label for="updateDeadlineDate">Deadline Date:</label>
+        <input type="datetime-local" id="updateDeadlineDate" [(ngModel)]="selectedOperation.deadlineDate" name="deadlineDate" required />
+      </div>
+
+      <div class="form-field">
+        <label for="updatePriorityState">Priority State:</label>
+        <select id="updatePriorityState" [(ngModel)]="selectedOperation.priorityState" name="priorityState" required>
+          <option value="">Select Priority</option>
+          <option value="Urgent">Urgent</option>
+          <option value="Normal">Normal</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <button type="button" (click)="cancelUpdate()">Cancel</button>
+    </form>
+  </div>
 
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
@@ -91,10 +158,19 @@
       <th>Priority State</th>
       <th>Action</th>
     </tr>
+
+    <tr *ngFor="let operation of operationList; let i = index">
+      <td>{{operation.id}}</td>
+      <td>{{operation.patientId}}</td>
+      <td>{{operation.doctorId}}</td>
+      <td>{{operation.operationTypeId}}</td>
+      <td>{{operation.deadlineDate}}</td>
+      <td>{{operation.priorityState}}</td>
+      <td>
+        <button class="table-button" (click)="submitRemoval(operation.id)">Remove</button>
+      </td>
+    </tr>
  </table>
-
-<!--button (click)="submitRemoval(operations.id)">Submit Removal</button-->
-
 
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
@@ -102,9 +178,9 @@
 <!-- Operation List/Search Section -->
 <section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
   <h2>List/Search Operation</h2>
-  <p>Here you can list/search your operation(s).</p>
+  <p>Here you can list/search your operation(s) by the desired parameter.</p>
   <form>
-    <input type="text" placeholder="Search Operations" #filter />
+    <input type="text" placeholder="Search Operations" #filter (input)="filterResults(filter.value)" />
     <button class="operationBtn" type="button" (click)="filterResults(filter.value)">Search</button>
   </form>
   <!-- Table for Operations -->
@@ -116,15 +192,22 @@
       <th>Operation Type</th>
       <th>Deadline Date</th>
       <th>Priority State</th>
-      <th>Action</th>
     </tr>
 
+    <!--DISPLAY IN THE FILTERED LIST-->
+    <tr *ngFor="let operation of filteredOperationList; let i = index">
+      <td>{{operation.id}}</td>
+      <td>{{operation.patientId}}</td>
+      <td>{{operation.doctorId}}</td>
+      <td>{{operation.operationTypeId}}</td>
+      <td>{{operation.deadlineDate}}</td>
+      <td>{{operation.priorityState}}</td>
+    </tr>
 
   </table>
 
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
-
 
 </div>
 

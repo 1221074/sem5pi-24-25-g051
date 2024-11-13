@@ -1,33 +1,76 @@
-import { ChangeDetectorRef, Component, inject, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.scss'
 })
 export class DoctorComponent {
-  selectedSection = '';
-  @Input() operationrequest!: Operationrequest;
+
+  //SERVICE
   doctorService: DoctorService = inject(DoctorService);
+
+  //VARIABLES
   filteredOperationList: Operationrequest[] = [];
-  operationList : Operationrequest[] = [];
+  operationList: Operationrequest[] = [];
+  errorMessage: string = '';
+  successMessage: string = '';
+  selectedSection = '';
+  selectedOperation: Operationrequest | null = null;
 
   constructor() {
+    this.updateList();
+  }
+
+//UI METHODS
+  updateList() {
     this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
       this.operationList = operationList;
       this.filteredOperationList = operationList;
-    });}
+    });
+  }
 
+  updateListSearch(filteredOperationList: Operationrequest[]) {
+    this.filteredOperationList = filteredOperationList
+
+  }
 
   showSection(section: string) {
     this.selectedSection = section;
+    // Clear messages when switching sections
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.selectedOperation = null;
   }
 
-  registerOperation(patientId: string, doctorId: string, operationTypeId: string, deadlineDate: string, priorityState: string) {
+//REGISTER CLASSES
+
+async registerOperation(
+    patientId: string,
+    doctorId: string,
+    operationTypeId: string,
+    deadlineDate: string,
+    priorityState: string)
+{
+
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  if (!patientId || !doctorId || !operationTypeId || !deadlineDate || !priorityState) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
+  }
+
+  if (new Date(deadlineDate) <= new Date()) {
+   this.errorMessage = 'Deadline date must be in the future.';
+   return;
+  }
     const operationData = {
       patientId,
       doctorId,
@@ -36,48 +79,111 @@ export class DoctorComponent {
       priorityState
     };
 
-    //proced to post a OpereationRequest
-
+    try {
+      await this.doctorService.postOperationRequest(operationData);
+      this.successMessage = 'Operation registered successfully.';
+      this.updateList();
+    } catch (error: any) {
+      if (error.status === 400) {
+        this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+      } else if (error.status === 404) {
+        this.errorMessage = 'One of the IDs provided does not exist.';
+      } else {
+        this.errorMessage = 'An error occurred while registering the operation. Please try again.';
+      }
+    }
   }
 
-  submitUpdate(operationId: number, ) {
-    let isUpdated: boolean = false;
-    //update in the Db the operation with the new data
+//UPDATE CLASSES
 
-    //update
+  cancelUpdate() {
+    this.selectedOperation = null;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
 
-    if (isUpdated) {
-      alert('Operation updated successfully');
-    } else {
-      alert('Operation not found');
+  async submitUpdate() {
+    if (!this.selectedOperation) {
+      this.errorMessage = 'No operation selected for update.';
+      return;
     }
 
+    if (
+      !this.selectedOperation.patientId ||
+      !this.selectedOperation.doctorId ||
+      !this.selectedOperation.operationTypeId ||
+      !this.selectedOperation.deadlineDate ||
+      !this.selectedOperation.priorityState
+    ) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
+    if (new Date(this.selectedOperation.deadlineDate) <= new Date()) {
+      this.errorMessage = 'Deadline date must be in the future.';
+      return;
+    }
+
+    try {
+      // Proceed to update the OperationRequest
+      await this.doctorService.updateOperationRequest(this.selectedOperation);
+      this.successMessage = 'Operation updated successfully.';
+      this.selectedOperation = null;
+      this.updateList();
+    } catch (error: any) {
+      // Handle error based on error response
+      if (error.status === 400) {
+        this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+      } else if (error.status === 404) {
+        this.errorMessage = 'Operation not found.';
+      } else {
+        this.errorMessage = 'An error occurred while updating the operation. Please try again.';
+      }
+    }
   }
+
+
+  selectOperationForUpdate(operation: Operationrequest) {
+    this.errorMessage = '';
+    this.successMessage = '';
+    // Create a copy of the operation to avoid mutating the list directly
+    this.selectedOperation = operation;
+  }
+
+//REMOVE CLASSES
 
   submitRemoval(operationId: number) {
-     let isUpdated: boolean = false;
-    //remove in the Db the operation with the new data
-
-    //remove
-    if (isUpdated) {
-      alert('Operation removed successfully');
-    } else {
-      alert('Operation not found');
+    if (confirm('Are you sure you want to remove this operation?')) {
+      this.doctorService.deleteOperationRequest(operationId.toString()).then(() => {
+        this.successMessage = 'Operation removed successfully.';
+        this.updateList();
+      }).catch(error => {
+        this.errorMessage = 'An error occurred while removing the operation. Please try again.';
+      });
     }
   }
 
 
+//SEARCH CLASSES
 
   filterResults(query: string) {
     const lowerQuery = query.toLowerCase();
-    const filtered = this.filteredOperationList.filter(
-      op =>
-        op.patientId.toLowerCase().includes(lowerQuery) ||
-        op.doctorId.toLowerCase().includes(lowerQuery) ||
-        op.type.toLowerCase().includes(lowerQuery)
+
+    // If the query is empty, reset the list to display all operations
+    if (!lowerQuery) {
+      this.filteredOperationList = [...this.operationList];
+      return;
+    }
+
+    // Filter the list based on the query
+    this.filteredOperationList = this.operationList.filter(op =>
+      op.id.toString().toLowerCase() === lowerQuery ||
+      op.patientId.toString().toLowerCase() === lowerQuery ||
+      op.doctorId.toString().toLowerCase()=== lowerQuery ||
+      op.operationTypeId.toString().toLowerCase() === lowerQuery ||
+      op.deadlineDate.toString() === lowerQuery ||
+      op.priorityState.toLowerCase() === lowerQuery
     );
-    console.log('Filtered Results:', filtered);
-    // Display these results on the UI (table can be updated with filtered data)
   }
 }
 

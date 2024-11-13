@@ -2,7 +2,7 @@ export interface Operationrequest {
     id: number;
     patientId: string;
     doctorId: string;
-    type: string;
+    operationTypeId: string;
     deadlineDate: Date;
     priorityState: string;
 }

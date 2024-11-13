@@ -19,12 +19,13 @@ const routeConfig: Routes = [
   // Route for the cube component
   { path: 'cube', component: CubeComponent },
 
+  {path: 'doctor', component: DoctorComponent, title:'Doctor Page'},
   // Redirect to the hospital component on app load
   { path: 'hospital', component: HospitalComponent },
   {path: 'login', component: LoginComponent},
   //{ path: 'privacy-policy', component: PrivacyPolicyComponent } // Certifique-se de que este componente existe
   {path: 'admin', component: AdminComponent, title:'Admin Page'},
-  {path: 'doctor', component: DoctorComponent, title:'Doctor Page'},
+  {path: 'specialization', component: SpecializationComponent, title:'Specialization Page'}
 ];
 
 export  default routeConfig;
