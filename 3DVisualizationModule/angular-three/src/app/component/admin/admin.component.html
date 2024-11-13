@@ -124,21 +124,156 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- Patient Update Section -->
   <section [style.display]="selectedSection === 'editPatient' ? 'block' : 'none'">
     <h2>Edit Patient Profile</h2>
     <p>Here you can edit an existing patient profile.</p>
+
+     <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+  <!-- Table for Patients -->
+  <table class="table-display">
+    <tr>
+      <th>Patient ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Full Name</th>
+      <th>Birth Date</th>
+      <th>Sex</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Emergency Contact</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let patient of patientList">
+      <td>{{ patient.id }}</td>
+      <td>{{ patient.FirstName }}</td>
+      <td>{{ patient.LastName }}</td>
+      <td>{{ patient.FullName}}</td>
+      <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ patient.Sex }}</td>
+      <td>{{ patient.Email }}</td>
+      <td>{{ patient.Phone }}</td>
+      <td>{{ patient.EmergencyContact }}</td>
+      <td>
+        <button (click)="selectPatientForUpdate(patient)">Edit</button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Update Form -->
+  <div *ngIf="selectedPatient">
+    <h3>Update Patient ID: {{ selectedPatient.id }}</h3>
+    <div class="patient-name">
+      <form>
+        <label for="updatedname">Patient Name:</label><br>
+        <input type="text" id="updatedfirstName" name="firstName" placeholder="Fist Name" #updatedfirstNameRef required>
+        <input type="text" id="updatedlastName" name="lastName" placeholder="Last Name" #updatedlastNameRef required>
+      </form>
+    </div>
+    <div class="updatedpatient-fullName">
+      <form>
+        <input type="text" id="updatedfullName" name="fullName" placeholder="Full Name" #updatedfullNameRef required>
+      </form>
+    </div>
+    <br>
+    <div class="updatedpatient-sex-birthdate">
+      <form>
+        <label for="sex-birthdate">Patient Sex and Birthdate:</label><br>
+        <select id="updatedSex" name="sex" #updatedsexRef required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="" disabled selected>Select Sex</option>
+        </select>
+        <input type="date" id="updatedBirthdate" name="birthdate" placeholder="Birth date" #updatedbirthDateRef required>
+      </form>
+    </div>
+    <div class="patient-contact">
+      <form>  
+        <label for="contactInfo">Contact Information:</label><br>
+        <input type="email" id="updatedemail" name="email" placeholder="Email" #updatedemailRef required>
+        <input type="tel" id="updatedphone" name="phone" placeholder="Phone Number" #updatedphoneRef required>
+        <input type="tel" id="updatedemergencycontact" name="emergencycontact" placeholder="Emergency Contact" #updatedemergencyRef required>
+      </form>
+    </div>
+
+      <button type="button" (click)="cancelUpdate()">Cancel</button>
+  </div>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <section [style.display]="selectedSection === 'deletePatient' ? 'block' : 'none'">
     <h2>Delete Patient Profile</h2>
     <p>Here you can delete a patient profile.</p>
+    <form>
+      <input type="text" placeholder="Search Patients" #filter (input)="filterResults(filter.value)" />
+      <button class="patientsBtn" type="button" (click)="filterResults(filter.value)">Search</button>
+    </form>
+     <!-- Table for Patients -->
+  <table class="table-display">
+    <tr>
+      <th>Patient ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Full Name</th>
+      <th>Birth Date</th>
+      <th>Sex</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Emergency Contact</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let patient of patientList">
+      <td>{{ patient.id }}</td>
+      <td>{{ patient.FirstName }}</td>
+      <td>{{ patient.LastName }}</td>
+      <td>{{ patient.FullName}}</td>
+      <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ patient.Sex }}</td>
+      <td>{{ patient.Email }}</td>
+      <td>{{ patient.Phone }}</td>
+      <td>{{ patient.EmergencyContact }}</td>
+      <td>
+        <button class="table-button" (click)="submitRemoval(patient.id)">Remove</button>
+      </td>
+    </tr>
+  </table>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <section [style.display]="selectedSection === 'listPatients' ? 'block' : 'none'">
     <h2>List/Search Patient Profiles</h2>
     <p>Here you can list or search for patient profiles.</p>
+    <table class="table-display">
+      <tr>
+        <th>Patient ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Full Name</th>
+        <th>Birth Date</th>
+        <th>Sex</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Emergency Contact</th>
+      </tr>
+  
+      <tr *ngFor="let patient of patientList">
+        <td>{{ patient.id }}</td>
+        <td>{{ patient.FirstName }}</td>
+        <td>{{ patient.LastName }}</td>
+        <td>{{ patient.FullName}}</td>
+        <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ patient.Sex }}</td>
+        <td>{{ patient.Email }}</td>
+        <td>{{ patient.Phone }}</td>
+        <td>{{ patient.EmergencyContact }}</td>
+      </tr>
+    </table>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
