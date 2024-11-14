@@ -67,20 +67,17 @@ jobs:
       # Deploy the Docker container on the remote server
       - name: Deploy Docker Container
         env:
-          # REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
+          REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
-        run: |
-          echo "REMOTE_SERVER_IP: vsgate-ssh.dei.isep.ipp.pt"
-          echo "REMOTE_USER: ${REMOTE_USER}"
-        
+        run: |        
           # Save the SSH private key to a file and set appropriate permissions
           echo "${SSH_PRIVATE_KEY}" > private_key
           chmod 600 private_key
     
           # SSH into the remote server and deploy
-          ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@vsgate-ssh.dei.isep.ipp.pt" << EOF
+          ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << EOF
             # Stop and remove the existing container if it exists
             docker rm -f myapp || true
             # Pull the latest Docker image
