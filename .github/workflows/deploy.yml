@@ -43,9 +43,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build the Docker image
+      # Build Docker Image with the repository root as the context
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} -f backend-module/Dockerfile backend-module
+        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} -f backend-module/Dockerfile .
+
 
         
       # Push the Docker image to Docker Hub
