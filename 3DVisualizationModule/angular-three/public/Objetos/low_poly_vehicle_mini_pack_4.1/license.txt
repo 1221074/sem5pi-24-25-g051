@@ -1,0 +1,8 @@
+Model Information:
+* title:	Low Poly Vehicle Mini Pack 4.1
+* source:	https://sketchfab.com/3d-models/low-poly-vehicle-mini-pack-41-b49688ffec6943c7b77cafdb1286e079
+* author:	Vladek (https://sketchfab.com/vladek27)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

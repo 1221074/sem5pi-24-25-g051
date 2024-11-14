@@ -1,0 +1,378 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 6343,
+      "max": [
+        1.2077741622924805,
+        0.5534074306488037,
+        1.4981578588485718
+      ],
+      "min": [
+        -1.2079694271087646,
+        -0.36143144965171814,
+        1.7136335372924805e-07
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 76116,
+      "componentType": 5126,
+      "count": 6343,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 6343,
+      "max": [
+        0.9849981665611267,
+        1.0000001192092896
+      ],
+      "min": [
+        0.0,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 17796,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 152232,
+      "componentType": 5126,
+      "count": 1022,
+      "max": [
+        1.1001338958740234,
+        0.5533744096755981,
+        1.4981327056884766
+      ],
+      "min": [
+        -1.1001338958740234,
+        -0.3326759338378906,
+        0.45382818579673767
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 164496,
+      "componentType": 5126,
+      "count": 1022,
+      "max": [
+        3.0232117751438636e-06,
+        0.9999853372573853,
+        0.9997531771659851
+      ],
+      "min": [
+        -3.023211547770188e-06,
+        -1.0,
+        -0.9997534155845642
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 1022,
+      "max": [
+        1.0,
+        0.9861186146736145,
+        0.7109248042106628,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9997531771659851,
+        -0.9930764436721802,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 50744,
+      "componentType": 5126,
+      "count": 1022,
+      "max": [
+        2.5,
+        2.471115827560425
+      ],
+      "min": [
+        -1.5,
+        -1.4826695919036865
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 58920,
+      "componentType": 5126,
+      "count": 1022,
+      "max": [
+        2.5,
+        2.471115827560425
+      ],
+      "min": [
+        -1.5,
+        -1.4826695919036865
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 71184,
+      "componentType": 5125,
+      "count": 4200,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Veebroush (https://sketchfab.com/veebroush)",
+      "license": "SKETCHFAB Standard (https://sketchfab.com/licenses)",
+      "source": "https://sketchfab.com/3d-models/tandem-seating-hospital-ef96620d1a1d4f529a71589f6ae4a41d",
+      "title": "Tandem seating - hospital"
+    },
+    "generator": "Sketchfab-15.61.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 87984,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 67096,
+      "byteOffset": 87984,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 176760,
+      "byteOffset": 155080,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 16352,
+      "byteOffset": 331840,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 348192,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Chair_cloth_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Metal",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.4238296924333483,
+          0.4238296924333483,
+          0.42383043453084807,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.8857139374139045
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Chair_cloth",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.13223252941075822,
+          0.17901507171454986,
+          0.1352751282069242,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.8211145618000169
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Chairs_Metal_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Chairs_Chair_cloth_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TANGENT": 6,
+            "TEXCOORD_0": 7,
+            "TEXCOORD_1": 8
+          },
+          "indices": 9,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Chairs.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        5
+      ],
+      "matrix": [
+        80.23596241423819,
+        3.6026716213542205e-07,
+        4.272439618039082,
+        0.0,
+        3.860711524483641,
+        -1.1811760146378017e-05,
+        -72.50375253117218,
+        0.0,
+        3.0297974284404546e-07,
+        72.60646820068263,
+        -1.1812360605595506e-05,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Chairs"
+    },
+    {
+      "mesh": 0,
+      "name": "Chairs_Metal_0"
+    },
+    {
+      "mesh": 1,
+      "name": "Chairs_Chair_cloth_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ]
+}

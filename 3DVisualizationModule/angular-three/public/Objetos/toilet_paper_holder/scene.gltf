@@ -1,0 +1,450 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 10399,
+      "max": [
+        0.07874559611082077,
+        0.08258052915334702,
+        0.5567595362663269
+      ],
+      "min": [
+        -0.0802578330039978,
+        -0.07841242849826813,
+        0.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 124788,
+      "componentType": 5126,
+      "count": 10399,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 10399,
+      "max": [
+        0.9892796277999878,
+        0.9990234375
+      ],
+      "min": [
+        0.0009765625,
+        0.0009766612201929092
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 83192,
+      "componentType": 5126,
+      "count": 10399,
+      "max": [
+        0.9892796277999878,
+        0.9990234375
+      ],
+      "min": [
+        0.0009765625,
+        0.0009766612201929092
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 46662,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 249576,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        0.05031410604715347,
+        0.050072696059942245,
+        0.049861155450344086
+      ],
+      "min": [
+        -0.05033676326274872,
+        -0.050077833235263824,
+        -0.049994684755802155
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 276348,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        0.9999945163726807,
+        0.999376118183136,
+        0.9988272786140442
+      ],
+      "min": [
+        -0.9999985694885254,
+        -0.9996629357337952,
+        -0.9989497661590576
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        0.9999935030937195,
+        0.9996892809867859,
+        0.9999986886978149,
+        1.0
+      ],
+      "min": [
+        -0.6731995940208435,
+        -0.999609649181366,
+        -0.999916672706604,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 166384,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        1.0,
+        0.9999921321868896
+      ],
+      "min": [
+        1.0265033552059322e-06,
+        1.2677801919380727e-07
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 184232,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        1.0,
+        0.9999921321868896
+      ],
+      "min": [
+        1.0265033552059322e-06,
+        1.2677801919380727e-07
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 202080,
+      "componentType": 5126,
+      "count": 2231,
+      "max": [
+        1.0,
+        0.9999921321868896
+      ],
+      "min": [
+        1.0265033552059322e-06,
+        1.2677801919380727e-07
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 186648,
+      "componentType": 5125,
+      "count": 5760,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "cereal (https://sketchfab.com/skeeeyee)",
+      "license": "SKETCHFAB Standard (https://sketchfab.com/licenses)",
+      "source": "https://sketchfab.com/3d-models/toilet-paper-holder-d3c954cf50c746a3a8fa5dda648f855f",
+      "title": "toilet paper holder"
+    },
+    "generator": "Sketchfab-15.83.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 209688,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 219928,
+      "byteOffset": 209688,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 303120,
+      "byteOffset": 429616,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 35696,
+      "byteOffset": 732736,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 768432,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Material.002_baseColor.png"
+    },
+    {
+      "uri": "textures/Material.002_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Material.003_baseColor.png"
+    },
+    {
+      "uri": "textures/Material.003_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Material.002",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Material.003",
+      "normalTexture": {
+        "index": 3
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.8211145618000169
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "BezierCircle_Material.002_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2,
+            "TEXCOORD_1": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cylinder.003_Material.003_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8,
+            "TEXCOORD_1": 9,
+            "TEXCOORD_2": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "tp holder.fbx"
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.8212996916465727e-05,
+        -99.99999999999602,
+        0.0,
+        0.0,
+        99.99999999999602,
+        -2.8212996916465727e-05,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "BezierCircle"
+    },
+    {
+      "mesh": 0,
+      "name": "BezierCircle_Material.002_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        99.85354393477083,
+        -0.38670624434710077,
+        5.396315590046062,
+        0.0,
+        5.396275106411095,
+        -0.020902710856440798,
+        -99.85429273723094,
+        0.0,
+        0.3872707910546076,
+        99.99925773331192,
+        -4.364770278480708e-06,
+        0.0,
+        1.0120372772216797,
+        48.86454772949219,
+        0.525891900062561,
+        1.0
+      ],
+      "name": "Cylinder.003"
+    },
+    {
+      "mesh": 1,
+      "name": "Cylinder.003_Material.003_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    }
+  ]
+}

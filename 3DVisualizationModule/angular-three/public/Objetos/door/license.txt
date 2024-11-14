@@ -1,0 +1,8 @@
+Model Information:
+* title:	Door
+* source:	https://sketchfab.com/3d-models/door-75221d9e5ed9482b87105a0cfb90427c
+* author:	Twpic (https://sketchfab.com/TWPIC)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

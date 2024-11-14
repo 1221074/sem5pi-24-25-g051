@@ -1,0 +1,8 @@
+Model Information:
+* title:	Security camera
+* source:	https://sketchfab.com/3d-models/security-camera-1cfb8ea76f1b44548b7d1cbf9b6dbfd0
+* author:	Veebroush (https://sketchfab.com/veebroush)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

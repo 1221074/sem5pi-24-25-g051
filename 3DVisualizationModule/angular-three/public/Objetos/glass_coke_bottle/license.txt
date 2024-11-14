@@ -1,0 +1,8 @@
+Model Information:
+* title:	glass Coke bottle
+* source:	https://sketchfab.com/3d-models/glass-coke-bottle-d31259f42ce74b339bff93952640f642
+* author:	cereal (https://sketchfab.com/skeeeyee)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

@@ -1,0 +1,8 @@
+Model Information:
+* title:	Sink
+* source:	https://sketchfab.com/3d-models/sink-0827297fcc9e455c996501f04230e820
+* author:	Beer_Wizard (https://sketchfab.com/Beer_Wizard)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

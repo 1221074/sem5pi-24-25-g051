@@ -1,0 +1,8 @@
+Model Information:
+* title:	Toilet
+* source:	https://sketchfab.com/3d-models/toilet-f4d2db1700f64d04be3e090716911475
+* author:	ecjhr0awipso (https://sketchfab.com/ecjhr0awipso)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

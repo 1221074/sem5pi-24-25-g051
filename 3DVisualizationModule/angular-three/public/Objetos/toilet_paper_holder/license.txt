@@ -1,0 +1,8 @@
+Model Information:
+* title:	toilet paper holder
+* source:	https://sketchfab.com/3d-models/toilet-paper-holder-d3c954cf50c746a3a8fa5dda648f855f
+* author:	cereal (https://sketchfab.com/skeeeyee)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

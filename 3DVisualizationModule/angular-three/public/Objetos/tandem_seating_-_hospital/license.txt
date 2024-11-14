@@ -1,0 +1,8 @@
+Model Information:
+* title:	Tandem seating - hospital
+* source:	https://sketchfab.com/3d-models/tandem-seating-hospital-ef96620d1a1d4f529a71589f6ae4a41d
+* author:	Veebroush (https://sketchfab.com/veebroush)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

@@ -1,0 +1,8 @@
+Model Information:
+* title:	Koenigsegg One Pro
+* source:	https://sketchfab.com/3d-models/koenigsegg-one-pro-26d50f742f3241f5a36081d93205c764
+* author:	Allay Design (https://sketchfab.com/Alister.Dsa)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
