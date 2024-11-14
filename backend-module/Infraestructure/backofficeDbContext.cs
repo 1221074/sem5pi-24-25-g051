@@ -14,15 +14,17 @@ using backend_module.Models.Specialization;
 using backend_module.Infraestructure.OperationRequests;
 using backend_module.Models.Patient;
 using backend_module.Infraestructure.Patients;
+using Microsoft.Extensions.Configuration;
 
 
 namespace backend_module.Infraestructure
 {
     public class backofficeDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
 
-        public backofficeDbContext(DbContextOptions options) : base(options) {
-
+        public backofficeDbContext(DbContextOptions options, IConfiguration configuration) : base(options) {
+            _configuration = configuration;
         }
         public DbSet<Appointment> Appointment { get; set; } = default!;
         public DbSet<SurgeryRoom> SurgeryRoom { get; set; } = default!;
@@ -33,7 +35,7 @@ namespace backend_module.Infraestructure
         public DbSet<Staff> Staff { get; set; } = default!;
         public DbSet<Specialization> Specialization { get; set; } = default!;
 
-
+        
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,5 +72,11 @@ namespace backend_module.Infraestructure
             modelBuilder.Entity<Specialization>().ToTable("Specialization");
             modelBuilder.Entity<Patient>().ToTable("Patient");
 }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));        }
+    }
     }
 }

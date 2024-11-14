@@ -22,6 +22,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using backend_module.Services;
+using Microsoft.Extensions.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,9 +36,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Set up configuration sources
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
 // Add DBcontext to the container 
 builder.Services.AddDbContext<backofficeDbContext>(options =>
-    options.UseSqlite("Data Source=lapr5.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
