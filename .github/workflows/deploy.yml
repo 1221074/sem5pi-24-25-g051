@@ -45,8 +45,8 @@ jobs:
 
       # Build the Docker image
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} ./publish
-
+        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} -f backend-module/Dockerfile ./backend-module/publish
+        
       # Push the Docker image to Docker Hub
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_IMAGE_NAME }}
