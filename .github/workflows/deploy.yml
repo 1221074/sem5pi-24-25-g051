@@ -67,8 +67,8 @@ jobs:
       # Deploy the Docker container on the remote server
       - name: Deploy Docker Container
         env:
-            REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
-            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            REMOTE_SERVER_IP: 'vs1437.dei.isep.ipp.pt:22'
+            REMOTE_USER: 'root'
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "REMOTE_SERVER_IP: ${REMOTE_SERVER_IP}"
