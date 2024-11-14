@@ -67,12 +67,12 @@ jobs:
       # Deploy the Docker container on the remote server
       - name: Deploy Docker Container
         env:
-          REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
+          # REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
         run: |
-          echo "REMOTE_SERVER_IP: ${REMOTE_SERVER_IP}"
+          echo "REMOTE_SERVER_IP: vsgate-ssh.dei.isep.ipp.pt"
           echo "REMOTE_USER: ${REMOTE_USER}"
         
           # Save the SSH private key to a file and set appropriate permissions
@@ -80,7 +80,7 @@ jobs:
           chmod 600 private_key
     
           # SSH into the remote server and deploy
-          ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << EOF
+          ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@vsgate-ssh.dei.isep.ipp.pt" << EOF
             # Stop and remove the existing container if it exists
             docker rm -f myapp || true
             # Pull the latest Docker image
@@ -88,29 +88,6 @@ jobs:
             # Run the Docker container on a different port if port 80 is in use
             docker run -d --name myapp -p 8080:80 ${DOCKER_IMAGE_NAME}
           EOF
-          - name: Deploy Docker Container
-          env:
-            # REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
-            REMOTE_USER: ${{ secrets.REMOTE_USER }}
-            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-            DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
-          run: |
-            echo "REMOTE_SERVER_IP: vsgate-ssh.dei.isep.ipp.pt"
-            echo "REMOTE_USER: ${REMOTE_USER}"
-            
-            # Save the SSH private key to a file and set appropriate permissions
-            echo "${SSH_PRIVATE_KEY}" > private_key
-            chmod 600 private_key
-        
-            # SSH into the remote server and deploy
-            ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@vsgate-ssh.dei.isep.ipp.pt" << EOF
-              # Stop and remove the existing container if it exists
-              docker rm -f myapp || true
-              # Pull the latest Docker image
-              docker pull ${DOCKER_IMAGE_NAME}
-              # Run the Docker container on a different port if port 80 is in use
-              docker run -d --name myapp -p 8080:80 ${DOCKER_IMAGE_NAME}
-            EOF
         
       # Separate step to remove the private key
       - name: Remove private key
