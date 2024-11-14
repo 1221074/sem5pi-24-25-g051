@@ -11,7 +11,7 @@ COPY backend-module/. ./
 RUN dotnet publish -c Release -o out
 
 # Generate the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /app/out ./
 
