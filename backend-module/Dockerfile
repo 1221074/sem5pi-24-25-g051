@@ -1,4 +1,4 @@
-# Use the official .NET SDK image to build the app
+# Use the official .NET SDK image for .NET 8.0 to build the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
