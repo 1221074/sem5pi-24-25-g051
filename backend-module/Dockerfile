@@ -7,7 +7,6 @@ COPY backend-module/*.csproj ./
 RUN dotnet restore
 
 # Copy the rest of the files and build the project
-COPY backend-module/. ./
 RUN dotnet publish -c Release -o out
 
 # Generate the runtime image
