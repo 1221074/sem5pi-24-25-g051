@@ -34,7 +34,7 @@ jobs:
 
       # Publish the application
       - name: Publish
-        run: dotnet publish backend-module/sem5pi-24-25-g051.csproj -c Release -o publish
+        run: dotnet publish backend-module/sem5pi-24-25-g051.csproj -c Release -o backend-module/publish
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
