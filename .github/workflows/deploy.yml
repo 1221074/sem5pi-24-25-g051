@@ -66,14 +66,28 @@ jobs:
 
       # Deploy the Docker container on the remote server
       - name: Deploy Docker Container
+        env:
+            REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_SERVER_IP }} << 'EOF'
-            # Pull the latest Docker image
-            docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-            
-            # Stop and remove the existing container if it exists
-            docker rm -f myapp || true
-            
-            # Run the new container
-            docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_IMAGE_NAME }}
-          EOF
+          # Save the SSH private key to a file and set appropriate permissions
+            echo "${SSH_PRIVATE_KEY}" > private_key
+            chmod 600 private_key
+        
+            # Test connection (optional step to validate)
+            ssh -i private_key -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_SERVER_IP}" "echo Connected!"
+        
+            # SSH into the remote server and deploy
+            ssh -i private_key -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_SERVER_IP}" << 'EOF'
+              # Commands to deploy Docker container, such as:
+              docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+              # Stop and remove the existing container if it exists
+              docker rm -f myapp || true
+              docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_IMAGE_NAME }}
+            EOF
+        
+          # Cleanup by removing the private key file after use
+          - name: Remove private key
+            run: rm private_key
+        
