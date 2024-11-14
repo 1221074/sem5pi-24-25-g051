@@ -67,7 +67,7 @@ jobs:
       # Deploy the Docker container on the remote server
       - name: Deploy Docker Container
         env:
-            REMOTE_SERVER_IP: 'vs1437.dei.isep.ipp.pt'
+            REMOTE_SERVER_IP: 'vsgate-ssh.dei.isep.ipp.pt'
             REMOTE_USER: 'root'
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
@@ -78,7 +78,7 @@ jobs:
             chmod 600 private_key
 
             # SSH into the remote server and deploy
-            ssh -i private_key -o StrictHostKeyChecking=no -p 22 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << 'EOF'
+            ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << 'EOF'
               # Commands to deploy Docker container, such as:
               docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
               # Stop and remove the existing container if it exists
