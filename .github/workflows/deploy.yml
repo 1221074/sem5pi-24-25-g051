@@ -1,0 +1,77 @@
+name: Build and Deploy .NET Application
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up .NET
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'  # Specify your .NET version
+
+      # Change to the 'backend-module' directory where the .NET project is located
+      - name: Navigate to backend-module
+        run: cd backend-module
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore backend-module/sem5pi-24-25-g051.csproj
+
+      # Build the .NET application
+      - name: Build
+        run: dotnet build backend-module/sem5pi-24-25-g051.csproj --no-restore --configuration Release
+
+      # Publish the application
+      - name: Publish
+        run: dotnet publish backend-module/sem5pi-24-25-g051.csproj -c Release -o publish
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build the Docker image
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} ./publish
+
+      # Push the Docker image to Docker Hub
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_IMAGE_NAME }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # Run this job after the build job
+
+    steps:
+      # Set up SSH to connect to the remote server
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Deploy the Docker container on the remote server
+      - name: Deploy Docker Container
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_SERVER_IP }} << 'EOF'
+            # Pull the latest Docker image
+            docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+            
+            # Stop and remove the existing container if it exists
+            docker rm -f myapp || true
+            
+            # Run the new container
+            docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_IMAGE_NAME }}
+          EOF
