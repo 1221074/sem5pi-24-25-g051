@@ -71,10 +71,12 @@ jobs:
             REMOTE_USER: ${{ secrets.REMOTE_USER }}
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          echo "REMOTE_SERVER_IP: ${REMOTE_SERVER_IP}"
+          echo "REMOTE_USER: ${REMOTE_USER}"
           # Save the SSH private key to a file and set appropriate permissions
             echo "${SSH_PRIVATE_KEY}" > private_key
             chmod 600 private_key
-        
+            
             # Test connection (optional step to validate)
             ssh -i private_key -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_SERVER_IP}" "echo Connected!"
         
