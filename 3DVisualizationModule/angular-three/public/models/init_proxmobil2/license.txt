@@ -1,0 +1,8 @@
+Model Information:
+* title:	Init PROXmobil2
+* source:	https://sketchfab.com/3d-models/init-proxmobil2-b08df2bb98bd407babe96a0aeaf96fc6
+* author:	iStanley (https://sketchfab.com/iStanley)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

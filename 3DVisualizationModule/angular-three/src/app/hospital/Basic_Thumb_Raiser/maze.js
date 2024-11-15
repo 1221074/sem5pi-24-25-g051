@@ -131,7 +131,7 @@ export default class Maze {
             chair5.position.set(-1.6, 0, -5.35);
             chair5.rotateY(3 * Math.PI / 2);
             this.object.add(chair5);
-            
+
             let chair6 = gltf.scene.clone();
             chair6.position.set(-0.4, 0, -5.35);
             chair6.rotateY(3 * Math.PI / 2);
@@ -146,17 +146,17 @@ export default class Maze {
             chair8.position.set(-0.4, 0, -4.6);
             chair8.rotateY( 3 * Math.PI / 2);
             this.object.add(chair8);
-        
+
             let chair9 = gltf.scene.clone();
             chair9.position.set(-1.6, 0, -3.85);
             chair9.rotateY( 3 * Math.PI / 2);
             this.object.add(chair9);
-        
+
             let chair10 = gltf.scene.clone();
             chair10.position.set(-0.4, 0, -3.85);
             chair10.rotateY( 3 * Math.PI / 2);
             this.object.add(chair10);
-        
+
 
             //=======================================================================================================
             // waiting room 2
@@ -164,7 +164,7 @@ export default class Maze {
             chair11.position.set(-1.6, 0, 5.35);
             chair11.rotateY(Math.PI / 2);
             this.object.add(chair11);
-            
+
             let chair12 = gltf.scene.clone();
             chair12.position.set(-0.4, 0, 5.35);
             chair12.rotateY(Math.PI / 2);
@@ -179,17 +179,17 @@ export default class Maze {
             chair14.position.set(-0.4, 0, 4.6);
             chair14.rotateY(Math.PI / 2);
             this.object.add(chair14);
-        
+
             let chair15 = gltf.scene.clone();
             chair15.position.set(-1.6, 0, 3.85);
             chair15.rotateY(Math.PI / 2);
             this.object.add(chair15);
-        
+
             let chair16 = gltf.scene.clone();
             chair16.position.set(-0.4, 0, 3.85);
             chair16.rotateY(Math.PI / 2);
             this.object.add(chair16);
-        } 
+        }
         );
 
         //=======================================================================================================
@@ -215,29 +215,158 @@ export default class Maze {
         );
 
         //=======================================================================================================
-        // Toilet 
+        // Reception chair
+        loaderGLTF.load('./models/ikea_markus_office_chair/scene.gltf', (gltf) => {
+            this.recChair = gltf.scene;
+            this.recChair.scale.set(0.0045, 0.0045, 0.0045);
+            this.recChair.position.set(-8.25, 0, 0);
+            this.recChair.rotateY(3 * Math.PI / 2);
+            this.object.add(this.recChair);
+        }
+        );
+
+
+        //=======================================================================================================
+        // Toilet
         loaderGLTF.load('./models/toilet/scene.gltf', (gltf) => {
             this.toilet = gltf.scene;
-            this.toilet.scale.set(0.4, 0.4, 0.4);
-            this.toilet.position.set(-8.2, 0.2, -5.35);
+            this.toilet.scale.set(0.4, 0.5, 0.4);
+            this.toilet.position.set(-8.2, 0.25, -5.363);
             this.toilet.rotateY(3 * Math.PI / 2);
             this.object.add(this.toilet);
 
             let toilet2 = gltf.scene.clone();
-            toilet2.position.set(-8.2, 0.2, 5.35);
+            toilet2.position.set(-8.2, 0.25, 5.363);
             toilet2.rotateY(Math.PI);
             this.object.add(toilet2);
 
             let toilet3 = gltf.scene.clone();
-            toilet3.position.set(6.55, 0.2, -5.35);
+            toilet3.position.set(6.55, 0.25, -5.363);
             this.object.add(toilet3);
 
             let toilet4 = gltf.scene.clone();
-            toilet4.position.set(6.55, 0.2, 5.35);
+            toilet4.position.set(6.55, 0.25, 5.363);
             toilet4.rotateY(Math.PI);
             this.object.add(toilet4);
         }
         );
+
+        loaderGLTF.load('./models/toilet_paper_holder/scene.gltf', (gltf) => {
+            this.toiletPaper = gltf.scene;
+            this.toiletPaper.scale.set(0.4, 0.5, 0.4);
+            this.toiletPaper.position.set(-8.4, 0, -5.35);
+            this.object.add(this.toiletPaper);
+
+            let toiletPaper2 = gltf.scene.clone();
+            toiletPaper2.position.set(-8.4, 0, 5.35);
+            toiletPaper2.rotateY(Math.PI);
+            this.object.add(toiletPaper2);
+
+            let toiletPaper3 = gltf.scene.clone();
+            toiletPaper3.position.set(6.35, 0, -5.35);
+            this.object.add(toiletPaper3);
+
+            let toiletPaper4 = gltf.scene.clone();
+            toiletPaper4.position.set(6.35, 0, 5.35);
+            toiletPaper4.rotateY(Math.PI);
+            this.object.add(toiletPaper4);
+        }
+        );
+
+        loaderGLTF.load('./models/sink/scene.gltf', (gltf) => {
+            this.sink = gltf.scene;
+            this.sink.scale.set(0.25, 0.35, 0.25);
+            this.sink.position.set(-9.5, 0, -5.37);
+            this.sink.rotateY(2 * Math.PI);
+            this.object.add(this.sink);
+
+            let sink2 = gltf.scene.clone();
+            sink2.position.set(-9.5, 0, 5.37);
+            sink2.rotateY(Math.PI);
+            this.object.add(sink2);
+
+            let sink3 = gltf.scene.clone();
+            sink3.position.set(6.13, 0, -4);
+            sink3.rotateY(Math.PI / 2);
+            this.object.add(sink3);
+
+            let sink4 = gltf.scene.clone();
+            sink4.position.set(6.13, 0, 4.6);
+            sink4.rotateY(Math.PI / 2);
+            this.object.add(sink4);
+        }
+        );
+
+        loaderGLTF.load('./models/ornate_mirror_01_1k.gltf/ornate_mirror_01_1k.gltf', (gltf) => {
+            this.mirror = gltf.scene;
+            this.mirror.scale.set(0.4, 0.52, 0.4);
+            this.mirror.position.set(-9.5, 0.7, -5.47);
+            this.mirror.rotateY(2 * Math.PI);
+            this.object.add(this.mirror);
+
+            let mirror2 = gltf.scene.clone();
+            mirror2.position.set(-9.5, 0.7, 5.47);
+            mirror2.rotateY(Math.PI);
+            this.object.add(mirror2);
+
+            let mirror3 = gltf.scene.clone();
+            mirror3.position.set(6.03, 0.7, -4);
+            mirror3.rotateY(Math.PI / 2);
+            this.object.add(mirror3);
+
+            let mirror4 = gltf.scene.clone();
+            mirror4.position.set(6.03, 0.7, 4.6);
+            mirror4.rotateY(Math.PI / 2);
+            this.object.add(mirror4);
+        }
+        );
+
+        loaderGLTF.load('./models/hand_dryer_clean/scene.gltf', (gltf) => {
+            this.dryer = gltf.scene;
+            this.dryer.scale.set(0.2, 0.2, 0.2);
+            this.dryer.position.set(-9.15, 0.5, -5.4);
+            this.dryer.rotateY(2 * Math.PI);
+            this.object.add(this.dryer);
+
+            let dryer2 = gltf.scene.clone();
+            dryer2.position.set(-9.15, 0.5, 5.4);
+            dryer2.rotateY(Math.PI);
+            this.object.add(dryer2);
+
+            let dryer3 = gltf.scene.clone();
+            dryer3.position.set(6.1, 0.5, -4.33);
+            dryer3.rotateY(Math.PI / 2);
+            this.object.add(dryer3);
+
+            let dryer4 = gltf.scene.clone();
+            dryer4.position.set(6.1, 0.5, 4.9);
+            dryer4.rotateY(Math.PI / 2);
+            this.object.add(dryer4);
+        }
+        );
+
+
+        loaderGLTF.load('./models/free_urinal__commercial_urinal_realistic/scene.gltf', (gltf) => {
+            this.urinal = gltf.scene;
+            this.urinal.scale.set(0.1, 0.15, 0.12);
+            this.urinal.position.set(-8.5, 0.3, -4.6);
+            this.urinal.rotateY(Math.PI);
+            this.object.add(this.urinal);
+
+            let urinal2 = gltf.scene.clone();
+            urinal2.position.set(6.9, 0.4, -4.15);
+            urinal2.rotateY(Math.PI / 2);
+            this.object.add(urinal2);
+
+            let urinal3 = gltf.scene.clone();
+            urinal3.position.set(6.9, 0.4, -3.85);
+            urinal3.rotateY(Math.PI / 2);
+            this.object.add(urinal3);
+        }
+        );
+
+
+
 
 
         // KOENIGSEGG ONE PRO

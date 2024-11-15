@@ -1,0 +1,8 @@
+Model Information:
+* title:	Table
+* source:	https://sketchfab.com/3d-models/table-49e348e51124447db1860c00a9ea245c
+* author:	pharloom_ (https://sketchfab.com/pharloom_)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

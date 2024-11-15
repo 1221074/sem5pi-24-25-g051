@@ -1,0 +1,8 @@
+Model Information:
+* title:	Printer, copy machine and scanner in one
+* source:	https://sketchfab.com/3d-models/printer-copy-machine-and-scanner-in-one-af7cc2be2e6d4c1880b5a41177f67124
+* author:	assetfactory (https://sketchfab.com/assetfactory)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

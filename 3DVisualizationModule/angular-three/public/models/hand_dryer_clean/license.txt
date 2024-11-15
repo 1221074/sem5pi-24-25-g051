@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hand Dryer Clean
+* source:	https://sketchfab.com/3d-models/hand-dryer-clean-9a1e606c238540798c48b0ed79d6325a
+* author:	LordSamueliSolo (https://sketchfab.com/LadyLionStudios)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hand Dryer Clean" (https://sketchfab.com/3d-models/hand-dryer-clean-9a1e606c238540798c48b0ed79d6325a) by LordSamueliSolo (https://sketchfab.com/LadyLionStudios) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

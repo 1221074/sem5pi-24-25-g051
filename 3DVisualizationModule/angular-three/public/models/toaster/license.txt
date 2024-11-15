@@ -1,0 +1,8 @@
+Model Information:
+* title:	Toaster
+* source:	https://sketchfab.com/3d-models/toaster-e84df3acb43249d1a8b566b322021580
+* author:	stylo0 (https://sketchfab.com/stylo0)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
