@@ -30,7 +30,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} \backend-module
-            --build-arg PUBLISH_DIR=\backend-module\publish .
+            --build-arg PUBLISH_DIR=publish .
 
       # Push Docker image to a registry (optional)
       - name: Push Docker image
