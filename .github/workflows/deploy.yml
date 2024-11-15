@@ -25,7 +25,7 @@ jobs:
         run: |
           cd backend-module
           dotnet publish -c Release -o ../publish
-
+      
       - name: Move publish folder into Docker context
         run: mv publish backend-module/
         
