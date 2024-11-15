@@ -1,16 +1,20 @@
+
+
 <div class="admin-header">
   <h2>Admin</h2>
   <button class="logout-button" (click)="logout()">
     <span class="material-icons">logout</span>
   </button>
 </div>
+<div class="admin-container">
+
   <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="admin-panel">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
       <button (click)="showSection('optimizedPlanning')">Otimized Schedule</button>
-      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
       <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
+      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
     </div>
     <div class="admin-patient-management">
       <h3>Patient Management:</h3>
@@ -34,6 +38,12 @@
       <button (click)="showSection('listOperationTypes')">List/Search Operation Types</button>
     </div>
   </section>
+
+<section class="admin-3d-visualization" >
+      <h3>3D Visualization:</h3>
+      <button (click)="showSection('3dVisualization')">3D Visualization</button>
+</section>
+
 
   <!-- Register User Section -->
   <section [style.display]="selectedSection === 'registerUser' ? 'block' : 'none'">
@@ -102,8 +112,14 @@
     <h2>Optimized Schedule</h2>
     <p>Here you can obtain the the better scheduling of a set of operations(surgeries) in a certain operation room in a specific day.</p>
 
-    <div>
-      <button>Generate Schedule</button>
+    <div class="schedule-container">
+      <form class="scheduleInput">
+        <label for="date">Starting Date:</label>
+        <input type="date" id="date1" name="datei" required>
+        <label for="room">Final Date:</label>
+        <input type="date" id="date2" name="datef" required>
+      </form>
+      <button name="scheduleBtn">Generate Schedule</button>
     </div>
 
     <button (click)="showSection('')">Back to Main Menu</button>
@@ -121,8 +137,14 @@
     <p>The system generates a "good" (non-optimal but efficient) schedule using heuristics or informed
       methods (e.g., greedy algorithms, rule-based scheduling). </p>
 
-      <div>
-        <button>Generate Schedule</button>
+      <div class="schedule-container">
+        <form class="scheduleInput">
+          <label for="date">Starting Date:</label>
+          <input type="date" id="date1" name="datei" required>
+          <label for="room">Final Date:</label>
+          <input type="date" id="date2" name="datef" required>
+        </form>
+        <button name="scheduleBtn">Generate Schedule</button>
       </div>
 
     <button (click)="showSection('')">Back to Main Menu</button>
@@ -445,5 +467,15 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- 3D Visualization Section -->
 
+  <section [style.display]="selectedSection === '3dVisualization' ? 'block' : 'none'">
+    <h2>3D Visualization</h2>
+    <p>Here you can see the 3D visualization of the hospital.</p>
+    <button class="visualization-button" (click)="showHospital()">3D Visualization</button>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+</div>
 <p>Current Section: {{ selectedSection }}</p>
+

@@ -1,25 +1,20 @@
-.admin-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  width: max;
-  background-color: #ffffff; /* Light background color */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-}
 
+.admin-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 20px; /* Space between sections */
+  box-sizing: border-box;
+}
+/*Admin Header Styles ========================================================================================*/
 .admin-header {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between ;
   padding: 10px;
-  background-color: #ffffff; /* Optional background color */
+  background-color: #ffffff;
 }
 .logout-button {
   background: none;
@@ -33,11 +28,29 @@
 
 .logout-button .material-icons {
   font-size: 24px;
-  color: #333; /* Customize as needed */
+  color: #333;
 }
 
 .logout-button:hover .material-icons {
-  color: #555; /* Darker color on hover */
+  color: #555;
+}
+
+/*Admin Section Styles ========================================================================================*/
+.admin-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  width: 30%;
+  background-color: #ffffff; /* Light background color */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  box-sizing: border-box;
 }
 
 .admin-panel {
@@ -46,23 +59,58 @@
   gap: 5px;
 }
 
-.admin-patient-management {
+.scheduleInput{
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.schedule-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.admin-staff-management {
+.register-button {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  size: 1px;
+  width: 10%;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+/* 3D Visualization Component Styles ======================================================================================== */
+.visualization-button {
+  font-weight: bold;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #ffffff;
+  background-color: #007bff;
+  width: 20%; /* Full width */
+}
+.visualization-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-3px); /* Higher lift on hover */
 }
 
-.admin-operation-type-management {
+.visualization-button:active {
+  background-color: #004494; /* Even darker blue on click */
+  transform: translateY(1px); /* Button moves slightly down */
+}
+
+.admin-3d-visualization {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: flex-end;
+  width: 30%;
 }
+
+/*GENERAL STYLES*/
 
 button {
   padding: 10px 20px;
@@ -70,7 +118,7 @@ button {
   font-weight: bold;
   color: #fff;
   background-color: #007bff; /* Cor azul primária */
-  width: 25%;
+  width: 60%;
   border: none;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */

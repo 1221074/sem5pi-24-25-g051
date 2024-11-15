@@ -55,6 +55,9 @@ export class AdminComponent {
   logout() {this.authService.logout();}
 
 
+  showHospital() {this.router.navigate(['/hospital']);}
+
+
 //REGISTER CLASSES
 
 async registerPatient(
