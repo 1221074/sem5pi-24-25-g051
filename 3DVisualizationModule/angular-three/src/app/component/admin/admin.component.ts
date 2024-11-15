@@ -5,6 +5,7 @@ import { AdminService } from '../../service/admin.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
+import { AuthenticationService } from '../../service/authentication.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +19,7 @@ export class AdminComponent {
   //SERVICE
   adminService: AdminService = inject(AdminService);
   userService: UserService = inject(UserService);
+  authService: AuthenticationService = inject(AuthenticationService);
 
   //VARIABLES
   filteredPatientList: Patient[] = [];
@@ -50,10 +52,7 @@ export class AdminComponent {
     this.selectedPatient = null;
   }
 
-  logout() {
-    // Navigate to the HomePageComponent
-    this.router.navigate(['/']);
-  }
+  logout() {this.authService.logout();}
 
 
 //REGISTER CLASSES

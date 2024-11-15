@@ -1,9 +1,11 @@
-import { AfterViewInit, Component, ElementRef, NgModule, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthenticationService } from '../../service/authentication.service';
+import { jwtDecode } from 'jwt-decode';
 
 declare var google: any;
 
@@ -17,6 +19,8 @@ declare var google: any;
 export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('loginBox') private canvasRef!: ElementRef;
 
+  //VARIABLES
+  authService: AuthenticationService = inject(AuthenticationService);
   username: string = '';
   password: string = '';
 
@@ -42,24 +46,30 @@ export class LoginComponent implements OnInit, AfterViewInit {
     console.log('Encoded JWT ID token: ' + response.credential);
 
     const apiUrl = `https://localhost:7252/api/user/role?token=${response.credential}`;
+    const token = response.credential;
+    const decodedToken: any = jwtDecode(token);
+    const email = decodedToken.email
 
     this.http.get(apiUrl).subscribe(
       (res: any) => {
         const role = res.role;
         // Redirect based on role
         switch (role) {
-          case 'ADMIN':
+          case 0:
             this.router.navigate(['/admin']);
             break;
-          case 'DOCTOR':
+          case 1:
             this.router.navigate(['/doctor']);
             break;
-          case 'PATIENT':
+          case 2:
             this.router.navigate(['/patient']);
             break;
           default:
             console.error('Unknown role:', role);
         }
+        console.log('Email:', email);
+        // After successful login
+        this.authService.updateMail(email);
       },
       (error) => {
         console.error('Login failed', error);
