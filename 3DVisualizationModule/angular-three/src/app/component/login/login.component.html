@@ -2,15 +2,13 @@
 
 <div class="login-container">
   <h2>Login</h2>
-  <form (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="username">Username:</label>
-      <input type="text" id="username" [(ngModel)]="username" name="username" required>
-    </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" [(ngModel)]="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
- </div>
+
+  <!-- Google Sign-In Button -->
+  <div id="g_id_onload"
+       data-client_id="57464158480-1vvfvpssor8gqqpmb4rn8m3elh0jspof.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse">
+  </div>
+
+  <div class="g_id_signin"
+       data-type="standard"></div>
+</div>

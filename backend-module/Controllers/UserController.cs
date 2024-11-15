@@ -4,6 +4,7 @@ using backend_module.Models.Shared;
 using backend_module.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 
 
 
@@ -158,6 +159,46 @@ namespace backend_module.Controllers
             await _service.ActivateAsync(new UserNif(nif));
 
             return Ok("Your account has been activated successfully.");
-        }           
+        }  
+
+ [HttpGet("role")]
+public async Task<IActionResult> GetUserRoleAsync([FromQuery] string token)
+{
+    if (string.IsNullOrEmpty(token))
+    {
+        if (Request.Headers.ContainsKey("Authorization"))
+        {
+            // Check if token is in the Authorization header
+            var authHeader = Request.Headers["Authorization"].ToString();
+            if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                token = authHeader.Substring("Bearer ".Length).Trim();
+            }
+        }
+    }
+
+    if (string.IsNullOrEmpty(token))
+    {
+        return BadRequest("Token is missing.");
+    }
+
+    // Verify the Google ID token
+    var payload = await _service.VerifyGoogleTokenAsync(token);
+    if (payload == null)
+    {
+        return Unauthorized("Invalid Google ID token.");
+    }
+
+    // Retrieve the user's role based on email
+    var role = await _service.GetUserRoleByEmailAsync(payload.Email);
+    if (string.IsNullOrEmpty(role.ToString()))
+    {
+        return NotFound("User not found.");
+    }
+
+    return Ok(new { role });
+}
+
+
     }
 }

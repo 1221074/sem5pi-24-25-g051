@@ -1,5 +1,6 @@
 
 using backend_module.Models.Shared;
+using Google.Apis.Auth;
 
 namespace backend_module.Models.User
 {
@@ -128,6 +129,29 @@ namespace backend_module.Models.User
             await this._unitOfWork.CommitAsync();
 
             return UserMapper.toDTO(user);
+        }
+
+
+    public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleTokenAsync(string idToken)
+    {
+        try
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
+            Console.WriteLine("Token validated successfully for email: " + payload.Email);
+            return payload;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Token validation failed: " + ex.Message);
+            return null; // Return null if the token is invalid
+        }
+    }
+
+    public async Task<RoleType> GetUserRoleByEmailAsync(string email)
+        {
+        var user = await GetByEmailAsync(email); // Implement GetByEmailAsync in your UserService
+        Console.WriteLine("User role for email " + email + ": " + user.Role);
+        return user.Role; // Assuming "Role" is a property of your UserDto
         }
     }
 
