@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - testing-https
 
 jobs:
   build-and-deploy:
@@ -55,9 +55,10 @@ jobs:
           chmod 600 private_key
 
           ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << EOF
+            dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p 123
+            dotnet dev-certs https --trust
             docker pull ${DOCKER_IMAGE_NAME}
-            docker rm -f myapp || true
-            docker run -d --name myapp -p 8080:80 ${DOCKER_IMAGE_NAME}
+            docker run --name myapp --rm -it -d -p 2224:80 -p 2226:443 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORTS=8001 -e ASPNETCORE_Kestrel__Certificates__Default__Password="123" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -v ${HOME}/.aspnet/https:/https/  ${DOCKER_IMAGE_NAME}
           EOF
 
       # Cleanup the private key
