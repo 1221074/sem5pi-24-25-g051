@@ -31,11 +31,12 @@ jobs:
         
         
 
-      # Build Docker image using published files
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} \backend-module --build-arg PUBLISH_DIR=publish \backend-module
-
+          docker buildx build -t ${{ secrets.DOCKER_IMAGE_NAME }} \
+            --build-arg PUBLISH_DIR=publish \
+            backend-module
+      
       # Push Docker image to a registry (optional)
       - name: Push Docker image
         run: |
