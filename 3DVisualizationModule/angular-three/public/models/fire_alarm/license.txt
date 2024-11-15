@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fire Alarm
+* source:	https://sketchfab.com/3d-models/fire-alarm-944625fcc4244abcbba6eaca19c7cec6
+* author:	wipof (https://sketchfab.com/wipof)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fire Alarm" (https://sketchfab.com/3d-models/fire-alarm-944625fcc4244abcbba6eaca19c7cec6) by wipof (https://sketchfab.com/wipof) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

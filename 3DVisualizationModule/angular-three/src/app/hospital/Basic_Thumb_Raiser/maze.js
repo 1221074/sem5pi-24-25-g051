@@ -477,11 +477,80 @@ export default class Maze {
         }
         );
 
+        loaderGLTF.load('./models/cleaning_cart/scene.gltf', (gltf) => {
+            this.cart = gltf.scene;
+            this.cart.scale.set(0.1, 0.1, 0.1);
+            this.cart.position.set(-7.58, 0, -2.2);
+            this.cart.rotateY(Math.PI / 2);
+            this.object.add(this.cart);
+        }
+        );
+
+        loaderGLTF.load('./models/broom/scene.gltf', (gltf) => {
+            this.broom = gltf.scene;
+            this.broom.scale.set(0.0051, 0.0051, 0.0051);
+            this.broom.position.set(-7.8, 0, -1.8);
+            this.broom.rotateY(3 * Math.PI / 2);
+            this.broom.rotateX(Math.PI / 16);
+            this.object.add(this.broom);
+        }
+        );
+
+
+        loaderGLTF.load('./models/security_camera/scene.gltf', (gltf) => {
+            this.camera = gltf.scene;
+            this.camera.scale.set(0.5, 0.5, 0.5);
+            this.camera.position.set(-3, 0.785, -2.59);
+            this.object.add(this.camera);
         
+            let camera2 = gltf.scene.clone();
+            camera2.position.set(-3, 0.785, 2.59);
+            camera2.rotateY(Math.PI);
+            this.object.add(camera2);
+
+            let camera3 = gltf.scene.clone();
+            camera3.position.set(-8.09, 0.785, -1);
+            camera3.rotateY(Math.PI / 2);
+            this.object.add(camera3);
+        }
+        );
+
+        loaderGLTF.load('./models/fire_alarm/scene.gltf', (gltf) => {
+            this.alarm = gltf.scene;
+            this.alarm.scale.set(0.05, 0.05, 0.05);
+            this.alarm.position.set(-8.025, 0.5, 1);
+            this.alarm.rotateY(3 * Math.PI / 2);
+            this.object.add(this.alarm);
+
+            let alarm2 = gltf.scene.clone();
+            alarm2.position.set(0.02, 0.5, 0.1);
+            alarm2.rotateY(Math.PI);
+            this.object.add(alarm2);
+
+        }
+        );
+
+        loaderGLTF.load('./models/fire_exting/scene.gltf', (gltf) => {
+            this.exting = gltf.scene;
+            this.exting.scale.set(0.003, 0.004, 0.003);
+            this.exting.position.set(-8.07, 0.4, 1.5);
+            this.exting.rotateY(3 * Math.PI / 2);
+            this.object.add(this.exting);
+
+            let exting2 = gltf.scene.clone();
+            exting2.position.set(0.06, 0.4, -0.1);
+            exting2.rotateY(Math.PI);
+            this.object.add(exting2);
+        }
+        );
+
+
+        //=======================================================================================================
+        // 
 
 
 
-        // KOENIGSEGG ONE PRO
+        // KOENIGSEGG ONE PRO CRLHHHHHHHHHHHHHH
         /*loaderGLTF.load('./models/koenigsegg_one_pro/scene.gltf', (gltf) => {
             this.chair = gltf.scene;
             this.chair.scale.set(10, 10, 10);
