@@ -26,6 +26,10 @@ jobs:
           cd backend-module
           dotnet publish -c Release -o ../publish
 
+      - name: Debug publish directory
+        run: ls -la
+        
+
       # Build Docker image using published files
       - name: Build Docker image
         run: |
