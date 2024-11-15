@@ -6,6 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { AuthenticationService } from '../../service/authentication.service';
+import { Staff } from '../../interface/staff';
+import { StaffService } from '../../service/staff.service';
+import { SpecializationService } from '../../service/specialization.service';
+import { SpecializationSub } from '../../interface/specialization-sub';
 
 @Component({
   selector: 'app-admin',
@@ -20,28 +24,32 @@ export class AdminComponent {
   adminService: AdminService = inject(AdminService);
   userService: UserService = inject(UserService);
   authService: AuthenticationService = inject(AuthenticationService);
+  staffService: StaffService = inject(StaffService);
+  specializationService: SpecializationService= inject(SpecializationService);
 
   //VARIABLES
+
+      //Patient
   filteredPatientList: Patient[] = [];
   patientList: Patient[] = [];
+  selectedPatient: Patient | null = null;
+
+      //Staff
+  filteredStaffList: Staff[] = [];
+  staffList: Staff[] = [];
+  selectedStaff: Staff | null = null;
+
+      //Specializations
+      specList: SpecializationSub [] = [];
+
+  selectedSection = '';
   errorMessage: string = '';
   successMessage: string = '';
-  selectedSection = '';
-  selectedPatient: Patient | null = null;
 
   constructor(private router: Router) {
     this.updatePatientList();
-  }
-
-  updatePatientList() {
-    this.adminService.getAllPatients().then((patientList: Patient[]) => {
-      this.patientList = patientList;
-      this.filteredPatientList = patientList;
-    });
-  }
-
-  updateListSearch(filteredPatientList: Patient[]) {
-    this.filteredPatientList = filteredPatientList;
+    this.updateStaffList();
+    this.getSpecs();
   }
 
   showSection(section: string) {
@@ -52,11 +60,8 @@ export class AdminComponent {
     this.selectedPatient = null;
   }
 
-  logout() {this.authService.logout();}
-
-
-  showHospital() {this.router.navigate(['/hospital']);}
-
+logout() {this.authService.logout();}
+showHospital() {this.router.navigate(['/hospital']);}
 
 //REGISTER CLASSES
 
@@ -124,15 +129,17 @@ async registerUser(nif: string, userName: string, email: string, phoneNumber: st
   );
 }
 
-//UPDATE CLASSES
+//async registerStaff(firstName: string, lastName: string, fullName: string, specializationId: string, email: string, phone: string) {
 
-cancelUpdate() {
+//UPDATE CLASSES
+  //Patient
+  cancelUpdatePatient() {
   this.selectedPatient = null;
   this.errorMessage = '';
   this.successMessage = '';
-}
+  }
 
-async submitUpdate() {
+  async submitUpdatePatient() {
   if (!this.selectedPatient) {
     this.errorMessage = 'No patient selected for update.';
     return;
@@ -173,15 +180,74 @@ async submitUpdate() {
       this.errorMessage = 'An error occurred while updating the patient. Please try again.';
     }
   }
-}
+  }
 
+  updatePatientList() {
+    this.adminService.getAllPatients().then((patientList: Patient[]) => {
+      this.patientList = patientList;
+      this.filteredPatientList = patientList;
+    });
+  }
 
-selectPatientForUpdate(patient: Patient) {
+  selectPatientForUpdate(patient: Patient) {
   this.errorMessage = '';
   this.successMessage = '';
   // Create a copy of the patient to avoid mutating the list directly
   this.selectedPatient = patient;
-}
+  }
+
+  updateListSearch(filteredPatientList: Patient[]) {
+    this.filteredPatientList = filteredPatientList;
+  }
+
+  //Staff
+  updateStaff(id: number,firstName: string,lastName: string,fullName: string,specializationId: string,email: string,phone: string): void {
+  const updatedStaff: Staff = {
+    id: id,
+    firstName: firstName,
+    lastName: lastName,
+    fullName: fullName,
+    specializationId: Number(specializationId),
+    email: email,
+    phone: phone
+  };
+
+  this.staffService.updateStaff(id, updatedStaff).then(
+    (response) => {
+      this.successMessage = 'Staff profile updated successfully.';
+      this.updateStaffList();
+      this.selectedStaff = null;
+    },
+    (error) => {
+      this.errorMessage = 'Error updating staff profile.';
+    }
+  );
+  }
+
+  updateStaffList() {
+    this.staffService.getAllStaff().then((staffList: Staff[]) => {
+      this.staffList = staffList;
+    });
+  }
+
+  cancelUpdate(): void {
+  this.selectedStaff = null;
+  this.successMessage = '';
+  this.errorMessage = '';
+  }
+
+  selectStaffForUpdate(staff: Staff) {
+    this.errorMessage = '';
+    this.successMessage = '';
+    // Create a copy of the patient to avoid mutating the list directly
+    this.selectedStaff = staff;
+  }
+
+  getSpecs() {
+    this.specializationService.getAllSpecilizations().then((specList: SpecializationSub[]) => {
+      this.specList = specList;
+    });
+  }
 
 //REMOVE CLASSES
 
@@ -195,6 +261,8 @@ submitRemoval(patientId: number) {
     });
   }
 }
+
+submitStaffDeactivation(staffId: number) {}
 
 
 //SEARCH CLASSES
