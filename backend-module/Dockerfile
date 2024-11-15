@@ -7,5 +7,5 @@ ARG PUBLISH_DIR=publish
 COPY $PUBLISH_DIR .
 
 # Expose the port the app runs on
-EXPOSE 7252 5280
+EXPOSE 80 443
 ENTRYPOINT ["dotnet", "sem5pi-24-25-g051.dll"]
