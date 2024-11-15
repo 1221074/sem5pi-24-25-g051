@@ -8,7 +8,7 @@ WORKDIR /app/backend-module
 RUN dotnet restore
 
 # Copy prebuilt files into the image
-ARG PUBLISH_DIR=publish
+ARG PUBLISH_DIR=/app/backend-module/publish
 COPY $PUBLISH_DIR .
 
 # Expose the port the app runs on
