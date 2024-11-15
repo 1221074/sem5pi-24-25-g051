@@ -44,9 +44,9 @@ export class StaffService {
   }
 
 
-  async updateStaff( staff: any) {
+  async updateStaff(id:number, staff: any) {
     try {
-      const response = await fetch(this.url, {
+      const response = await fetch(`${this.url}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

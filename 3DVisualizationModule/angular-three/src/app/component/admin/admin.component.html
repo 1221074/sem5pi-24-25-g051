@@ -39,7 +39,7 @@
     </div>
   </section>
 
-<section class="admin-3d-visualization" >
+<section class="admin-3d-visualization" *ngIf="!selectedSection">
       <h3>3D Visualization:</h3>
       <button (click)="showSection('3dVisualization')">3D Visualization</button>
 </section>
@@ -410,12 +410,12 @@
     <div class="staff-specialization">
       <form>
         <label for="specialization">Specialization:</label><br>
-        <select id="specialization" name="specialization" required>
-          <option value="1">Specialization 1</option>
-          <option value="2">Specialization 2</option>
-          <option value="3">Specialization 3</option>
-          <option value="4">Specialization 4</option>
+        <select id="specialization" name="specialization" #specializationRef required>
           <option value="" disabled selected>Select Specialization</option>
+          <!-- Dynamically populate specialization options -->
+          <option *ngFor="let spec of specList" [value]="spec.id">
+            {{ spec.specializationName }}
+          </option>
         </select>
       </form>
     </div>
@@ -424,21 +424,210 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section [style.display]="selectedSection === 'editStaff' ? 'block' : 'none'">
-    <h2>Edit Staff Profile</h2>
-    <p>Here you can edit an existing staff profile.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
+<!-- Edit Staff Profile Section -->
+<section [style.display]="selectedSection === 'editStaff' ? 'block' : 'none'">
+  <h2>Edit Staff Profile</h2>
+  <p>Here you can edit an existing staff profile.</p>
+
+  <!-- Display success or error messages -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+  <!-- Table for Staff Members -->
+  <table class="table-display">
+    <tr>
+      <th>Staff ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Full Name</th>
+      <th>Specialization ID</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let staff of staffList">
+      <td>{{ staff.id }}</td>
+      <td>{{ staff.firstName }}</td>
+      <td>{{ staff.lastName }}</td>
+      <td>{{ staff.fullName }}</td>
+      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.email }}</td>
+      <td>{{ staff.phone }}</td>
+      <td>
+        <button (click)="selectStaffForUpdate(staff)">Edit</button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Update Form -->
+  <div *ngIf="selectedStaff">
+    <h3>Update Staff ID: {{ selectedStaff.id }}</h3>
+    <div class="staff-name">
+      <form>
+        <label for="updatedFirstName">First Name:</label><br>
+        <input
+          type="text"
+          id="updatedFirstName"
+          name="firstName"
+          placeholder="First Name"
+          #updatedFirstNameRef
+          required
+          [value]="selectedStaff.firstName"
+        />
+        <label for="updatedLastName">Last Name:</label><br />
+        <input
+          type="text"
+          id="updatedLastName"
+          name="lastName"
+          placeholder="Last Name"
+          #updatedLastNameRef
+          required
+          [value]="selectedStaff.lastName"
+        />
+      </form>
+    </div>
+    <div class="staff-fullName">
+      <form>
+        <label for="updatedFullName">Full Name:</label><br />
+        <input
+          type="text"
+          id="updatedFullName"
+          name="fullName"
+          placeholder="Full Name"
+          #updatedFullNameRef
+          required
+          [value]="selectedStaff.fullName"
+        />
+      </form>
+    </div>
+    <br />
+    <div class="staff-contact">
+      <form>
+        <label for="updatedEmail">Email:</label><br />
+        <input
+          type="email"
+          id="updatedEmail"
+          name="email"
+          placeholder="Email"
+          #updatedEmailRef
+          required
+          [value]="selectedStaff.email"
+        />
+        <label for="updatedPhone">Phone Number:</label><br />
+        <input
+          type="tel"
+          id="updatedPhone"
+          name="phone"
+          placeholder="Phone Number"
+          #updatedPhoneRef
+          required
+          [value]="selectedStaff.phone"
+        />
+      </form>
+    </div>
+    <br />
+    <div class="staff-specialization">
+      <form>
+        <label for="updatedSpecialization">Specialization:</label><br />
+        <select
+          id="updatedSpecialization"
+          name="specialization"
+          #updatedSpecializationRef
+          required
+        >
+          <option value="" disabled>Select Specialization</option>
+          <option
+            *ngFor="let spec of specList"
+            [value]="spec.id"
+            [selected]="spec.id === selectedStaff.specializationId"
+          >
+            {{ spec.specializationName }}
+          </option>
+        </select>
+      </form>
+    </div>
+    <br />
+    <button
+      type="button"
+      (click)="updateStaff(
+        selectedStaff.id,
+        updatedFirstNameRef.value,
+        updatedLastNameRef.value,
+        updatedFullNameRef.value,
+        updatedSpecializationRef.value,
+        updatedEmailRef.value,
+        updatedPhoneRef.value
+      )"
+    >
+      Update Staff
+    </button>
+    <button type="button" (click)="cancelUpdate()">Cancel</button>
+  </div>
+
+
+  <button (click)="showSection('')">Back to Main Menu</button>
+</section>
+
 
   <section [style.display]="selectedSection === 'deactivateStaff' ? 'block' : 'none'">
     <h2>Deactivate Staff Profile</h2>
     <p>Here you can deactivate a staff profile.</p>
+
+    <table class="table-display">
+      <tr>
+        <th>Staff ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Full Name</th>
+        <th>Specialization ID</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let staff of staffList">
+        <td>{{ staff.id }}</td>
+        <td>{{ staff.firstName }}</td>
+        <td>{{ staff.lastName }}</td>
+        <td>{{ staff.fullName }}</td>
+        <td>{{ staff.specializationId }}</td>
+        <td>{{ staff.email }}</td>
+        <td>{{ staff.phone }}</td>
+        <td>
+          <button (click)="submitStaffDeactivation(staff.id)">Deactivate</button>
+        </td>
+      </tr>
+    </table>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <section [style.display]="selectedSection === 'listStaff' ? 'block' : 'none'">
     <h2>List/Search Staff Profiles</h2>
     <p>Here you can list or search for staff profiles.</p>
+    <table class="table-display">
+    <tr>
+      <th>Staff ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Full Name</th>
+      <th>Specialization ID</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+
+    <tr *ngFor="let staff of staffList">
+      <td>{{ staff.id }}</td>
+      <td>{{ staff.firstName }}</td>
+      <td>{{ staff.lastName }}</td>
+      <td>{{ staff.fullName }}</td>
+      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.email }}</td>
+      <td>{{ staff.phone }}</td>
+    </tr>
+    </table>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
