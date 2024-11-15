@@ -150,8 +150,8 @@ builder.Services.AddAuthentication(option =>
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenLocalhost(8000); // HTTP port
-    options.ListenLocalhost(8080, listenOptions =>
+    options.ListenLocalhost(5280); // HTTP port
+    options.ListenLocalhost(7252, listenOptions =>
     {
         listenOptions.UseHttps(); // HTTPS port with SSL
     });
