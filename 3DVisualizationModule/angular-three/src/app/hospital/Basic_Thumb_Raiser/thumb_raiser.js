@@ -245,7 +245,7 @@ export default class ThumbRaiser {
         this.userInterfaceCheckBox = document.getElementById("user-interface");
         this.userInterfaceCheckBox.checked = true;
         this.miniMapCheckBox = document.getElementById("mini-map");
-        this.miniMapCheckBox.checked = true;
+        this.miniMapCheckBox.checked = false;
         this.helpCheckBox = document.getElementById("help");
         this.helpCheckBox.checked = false;
         this.statisticsCheckBox = document.getElementById("statistics");

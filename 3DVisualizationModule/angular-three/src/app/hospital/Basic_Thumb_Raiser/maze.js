@@ -222,6 +222,11 @@ export default class Maze {
             this.recChair.position.set(-8.25, 0, 0);
             this.recChair.rotateY(3 * Math.PI / 2);
             this.object.add(this.recChair);
+
+            let recChair2 = gltf.scene.clone();
+            recChair2.position.set(-7.57, 0, 1.99);
+            recChair2.rotateY(Math.PI / 2);
+            this.object.add(recChair2);
         }
         );
 
@@ -378,6 +383,100 @@ export default class Maze {
 
         }
         );
+
+        //=======================================================================================================
+        // Staff room
+
+        loaderGLTF.load('./models/table/scene.gltf', (gltf) => {
+            this.table = gltf.scene;
+            this.table.scale.set(0.65, 0.8, 0.75);
+            this.table.position.set(-7.44, 0.35, 2.23);
+            this.object.add(this.table);
+        }
+        );
+
+        loaderGLTF.load('./models/retro_computer_setup_free/scene.gltf', (gltf) => {
+            this.computer = gltf.scene;
+            this.computer.scale.set(0.005, 0.005, 0.004);
+            this.computer.position.set(-7.6, 0.38, 2.2);
+            this.computer.rotateY(Math.PI);
+            this.object.add(this.computer);
+        }
+        );
+
+        loaderGLTF.load('./models/server_rack/scene.gltf', (gltf) => {
+            this.server = gltf.scene;
+            this.server.scale.set(0.3, 0.4, 0.3);
+            this.server.position.set(-6.15, 0.4, 2.3);
+            this.server.rotateY(Math.PI / 2);
+            this.object.add(this.server);
+
+            let server2 = gltf.scene.clone();
+            server2.scale.set(0.3, 0.4, 0.3);
+            server2.position.set(-6.15, 0.4, 2.1);
+            this.object.add(server2);
+
+            let server3 = gltf.scene.clone();
+            server3.scale.set(0.3, 0.4, 0.3);
+            server3.position.set(-6.15, 0.4, 1.9);
+            this.object.add(server3);
+
+            let server4 = gltf.scene.clone();
+            server4.scale.set(0.3, 0.4, 0.3);
+            server4.position.set(-6.15, 0.4, 1.7);
+            this.object.add(server4);
+        }
+        );
+
+        loaderGLTF.load('./models/printer_copy_machine_and_scanner_in_one/scene.gltf', (gltf) => {
+            this.printer = gltf.scene;
+            this.printer.scale.set(0.3, 0.38, 0.3);
+            this.printer.position.set(-7.17, 0.437, 2.24);
+            this.printer.rotateY(Math.PI);
+            this.object.add(this.printer);
+        }
+        );
+
+        loaderGLTF.load('./models/industrial_-_locker/scene.gltf', (gltf) => {
+            this.locker = gltf.scene;
+            this.locker.scale.set(0.03, 0.05, 0.03);
+            this.locker.position.set(-7.84, 0.4, 1.2);
+            this.locker.rotateY(Math.PI / 2);
+            this.object.add(this.locker);
+
+            let locker2 = gltf.scene.clone();
+            locker2.scale.set(0.03, 0.05, 0.03);
+            locker2.position.set(-7.84, 0.4, 0.8);
+            this.object.add(locker2);
+
+            let locker3 = gltf.scene.clone();
+            locker3.scale.set(0.03, 0.05, 0.03);
+            locker3.position.set(-7.84, 0.4, 0.4);
+            this.object.add(locker3);
+
+            let locker4 = gltf.scene.clone();
+            locker4.scale.set(0.03, 0.05, 0.03);
+            locker4.position.set(-7.84, 0.4, 0);
+            this.object.add(locker4);
+
+            let locker5 = gltf.scene.clone();
+            locker5.scale.set(0.03, 0.05, 0.03);
+            locker5.position.set(-7.84, 0.4, -0.4);
+            this.object.add(locker5);
+
+            let locker6 = gltf.scene.clone();
+            locker6.scale.set(0.03, 0.05, 0.03);
+            locker6.position.set(-7.84, 0.4, -0.8);
+            this.object.add(locker6);
+
+            let locker7 = gltf.scene.clone();
+            locker7.scale.set(0.03, 0.05, 0.03);
+            locker7.position.set(-7.84, 0.4, -1.2);
+            this.object.add(locker7);
+            
+        }
+        );
+
         
 
 
