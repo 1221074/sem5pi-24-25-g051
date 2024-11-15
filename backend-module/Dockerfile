@@ -1,6 +1,7 @@
 # Use a lightweight runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+RUN apt-get update && apt-get install -y curl
 
 # Copy prebuilt files into the image
 ARG PUBLISH_DIR=publish
