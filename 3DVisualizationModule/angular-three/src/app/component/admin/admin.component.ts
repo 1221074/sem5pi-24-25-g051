@@ -4,6 +4,7 @@ import { Patient } from '../../interface/patient';
 import { AdminService } from '../../service/admin.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -16,6 +17,7 @@ export class AdminComponent {
 
   //SERVICE
   adminService: AdminService = inject(AdminService);
+  userService: UserService = inject(UserService);
 
   //VARIABLES
   filteredPatientList: Patient[] = [];
@@ -53,7 +55,7 @@ export class AdminComponent {
     this.router.navigate(['/']);
   }
 
-  
+
 //REGISTER CLASSES
 
 async registerPatient(
@@ -66,6 +68,7 @@ async registerPatient(
     Phone: string,
     EmergencyContact: string)
 {
+
 
 this.errorMessage = '';
 this.successMessage = '';
@@ -101,6 +104,22 @@ if (new Date(BrirthDate) > new Date()) {
       this.errorMessage = 'An error occurred while registering the patient. Please try again.';
     }
   }
+}
+
+async registerUser(nif: string, userName: string, email: string, phoneNumber: string, role: string) {
+  const newUser = { nif, userName, email, phoneNumber, role };
+  this.userService.createUser(newUser).then(
+    response => {
+      this.successMessage = 'User registered successfully!';
+      this.errorMessage = '';
+      // Optionally, reset the form or perform other actions
+    }
+  ).catch(
+    error => {
+      this.errorMessage = 'Failed to register user. Please try again.';
+      this.successMessage = '';
+    }
+  );
 }
 
 //UPDATE CLASSES

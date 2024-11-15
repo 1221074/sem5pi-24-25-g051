@@ -5,12 +5,12 @@
   </button>
 </div>
   <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
-
     <div class="admin-panel">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
-      <button (click)="showSection('syncBackoffice')">Information Sync Backoffice</button>
-      <button (click)="showSection('syncPlanning')">Information Sync Planning</button>
+      <button (click)="showSection('optimizedPlanning')">Otimized Schedule</button>
+      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
+      <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
     </div>
     <div class="admin-patient-management">
       <h3>Patient Management:</h3>
@@ -39,20 +39,92 @@
   <section [style.display]="selectedSection === 'registerUser' ? 'block' : 'none'">
     <h2>Register User</h2>
     <p>Here you can register a new user.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <div class="user-form">
+      <form>
+        <div class="form-group">
+          <label for="nif">NIF:</label><br>
+          <input type="text" id="nif" name="nif" placeholder="NIF" #nifRef required>
+        </div>
+
+        <div class="form-group">
+          <label for="userName">Username:</label><br>
+          <input type="text" id="userName" name="userName" placeholder="Username" #userNameRef required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label><br>
+          <input type="email" id="email" name="email" placeholder="Email" #emailRef required>
+        </div>
+
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number:</label><br>
+          <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" #phoneNumberRef required>
+        </div>
+
+        <div class="form-group">
+          <label for="role">Role:</label><br>
+          <select id="role" name="role" #roleRef required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="ADMIN">ADMIN</option>
+            <option value="DOCTOR">DOCTOR</option>
+            <option value="NURSE">NURSE</option>
+            <option value="TECHNICIAN">TECHNICIAN</option>
+            <option value="PATIENT">PATIENT</option>
+            <!-- Add more roles as needed -->
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <button
+      class="register-button"
+      type="button"
+      (click)="registerUser(
+        nifRef.value,
+        userNameRef.value,
+        emailRef.value,
+        phoneNumberRef.value,
+        roleRef.value
+      )"
+    >
+      Register User
+    </button>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <!-- Information Sync Backoffice Section -->
-  <section [style.display]="selectedSection === 'syncBackoffice' ? 'block' : 'none'">
-    <h2>Information Sync Backoffice</h2>
-    <p>Here you can sync information with the backoffice.</p>
+  <section [style.display]="selectedSection === 'optimizedPlanning' ? 'block' : 'none'">
+    <h2>Optimized Schedule</h2>
+    <p>Here you can obtain the the better scheduling of a set of operations(surgeries) in a certain operation room in a specific day.</p>
+
+    <div>
+      <button>Generate Schedule</button>
+    </div>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <!-- Information Sync Planning Section -->
-  <section [style.display]="selectedSection === 'syncPlanning' ? 'block' : 'none'">
+  <section [style.display]="selectedSection === 'dimensionPlanning' ? 'block' : 'none'">
+    <h2>Better solution in terms of dimensions</h2>
+    <p>Perform a complexity analysis of the problem to understand to which dimension it is feasible to
+      ask for the better solution. Document your results and findings.</p>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <section [style.display]="selectedSection === 'preferedPlanning' ? 'block' : 'none'">
     <h2>Information Sync Planning</h2>
-    <p>Here you can sync information with the planning module.</p>
+    <p>The system generates a "good" (non-optimal but efficient) schedule using heuristics or informed
+      methods (e.g., greedy algorithms, rule-based scheduling). </p>
+
+      <div>
+        <button>Generate Schedule</button>
+      </div>
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -98,7 +170,7 @@
       </form>
     </div>
     <div class="patient-contact">
-      <form>  
+      <form>
         <label for="contactInfo">Contact Information:</label><br>
         <input type="email" id="email" name="email" placeholder="Email" #emailRef required>
         <input type="tel" id="phone" name="phone" placeholder="Phone Number" #phoneRef required>
@@ -192,7 +264,7 @@
       </form>
     </div>
     <div class="patient-contact">
-      <form>  
+      <form>
         <label for="contactInfo">Contact Information:</label><br>
         <input type="email" id="updatedemail" name="email" placeholder="Email" #updatedemailRef required>
         <input type="tel" id="updatedphone" name="phone" placeholder="Phone Number" #updatedphoneRef required>
@@ -261,7 +333,7 @@
         <th>Phone</th>
         <th>Emergency Contact</th>
       </tr>
-  
+
       <tr *ngFor="let patient of patientList">
         <td>{{ patient.id }}</td>
         <td>{{ patient.FirstName }}</td>

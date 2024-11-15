@@ -51,8 +51,8 @@
       <label for="priorityState">Priority State:</label>
       <select id="priorityState" #priorityStateRef required>
         <option value="Urgent">Urgent</option>
-        <option value="Normal">Normal</option>
-        <option value="Low">Low</option>
+        <option value="Elective">Elective</option>
+        <option value="Emergency">Emergency</option>
       </select>
     </div>
 
@@ -137,11 +137,12 @@
         <select id="updatePriorityState" [(ngModel)]="selectedOperation.priorityState" name="priorityState" required>
           <option value="">Select Priority</option>
           <option value="Urgent">Urgent</option>
-          <option value="Normal">Normal</option>
-          <option value="Low">Low</option>
+          <option value="Elective">Elective</option>
+          <option value="Emergency">Emergency</option>
         </select>
       </div>
 
+      <button type="button" (click)="submitUpdate()">Update</button>
       <button type="button" (click)="cancelUpdate()">Cancel</button>
     </form>
   </div>
