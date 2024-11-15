@@ -349,7 +349,7 @@ export default class Maze {
         loaderGLTF.load('./models/free_urinal__commercial_urinal_realistic/scene.gltf', (gltf) => {
             this.urinal = gltf.scene;
             this.urinal.scale.set(0.1, 0.15, 0.12);
-            this.urinal.position.set(-8.5, 0.3, -4.6);
+            this.urinal.position.set(-8.9, 0.4, -4.6);
             this.urinal.rotateY(Math.PI);
             this.object.add(this.urinal);
 
@@ -365,7 +365,20 @@ export default class Maze {
         }
         );
 
+        loaderGLTF.load('./models/cubicle_without_toilet/scene.gltf', (gltf) => {
+            this.cubicle = gltf.scene;
+            this.cubicle.scale.set(0.455, 0.43, 0.3);
+            this.cubicle.position.set(-8.25, 0, -5.3);
+            this.object.add(this.cubicle);
 
+            let cubicle2 = gltf.scene.clone();
+            cubicle2.scale.set(0.65, 0.43, 0.3);
+            cubicle2.position.set(6.5, 0, -5.3);
+            this.object.add(cubicle2);
+
+        }
+        );
+        
 
 
 
