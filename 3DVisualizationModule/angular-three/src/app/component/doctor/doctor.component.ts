@@ -4,6 +4,7 @@ import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../service/authentication.service';
 
 @Component({
   selector: 'app-doctor',
@@ -16,6 +17,7 @@ export class DoctorComponent {
 
   //SERVICE
   doctorService: DoctorService = inject(DoctorService);
+  authService: AuthenticationService = inject(AuthenticationService);
 
   //VARIABLES
   filteredOperationList: Operationrequest[] = [];
@@ -50,10 +52,7 @@ export class DoctorComponent {
     this.selectedOperation = null;
   }
 
-  logout() {
-    // Navigate to the HomePageComponent
-    this.router.navigate(['/']);
-  }
+  logout() {this.authService.logout();}
 
 //REGISTER CLASSES
 
