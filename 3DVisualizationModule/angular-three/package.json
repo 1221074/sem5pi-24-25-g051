@@ -25,11 +25,11 @@
     "angular-three": "file:",
     "express": "^4.21.1",
     "gapi-script": "^1.2.0",
+    "jwt-decode": "^4.0.0",
     "lil-gui": "^0.20.0",
     "lodash": "^4.17.21",
     "rxjs": "~7.8.0",
     "three": "^0.170.0",
-    "three-addons": "^1.2.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
