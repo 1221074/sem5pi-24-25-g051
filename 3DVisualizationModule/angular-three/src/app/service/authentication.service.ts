@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../interface/user';
+import { jwtDecode } from 'jwt-decode';
 
 declare var google: any;
 
@@ -7,36 +9,48 @@ declare var google: any;
   providedIn: 'root'
 })
 export class AuthenticationService {
+  url1 = 'https://localhost:7252/api/user/email';
 
   mail: string | null = null;
+  userId: string | null = null;
 
 
   getMailSession() {return this.mail;}
 
   constructor(private router: Router) {
-    this.mail = localStorage.getItem('mail');
+    const token = localStorage.getItem('token') as any;
+    if(token != null) {
+      const decodedToken =  jwtDecode(token) as any;
+      this.updateMailAndUserId(decodedToken.email);
+    }
   }
 
+
   logout() {
-
-    if (this.mail) {
-      google.accounts.id.revoke(this.mail, (done: any) => {
-        console.log(`User ${this.mail} has been logged out of Google.`);
-      });
-    } else {
-      console.warn('No email provided for logout.');
-    }
-
-
-    // Clear all stored data
-    localStorage.clear();
-    sessionStorage.clear();
-
+      localStorage.clear();
+      this.mail = null;
+      this.userId = null;
     // Redirect to login
     this.router.navigate(['/']);
   }
 
-  updateMail(mail: string) {
+  updateMailAndUserId(mail: string) {
     this.mail = mail;
+    console.log('Mail:', this.mail);
+
+    //get the user id from the mail it's store in a http get request
+    this.getUserByMail(mail).then((user: User) => {
+      if (user) {
+        this.userId = user.nif;
+        console.log('User ID:', this.userId);
+      } else {
+        console.error(`User not found for email ${mail}`);
+      }
+    });
+}
+
+  private async getUserByMail(mail: string): Promise<User> {
+    const data = await fetch(`${this.url1}/${mail}`);
+        return await data.json() ?? [];
   }
 }

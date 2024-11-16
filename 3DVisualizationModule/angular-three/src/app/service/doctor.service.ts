@@ -46,9 +46,9 @@ export class DoctorService {
     //http.post(this.url, operationData).subscribe((data) => {
   }
 
-  async updateOperationRequest( operationData: any) {
+  async updateOperationRequest(id: string, operationData: any) {
     try {
-      const response = await fetch(this.url, {
+      const response = await fetch(`${this.url}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

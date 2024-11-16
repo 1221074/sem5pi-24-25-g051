@@ -1,10 +1,12 @@
-import { Component, inject, Input } from '@angular/core';
+import { AfterViewInit, Component, inject, Input } from '@angular/core';
 import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-doctor',
@@ -13,7 +15,7 @@ import { AuthenticationService } from '../../service/authentication.service';
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.scss'
 })
-export class DoctorComponent {
+export class DoctorComponent  {
 
   //SERVICE
   doctorService: DoctorService = inject(DoctorService);
@@ -34,9 +36,15 @@ export class DoctorComponent {
 //UI METHODS
   updateList() {
     this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
-      this.operationList = operationList;
-      this.filteredOperationList = operationList;
-    });
+      const loggedInDoctorId = this.authService.userId as string;
+      // Filter operations where doctorId matches the logged-in user's ID
+      this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
+
+      // Initially set the filtered list to the filtered operation list
+      this.filterResults(loggedInDoctorId);
+    }).catch(error => {
+      this.errorMessage = 'Failed to load operations. Please try again.';
+    })
   }
 
   updateListSearch(filteredOperationList: Operationrequest[]) {
@@ -131,7 +139,7 @@ async registerOperation(
 
     try {
       // Proceed to update the OperationRequest
-      await this.doctorService.updateOperationRequest(this.selectedOperation);
+      await this.doctorService.updateOperationRequest(this.selectedOperation.id.toString(),this.selectedOperation);
       this.successMessage = 'Operation updated successfully.';
       this.selectedOperation = null;
       this.updateList();

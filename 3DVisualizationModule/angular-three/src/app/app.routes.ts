@@ -20,7 +20,7 @@ const routeConfig: Routes = [
   { path: 'cube', component: CubeComponent },
   { path: 'hospital', component: HospitalComponent },
   {path: 'login', component: LoginComponent},
-  {path: 'doctor', component: DoctorComponent, title:'Doctor Page'},
+  {path: 'doctor', component: DoctorComponent, title:'Doctor Page',data: {roles: ['doctor']}},
   // Redirect to the hospital component on app load
  //{ path: 'privacy-policy', component: PrivacyPolicyComponent } // Certifique-se de que este componente existe
   {path: 'admin', component: AdminComponent, title:'Admin Page'},
