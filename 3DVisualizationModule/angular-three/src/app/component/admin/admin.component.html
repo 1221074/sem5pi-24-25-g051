@@ -386,42 +386,42 @@
     <h2>Create Staff Profile</h2>
     <p>Here you can create a new staff profile.</p>
     <P>Please enter the following data about the new staff member.</P>
-    <div class="staff-name">
-      <form>
-        <label for="name">Staff Name:</label><br>
-        <input type="text" id="firstName" name="firstName" placeholder="Fist Name" required>
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-      </form>
-    </div>
-    <div class="staff-fullName">
-      <form>
-        <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
-      </form>
-    </div>
-    <br>
-    <div class="staff-contact">
-      <form>
-        <label for="contactInfo">Contact Information:</label><br>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
-      </form>
-    </div>
-    <br>
-    <div class="staff-specialization">
-      <form>
-        <label for="specialization">Specialization:</label><br>
-        <select id="specialization" name="specialization" #specializationRef required>
+    <form>
+      <div class="staff-name">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" #firstName placeholder="First Name" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" #lastName placeholder="Last Name" required>
+      </div>
+
+      <div class="staff-fullName">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" #fullName placeholder="Full Name" required>
+      </div>
+
+      <div class="staff-contact">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" #email placeholder="Email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" #phone placeholder="Phone Number" required>
+      </div>
+
+      <div class="staff-specialization">
+        <label for="specialization">Specialization:</label>
+        <select id="specialization" name="specialization" #specialization required>
           <option value="" disabled selected>Select Specialization</option>
-          <!-- Dynamically populate specialization options -->
           <option *ngFor="let spec of specList" [value]="spec.id">
             {{ spec.specializationName }}
           </option>
         </select>
-      </form>
-    </div>
-    <br>
-    <button (click)="showSection('')">Submit</button>
-    <button (click)="showSection('')">Back to Main Menu</button>
+      </div>
+
+      <br>
+      <button type="button" (click)="registerStaff(firstName.value, lastName.value, fullName.value, specialization.value, email.value, phone.value)">Submit</button>
+      <button type="button" (click)="showSection('')">Back to Main Menu</button>
+    </form>
   </section>
 
 <section [style.display]="selectedSection === 'editStaff' ? 'block' : 'none'">

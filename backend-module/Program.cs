@@ -69,7 +69,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost4000",
         builder => builder.WithOrigins("http://localhost:4000")
                           .AllowAnyHeader()
-                          .AllowAnyMethod());
+                          .AllowAnyMethod()
+                          .AllowCredentials());
 });
 
 builder.Services.AddAuthentication(option =>

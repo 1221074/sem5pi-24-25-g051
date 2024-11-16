@@ -16,7 +16,7 @@ declare var google: any;
   imports: [CommonModule, FormsModule,HttpClientModule],
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
   @ViewChild('loginBox') private canvasRef!: ElementRef;
 
   //VARIABLES
@@ -25,11 +25,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   password: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    // Initialize Google Sign-In
+  ngOnInit(): void {
     google.accounts.id.initialize({
       client_id: '57464158480-1vvfvpssor8gqqpmb4rn8m3elh0jspof.apps.googleusercontent.com',
       callback: (response: any) => this.handleCredentialResponse(response),
@@ -72,6 +68,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }
         // After successful login
         this.authService.updateMailAndUserId(email);
+        google.accounts.id.revoke(email, (done: any) => {
+          console.log('User has been logged out of Google.');
+        });
       },
       (error) => {
         console.error('Login failed', error);

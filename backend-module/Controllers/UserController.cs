@@ -41,6 +41,18 @@ namespace backend_module.Controllers
             return Ok(user);
         }
 
+        //Http get with email only
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<UserDto>> GetByEmailAsync(string email)
+        {
+            var user = await _service.GetByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User with this email doesn't exist." });
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateAsync(CreatingUserDTO userDto)
         {

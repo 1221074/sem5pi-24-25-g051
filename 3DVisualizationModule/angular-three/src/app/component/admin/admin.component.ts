@@ -129,7 +129,20 @@ async registerUser(nif: string, userName: string, email: string, phoneNumber: st
   );
 }
 
-//async registerStaff(firstName: string, lastName: string, fullName: string, specializationId: string, email: string, phone: string) {
+async registerStaff(firstName: string, lastName: string, fullName: string, specializationId: string, email: string, phone: string) {
+  const newStaff = { firstName, lastName, fullName, specializationId, email, phone };
+  this.staffService.postStaff(newStaff).then(
+    response => {
+      this.successMessage = 'Staff registered successfully!';
+      this.errorMessage = '';
+    }
+  ).catch(
+    error => {
+      this.errorMessage = 'Failed to register staff. Please try again.';
+      this.successMessage = '';
+    }
+  );
+}
 
 //UPDATE CLASSES
   //Patient

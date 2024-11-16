@@ -1,10 +1,12 @@
-import { Component, inject, Input } from '@angular/core';
+import { AfterViewInit, Component, inject, Input } from '@angular/core';
 import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-doctor',
@@ -13,7 +15,7 @@ import { AuthenticationService } from '../../service/authentication.service';
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.scss'
 })
-export class DoctorComponent {
+export class DoctorComponent  {
 
   //SERVICE
   doctorService: DoctorService = inject(DoctorService);

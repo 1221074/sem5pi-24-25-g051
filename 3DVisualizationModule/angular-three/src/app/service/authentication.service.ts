@@ -25,17 +25,11 @@ export class AuthenticationService {
     }
   }
 
-  logout() {
-    if (this.mail) {
-      google.accounts.id.revoke(this.mail, (done: any) => {
-        console.log(`User ${this.mail} has been logged out of Google.`);
-      });
-    } else {
-      console.warn('No email provided for logout.');
-    }
-    // Clear all stored data
-    localStorage.clear();
 
+  logout() {
+      localStorage.clear();
+      this.mail = null;
+      this.userId = null;
     // Redirect to login
     this.router.navigate(['/']);
   }
