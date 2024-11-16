@@ -123,7 +123,7 @@ export default class Maze {
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
 
-/*
+
         // CHAIRS
         loaderGLTF.load('./models/tandem_seating_-_hospital/scene.gltf', (gltf) => {
             this.chair = gltf.scene;
@@ -456,43 +456,28 @@ export default class Maze {
         }
         );
 
-        loaderGLTF.load('./models/industrial_-_locker/scene.gltf', (gltf) => {
+        loaderGLTF.load('./models/school_locker/scene.gltf', (gltf) => {
             this.locker = gltf.scene;
-            this.locker.scale.set(0.03, 0.05, 0.03);
-            this.locker.position.set(-7.84, 0.4, 1.2);
-            this.locker.rotateY(Math.PI / 2);
+            this.locker.scale.set(0.1, 0.15, 0.1);
+            this.locker.position.set(-7.95, 0, 0.8);
             this.object.add(this.locker);
 
             let locker2 = gltf.scene.clone();
-            locker2.scale.set(0.03, 0.05, 0.03);
-            locker2.position.set(-7.84, 0.4, 0.8);
+            locker2.position.set(-7.95, 0, 0.4);
             this.object.add(locker2);
 
             let locker3 = gltf.scene.clone();
-            locker3.scale.set(0.03, 0.05, 0.03);
-            locker3.position.set(-7.84, 0.4, 0.4);
+            locker3.position.set(-7.95, 0, 0);
             this.object.add(locker3);
 
             let locker4 = gltf.scene.clone();
-            locker4.scale.set(0.03, 0.05, 0.03);
-            locker4.position.set(-7.84, 0.4, 0);
+            locker4.position.set(-7.95, 0, -0.4);
             this.object.add(locker4);
 
             let locker5 = gltf.scene.clone();
-            locker5.scale.set(0.03, 0.05, 0.03);
-            locker5.position.set(-7.84, 0.4, -0.4);
+            locker5.position.set(-7.95, 0, -0.8);
             this.object.add(locker5);
 
-            let locker6 = gltf.scene.clone();
-            locker6.scale.set(0.03, 0.05, 0.03);
-            locker6.position.set(-7.84, 0.4, -0.8);
-            this.object.add(locker6);
-
-            let locker7 = gltf.scene.clone();
-            locker7.scale.set(0.03, 0.05, 0.03);
-            locker7.position.set(-7.84, 0.4, -1.2);
-            this.object.add(locker7);
-            
         }
         );
 
@@ -542,8 +527,7 @@ export default class Maze {
             this.object.add(this.alarm);
 
             let alarm2 = gltf.scene.clone();
-            alarm2.position.set(0.02, 0.5, 0.1);
-            alarm2.rotateY(Math.PI);
+            alarm2.position.set(-3.02, 0.5, 0.1);
             this.object.add(alarm2);
 
         }
@@ -557,8 +541,7 @@ export default class Maze {
             this.object.add(this.exting);
 
             let exting2 = gltf.scene.clone();
-            exting2.position.set(0.06, 0.4, -0.1);
-            exting2.rotateY(Math.PI);
+            exting2.position.set(-3.06, 0.4, -0.1);
             this.object.add(exting2);
         }
         );
@@ -604,21 +587,22 @@ export default class Maze {
             stove2.position.set(-6.95, 0, 1);
             this.object.add(stove2);
 
-            let stove3 = gltf.scene.clone();
-            stove3.position.set(-6.95, 0, 0.7);
-            this.object.add(stove3);
-
-            let stove4 = gltf.scene.clone();
-            stove4.position.set(-6.95, 0, 0.4);
-            this.object.add(stove4);
         }
         );
 
-        loaderGLTF.load('./models/small_kitchen_with_oven/scene.gltf', (gltf) => {
+        loaderGLTF.load('./models/kitchen_sink/scene.gltf', (gltf) => {
+            this.sink = gltf.scene;
+            this.sink.scale.set(0.4, 0.5, 0.4);
+            this.sink.position.set(-6.95, 0.4, 0.65);
+            this.sink.rotateY(Math.PI / 2);
+            this.object.add(this.sink);
+        }
+        );
+
+        loaderGLTF.load('./models/furniture__mobel_-_kuchentisch/scene.gltf', (gltf) => {
             this.oven = gltf.scene;
-            this.oven.scale.set(0.7, 0.57, 0.55);
-            this.oven.position.set(-6.85, 0, -0.35);
-            this.oven.rotateY(Math.PI / 2);
+            this.oven.scale.set(0.3, 0.5, 0.7);
+            this.oven.position.set(-6.8, 0.24, -0.35);
             this.object.add(this.oven);
         }
         );
@@ -796,14 +780,19 @@ export default class Maze {
 
         loaderGLTF.load('./models/ambulance/scene.gltf', (gltf) => {
             this.ambulance = gltf.scene;
-            this.ambulance.scale.set(0.3, 0.3, 0.3);
+            this.ambulance.scale.set(0.3, 0.45, 0.3);
             this.ambulance.position.set(8.2, 0, -1);
             this.ambulance.rotateY(Math.PI / 2);
             this.object.add(this.ambulance);
+
+            let ambulance2 = gltf.scene.clone();
+            ambulance2.position.set(8.2, 0, -2);
+            this.object.add(ambulance2);
+
         }
         );
 
-*/
+
         //=======================================================================================================
         // Create a ground
 

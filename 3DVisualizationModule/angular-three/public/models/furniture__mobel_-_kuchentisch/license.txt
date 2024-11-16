@@ -1,0 +1,11 @@
+Model Information:
+* title:	Furniture / Möbel - Küchentisch
+* source:	https://sketchfab.com/3d-models/furniture-mobel-kuchentisch-eb484587b21745378b7e0c60e6ada5c0
+* author:	Stefan.Majewski (https://sketchfab.com/Stefan.Majewski)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Furniture / Möbel - Küchentisch" (https://sketchfab.com/3d-models/furniture-mobel-kuchentisch-eb484587b21745378b7e0c60e6ada5c0) by Stefan.Majewski (https://sketchfab.com/Stefan.Majewski) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
