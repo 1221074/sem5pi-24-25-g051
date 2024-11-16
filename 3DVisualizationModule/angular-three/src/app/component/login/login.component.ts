@@ -48,7 +48,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     const apiUrl = `https://localhost:7252/api/user/role?token=${response.credential}`;
     const token = response.credential;
     const decodedToken: any = jwtDecode(token);
-    const email = decodedToken.email
+    const email = decodedToken.email;
+
+    //put the token in localStorage
+    localStorage.setItem('token', token);
 
     this.http.get(apiUrl).subscribe(
       (res: any) => {
@@ -67,9 +70,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
           default:
             console.error('Unknown role:', role);
         }
-        console.log('Email:', email);
         // After successful login
-        this.authService.updateMail(email);
+        this.authService.updateMailAndUserId(email);
       },
       (error) => {
         console.error('Login failed', error);

@@ -53,11 +53,7 @@
   box-sizing: border-box;
 }
 
-.admin-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+
 
 .scheduleInput{
   display: flex;
@@ -77,8 +73,8 @@
   cursor: pointer;
   display: flex;
   align-items: flex-end;
-  size: 1px;
-  width: 10%;
+  size: 4px;
+  width: 60%;
   margin-top: 4px;
   margin-bottom: 10px;
 }

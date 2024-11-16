@@ -34,9 +34,15 @@ export class DoctorComponent {
 //UI METHODS
   updateList() {
     this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
-      this.operationList = operationList;
-      this.filteredOperationList = operationList;
-    });
+      const loggedInDoctorId = this.authService.userId as string;
+      // Filter operations where doctorId matches the logged-in user's ID
+      this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
+
+      // Initially set the filtered list to the filtered operation list
+      this.filterResults(loggedInDoctorId);
+    }).catch(error => {
+      this.errorMessage = 'Failed to load operations. Please try again.';
+    })
   }
 
   updateListSearch(filteredOperationList: Operationrequest[]) {
@@ -131,7 +137,7 @@ async registerOperation(
 
     try {
       // Proceed to update the OperationRequest
-      await this.doctorService.updateOperationRequest(this.selectedOperation);
+      await this.doctorService.updateOperationRequest(this.selectedOperation.id.toString(),this.selectedOperation);
       this.successMessage = 'Operation updated successfully.';
       this.selectedOperation = null;
       this.updateList();
