@@ -1,0 +1,11 @@
+Model Information:
+* title:	Small Table
+* source:	https://sketchfab.com/3d-models/small-table-a078f8dfd3e8441287522765bf7e4cbf
+* author:	Royaleyourdad (https://sketchfab.com/royaleyourdad)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Small Table" (https://sketchfab.com/3d-models/small-table-a078f8dfd3e8441287522765bf7e4cbf) by Royaleyourdad (https://sketchfab.com/royaleyourdad) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

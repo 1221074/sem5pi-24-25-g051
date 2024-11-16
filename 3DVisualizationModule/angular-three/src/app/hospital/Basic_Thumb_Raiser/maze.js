@@ -61,6 +61,24 @@ export default class Maze {
                 }
             }
 
+            /*
+            // Adicionar o retângulo à cena
+            const wallGeometry = new THREE.BoxGeometry(1, 2, 0.1); // Largura, altura, profundidade da parede
+            const textureLoader = new THREE.TextureLoader();
+            const wallTexture = textureLoader.load('./texture/wall.jpg');
+            const wallMaterial = new THREE.MeshPhongMaterial({ map: wallTexture }); // Material com textura
+            const wallCaf = new THREE.Mesh(wallGeometry, wallMaterial);
+            wallCaf.position.set(0, 1, 0); // Ajuste a posição conforme necessário//rectangle.rotateY(Math.PI / 2); // Rotaciona o plano para ficar na vertical
+            this.object.add(wallCaf);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Luz ambiente
+            this.object.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Luz direcional
+            directionalLight.position.set(5, 10, 7.5);
+            this.object.add(directionalLight);
+            */
+
             this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
             this.loaded = true;
         }
@@ -105,6 +123,7 @@ export default class Maze {
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
 
+/*
         // CHAIRS
         loaderGLTF.load('./models/tandem_seating_-_hospital/scene.gltf', (gltf) => {
             this.chair = gltf.scene;
@@ -546,19 +565,303 @@ export default class Maze {
 
 
         //=======================================================================================================
-        // 
+        // Cafeteria
 
-
-
-        // KOENIGSEGG ONE PRO CRLHHHHHHHHHHHHHH
-        /*loaderGLTF.load('./models/koenigsegg_one_pro/scene.gltf', (gltf) => {
-            this.chair = gltf.scene;
-            this.chair.scale.set(10, 10, 10);
-            this.chair.position.set(0, 0, 0);
-            this.chair.rotateY(3 * Math.PI / 1.975); //1.94 virado para a porta
-            this.object.add(this.chair);
+        loaderGLTF.load('./models/buffet_table/scene.gltf', (gltf) => {
+            this.buffet = gltf.scene;
+            this.buffet.scale.set(0.05, 0.05, 0.05);
+            this.buffet.position.set(-5.4, 0.36, 0.6);
+            this.buffet.rotateY(Math.PI / 2);
+            this.object.add(this.buffet);
         }
-        );*/
+        );
+
+        loaderGLTF.load('./models/buffets_food_warmer_foods_and_plates/scene.gltf', (gltf) => {
+            this.tray = gltf.scene;
+            this.tray.scale.set(0.2, 0.2, 0.2);
+            this.tray.position.set(-5.55, -0.03, -0.2);
+            this.tray.rotateY(Math.PI / 2);
+            this.object.add(this.tray);
+        }
+        );
+
+        loaderGLTF.load('./models/unbranded_conventional_fridge/scene.gltf', (gltf) => {
+            this.fridge = gltf.scene;
+            this.fridge.scale.set(0.002, 0.002, 0.002);
+            this.fridge.position.set(-6.7, 0.465, -1.2);
+            this.fridge.rotateY(Math.PI / 2);
+            this.object.add(this.fridge);
+        }
+        );
+
+        loaderGLTF.load('./models/stove_with_hood/scene.gltf', (gltf) => {
+            this.stove = gltf.scene;
+            this.stove.scale.set(0.4, 0.5, 0.4);
+            this.stove.position.set(-6.95, 0, 1.3);
+            this.object.add(this.stove);
+
+            let stove2 = gltf.scene.clone();
+            stove2.position.set(-6.95, 0, 1);
+            this.object.add(stove2);
+
+            let stove3 = gltf.scene.clone();
+            stove3.position.set(-6.95, 0, 0.7);
+            this.object.add(stove3);
+
+            let stove4 = gltf.scene.clone();
+            stove4.position.set(-6.95, 0, 0.4);
+            this.object.add(stove4);
+        }
+        );
+
+        loaderGLTF.load('./models/small_kitchen_with_oven/scene.gltf', (gltf) => {
+            this.oven = gltf.scene;
+            this.oven.scale.set(0.7, 0.57, 0.55);
+            this.oven.position.set(-6.85, 0, -0.35);
+            this.oven.rotateY(Math.PI / 2);
+            this.object.add(this.oven);
+        }
+        );
+
+        loaderGLTF.load('./models/sm_chair_table/scene.gltf', (gltf) => {
+            this.cafeTable = gltf.scene;
+            this.cafeTable.scale.set(0.5, 0.4, 0.5);
+            this.cafeTable.position.set(-5.4, 0, -2);
+            this.object.add(this.cafeTable);
+
+            let cafeTable2 = gltf.scene.clone();
+            cafeTable2.position.set(-5.4, 0, 2);
+            this.object.add(cafeTable2);
+
+            let cafeTable3 = gltf.scene.clone();
+            cafeTable3.position.set(-3.6, 0, -2);
+            this.object.add(cafeTable3);
+
+            let cafeTable4 = gltf.scene.clone();
+            cafeTable4.position.set(-3.6, 0, 2);
+            this.object.add(cafeTable4);
+
+            let cafeTable5 = gltf.scene.clone();
+            cafeTable5.position.set(-4.2, 0, 0);
+            this.object.add(cafeTable5);
+
+        }
+        );
+
+        loaderGLTF.load('./models/small_table/scene.gltf', (gltf) => {
+            this.smallTable = gltf.scene;
+            this.smallTable.scale.set(0.15, 0.12, 0.15);
+            this.smallTable.position.set(-5.4, 0.1, 0.85);
+            this.object.add(this.smallTable);
+        }
+        );
+
+        loaderGLTF.load('./models/coffee__tea_mugs_free/scene.gltf', (gltf) => {
+            this.mug = gltf.scene;
+            this.mug.scale.set(0.2, 0.2, 0.2);
+            this.mug.position.set(-5.32, 0.3, 0.85);
+            this.object.add(this.mug);
+
+        }
+        );
+
+        loaderGLTF.load('./models/coffeemachinemodel_archviz_productdesign_free/scene.gltf', (gltf) => {
+            this.coffee = gltf.scene;
+            this.coffee.scale.set(0.7, 0.7, 0.7);
+            this.coffee.position.set(-5.55, 0.3, 0.85);
+            this.object.add(this.coffee);
+        }
+        );
+
+        //=======================================================================================================
+        // Bedroom
+
+        loaderGLTF.load('./models/bed_curtain_and_vital_signs_monitor/scene.gltf', (gltf) => {
+            this.bed = gltf.scene;
+            this.bed.scale.set(0.15, 0.12, 0.12);
+            this.bed.position.set(5.2, 0, -2.1);
+            this.bed.rotateY(3 * Math.PI / 2);
+            this.object.add(this.bed);
+
+            let bed2 = gltf.scene.clone();
+            bed2.position.set(5.2, 0, -0.85);
+            this.object.add(bed2);
+
+            let bed3 = gltf.scene.clone();
+            bed3.position.set(5.2, 0, 0.4);
+            this.object.add(bed3);
+
+            let bed4 = gltf.scene.clone();
+            bed4.position.set(5.2, 0, 1.55);
+            this.object.add(bed4);
+        }
+        );
+
+        loaderGLTF.load('./models/hospital_bed/scene.gltf', (gltf) => {
+            this.hospitalBed = gltf.scene;
+            this.hospitalBed.scale.set(0.18, 0.3, 0.18);
+            this.hospitalBed.position.set(5.6, 0, -2.1);
+            this.object.add(this.hospitalBed);
+
+            let hospitalBed2 = gltf.scene.clone();
+            hospitalBed2.position.set(5.6, 0, -0.85);
+            this.object.add(hospitalBed2);
+
+            let hospitalBed3 = gltf.scene.clone();
+            hospitalBed3.position.set(5.6, 0, 0.4);
+            this.object.add(hospitalBed3);
+
+            let hospitalBed4 = gltf.scene.clone();
+            hospitalBed4.position.set(5.6, 0, 1.55);
+            this.object.add(hospitalBed4);
+        }
+        );
+
+        loaderGLTF.load('./models/gourney_-_hospital_bed/scene.gltf', (gltf) => {
+            this.gourney = gltf.scene;
+            this.gourney.scale.set(0.115, 0.115, 0.115);
+            this.gourney.position.set(4.3, 0.25, -1.7);
+            this.object.add(this.gourney);
+        }
+        );
+
+
+
+        //=======================================================================================================
+        // Parking lot
+
+
+        // KOENIGSEGG ONE PRO
+        loaderGLTF.load('./models/koenigsegg_one_pro/scene.gltf', (gltf) => {
+            this.kOnePro = gltf.scene;
+            this.kOnePro.scale.set(4, 5.5, 4);
+            this.kOnePro.position.set(8, 0, 1);
+            this.kOnePro.rotateY(Math.PI / 2);
+            this.object.add(this.kOnePro);
+        }
+        );
+
+        loaderGLTF.load('./models/aventador_svj_black-ghosttm/scene.gltf', (gltf) => {
+            this.aventador = gltf.scene;
+            this.aventador.scale.set(0.3, 0.4, 0.3);
+            this.aventador.position.set(8, 0, 2);
+            this.aventador.rotateY(Math.PI / 2);
+            this.object.add(this.aventador);
+        }
+        );
+
+        loaderGLTF.load('./models/ac_-_mclaren_p1_free/scene.gltf', (gltf) => {
+            this.mclaren = gltf.scene;
+            this.mclaren.scale.set(0.27, 0.34, 0.27);
+            this.mclaren.position.set(8, 0, 3);
+            this.mclaren.rotateY(Math.PI / 2);
+            this.object.add(this.mclaren);
+        }
+        );
+
+        loaderGLTF.load('./models/suzuki_gsx_750_bike_3d_model/scene.gltf', (gltf) => {
+            this.suzuki = gltf.scene;
+            this.suzuki.scale.set(0.3, 0.3, 0.3);
+            this.suzuki.position.set(8, 0, 4);
+            this.suzuki.rotateY(3 * Math.PI / 2);
+            this.object.add(this.suzuki);
+        }
+        );
+
+        loaderGLTF.load('./models/japanese_parking_machine/scene.gltf', (gltf) => {
+            this.parkingMachine = gltf.scene;
+            this.parkingMachine.scale.set(0.008, 0.008, 0.008);
+            this.parkingMachine.position.set(7.15, 0, 5);
+            this.parkingMachine.rotateY(Math.PI / 2);
+            this.object.add(this.parkingMachine);
+        }
+        );
+
+        loaderGLTF.load('./models/concrete_road_barrier_photoscanned/scene.gltf', (gltf) => {
+            this.roadBarrier = gltf.scene;
+            this.roadBarrier.scale.set(0.5, 0.5, 0.5);
+            this.roadBarrier.position.set(8, 0, 0);
+            this.roadBarrier.rotateY(Math.PI / 2);
+            this.object.add(this.roadBarrier);
+
+            let roadBarrier2 = gltf.scene.clone();
+            roadBarrier2.position.set(9, 0, 0);
+            this.object.add(roadBarrier2);
+
+            let roadBarrier3 = gltf.scene.clone();
+            roadBarrier3.position.set(10, 0, 0);
+            this.object.add(roadBarrier3);
+        }
+        );
+
+        loaderGLTF.load('./models/ambulance/scene.gltf', (gltf) => {
+            this.ambulance = gltf.scene;
+            this.ambulance.scale.set(0.3, 0.3, 0.3);
+            this.ambulance.position.set(8.2, 0, -1);
+            this.ambulance.rotateY(Math.PI / 2);
+            this.object.add(this.ambulance);
+        }
+        );
+
+*/
+        //=======================================================================================================
+        // Create a ground
+
+        loaderGLTF.load('./models/cobblestone_ground_-_lowpoly/scene.gltf', (gltf) => {
+            this.cobblestone = gltf.scene;
+            this.cobblestone.scale.set(1, 0.05, 1.65);
+            this.cobblestone.position.set(9, 0, 0.085);
+            this.object.add(this.cobblestone);
+
+            let cobblestone2 = gltf.scene.clone();
+            cobblestone2.scale.set(0.25, 0.05, 0.765);
+            cobblestone2.position.set(4.02, 0, -6);
+            cobblestone2.rotateY(Math.PI / 2);
+            this.object.add(cobblestone2);
+
+            let cobblestone3 = gltf.scene.clone();
+            cobblestone3.scale.set(0.25, 0.05, 0.765);
+            cobblestone3.position.set(-2.04, 0, -6);
+            cobblestone3.rotateY(Math.PI / 2);
+            this.object.add(cobblestone3);
+
+            let cobblestone4 = gltf.scene.clone();
+            cobblestone4.scale.set(0.25, 0.05, 0.765);
+            cobblestone4.position.set(-8.102, 0, -6);
+            cobblestone4.rotateY(Math.PI / 2);
+            this.object.add(cobblestone4);
+
+            let cobblestone5 = gltf.scene.clone();
+            cobblestone5.scale.set(0.25, 0.05, 0.765);
+            cobblestone5.position.set(4.02, 0, 6);
+            cobblestone5.rotateY(Math.PI / 2);
+            this.object.add(cobblestone5);
+
+            let cobblestone6 = gltf.scene.clone();
+            cobblestone6.scale.set(0.25, 0.05, 0.765);
+            cobblestone6.position.set(-2.04, 0, 6);
+            cobblestone6.rotateY(Math.PI / 2);
+            this.object.add(cobblestone6);
+
+            let cobblestone7 = gltf.scene.clone();
+            cobblestone7.scale.set(0.25, 0.05, 0.765);
+            cobblestone7.position.set(-8.102, 0, 6);
+            cobblestone7.rotateY(Math.PI / 2);
+            this.object.add(cobblestone7);
+
+            let cobblestone8 = gltf.scene.clone();
+            cobblestone8.scale.set(0.3, 0.05, 0.7);
+            cobblestone8.position.set(-10.605, 0, -2.68);
+            this.object.add(cobblestone8);
+
+            let cobblestone9 = gltf.scene.clone();
+            cobblestone9.scale.set(0.3, 0.05, 0.6895);
+            cobblestone9.position.set(-10.605, 0, 2.818);
+            this.object.add(cobblestone9);
+           
+        }
+        );
+
     }
 
     // Convert cell [row, column] coordinates to cartesian (x, y, z) coordinates

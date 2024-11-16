@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stove with Hood
+* source:	https://sketchfab.com/3d-models/stove-with-hood-ce6f590e7cb848e398c80208ee3b6fdf
+* author:	HippoStance (https://sketchfab.com/hippostance)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stove with Hood" (https://sketchfab.com/3d-models/stove-with-hood-ce6f590e7cb848e398c80208ee3b6fdf) by HippoStance (https://sketchfab.com/hippostance) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

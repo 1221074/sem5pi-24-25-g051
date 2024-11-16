@@ -1,0 +1,413 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 1785,
+      "max": [
+        -2.1008238792419434,
+        6.429129600524902,
+        6.932190418243408
+      ],
+      "min": [
+        -5.221093654632568,
+        -0.014463469386100769,
+        -0.8624937534332275
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 21420,
+      "componentType": 5126,
+      "count": 1785,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1785,
+      "max": [
+        1.0000001192092896,
+        1.0
+      ],
+      "min": [
+        0.0,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 4353,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 42840,
+      "componentType": 5126,
+      "count": 4166,
+      "max": [
+        7.979859828948975,
+        5.748427391052246,
+        2.9761486053466797
+      ],
+      "min": [
+        3.6856021881103516,
+        -0.014463469386100769,
+        -11.105222702026367
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 92832,
+      "componentType": 5126,
+      "count": 4166,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 14280,
+      "componentType": 5126,
+      "count": 4166,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.0,
+        -7.450580596923828e-08
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 17412,
+      "componentType": 5125,
+      "count": 14718,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 142824,
+      "componentType": 5126,
+      "count": 196,
+      "max": [
+        6.702543258666992,
+        5.384548187255859,
+        2.2505455017089844
+      ],
+      "min": [
+        4.822509765625,
+        3.3274545669555664,
+        -5.531497955322266
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 145176,
+      "componentType": 5126,
+      "count": 196,
+      "max": [
+        0.8877903819084167,
+        0.9912319183349609,
+        1.0
+      ],
+      "min": [
+        -0.9912331700325012,
+        -0.9912320971488953,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 47608,
+      "componentType": 5126,
+      "count": 196,
+      "max": [
+        0.875,
+        1.0000001192092896
+      ],
+      "min": [
+        0.125,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 76284,
+      "componentType": 5125,
+      "count": 504,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "nicolas saude (https://sketchfab.com/nicolas.saude)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/buffet-55a5f4ddffc04e609e44bd8bb4bdd450",
+      "title": "Buffet"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 78300,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 49176,
+      "byteOffset": 78300,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 147528,
+      "byteOffset": 127476,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 275004,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsRequired": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
+  "extensionsUsed": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_pbrSpecularGlossiness": {
+          "diffuseFactor": [
+            0.17158917685,
+            0.17158917685,
+            0.17158917685,
+            1.0
+          ],
+          "glossinessFactor": 0.736089939,
+          "specularFactor": [
+            0.0504954268,
+            0.0504954268,
+            0.0504954268
+          ]
+        }
+      },
+      "name": "lambert1"
+    },
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_pbrSpecularGlossiness": {
+          "diffuseFactor": [
+            0.09232088415,
+            0.09232088415,
+            0.09232088415,
+            1.0
+          ],
+          "glossinessFactor": 0.0565929878,
+          "specularFactor": [
+            0.4834222561,
+            0.4834222561,
+            0.4834222561
+          ]
+        }
+      },
+      "name": "phong1"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Buffet02_lambert1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Buffet01_lambert1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Buffet01_phong1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "e3ede8d230684f53bf6fc7560de32aef.fbx"
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        0.9169354099596645,
+        0.0,
+        0.39903565500103133,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -0.39903565500103133,
+        0.0,
+        0.9169354099596645,
+        0.0,
+        8.272008895874023,
+        0.0,
+        6.629144191741943,
+        1.0
+      ],
+      "name": "Buffet02"
+    },
+    {
+      "mesh": 0,
+      "name": "Buffet02_lambert1_0"
+    },
+    {
+      "children": [
+        6,
+        7
+      ],
+      "name": "Buffet01"
+    },
+    {
+      "mesh": 1,
+      "name": "Buffet01_lambert1_0"
+    },
+    {
+      "mesh": 2,
+      "name": "Buffet01_phong1_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

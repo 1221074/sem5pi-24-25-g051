@@ -1,0 +1,1529 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 1780,
+      "max": [
+        71.12166595458984,
+        165.64431762695313,
+        38.102413177490234
+      ],
+      "min": [
+        1.0886192321777344,
+        0.0,
+        -38.09404373168945
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 21360,
+      "componentType": 5126,
+      "count": 1780,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 1780,
+      "max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -0.9999943375587463,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1780,
+      "max": [
+        0.997188150882721,
+        0.9972469806671143
+      ],
+      "min": [
+        0.0027537879068404436,
+        0.002752964850515127
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 14240,
+      "componentType": 5126,
+      "count": 1780,
+      "max": [
+        0.997188150882721,
+        0.9972469806671143
+      ],
+      "min": [
+        0.0027537879068404436,
+        0.002752964850515127
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 7584,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 42720,
+      "componentType": 5126,
+      "count": 12430,
+      "max": [
+        66.94129180908203,
+        166.5743408203125,
+        39.01302719116211
+      ],
+      "min": [
+        -7.748603820800781e-05,
+        85.3059310913086,
+        -39.01303482055664
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 191880,
+      "componentType": 5126,
+      "count": 12430,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 28480,
+      "componentType": 5126,
+      "count": 12430,
+      "max": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 28480,
+      "componentType": 5126,
+      "count": 12430,
+      "max": [
+        0.9974544644355774,
+        0.9944475889205933
+      ],
+      "min": [
+        0.002545194933190942,
+        0.0024144642520695925
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 127920,
+      "componentType": 5126,
+      "count": 12430,
+      "max": [
+        0.9974544644355774,
+        0.9944475889205933
+      ],
+      "min": [
+        0.002545194933190942,
+        0.0024144642520695925
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 30336,
+      "componentType": 5125,
+      "count": 58236,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 341040,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.5644433498382568,
+        0.8256912231445313,
+        0.5304545164108276
+      ],
+      "min": [
+        -0.5103714466094971,
+        -0.8625984191894531,
+        -0.5304664373397827
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 342288,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9989815950393677,
+        0.9965938925743103,
+        0.9915249943733215
+      ],
+      "min": [
+        -0.26752638816833496,
+        -0.9963921904563904,
+        -0.9915235042572021
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 227360,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.36283162236213684,
+        0.9989815950393677,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -0.9965939521789551,
+        -0.2675263583660126,
+        -0.15381209552288055,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 227360,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 228192,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 263280,
+      "componentType": 5125,
+      "count": 372,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 343536,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        1.0294407606124878,
+        0.8584141731262207,
+        1.253342628479004
+      ],
+      "min": [
+        -1.0210812091827393,
+        -0.8584499359130859,
+        -1.4413684606552124
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 344784,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9969931840896606,
+        0.9915220737457275,
+        0.9985193610191345
+      ],
+      "min": [
+        -0.42563682794570923,
+        -0.9915259480476379,
+        -0.9964797496795654
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 229024,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.6639108657836914,
+        1.0,
+        9.190388254864956e-07,
+        1.0
+      ],
+      "min": [
+        -0.9964797496795654,
+        -0.15382404625415802,
+        -0.9969931840896606,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 229024,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 229856,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 264768,
+      "componentType": 5125,
+      "count": 372,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 346032,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        1.0294437408447266,
+        0.8584141731262207,
+        1.2533440589904785
+      ],
+      "min": [
+        -1.0210782289505005,
+        -0.8584499359130859,
+        -1.4413654804229736
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 347280,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9969927668571472,
+        0.9915260076522827,
+        0.9985194206237793
+      ],
+      "min": [
+        -0.42563536763191223,
+        -0.9915220737457275,
+        -0.996479868888855
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 230688,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.6639055609703064,
+        1.0,
+        4.845884404858225e-07,
+        1.0
+      ],
+      "min": [
+        -0.9964799284934998,
+        -0.15382468700408936,
+        -0.996992826461792,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 230688,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 231520,
+      "componentType": 5126,
+      "count": 104,
+      "max": [
+        0.9972372651100159,
+        0.31075164675712585
+      ],
+      "min": [
+        0.9916911125183105,
+        0.17922955751419067
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 266256,
+      "componentType": 5125,
+      "count": 372,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 348528,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        2.8113183975219727,
+        -1.257285475730896e-06,
+        2.811300754547119
+      ],
+      "min": [
+        -2.811285972595215,
+        -2.9519283771514893,
+        -2.811300754547119
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 352440,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9910212159156799,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 232352,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.9973646998405457,
+        1.0,
+        0.9999999403953552,
+        -1.0
+      ],
+      "min": [
+        -1.0,
+        -0.6236394643783569,
+        -0.9573653340339661,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 232352,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 234960,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 267744,
+      "componentType": 5125,
+      "count": 1458,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 356352,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        2.811312437057495,
+        1.7229467630386353e-06,
+        2.8112947940826416
+      ],
+      "min": [
+        -2.8112916946411133,
+        -2.95192551612854,
+        -2.811300754547119
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 360264,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9910252690315247,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 237568,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.9973645806312561,
+        1.0,
+        0.9999999403953552,
+        -1.0
+      ],
+      "min": [
+        -1.0,
+        -0.6236310601234436,
+        -0.9573591351509094,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 237568,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 240176,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 273576,
+      "componentType": 5125,
+      "count": 1458,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 364176,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        2.8113181591033936,
+        5.867332220077515e-06,
+        2.811300039291382
+      ],
+      "min": [
+        -2.8112850189208984,
+        -2.9519217014312744,
+        -2.8112986087799072
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 368088,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9910252690315247,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 242784,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.9973649382591248,
+        1.0,
+        0.9573665261268616,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.6236065626144409,
+        -0.9999998807907104,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 242784,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 245392,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 279408,
+      "componentType": 5125,
+      "count": 1458,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 372000,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        2.811323404312134,
+        4.842877388000488e-06,
+        2.811297655105591
+      ],
+      "min": [
+        -2.811279773712158,
+        -2.951922655105591,
+        -2.8112995624542236
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 375912,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9910252690315247,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 248000,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.9973649382591248,
+        1.0,
+        0.957366406917572,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.6236065626144409,
+        -0.9999998807907104,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 248000,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 250608,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 285240,
+      "componentType": 5125,
+      "count": 1458,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 379824,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        2.8113181591033936,
+        5.774199962615967e-06,
+        2.8113036155700684
+      ],
+      "min": [
+        -2.8112850189208984,
+        -2.9519221782684326,
+        -2.81129789352417
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 383736,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9910212159156799,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 253216,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.9973645806312561,
+        1.0,
+        0.957369327545166,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.623607337474823,
+        -0.9999999403953552,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 253216,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 255824,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        0.693861186504364,
+        0.8767537474632263
+      ],
+      "min": [
+        0.4643934667110443,
+        0.17076198756694794
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 291072,
+      "componentType": 5125,
+      "count": 1458,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "HippoStance (https://sketchfab.com/hippostance)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/stove-with-hood-ce6f590e7cb848e398c80208ee3b6fdf",
+      "title": "Stove with Hood"
+    },
+    "generator": "Sketchfab-12.68.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 296904,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 258432,
+      "byteOffset": 296904,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 387648,
+      "byteOffset": 555336,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 258432,
+      "byteOffset": 942984,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1201416,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/StoveBody_baseColor.png"
+    },
+    {
+      "uri": "textures/StoveBody_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/StoveBody_normal.png"
+    },
+    {
+      "uri": "textures/StoveControls_baseColor.png"
+    },
+    {
+      "uri": "textures/StoveControls_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/StoveControls_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "name": "StoveBody",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "name": "StoveControls",
+      "normalTexture": {
+        "index": 5
+      },
+      "occlusionTexture": {
+        "index": 4
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 3
+        },
+        "metallicRoughnessTexture": {
+          "index": 4
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Stove_StoveBody_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Stove_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6,
+            "TANGENT": 8,
+            "TEXCOORD_0": 9,
+            "TEXCOORD_1": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveOvenLight_StoveBody_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 13,
+            "POSITION": 12,
+            "TANGENT": 14,
+            "TEXCOORD_0": 15,
+            "TEXCOORD_1": 16
+          },
+          "indices": 17,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveLight_StoveBody_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 19,
+            "POSITION": 18,
+            "TANGENT": 20,
+            "TEXCOORD_0": 21,
+            "TEXCOORD_1": 22
+          },
+          "indices": 23,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveFan_StoveBody_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 25,
+            "POSITION": 24,
+            "TANGENT": 26,
+            "TEXCOORD_0": 27,
+            "TEXCOORD_1": 28
+          },
+          "indices": 29,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveBurnerDialTopLeft_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 31,
+            "POSITION": 30,
+            "TANGENT": 32,
+            "TEXCOORD_0": 33,
+            "TEXCOORD_1": 34
+          },
+          "indices": 35,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveBurnerDialBottomLeft_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 37,
+            "POSITION": 36,
+            "TANGENT": 38,
+            "TEXCOORD_0": 39,
+            "TEXCOORD_1": 40
+          },
+          "indices": 41,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveOvenDial_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 43,
+            "POSITION": 42,
+            "TANGENT": 44,
+            "TEXCOORD_0": 45,
+            "TEXCOORD_1": 46
+          },
+          "indices": 47,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveBurnerDialTopRight_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 49,
+            "POSITION": 48,
+            "TANGENT": 50,
+            "TEXCOORD_0": 51,
+            "TEXCOORD_1": 52
+          },
+          "indices": 53,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "StoveBurnerDialBottomRight_StoveControls_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 55,
+            "POSITION": 54,
+            "TANGENT": 56,
+            "TEXCOORD_0": 57,
+            "TEXCOORD_1": 58
+          },
+          "indices": 59,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.2204459996194763e-18,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        2.2204459996194763e-18,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Stove.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21
+      ],
+      "name": "StoveOrigin"
+    },
+    {
+      "children": [
+        5,
+        6
+      ],
+      "name": "Stove"
+    },
+    {
+      "mesh": 0,
+      "name": "Stove_StoveBody_0"
+    },
+    {
+      "mesh": 1,
+      "name": "Stove_StoveControls_0"
+    },
+    {
+      "children": [
+        8
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.584439277648926,
+        104.67755889892578,
+        16.227951049804688,
+        1.0
+      ],
+      "name": "StoveOvenLight"
+    },
+    {
+      "mesh": 2,
+      "name": "StoveOvenLight_StoveBody_0"
+    },
+    {
+      "children": [
+        10
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        33.63380813598633,
+        162.6020965576172,
+        -26.950382232666016,
+        1.0
+      ],
+      "name": "StoveLight"
+    },
+    {
+      "mesh": 3,
+      "name": "StoveLight_StoveBody_0"
+    },
+    {
+      "children": [
+        12
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        33.6338005065918,
+        162.6020965576172,
+        -22.192668914794922,
+        1.0
+      ],
+      "name": "StoveFan"
+    },
+    {
+      "mesh": 4,
+      "name": "StoveFan_StoveBody_0"
+    },
+    {
+      "children": [
+        14
+      ],
+      "matrix": [
+        -0.3473465871284757,
+        0.9377366954490132,
+        0.0,
+        0.0,
+        -0.9377366954490132,
+        -0.3473465871284757,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.453344345092773,
+        104.57068634033203,
+        31.278669357299805,
+        1.0
+      ],
+      "name": "StoveBurnerDialTopLeft"
+    },
+    {
+      "mesh": 5,
+      "name": "StoveBurnerDialTopLeft_StoveControls_0"
+    },
+    {
+      "children": [
+        16
+      ],
+      "matrix": [
+        -0.3473465871284757,
+        0.9377366954490132,
+        0.0,
+        0.0,
+        -0.9377366954490132,
+        -0.3473465871284757,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.45334529876709,
+        104.5707015991211,
+        22.900999069213867,
+        1.0
+      ],
+      "name": "StoveBurnerDialBottomLeft"
+    },
+    {
+      "mesh": 6,
+      "name": "StoveBurnerDialBottomLeft_StoveControls_0"
+    },
+    {
+      "children": [
+        18
+      ],
+      "matrix": [
+        -0.3473458460267298,
+        0.937737097084239,
+        0.0,
+        0.0,
+        -0.937737097084239,
+        -0.3473458460267298,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.453354835510254,
+        104.5707015991211,
+        -7.622004508972168,
+        1.0
+      ],
+      "name": "StoveOvenDial"
+    },
+    {
+      "mesh": 7,
+      "name": "StoveOvenDial_StoveControls_0"
+    },
+    {
+      "children": [
+        20
+      ],
+      "matrix": [
+        -0.3473458460267298,
+        0.937737097084239,
+        0.0,
+        0.0,
+        -0.937737097084239,
+        -0.3473458460267298,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.45335578918457,
+        104.5707015991211,
+        -22.892627716064453,
+        1.0
+      ],
+      "name": "StoveBurnerDialTopRight"
+    },
+    {
+      "mesh": 8,
+      "name": "StoveBurnerDialTopRight_StoveControls_0"
+    },
+    {
+      "children": [
+        22
+      ],
+      "matrix": [
+        -0.3473458460267298,
+        0.937737097084239,
+        0.0,
+        0.0,
+        -0.937737097084239,
+        -0.3473458460267298,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        9.453354835510254,
+        104.5707015991211,
+        -31.27030372619629,
+        1.0
+      ],
+      "name": "StoveBurnerDialBottomRight"
+    },
+    {
+      "mesh": 9,
+      "name": "StoveBurnerDialBottomRight_StoveControls_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    }
+  ]
+}

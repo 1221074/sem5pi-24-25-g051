@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gourney - Hospital Bed
+* source:	https://sketchfab.com/3d-models/gourney-hospital-bed-aecf349e49864d8492cf320e5b8d063c
+* author:	meeww (https://sketchfab.com/meeww)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gourney - Hospital Bed" (https://sketchfab.com/3d-models/gourney-hospital-bed-aecf349e49864d8492cf320e5b8d063c) by meeww (https://sketchfab.com/meeww) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
