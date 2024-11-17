@@ -210,7 +210,7 @@ export default class ThumbRaiser {
             this.renderer.setPixelRatio(window.devicePixelRatio);
         }
         this.renderer.autoClear = false;
-        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.enabled = false;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
@@ -703,7 +703,7 @@ export default class ThumbRaiser {
                     if (this.player.keyStates.backward) {
                         const newPosition = new THREE.Vector3(-coveredDistance * Math.sin(direction), 0.0, -coveredDistance * Math.cos(direction)).add(this.player.position);
                         if (this.collision(newPosition)) {
-                            this.animations.fadeToAction("Death", 0.2);
+                            //this.animations.fadeToAction("Death", 0.2); //COLISAO desativada
                         }
                         else {
                             this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
@@ -713,7 +713,7 @@ export default class ThumbRaiser {
                     else if (this.player.keyStates.forward) {
                         const newPosition = new THREE.Vector3(coveredDistance * Math.sin(direction), 0.0, coveredDistance * Math.cos(direction)).add(this.player.position);
                         if (this.collision(newPosition)) {
-                            this.animations.fadeToAction("Death", 0.2);
+                            //this.animations.fadeToAction("Death", 0.2); //COLISAO desativada
                         }
                         else {
                             this.animations.fadeToAction(this.player.keyStates.run ? "Running" : "Walking", 0.2);
