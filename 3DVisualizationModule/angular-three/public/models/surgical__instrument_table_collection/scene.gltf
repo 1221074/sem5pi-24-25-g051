@@ -1,0 +1,376 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 9746,
+      "max": [
+        0.4804050028324127,
+        2.155118942260742,
+        1.2010480165481567
+      ],
+      "min": [
+        -0.5860580205917358,
+        0.9800410270690918,
+        0.0018550000386312604
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 116952,
+      "componentType": 5126,
+      "count": 9746,
+      "max": [
+        0.9999781847000122,
+        0.9997346997261047,
+        0.999997615814209
+      ],
+      "min": [
+        -0.9999966621398926,
+        -0.9999866485595703,
+        -0.9993882179260254
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 9746,
+      "max": [
+        0.9918550252914429,
+        0.9999750256538391
+      ],
+      "min": [
+        5.900000178371556e-05,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 18777,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 233904,
+      "componentType": 5126,
+      "count": 5475,
+      "max": [
+        0.2801870107650757,
+        -0.9946680068969727,
+        1.229004979133606
+      ],
+      "min": [
+        -0.489874005317688,
+        -2.132812976837158,
+        0.0014590000500902534
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 299604,
+      "componentType": 5126,
+      "count": 5475,
+      "max": [
+        0.9999938011169434,
+        0.9998798370361328,
+        0.9999940395355225
+      ],
+      "min": [
+        -0.9998693466186523,
+        -0.9998798370361328,
+        -0.9826560616493225
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 77968,
+      "componentType": 5126,
+      "count": 5475,
+      "max": [
+        0.9689800143241882,
+        0.9999099969863892
+      ],
+      "min": [
+        2.499999936844688e-05,
+        1.5999999959603883e-05
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 75108,
+      "componentType": 5125,
+      "count": 26115,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 365304,
+      "componentType": 5126,
+      "count": 15732,
+      "max": [
+        0.3502109944820404,
+        0.722087025642395,
+        1.1993190050125122
+      ],
+      "min": [
+        -0.6000440120697021,
+        -0.844793975353241,
+        -0.0019519999623298645
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 554088,
+      "componentType": 5126,
+      "count": 15732,
+      "max": [
+        0.9999792575836182,
+        0.9999874830245972,
+        0.9999984502792358
+      ],
+      "min": [
+        -0.9999978542327881,
+        -0.999969482421875,
+        -0.999435305595398
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 121768,
+      "componentType": 5126,
+      "count": 15732,
+      "max": [
+        0.9979919791221619,
+        0.9999960064888
+      ],
+      "min": [
+        8.499999967170879e-05,
+        4.999999873689376e-06
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 179568,
+      "componentType": 5125,
+      "count": 63627,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Digital Surgery (https://sketchfab.com/digitalsurgery)",
+      "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+      "source": "https://sketchfab.com/3d-models/surgical-instrument-table-collection-a1fcfeab1ad646638089655e8b6f0e2b",
+      "title": "Surgical / Instrument table collection"
+    },
+    "generator": "Sketchfab-16.28.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 434076,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 247624,
+      "byteOffset": 434076,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 742872,
+      "byteOffset": 681700,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1424572,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Beistelltisch_Cleaned.1001_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Einzeltisch_Cleaned_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Material.001_baseColor.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Beistelltisch_Cleaned.1001",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Einzeltisch_Cleaned",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0.0
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Material.001",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicFactor": 0.0
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 5,
+            "POSITION": 4,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4
+      ],
+      "name": "Surgical_Table_Single_Collection.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}

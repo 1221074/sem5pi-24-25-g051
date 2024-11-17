@@ -123,7 +123,8 @@ export default class Maze {
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
 
-
+/*        
+        //=======================================================================================================
         // CHAIRS
         loaderGLTF.load('./models/tandem_seating_-_hospital/scene.gltf', (gltf) => {
             this.chair = gltf.scene;
@@ -722,6 +723,7 @@ export default class Maze {
             this.kOnePro.position.set(8, 0, 1);
             this.kOnePro.rotateY(Math.PI / 2);
             this.object.add(this.kOnePro);
+            //this.kOnePro.visible = false;
         }
         );
 
@@ -793,6 +795,473 @@ export default class Maze {
         );
 
 
+        //=======================================================================================================
+        // Consultório
+
+        loaderGLTF.load('./models/table/scene.gltf', (gltf) => {
+            this.tableC = gltf.scene;
+            this.tableC.scale.set(0.65, 0.8, 0.75);
+            this.tableC.position.set(-7.44, 0.39, -4.73);
+            this.object.add(this.tableC);
+
+            let tableC2 = gltf.scene.clone();
+            tableC2.position.set(-7.44, 0.39, 4.73);
+            this.object.add(tableC2);
+
+            let tableC3 = gltf.scene.clone();
+            tableC3.position.set(-5.44, 0.39, -4.73);
+            this.object.add(tableC3);
+            
+            let tableC4 = gltf.scene.clone();
+            tableC4.position.set(-5.44, 0.39, 4.73);
+            this.object.add(tableC4);
+            
+            let tableC5 = gltf.scene.clone();
+            tableC5.position.set(-3.44, 0.39, -4.73);
+            this.object.add(tableC5);
+
+            let tableC6 = gltf.scene.clone();
+            tableC6.position.set(-3.44, 0.39, 4.73);
+            this.object.add(tableC6);
+        }
+        );
+
+        loaderGLTF.load('./models/retro_computer_setup_free/scene.gltf', (gltf) => {
+            this.computerC = gltf.scene;
+            this.computerC.scale.set(0.005, 0.005, 0.004);
+            this.computerC.position.set(-7.6, 0.42, -4.8);
+            this.computerC.rotateY(Math.PI);
+            this.object.add(this.computerC);
+
+            let computerC2 = gltf.scene.clone();
+            computerC2.position.set(-7.6, 0.42, 4.8);
+            computerC2.rotateY(Math.PI);
+            this.object.add(computerC2);
+
+            let computerC3 = gltf.scene.clone();
+            computerC3.position.set(-5.6, 0.42, -4.8);
+            this.object.add(computerC3);
+
+            let computerC4 = gltf.scene.clone();
+            computerC4.position.set(-5.6, 0.42, 4.8);
+            computerC4.rotateY(Math.PI);
+            this.object.add(computerC4);
+
+            let computerC5 = gltf.scene.clone();
+            computerC5.position.set(-3.6, 0.42, -4.8);
+            this.object.add(computerC5);
+
+            let computerC6 = gltf.scene.clone();
+            computerC6.position.set(-3.6, 0.42, 4.8);
+            computerC6.rotateY(Math.PI);
+            this.object.add(computerC6);
+        }
+        );
+
+        loaderGLTF.load('./models/ikea_markus_office_chair/scene.gltf', (gltf) => {
+            this.chairC = gltf.scene;
+            this.chairC.scale.set(0.0045, 0.0055, 0.0045);
+            this.chairC.position.set(-7.55, 0, -5);
+            this.object.add(this.chairC);
+
+            let chairC2 = gltf.scene.clone();
+            chairC2.position.set(-7.55, 0, 5);
+            chairC2.rotateY(Math.PI);
+            this.object.add(chairC2);
+
+            let chairC3 = gltf.scene.clone();
+            chairC3.position.set(-5.55, 0, -5);
+            this.object.add(chairC3);
+
+            let chairC4 = gltf.scene.clone();
+            chairC4.position.set(-5.55, 0, 5);
+            chairC4.rotateY(Math.PI);
+            this.object.add(chairC4);
+
+            let chairC5 = gltf.scene.clone();
+            chairC5.position.set(-3.55, 0, -5);
+            this.object.add(chairC5);
+
+            let chairC6 = gltf.scene.clone();
+            chairC6.position.set(-3.55, 0, 5);
+            chairC6.rotateY(Math.PI);
+            this.object.add(chairC6);
+        }
+        );
+
+        loaderGLTF.load('./models/chair/scene.gltf', (gltf) => {
+            this.patientChair = gltf.scene;
+            this.patientChair.scale.set(0.39, 0.45, 0.39);
+            this.patientChair.position.set(-7.7, 0.01, -4.4);
+            this.patientChair.rotateY(Math.PI);
+            this.object.add(this.patientChair);
+
+            let patientChair2 = gltf.scene.clone();
+            patientChair2.position.set(-7.3, 0.01, -4.4);
+            this.object.add(patientChair2);
+
+            let patientChair3 = gltf.scene.clone();
+            patientChair3.position.set(-7.7, 0.01, 4.4);
+            patientChair3.rotateY(Math.PI);
+            this.object.add(patientChair3);
+
+            let patientChair4 = gltf.scene.clone();
+            patientChair4.position.set(-7.3, 0.01, 4.4);
+            patientChair4.rotateY(Math.PI);
+            this.object.add(patientChair4);
+
+            let patientChair5 = gltf.scene.clone();
+            patientChair5.position.set(-5.7, 0.01, -4.4);
+            this.object.add(patientChair5);
+
+            let patientChair6 = gltf.scene.clone();
+            patientChair6.position.set(-5.3, 0.01, -4.4);
+            this.object.add(patientChair6);
+
+            let patientChair7 = gltf.scene.clone();
+            patientChair7.position.set(-5.7, 0.01, 4.4);
+            patientChair7.rotateY(Math.PI);
+            this.object.add(patientChair7);
+
+            let patientChair8 = gltf.scene.clone();
+            patientChair8.position.set(-5.3, 0.01, 4.4);
+            patientChair8.rotateY(Math.PI);
+            this.object.add(patientChair8);
+
+            let patientChair9 = gltf.scene.clone();
+            patientChair9.position.set(-3.7, 0.01, -4.4);
+            this.object.add(patientChair9);
+
+            let patientChair10 = gltf.scene.clone();
+            patientChair10.position.set(-3.3, 0.01, -4.4);
+            this.object.add(patientChair10);
+
+            let patientChair11 = gltf.scene.clone();
+            patientChair11.position.set(-3.7, 0.01, 4.4);
+            patientChair11.rotateY(Math.PI);
+            this.object.add(patientChair11);
+
+            let patientChair12 = gltf.scene.clone();
+            patientChair12.position.set(-3.3, 0.01, 4.4);
+            patientChair12.rotateY(Math.PI);
+            this.object.add(patientChair12);
+        }
+        );
+
+        loaderGLTF.load('./models/office_filing_cabinet_free/scene.gltf', (gltf) => {
+            this.cabinet = gltf.scene;
+            this.cabinet.scale.set(0.11, 0.13, 0.12);
+            this.cabinet.position.set(-7, 0.2, -5.33);
+            this.object.add(this.cabinet);
+
+            let cabinet2 = gltf.scene.clone();
+            cabinet2.position.set(-7, 0.2, 5.33);
+            cabinet2.rotateY(Math.PI);
+            this.object.add(cabinet2);
+
+            let cabinet3 = gltf.scene.clone();
+            cabinet3.position.set(-5, 0.2, -5.33);
+            this.object.add(cabinet3);
+
+            let cabinet4 = gltf.scene.clone();
+            cabinet4.position.set(-5, 0.2, 5.33);
+            cabinet4.rotateY(Math.PI);
+            this.object.add(cabinet4);
+
+            let cabinet5 = gltf.scene.clone();
+            cabinet5.position.set(-3, 0.2, -5.33);
+            this.object.add(cabinet5);
+
+            let cabinet6 = gltf.scene.clone();
+            cabinet6.position.set(-3, 0.2, 5.33);
+            cabinet6.rotateY(Math.PI);
+            this.object.add(cabinet6);
+        }
+        );
+
+        loaderGLTF.load('./models/hospital_bed_patient/scene.gltf', (gltf) => {
+            this.hospitalBedC = gltf.scene;
+            this.hospitalBedC.scale.set(0.5, 0.5, 0.5);
+            this.hospitalBedC.position.set(-6.25, 0, -4.8);
+            this.hospitalBedC.rotateY(Math.PI / 2);
+            this.object.add(this.hospitalBedC);
+
+            let hospitalBedC2 = gltf.scene.clone();
+            hospitalBedC2.position.set(-6.25, 0, 4.8);
+            hospitalBedC2.rotateY(Math.PI);
+            this.object.add(hospitalBedC2);
+
+            let hospitalBedC3 = gltf.scene.clone();
+            hospitalBedC3.position.set(-4.25, 0, -4.8);
+            this.object.add(hospitalBedC3);
+
+            let hospitalBedC4 = gltf.scene.clone();
+            hospitalBedC4.position.set(-4.25, 0, 4.8);
+            hospitalBedC4.rotateY(Math.PI);
+            this.object.add(hospitalBedC4);
+
+            let hospitalBedC5 = gltf.scene.clone();
+            hospitalBedC5.position.set(-2.25, 0, -4.8);
+            this.object.add(hospitalBedC5);
+
+            let hospitalBedC6 = gltf.scene.clone();
+            hospitalBedC6.position.set(-2.25, 0, 4.8);
+            hospitalBedC6.rotateY(Math.PI);
+            this.object.add(hospitalBedC6);
+        }
+        );
+
+    
+        //=======================================================================================================
+        // Surgery room
+
+        loaderGLTF.load('./models/surgical__instrument_table_collection/scene.gltf', (gltf) => {
+            this.surgicalInstruments = gltf.scene;
+            this.surgicalInstruments.scale.set(0.4, 0.5, 0.4);
+            this.surgicalInstruments.position.set(-0.9, 0, -0.8);
+            this.surgicalInstruments.rotateY(Math.PI / 2);
+            this.object.add(this.surgicalInstruments);
+
+            let surgicalInstruments2 = gltf.scene.clone();
+            surgicalInstruments2.position.set(-0.9, 0, 0.8);
+            surgicalInstruments2.rotateY(Math.PI);
+            this.object.add(surgicalInstruments2);
+
+            let surgicalInstruments3 = gltf.scene.clone();
+            surgicalInstruments3.position.set(3.1, 0, -0.8);
+            this.object.add(surgicalInstruments3);
+
+            let surgicalInstruments4 = gltf.scene.clone();
+            surgicalInstruments4.position.set(3.1, 0, 0.8);
+            surgicalInstruments4.rotateY(Math.PI);
+            this.object.add(surgicalInstruments4);
+
+            let surgicalInstruments5 = gltf.scene.clone();
+            surgicalInstruments5.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments5.position.set(1, 0, -5.35);
+            this.object.add(surgicalInstruments5);
+
+            let surgicalInstruments6 = gltf.scene.clone();
+            surgicalInstruments6.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments6.position.set(1, 0, 5.35);
+            surgicalInstruments6.rotateY(Math.PI);
+            this.object.add(surgicalInstruments6);
+
+            let surgicalInstruments7 = gltf.scene.clone();
+            surgicalInstruments7.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments7.position.set(3, 0, -5.35);
+            this.object.add(surgicalInstruments7);
+
+            let surgicalInstruments8 = gltf.scene.clone();
+            surgicalInstruments8.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments8.position.set(3, 0, 5.35);
+            surgicalInstruments8.rotateY(Math.PI);
+            this.object.add(surgicalInstruments8);
+
+            let surgicalInstruments9 = gltf.scene.clone();
+            surgicalInstruments9.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments9.position.set(5, 0, -5.35);
+            this.object.add(surgicalInstruments9);
+
+            let surgicalInstruments10 = gltf.scene.clone();
+            surgicalInstruments10.scale.set(0.3, 0.5, 0.3);
+            surgicalInstruments10.position.set(5, 0, 5.35);
+            surgicalInstruments10.rotateY(Math.PI);
+            this.object.add(surgicalInstruments10);
+        }
+        );
+
+        loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
+            this.surgicalBed = gltf.scene;
+            this.surgicalBed.scale.set(0.5, 0.57, 0.5);
+            this.surgicalBed.position.set(-2.7, 0, -4.2);
+            this.object.add(this.surgicalBed);
+
+            let surgicalBed2 = gltf.scene.clone();
+            surgicalBed2.position.set(-2.7, 0, -1);
+            this.object.add(surgicalBed2);
+
+            let surgicalBed3 = gltf.scene.clone();
+            surgicalBed3.position.set(1.3, 0, -4.2);
+            this.object.add(surgicalBed3);
+
+            let surgicalBed4 = gltf.scene.clone();
+            surgicalBed4.position.set(1.3, 0, -1);
+            this.object.add(surgicalBed4);
+
+            let surgicalBed5 = gltf.scene.clone();
+            surgicalBed5.position.set(-0.5, 0, -7.2);
+            this.object.add(surgicalBed5);
+
+            let surgicalBed6 = gltf.scene.clone();
+            surgicalBed6.position.set(-0.5, 0, 2);
+            this.object.add(surgicalBed6);
+
+            let surgicalBed7 = gltf.scene.clone();
+            surgicalBed7.position.set(1.5, 0, -7.2);
+            this.object.add(surgicalBed7);
+
+            let surgicalBed8 = gltf.scene.clone();
+            surgicalBed8.position.set(1.5, 0, 2);
+            this.object.add(surgicalBed8);
+
+            let surgicalBed9 = gltf.scene.clone();
+            surgicalBed9.position.set(3.5, 0, -7.2);
+            this.object.add(surgicalBed9);
+
+            let surgicalBed10 = gltf.scene.clone();
+            surgicalBed10.position.set(3.5, 0, 2);
+            this.object.add(surgicalBed10);
+        }
+        );
+
+        loaderGLTF.load('./models/doctors_office_-_assets/scene.gltf', (gltf) => {
+            this.doctorsOffice = gltf.scene;
+            this.doctorsOffice.scale.set(0.5, 0.5, 0.5);
+            this.doctorsOffice.position.set(-2.3, 0, -2.2);
+            this.doctorsOffice.rotateY(3 * Math.PI / 2);
+            this.object.add(this.doctorsOffice);
+
+            let doctorsOffice2 = gltf.scene.clone();
+            doctorsOffice2.position.set(-2.3, 0, 2.2);
+            doctorsOffice2.rotateY(Math.PI);
+            this.object.add(doctorsOffice2);
+
+            let doctorsOffice3 = gltf.scene.clone();
+            doctorsOffice3.position.set(1.7, 0, -2.2);
+            this.object.add(doctorsOffice3);
+
+            let doctorsOffice4 = gltf.scene.clone();
+            doctorsOffice4.position.set(1.7, 0, 2.2);
+            doctorsOffice4.rotateY(Math.PI);
+            this.object.add(doctorsOffice4);
+        }
+        );
+
+        loaderGLTF.load('./models/simple_studio_light/scene.gltf', (gltf) => {
+            this.light = gltf.scene;
+            this.light.scale.set(0.5, 0.45, 0.5);
+            this.light.position.set(-0.3, 0, -2.2);
+            this.light.rotateY(7 * Math.PI / 4);
+            this.object.add(this.light);
+
+            let light2 = gltf.scene.clone();
+            light2.position.set(-0.3, 0, 2.2);
+            light2.rotateY(3 * Math.PI / 2);
+            this.object.add(light2);
+
+            let light3 = gltf.scene.clone();
+            light3.position.set(3.7, 0, -2.2);
+            this.object.add(light3);
+
+            let light4 = gltf.scene.clone();
+            light4.position.set(3.7, 0, 2.2);
+            light4.rotateY(3 * Math.PI / 2);
+            this.object.add(light4);
+
+            let light5 = gltf.scene.clone();
+            light5.position.set(1.7, 0, -3.8);
+            light5.rotateY(7 * Math.PI / 5);
+            this.object.add(light5);
+
+            let light6 = gltf.scene.clone();
+            light6.position.set(1.7, 0, 3.8);
+            light6.rotateY(11 * Math.PI / 5);
+            this.object.add(light6);
+
+            let light7 = gltf.scene.clone();
+            light7.position.set(3.7, 0, -3.8);
+            light7.rotateY(7 * Math.PI / 5);
+            this.object.add(light7);
+
+            let light8 = gltf.scene.clone();
+            light8.position.set(3.7, 0, 3.8);
+            light8.rotateY(11 * Math.PI / 5);
+            this.object.add(light8);
+
+            let light9 = gltf.scene.clone();
+            light9.position.set(5.7, 0, -3.8);
+            light9.rotateY(7 * Math.PI / 5);
+            this.object.add(light9);
+
+            let light10 = gltf.scene.clone();
+            light10.position.set(5.7, 0, 3.8);
+            light10.rotateY(11 * Math.PI / 5);
+            this.object.add(light10);
+            
+        }
+        );
+
+        //=======================================================================================================
+        // PATIENT
+
+        loaderGLTF.load('./models/patient/scene.gltf', (gltf) => {
+            this.patient = gltf.scene;
+            this.patient.scale.set(0.16, 0.16, 0.16);
+            this.patient.position.set(-1.565, 0.6, -1.6);
+            this.patient.rotateY(3 * Math.PI / 2);
+            this.patient.rotateX(3 * Math.PI / 2);
+            this.object.add(this.patient);
+
+            let patient2 = gltf.scene.clone();
+            patient2.position.set(-1.565, 0.6, 1.6);
+            this.object.add(patient2);
+
+            let patient3 = gltf.scene.clone();
+            patient3.position.set(2.425, 0.6, -1.6);
+            this.object.add(patient3);
+
+            let patient4 = gltf.scene.clone();
+            patient4.position.set(2.425, 0.6, 1.6);
+            this.object.add(patient4);
+
+            let patient5 = gltf.scene.clone();
+            patient5.position.set(0.63, 0.6, -4.6);
+            this.object.add(patient5);
+
+            let patient6 = gltf.scene.clone();
+            patient6.position.set(0.63, 0.6, 4.6);
+            this.object.add(patient6);
+
+            let patient7 = gltf.scene.clone();
+            patient7.position.set(2.63, 0.6, -4.6);
+            this.object.add(patient7);
+
+            let patient8 = gltf.scene.clone();
+            patient8.position.set(2.63, 0.6, 4.6);
+            this.object.add(patient8);
+
+            let patient9 = gltf.scene.clone();
+            patient9.position.set(4.63, 0.6, -4.6);
+            this.object.add(patient9);
+
+            let patient10 = gltf.scene.clone();
+            patient10.position.set(4.63, 0.6, 4.6);
+            this.object.add(patient10);
+        }
+        );
+
+
+
+        //=======================================================================================================
+        // CRISTIANO RONALDO
+        
+        loaderGLTF.load('./models/3d_rigged_cristiano_ronaldo_al_nassr/scene.gltf', (gltf) => {
+            this.cr = gltf.scene;
+            this.cr.scale.set(0.01, 0.013, 0.01);
+            this.cr.position.set(-1.45, 0.6, -1.59);
+            this.cr.rotateY(3 * Math.PI / 2);
+            this.cr.rotateX(3 * Math.PI / 2);
+            this.object.add(this.cr);
+
+            let cr2 = gltf.scene.clone();
+            cr2.position.set(-1.45, 0.6, 1.59);
+            cr2.rotateY(Math.PI);
+            cr2.rotateX(3 * Math.PI / 2);
+            this.object.add(cr2);
+        }
+        );
+*/
         //=======================================================================================================
         // Create a ground
 

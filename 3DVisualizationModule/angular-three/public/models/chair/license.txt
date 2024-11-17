@@ -1,0 +1,11 @@
+Model Information:
+* title:	chair
+* source:	https://sketchfab.com/3d-models/chair-fbd0db15c316404082eccb2b6063af52
+* author:	fish (https://sketchfab.com/aqyuen)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "chair" (https://sketchfab.com/3d-models/chair-fbd0db15c316404082eccb2b6063af52) by fish (https://sketchfab.com/aqyuen) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
