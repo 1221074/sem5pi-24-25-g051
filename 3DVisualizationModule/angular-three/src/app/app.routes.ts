@@ -7,23 +7,42 @@ import { HomePageComponent } from './component/home-page/home-page.component';
 import { LoginComponent } from './component/login/login.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { DoctorComponent } from './component/doctor/doctor.component';
+import { UnauthorizedComponent } from './component/unauthorized/unauthorized.component';
+import { PatientComponent } from './component/patient/patient.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routeConfig: Routes = [
 
   { path:'', component: HomePageComponent, title:'Home Page' },
 
   { path: 'details/:name', component: DetailsComponent, title: 'Details Page' },
-
-  // Redirect to the cube component on app load
-  // { path: '', redirectTo: '/cube', pathMatch: 'full' },
-  // Route for the cube component
   { path: 'cube', component: CubeComponent },
-  { path: 'hospital', component: HospitalComponent },
+  { path: 'hospital', component: HospitalComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'doctor', component: DoctorComponent, title:'Doctor Page',data: {roles: ['doctor']}},
-  // Redirect to the hospital component on app load
- //{ path: 'privacy-policy', component: PrivacyPolicyComponent } // Certifique-se de que este componente existe
-  {path: 'admin', component: AdminComponent, title:'Admin Page'},
+
+  {path: 'doctor',
+    component: DoctorComponent,
+    title:'Doctor Page',
+    canActivate: [AuthGuard],
+    data: {expectedRoles: 1}},
+
+   {path: 'admin',
+    component: AdminComponent,
+    title:'Admin Page',
+    canActivate: [AuthGuard],
+    data: {expectedRoles: 0}},
+
+    {path:'patient',
+    component: PatientComponent,
+    title:'Patient Page',
+    canActivate: [AuthGuard],
+    data: {expectedRoles: 4}},
+
+    {
+      path: 'unauthorized',
+      component: UnauthorizedComponent
+    },
+
   {path: 'specialization', component: SpecializationComponent, title:'Specialization Page'}
  // {path: 'Schedule', component: ScheduleComponent, title:'Schedule Page'}
 
