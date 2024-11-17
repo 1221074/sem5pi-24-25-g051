@@ -23,8 +23,56 @@ export default class UserInteraction {
             emotesFolder.add(callbacks, name);
         }
 
+        function visibilityCallback(objects, visible) {
+            objects.forEach(object => {
+                object.visible = visible;
+            });
+        }
+
         // Create the graphical user interface
         this.gui = new GUI({ hideable: false });
+
+        // Create the room folder
+        const roomFolder = this.gui.addFolder("Rooms");
+
+        // Supondo que você tenha listas de objetos para cada sala
+        const receptionObjects = [/* lista de objetos da recepção */];
+        const toiletObjects = [/* lista de objetos do banheiro */];
+        const staffObjects = [/* lista de objetos da sala dos funcionários */];
+        const screeningObjects = [/* lista de objetos da sala de triagem */];
+        const kitchenObjects = [/* lista de objetos da cozinha */];
+        const cafeteriaObjects = [/* lista de objetos da cafeteria */];
+        const waitingRoomObjects = [/* lista de objetos da sala de espera */];
+        const surgicalObjects = [/* lista de objetos da sala cirúrgica */];
+        const bedroomObjects = [/* lista de objetos do quarto */];
+        const parkingObjects = [/* lista de objetos do estacionamento */];
+
+        // Adicionar checkboxes para cada sala
+        const roomVisibility = {
+            reception: false,
+            toilet: false,
+            staff: false,
+            screening: false,
+            kitchen: false,
+            cafeteria: false,
+            waitingRoom: false,
+            surgical: false,
+            bedroom: false,
+            parking: false
+        };
+
+        roomFolder.add(roomVisibility, 'reception').name('Reception').onChange(visible => visibilityCallback(receptionObjects, visible));
+        roomFolder.add(roomVisibility, 'toilet').name('Toilet').onChange(visible => visibilityCallback(toiletObjects, visible));
+        roomFolder.add(roomVisibility, 'staff').name('Staff Room').onChange(visible => visibilityCallback(staffObjects, visible));
+        roomFolder.add(roomVisibility, 'screening').name('Screening').onChange(visible => visibilityCallback(screeningObjects, visible));
+        roomFolder.add(roomVisibility, 'kitchen').name('Kitchen').onChange(visible => visibilityCallback(kitchenObjects, visible));
+        roomFolder.add(roomVisibility, 'cafeteria').name('Cafeteria').onChange(visible => visibilityCallback(cafeteriaObjects, visible));
+        roomFolder.add(roomVisibility, 'waitingRoom').name('Waiting Room').onChange(visible => visibilityCallback(waitingRoomObjects, visible));
+        roomFolder.add(roomVisibility, 'surgical').name('Surgical Room').onChange(visible => visibilityCallback(surgicalObjects, visible));
+        roomFolder.add(roomVisibility, 'bedroom').name('Bedroom').onChange(visible => visibilityCallback(bedroomObjects, visible));
+        roomFolder.add(roomVisibility, 'parking').name('Parking Lot').onChange(visible => visibilityCallback(parkingObjects, visible));
+
+        roomFolder.close();
 
         // Create the lights folder
         const lightsFolder = this.gui.addFolder("Lights");
@@ -35,6 +83,8 @@ export default class UserInteraction {
         const ambientColor = { color: "#" + new THREE.Color(ambientLight.color).getHexString() };
         ambientLightFolder.addColor(ambientColor, "color").onChange(color => colorCallback(ambientLight, color));
         ambientLightFolder.add(lights.object.ambientLight, "intensity", 0.0, 1.0, 0.01);
+
+        ambientLightFolder.close();
 
         // Create point light #1 folder
         const pointLight1Folder = lightsFolder.addFolder("Point light #1");
@@ -47,6 +97,8 @@ export default class UserInteraction {
         pointLight1Folder.add(lights.object.pointLight1.position, "y", 0.0, 20.0, 0.01);
         pointLight1Folder.add(lights.object.pointLight1.position, "z", -10.0, 10.0, 0.01);
 
+        pointLight1Folder.close();
+
         // Create point light #2 folder
         const pointLight2Folder = lightsFolder.addFolder("Point light #2");
         const pointLight2 = lights.object.pointLight2;
@@ -58,9 +110,15 @@ export default class UserInteraction {
         pointLight2Folder.add(lights.object.pointLight2.position, "y", 0.0, 20.0, 0.01);
         pointLight2Folder.add(lights.object.pointLight2.position, "z", -10.0, 10.0, 0.01);
 
+        pointLight2Folder.close();
+
+        lightsFolder.close();
+
         // Create the shadows folder
         const shadowsFolder = this.gui.addFolder("Shadows");
         shadowsFolder.add(renderer.shadowMap, "enabled").onChange(enabled => shadowsCallback(enabled));
+
+        shadowsFolder.close();
 
         // Create the fog folder
         const fogFolder = this.gui.addFolder("Fog");
@@ -69,6 +127,8 @@ export default class UserInteraction {
         fogFolder.addColor(fogColor, "color").onChange(color => colorCallback(fog.object, color));
         fogFolder.add(fog.object, "near", 0.01, 1.0, 0.01);
         fogFolder.add(fog.object, "far", 1.01, 20.0, 0.01);
+
+        fogFolder.close();
 
         // Create the character folder
         const characterFolder = this.gui.addFolder("Character");
@@ -80,6 +140,8 @@ export default class UserInteraction {
             createEmoteCallback(animations, animations.emotes[i]);
         }
 
+        emotesFolder.close();
+
         // Create the expressions folder and add expressions
         const expressionsFolder = characterFolder.addFolder("Expressions");
         const face = object.getObjectByName("Head_4");
@@ -87,6 +149,10 @@ export default class UserInteraction {
         for (let i = 0; i < expressions.length; i++) {
             expressionsFolder.add(face.morphTargetInfluences, i, 0.0, 1.0, 0.01).name(expressions[i]);
         }
+
+        expressionsFolder.close();
+
+        characterFolder.close();
     }
 
     setVisibility(visible) {
