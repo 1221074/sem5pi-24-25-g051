@@ -10,7 +10,7 @@ import { AdminComponent } from './component/admin/admin.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule,CommonModule,LoginComponent,CubeComponent,SpecializationComponent,HomePageComponent, AdminComponent, CommonModule],
+  imports: [RouterModule,CommonModule, CommonModule],
   template: `
 
      <header class="brand-name">

@@ -55,19 +55,24 @@ export class LoginComponent implements OnInit {
         // Redirect based on role
         switch (role) {
           case 0:
+            this.authService.userRole = role.toString();
             this.router.navigate(['/admin']);
             break;
           case 1:
+            this.authService.userRole = role.toString();
             this.router.navigate(['/doctor']);
             break;
-          case 2:
+          case 4:
+            this.authService.userRole = role.toString();
             this.router.navigate(['/patient']);
             break;
           default:
             console.error('Unknown role:', role);
+            this.router.navigate(['/unauthorized']);
         }
         // After successful login
-        this.authService.updateMailAndUserId(email);
+        this.authService.updateUserInformation(email);
+        // Revoke the token
         google.accounts.id.revoke(email, (done: any) => {
           console.log('User has been logged out of Google.');
         });

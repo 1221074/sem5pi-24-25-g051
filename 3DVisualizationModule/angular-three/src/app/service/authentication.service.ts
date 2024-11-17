@@ -9,10 +9,14 @@ declare var google: any;
   providedIn: 'root'
 })
 export class AuthenticationService {
+  getUserRole() {
+    return this.userRole;
+  }
   url1 = 'https://localhost:7252/api/user/email';
 
   mail: string | null = null;
   userId: string | null = null;
+  userRole: string | null = null;
 
 
   getMailSession() {return this.mail;}
@@ -21,7 +25,7 @@ export class AuthenticationService {
     const token = localStorage.getItem('token') as any;
     if(token != null) {
       const decodedToken =  jwtDecode(token) as any;
-      this.updateMailAndUserId(decodedToken.email);
+      this.updateUserInformation(decodedToken.email);
     }
   }
 
@@ -34,7 +38,7 @@ export class AuthenticationService {
     this.router.navigate(['/']);
   }
 
-  updateMailAndUserId(mail: string) {
+  updateUserInformation(mail: string) {
     this.mail = mail;
     console.log('Mail:', this.mail);
 
@@ -42,6 +46,7 @@ export class AuthenticationService {
     this.getUserByMail(mail).then((user: User) => {
       if (user) {
         this.userId = user.nif;
+        this.userRole = user.role.toString();
         console.log('User ID:', this.userId);
       } else {
         console.error(`User not found for email ${mail}`);
