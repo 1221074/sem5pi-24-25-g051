@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0
+
+      # Build and publish the .NET project
+      - name: Build and publish .NET project
+        run: |
+          cd backend-module
+          dotnet publish -c Release -o ../publish
+      
+      - name: Move publish folder into Docker context
+        run: mv publish backend-module/
+        
+        
+
+      - name: Build Docker image
+        run: |
+          docker buildx build -t ${{ secrets.DOCKER_IMAGE_NAME }} \
+            --build-arg PUBLISH_DIR=publish \
+            backend-module
+      
+      # Push Docker image to a registry (optional)
+      - name: Push Docker image
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push ${{ secrets.DOCKER_IMAGE_NAME }}
+
+      # Deploy Docker container on the remote server
+      - name: Deploy Docker Container
+        env:
+          REMOTE_SERVER_IP: ${{ secrets.REMOTE_SERVER_IP }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+        run: |
+          echo "${SSH_PRIVATE_KEY}" > private_key
+          chmod 600 private_key
+
+          ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << EOF
+            docker pull ${DOCKER_IMAGE_NAME}
+            docker rm -f myapp || true
+            docker run -d --name myapp -p 8080:80 ${DOCKER_IMAGE_NAME}
+          EOF
+
+      # Cleanup the private key
+      - name: Remove private key
+        run: rm private_key
