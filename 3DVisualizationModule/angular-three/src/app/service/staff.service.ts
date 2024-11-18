@@ -5,7 +5,7 @@ import { Staff } from '../interface/staff';
   providedIn: 'root'
 })
 export class StaffService {
-  url = 'https://localhost:7252/api/staff';
+  url = 'https://10.9.25.158:7252//api/staff';
 
   constructor() {}
 
