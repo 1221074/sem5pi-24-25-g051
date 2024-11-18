@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend-module/**' # Matches any file in the folder or its subfolders
+  pull_request:
+    paths:
+      - 'backend-module/**'
+
 
 jobs:
   build-and-deploy:
@@ -55,9 +61,12 @@ jobs:
           chmod 600 private_key
 
           ssh -i private_key -o StrictHostKeyChecking=no -p 11438 "${REMOTE_USER}@${REMOTE_SERVER_IP}" << EOF
+            mkdir  /root/.aspnet/https/
+            dotnet dev-certs https -ep /root/.aspnet/https/aspnetapp.pfx -p 123
+            dotnet dev-certs https --trust
             docker pull ${DOCKER_IMAGE_NAME}
             docker rm -f myapp || true
-            docker run -d --name myapp -p 8080:80 ${DOCKER_IMAGE_NAME}
+            docker run --name myapp -it -d -p 5280:5280 -p 7252:7252 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORTS=7252 -e ASPNETCORE_Kestrel__Certificates__Default__Password="123" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -v /root/.aspnet/https:/https/  ${DOCKER_IMAGE_NAME}
           EOF
 
       # Cleanup the private key
