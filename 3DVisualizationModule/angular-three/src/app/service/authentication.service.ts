@@ -12,7 +12,7 @@ export class AuthenticationService {
   getUserRole() {
     return this.userRole;
   }
-  url1 = 'https://vs1438.dei.isep.ipp.pt:7252/api/user/email';
+  url1 = 'https://localhost:7252/api/user/email';
 
   mail: string | null = null;
   userId: string | null = null;

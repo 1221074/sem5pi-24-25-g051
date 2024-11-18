@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class DoctorService {
-  url = 'https://vs1438.dei.isep.ipp.pt:7252/api/operationrequest';
+  url = 'https://localhost:7252/api/operationrequest';
 
   constructor() {}
 

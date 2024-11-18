@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   handleCredentialResponse(response: any) {
     console.log('Encoded JWT ID token: ' + response.credential);
 
-    const apiUrl = `https://vs1438.dei.isep.ipp.pt:7252/api/user/role?token=${response.credential}`;
+    const apiUrl = `https://localhost:7252/api/user/role?token=${response.credential}`;
     const token = response.credential;
     const decodedToken: any = jwtDecode(token);
     const email = decodedToken.email;
@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/unauthorized']);
         }
         // After successful login
+        this.authService.userRole = role.toString();
         this.authService.updateUserInformation(email);
         // Revoke the token
         google.accounts.id.revoke(email, (done: any) => {

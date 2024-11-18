@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AdminService {
-  patient_url = 'https//vs1438.dei.isep.ipp.pt:7252/api/patient';
+  patient_url = 'https//localhost:7252/api/patient';
 
   constructor() {}
 
@@ -48,7 +48,7 @@ export class AdminService {
 
   async updatePatient( patientData: any) {
     try {
-      const response = await fetch(this.patient_url, {
+      const response = await fetch(`${this.patient_url}/${patientData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export class AdminService {
 
   async deletePatient(id: string) {
     try {
-      const response = await fetch(`${this.patient_url}/${id}`, {
+      const response = await fetch(`${this.patient_url}/${id}/hard`, {
         method: 'DELETE',
         credentials: 'include',
       });
