@@ -7,7 +7,7 @@ import { response } from 'express';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'https://10.9.25.158:7252/api/user';
+  private url = 'https://vs1438.dei.isep.ipp.pt:7252/api/user';
 
   constructor(){}
 

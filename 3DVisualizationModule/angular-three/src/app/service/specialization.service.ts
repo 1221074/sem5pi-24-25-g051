@@ -4,7 +4,7 @@ import {SpecializationSub} from '../interface/specialization-sub';
   providedIn: 'root',
 })
 export class SpecializationService {
-  url = 'https://10.9.25.158:7252/api/specialization';
+  url = 'https://vs1438.dei.isep.ipp.pt:7252/api/specialization';
 
   //protected specializationList: SpecializationSub[] = [];
   constructor() { }

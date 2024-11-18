@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AdminService {
-  patient_url = 'https//10.9.25.158:7252/api/patient';
+  patient_url = 'https//vs1438.dei.isep.ipp.pt:7252/api/patient';
 
   constructor() {}
 

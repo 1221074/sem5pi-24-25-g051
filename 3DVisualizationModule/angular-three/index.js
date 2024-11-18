@@ -11,7 +11,7 @@ app.listen(port, () => {
 
 app.get('/api/user', async (req, res) => {
     try {
-        const response = await axios.get('http://localhost:7252/api/user');
+        const response = await axios.get('http://vs1438.dei.isep.ipp.pt:7252/api/user');
         res.send(response.data);
     } catch (error) {
         if (error.response) {

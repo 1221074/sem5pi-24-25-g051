@@ -5,7 +5,7 @@ import { Staff } from '../interface/staff';
   providedIn: 'root'
 })
 export class StaffService {
-  url = 'https://10.9.25.158:7252//api/staff';
+  url = 'https://vs1438.dei.isep.ipp.pt:7252/api/staff';
 
   constructor() {}
 
