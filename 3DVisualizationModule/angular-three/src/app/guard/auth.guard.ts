@@ -16,11 +16,11 @@ export class AuthGuard implements CanActivate {
     const expectedRole = route.data['expectedRoles'] as number;
 
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
 
     if (token) {
-      console.log('Role:', this.authService.userRole);
       console.log('Expected Role:', expectedRole);
-      if (this.authService.getUserRole() === expectedRole.toString()) {
+      if (role === expectedRole.toString()) {
         return true;
       } else {
         // Redirect to unauthorized page or login
