@@ -3,7 +3,13 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - testing-https
+      - main
+    paths:
+      - 'backend-module/**' # Matches any file in the folder or its subfolders
+  pull_request:
+    paths:
+      - 'backend-module/**'
+
 
 jobs:
   build-and-deploy:
