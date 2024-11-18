@@ -55,15 +55,15 @@ export class LoginComponent implements OnInit {
         // Redirect based on role
         switch (role) {
           case 0:
-            this.authService.userRole = role.toString();
+            localStorage.setItem('role', role.toString());
             this.router.navigate(['/admin']);
             break;
           case 1:
-            this.authService.userRole = role.toString();
+            localStorage.setItem('role', role.toString());
             this.router.navigate(['/doctor']);
             break;
           case 4:
-            this.authService.userRole = role.toString();
+            localStorage.setItem('role', role.toString());
             this.router.navigate(['/patient']);
             break;
           default:
@@ -71,7 +71,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/unauthorized']);
         }
         // After successful login
-        this.authService.userRole = role.toString();
         this.authService.updateUserInformation(email);
         // Revoke the token
         google.accounts.id.revoke(email, (done: any) => {
