@@ -16,6 +16,11 @@ export class AuthenticationService {
   userId: string | null = null;
 
 
+  getUserId() {
+    return this.userId;
+  }
+
+
   getMailSession() {return this.mail;}
 
   constructor(private router: Router) {

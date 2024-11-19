@@ -244,14 +244,14 @@
 
     <tr *ngFor="let patient of patientList">
       <td>{{ patient.id }}</td>
-      <td>{{ patient.FirstName }}</td>
-      <td>{{ patient.LastName }}</td>
-      <td>{{ patient.FullName}}</td>
-      <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
-      <td>{{ patient.Sex }}</td>
-      <td>{{ patient.Email }}</td>
-      <td>{{ patient.Phone }}</td>
-      <td>{{ patient.EmergencyContact }}</td>
+      <td>{{ patient.firstName }}</td>
+      <td>{{ patient.lastName }}</td>
+      <td>{{ patient.fullName}}</td>
+      <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ patient.sex }}</td>
+      <td>{{ patient.email }}</td>
+      <td>{{ patient.phone }}</td>
+      <td>{{ patient.emergencyContact }}</td>
       <td>
         <button (click)="selectPatientForUpdate(patient)">Edit</button>
       </td>
@@ -324,14 +324,14 @@
 
     <tr *ngFor="let patient of patientList">
       <td>{{ patient.id }}</td>
-      <td>{{ patient.FirstName }}</td>
-      <td>{{ patient.LastName }}</td>
-      <td>{{ patient.FullName}}</td>
-      <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
-      <td>{{ patient.Sex }}</td>
-      <td>{{ patient.Email }}</td>
-      <td>{{ patient.Phone }}</td>
-      <td>{{ patient.EmergencyContact }}</td>
+      <td>{{ patient.firstName }}</td>
+      <td>{{ patient.lastName }}</td>
+      <td>{{ patient.fullName}}</td>
+      <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+      <td>{{ patient.sex }}</td>
+      <td>{{ patient.email }}</td>
+      <td>{{ patient.phone }}</td>
+      <td>{{ patient.emergencyContact }}</td>
       <td>
         <button class="table-button" (click)="submitRemoval(patient.id)">Remove</button>
       </td>
@@ -358,14 +358,14 @@
 
       <tr *ngFor="let patient of patientList">
         <td>{{ patient.id }}</td>
-        <td>{{ patient.FirstName }}</td>
-        <td>{{ patient.LastName }}</td>
-        <td>{{ patient.FullName}}</td>
-        <td>{{ patient.BrirthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td>{{ patient.Sex }}</td>
-        <td>{{ patient.Email }}</td>
-        <td>{{ patient.Phone }}</td>
-        <td>{{ patient.EmergencyContact }}</td>
+        <td>{{ patient.firstName }}</td>
+        <td>{{ patient.lastName }}</td>
+        <td>{{ patient.fullName}}</td>
+        <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ patient.sex }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.emergencyContact }}</td>
       </tr>
     </table>
     <button (click)="showSection('')">Back to Main Menu</button>

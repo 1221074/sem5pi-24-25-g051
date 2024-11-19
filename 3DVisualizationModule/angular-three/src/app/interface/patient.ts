@@ -1,11 +1,13 @@
 export interface Patient {
     id: number;
-    FirstName: string;
-    LastName: string;
-    FullName: string;
-    BrirthDate: string;
-    Sex: string;
-    Email: string;
-    Phone: string;
-    EmergencyContact: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    birthDate: string;
+    sex: string;
+    email: string;
+    phone: string;
+    emergencyContact: string;
+    appointmentList: string[];
+    allergyList: string[];
 }

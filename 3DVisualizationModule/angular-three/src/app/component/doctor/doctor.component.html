@@ -28,18 +28,17 @@
 
   <form>
     <div class="form-field">
-      <label for="patientId">Patient ID:</label>
-      <input type="text" id="patientId" #patientIdRef required />
-    </div>
-
-    <div class="form-field">
-      <label for="doctorId">Doctor ID:</label>
-      <input type="text" id="doctorId" #doctorIdRef required />
+      <label for="patientId">Patient:</label>
+      <select id="patientId" #patientIdRef required>
+        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+      </select>
     </div>
 
     <div class="form-field">
       <label for="operationTypeId">Operation Type ID:</label>
-      <input type="text" id="operationTypeId" #operationTypeIdRef required />
+      <select id="operationTypeId" #operationTypeIdRef required>
+        <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}</option>
+      </select>
     </div>
 
     <div class="form-field">
@@ -61,7 +60,6 @@
       type="button"
       (click)="registerOperation(
         patientIdRef.value,
-        doctorIdRef.value,
         operationTypeIdRef.value,
         deadlineDateRef.value,
         priorityStateRef.value
@@ -85,9 +83,9 @@
 
   <!-- Table for Operations -->
   <table class="table-display">
+
     <tr>
-      <th>Operation ID</th>
-      <th>Patient ID</th>
+      <th>Patient Name</th>
       <th>Doctor ID</th>
       <th>Operation Type</th>
       <th>Deadline Date</th>
@@ -95,11 +93,10 @@
       <th>Action</th>
     </tr>
 
-    <tr *ngFor="let operation of operationList">
-      <td>{{ operation.id }}</td>
-      <td>{{ operation.patientId }}</td>
+    <tr *ngFor="let operation of operationListToBeDisplayed">
+      <td>{{ operation.patientName }}</td>
       <td>{{ operation.doctorId }}</td>
-      <td>{{ operation.operationTypeId}}</td>
+      <td>{{ operation.operationTypeName }}</td>
       <td>{{ operation.deadlineDate | date: 'yyyy-MM-dd HH:mm' }}</td>
       <td>{{ operation.priorityState }}</td>
       <td>
@@ -109,43 +106,48 @@
   </table>
 
   <!-- Update Form -->
-  <div *ngIf="selectedOperation">
-    <h3>Update Operation ID: {{ selectedOperation.id }}</h3>
-    <form>
-      <div class="form-field">
-        <label for="updatePatientId">Patient ID:</label>
-        <input type="text" id="updatePatientId" [(ngModel)]="selectedOperation.patientId" name="patientId" required />
-      </div>
+<div *ngIf="selectedOperation">
+  <h3>Update Operation ID: {{ selectedOperation.id }}</h3>
+  <form>
+    <div class="form-field">
+      <label for="patientId">Patient:</label>
+      <select id="patientId" [(ngModel)]="selectedOperation.patientId" name="patientId" required>
+        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+      </select>
+    </div>
 
-      <div class="form-field">
-        <label for="updateDoctorId">Doctor ID:</label>
-        <input type="text" id="updateDoctorId" [(ngModel)]="selectedOperation.doctorId" name="doctorId" required />
-      </div>
+    <div class="form-field">
+      <label for="operationTypeId">Operation Type:</label>
+      <select id="operationTypeId" [(ngModel)]="selectedOperation.operationTypeId" name="operationTypeId" required>
+        <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}</option>
+      </select>
+    </div>
 
-      <div class="form-field">
-        <label for="updateOperationTypeId">Operation Type ID:</label>
-        <input type="text" id="updateOperationTypeId" [(ngModel)]="selectedOperation.operationTypeId" name="Optype" required />
-      </div>
+    <div class="form-field">
+      <label for="updateDeadlineDate">Deadline Date:</label>
+      <input
+        type="datetime-local"
+        id="updateDeadlineDate"
+        [(ngModel)]="selectedOperation.deadlineDate"
+        name="deadlineDate"
+        required
+      />
+    </div>
 
-      <div class="form-field">
-        <label for="updateDeadlineDate">Deadline Date:</label>
-        <input type="datetime-local" id="updateDeadlineDate" [(ngModel)]="selectedOperation.deadlineDate" name="deadlineDate" required />
-      </div>
+    <div class="form-field">
+      <label for="updatePriorityState">Priority State:</label>
+      <select [(ngModel)]="selectedOperation.priorityState" id="updatePriorityState" name="priorityState" required>
+        <option value="Urgent">Urgent</option>
+        <option value="Elective">Elective</option>
+        <option value="Emergency">Emergency</option>
+      </select>
+    </div>
 
-      <div class="form-field">
-        <label for="updatePriorityState">Priority State:</label>
-        <select id="updatePriorityState" [(ngModel)]="selectedOperation.priorityState" name="priorityState" required>
-          <option value="">Select Priority</option>
-          <option value="Urgent">Urgent</option>
-          <option value="Elective">Elective</option>
-          <option value="Emergency">Emergency</option>
-        </select>
-      </div>
+    <button type="button" (click)="submitUpdate()">Update</button>
+    <button type="button" (click)="cancelUpdate()">Cancel</button>
+  </form>
+</div>
 
-      <button type="button" (click)="submitUpdate()">Update</button>
-      <button type="button" (click)="cancelUpdate()">Cancel</button>
-    </form>
-  </div>
 
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
@@ -158,8 +160,7 @@
   <!-- Table for Operations -->
   <table class="table-display">
     <tr>
-      <th>Operation ID</th>
-      <th>Patient ID</th>
+      <th>Patient Name</th>
       <th>Doctor ID</th>
       <th>Operation Type</th>
       <th>Deadline Date</th>
@@ -167,11 +168,10 @@
       <th>Action</th>
     </tr>
 
-    <tr *ngFor="let operation of operationList; let i = index">
-      <td>{{operation.id}}</td>
-      <td>{{operation.patientId}}</td>
+    <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
+      <td>{{operation.patientName}}</td>
       <td>{{operation.doctorId}}</td>
-      <td>{{operation.operationTypeId}}</td>
+      <td>{{operation.operationTypeName}}</td>
       <td>{{operation.deadlineDate}}</td>
       <td>{{operation.priorityState}}</td>
       <td>
@@ -194,8 +194,7 @@
   <!-- Table for Operations -->
   <table class="table-display">
     <tr>
-      <th>Operation ID</th>
-      <th>Patient ID</th>
+      <th>Patient Name</th>
       <th>Doctor ID</th>
       <th>Operation Type</th>
       <th>Deadline Date</th>
@@ -203,11 +202,10 @@
     </tr>
 
     <!--DISPLAY IN THE FILTERED LIST-->
-    <tr *ngFor="let operation of filteredOperationList; let i = index">
-      <td>{{operation.id}}</td>
-      <td>{{operation.patientId}}</td>
+    <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
+      <td>{{operation.patientName}}</td>
       <td>{{operation.doctorId}}</td>
-      <td>{{operation.operationTypeId}}</td>
+      <td>{{operation.operationTypeName}}</td>
       <td>{{operation.deadlineDate}}</td>
       <td>{{operation.priorityState}}</td>
     </tr>

@@ -1,10 +1,15 @@
-import { AfterViewInit, Component, inject, Input } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnInit } from '@angular/core';
 import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication.service';
+import { OperationDisplay } from '../../interface/operation-display';
+import { OperationTypeService } from '../../service/operation-type.service';
+import { PatientService } from '../../service/patient.service';
+import { Patient } from '../../interface/patient'; // Make sure this import exists
+import { OperationType } from '../../interface/operationtype'; // Make sure this import exists
 
 declare var google: any;
 
@@ -13,43 +18,78 @@ declare var google: any;
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './doctor.component.html',
-  styleUrl: './doctor.component.scss'
+  styleUrls: ['./doctor.component.scss']
 })
-export class DoctorComponent  {
+export class DoctorComponent implements OnInit {
 
-  //SERVICE
+  // SERVICES
   doctorService: DoctorService = inject(DoctorService);
   authService: AuthenticationService = inject(AuthenticationService);
+  patientService: PatientService = inject(PatientService);
+  operationTypeService: OperationTypeService = inject(OperationTypeService);
 
-  //VARIABLES
+  // VARIABLES
+     //list
   filteredOperationList: Operationrequest[] = [];
   operationList: Operationrequest[] = [];
+  operationListToBeDisplayed: OperationDisplay[] = [];
+  selectedOperation: Operationrequest | null = null;
+    //data
+  operationTypes: OperationType[] = [];
+  patients: Patient[] = [];
   errorMessage: string = '';
   successMessage: string = '';
   selectedSection = '';
-  selectedOperation: Operationrequest | null = null;
 
-  constructor(private router: Router) {
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.loadPatients();
+    this.loadOperationTypes();
     this.updateList();
   }
 
-//UI METHODS
+  // UI METHODS
+  async loadPatients() {
+    try {
+      this.patients = await this.patientService.getAllPatients();
+    } catch (error) {
+      this.errorMessage = 'Failed to load patients. Please try again.';
+    }
+  }
+
+  async loadOperationTypes() {
+    try {
+      this.operationTypes = await this.operationTypeService.getAllOperationTypes();
+    } catch (error) {
+      this.errorMessage = 'Failed to load operation types. Please try again.';
+    }
+  }
+
   updateList() {
-    this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
-      const loggedInDoctorId = this.authService.userId as string;
+     this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
+      const loggedInDoctorId = this.authService.getUserId() as string;
       // Filter operations where doctorId matches the logged-in user's ID
       this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
-
-      // Initially set the filtered list to the filtered operation list
-      this.filterResults(loggedInDoctorId);
+      console.log(this.operationList);
+      this.operationListToBeDisplayed = this.operationList.map(op => {
+        return {
+          id: op.id,
+          patientName: this.getNameOfpatient(op.patientId),
+          doctorId: op.doctorId,
+          operationTypeName: this.getOperationTypeName(op.operationTypeId),
+          deadlineDate: op.deadlineDate,
+          priorityState: op.priorityState
+        };
+      });
     }).catch(error => {
       this.errorMessage = 'Failed to load operations. Please try again.';
-    })
+    });
   }
 
   updateListSearch(filteredOperationList: Operationrequest[]) {
-    this.filteredOperationList = filteredOperationList
-
+    this.filteredOperationList = filteredOperationList;
   }
 
   showSection(section: string) {
@@ -60,30 +100,42 @@ export class DoctorComponent  {
     this.selectedOperation = null;
   }
 
-  logout() {this.authService.logout();}
+  logout() {
+    this.authService.logout();
+  }
 
-//REGISTER CLASSES
+  // REGISTER METHODS
 
-async registerOperation(
-    patientId: string,
-    doctorId: string,
-    operationTypeId: string,
+  async registerOperation(
+    patientName: string,
+    operationTypeName: string,
     deadlineDate: string,
-    priorityState: string)
-{
+    priorityState: string
+  ) {
 
-  this.errorMessage = '';
-  this.successMessage = '';
+    this.errorMessage = '';
+    this.successMessage = '';
+    const doctorId = this.authService.getUserId() as string;
 
-  if (!patientId || !doctorId || !operationTypeId || !deadlineDate || !priorityState) {
-    this.errorMessage = 'Please fill in all required fields.';
-    return;
-  }
+    if (!patientName || !operationTypeName || !deadlineDate || !priorityState) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
 
-  if (new Date(deadlineDate) <= new Date()) {
-   this.errorMessage = 'Deadline date must be in the future.';
-   return;
-  }
+    if (new Date(deadlineDate) <= new Date()) {
+      this.errorMessage = 'Deadline date must be in the future.';
+      return;
+    }
+
+    const patientId = this.getPatientId(patientName);
+    const operationTypeId = this.getOperationTypeId(operationTypeName);
+
+
+    if (!patientId || !operationTypeId) {
+      this.errorMessage = 'Patient or operation type not found. Insert valid data.';
+      return;
+    }
+
     const operationData = {
       patientId,
       doctorId,
@@ -107,7 +159,7 @@ async registerOperation(
     }
   }
 
-//UPDATE CLASSES
+  // UPDATE METHODS
 
   cancelUpdate() {
     this.selectedOperation = null;
@@ -121,17 +173,6 @@ async registerOperation(
       return;
     }
 
-    if (
-      !this.selectedOperation.patientId ||
-      !this.selectedOperation.doctorId ||
-      !this.selectedOperation.operationTypeId ||
-      !this.selectedOperation.deadlineDate ||
-      !this.selectedOperation.priorityState
-    ) {
-      this.errorMessage = 'Please fill in all required fields.';
-      return;
-    }
-
     if (new Date(this.selectedOperation.deadlineDate) <= new Date()) {
       this.errorMessage = 'Deadline date must be in the future.';
       return;
@@ -139,7 +180,7 @@ async registerOperation(
 
     try {
       // Proceed to update the OperationRequest
-      await this.doctorService.updateOperationRequest(this.selectedOperation.id.toString(),this.selectedOperation);
+      await this.doctorService.updateOperationRequest(this.selectedOperation.id.toString(), this.selectedOperation);
       this.successMessage = 'Operation updated successfully.';
       this.selectedOperation = null;
       this.updateList();
@@ -156,14 +197,19 @@ async registerOperation(
   }
 
 
-  selectOperationForUpdate(operation: Operationrequest) {
+  selectOperationForUpdate(operation: OperationDisplay) {
     this.errorMessage = '';
     this.successMessage = '';
-    // Create a copy of the operation to avoid mutating the list directly
-    this.selectedOperation = operation;
+    // Procurar pela operação correspondente no array `operationList`
+    const selectedOp = this.operationList.find(op => op.id === operation.id);
+    if (selectedOp) {
+      this.selectedOperation = { ...selectedOp }; // Copiar os dados para edição
+    } else {
+      this.errorMessage = 'Operation not found for editing.';
+    }
   }
 
-//REMOVE CLASSES
+  // REMOVE METHODS
 
   submitRemoval(operationId: number) {
     if (confirm('Are you sure you want to remove this operation?')) {
@@ -176,27 +222,51 @@ async registerOperation(
     }
   }
 
-
-//SEARCH CLASSES
+  // SEARCH METHODS
 
   filterResults(query: string) {
     const lowerQuery = query.toLowerCase();
 
     // If the query is empty, reset the list to display all operations
-    if (!lowerQuery) {
-      this.filteredOperationList = [...this.operationList];
-      return;
-    }
+
 
     // Filter the list based on the query
-    this.filteredOperationList = this.operationList.filter(op =>
-      op.id.toString().toLowerCase() === lowerQuery ||
-      op.patientId.toString().toLowerCase() === lowerQuery ||
-      op.doctorId.toString().toLowerCase()=== lowerQuery ||
-      op.operationTypeId.toString().toLowerCase() === lowerQuery ||
-      op.deadlineDate.toString() === lowerQuery ||
-      op.priorityState.toLowerCase() === lowerQuery
+    this.operationListToBeDisplayed.filter(op =>
+      op.id.toString().toLowerCase().includes(lowerQuery) ||
+      op.patientName.toLowerCase().includes(lowerQuery) ||
+      op.doctorId.toString().toLowerCase().includes(lowerQuery) ||
+      op.operationTypeName.toLowerCase().includes(lowerQuery) ||
+      op.deadlineDate.toString().toLowerCase().includes(lowerQuery) ||
+      op.priorityState.toLowerCase().includes(lowerQuery)
     );
   }
+
+  // HELPER METHODS
+
+  getNameOfpatient(patientId: string): string {
+    const patient = this.patients.find(p => p.id.toString() === patientId);
+    return patient ? patient.fullName : 'Unknown Patient';
+  }
+
+  getOperationTypeName(operationTypeId: string): string {
+    const operationType = this.operationTypes.find(o => o.id === operationTypeId);
+    return operationType ? operationType.name : 'Unknown Operation Type';
+  }
+
+
+  getOperationTypeId(operationTypeName: string) : string {
+    const operationType = this.operationTypes.find(o => o.name === operationTypeName);
+    return operationType ? operationType.id : 'Unknown Operation Type Id';
+  }
+
+  getPatientId(patientName: string) {
+    const patient = this.patients.find(p => p.fullName === patientName);
+    return patient ? patient.id : 'Unknown Patient Id';
+  }
+
+
+}
+function foreach(arg0: (element: any) => void) {
+  throw new Error('Function not implemented.');
 }
 

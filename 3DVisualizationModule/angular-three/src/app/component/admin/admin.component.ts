@@ -66,38 +66,39 @@ showHospital() {this.router.navigate(['/hospital']);}
 //REGISTER CLASSES
 
 async registerPatient(
-    FirstName: string,
-    LastName: string,
-    FullName: string,
-    BrirthDate: string,
-    Sex: string,
-    Email: string,
-    Phone: string,
-    EmergencyContact: string)
+    firstName: string,
+    lastName: string,
+    fullName: string,
+    birthDate: string,
+    sex: string,
+    email: string,
+    phone: string,
+    emergencyContact: string)
 {
 
 
 this.errorMessage = '';
 this.successMessage = '';
 
-if (!FirstName || !LastName || !FullName || !BrirthDate || !Sex || !Email || !Phone || !EmergencyContact) {
+if (!firstName || !lastName || !fullName || !birthDate
+  || !sex || !email || !phone || !emergencyContact) {
   this.errorMessage = 'Please fill in all required fields.';
   return;
-}
+  }
 
-if (new Date(BrirthDate) > new Date()) {
+if (new Date(birthDate) > new Date()) {
  this.errorMessage = 'Birth date must be in the past.';
  return;
 }
   const patientData = {
-    FirstName,
-    LastName,
-    FullName,
-    BrirthDate,
-    Sex,
-    Email,
-    Phone,
-    EmergencyContact
+    firstName,
+    lastName,
+    fullName,
+    birthDate,
+    sex,
+    email,
+    phone,
+    emergencyContact
   };
 
   try {
@@ -159,20 +160,20 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   }
 
   if (
-    !this.selectedPatient.FirstName ||
-    !this.selectedPatient.LastName ||
-    !this.selectedPatient.FullName ||
-    !this.selectedPatient.BrirthDate ||
-    !this.selectedPatient.Sex ||
-    !this.selectedPatient.Email ||
-    !this.selectedPatient.Phone ||
-    !this.selectedPatient.EmergencyContact
+    !this.selectedPatient.firstName ||
+    !this.selectedPatient.lastName ||
+    !this.selectedPatient.fullName ||
+    !this.selectedPatient.birthDate ||
+    !this.selectedPatient.sex ||
+    !this.selectedPatient.email ||
+    !this.selectedPatient.phone ||
+    !this.selectedPatient.emergencyContact
   ) {
     this.errorMessage = 'Please fill in all required fields.';
     return;
   }
 
-  if (new Date(this.selectedPatient.BrirthDate) > new Date()) {
+  if (new Date(this.selectedPatient.birthDate) > new Date()) {
     this.errorMessage = 'Deadline date must be in the past.';
     return;
   }
@@ -292,14 +293,14 @@ filterResults(query: string) {
   // Filter the list based on the query
   this.filteredPatientList = this.patientList.filter(op =>
     op.id.toString().toLowerCase() === lowerQuery ||
-    op.FirstName.toString().toLowerCase() === lowerQuery ||
-    op.LastName.toString().toLowerCase()=== lowerQuery ||
-    op.FullName.toString().toLowerCase() === lowerQuery ||
-    op.BrirthDate.toString() === lowerQuery ||
-    op.Sex.toLowerCase() === lowerQuery ||
-    op.Email.toLowerCase() === lowerQuery ||
-    op.Phone.toLowerCase() === lowerQuery ||
-    op.EmergencyContact.toLowerCase() === lowerQuery
+    op.firstName.toString().toLowerCase() === lowerQuery ||
+    op.lastName.toString().toLowerCase()=== lowerQuery ||
+    op.fullName.toString().toLowerCase() === lowerQuery ||
+    op.birthDate.toString() === lowerQuery ||
+    op.sex.toLowerCase() === lowerQuery ||
+    op.email.toLowerCase() === lowerQuery ||
+    op.phone.toLowerCase() === lowerQuery ||
+    op.emergencyContact.toLowerCase() === lowerQuery
   );
 }
 
