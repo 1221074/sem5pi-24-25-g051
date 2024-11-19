@@ -72,7 +72,7 @@ export class DoctorService {
 
   async deleteOperationRequest(id: string) {
     try {
-      const response = await fetch(`${this.url}/${id}`, {
+      const response = await fetch(`${this.url}/${id}/hard`, {
         method: 'DELETE',
         credentials: 'include',
       });
