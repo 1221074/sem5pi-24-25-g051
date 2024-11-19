@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+import Maze from "./maze";
 
 export default class UserInteraction {
-    constructor(scene, renderer, lights, fog, object, animations) {
+    constructor(scene, renderer, lights, fog, object, animations, maze) {
 
         function colorCallback(object, color) {
             object.color.set(color);
@@ -35,17 +36,16 @@ export default class UserInteraction {
         // Create the room folder
         const roomFolder = this.gui.addFolder("Rooms");
 
-        // Supondo que você tenha listas de objetos para cada sala
-        const receptionObjects = [/* lista de objetos da recepção */];
-        const toiletObjects = [/* lista de objetos do banheiro */];
-        const staffObjects = [/* lista de objetos da sala dos funcionários */];
-        const screeningObjects = [/* lista de objetos da sala de triagem */];
-        const kitchenObjects = [/* lista de objetos da cozinha */];
-        const cafeteriaObjects = [/* lista de objetos da cafeteria */];
-        const waitingRoomObjects = [/* lista de objetos da sala de espera */];
-        const surgicalObjects = [/* lista de objetos da sala cirúrgica */];
-        const bedroomObjects = [/* lista de objetos do quarto */];
-        const parkingObjects = [/* lista de objetos do estacionamento */];
+        const receptionObjects = maze.receptionModels;
+        const toiletObjects = maze.toiletModels;
+        const staffObjects = maze.staffModels;
+        const screeningObjects = maze.screeningModels;
+        const kitchenObjects = maze.kitchenModels;
+        const cafeteriaObjects = maze.cafeteriaModels;
+        const waitingRoomObjects = maze.waitingRoomModels;
+        const surgicalObjects = maze.surgeryRoomModels;
+        const bedroomObjects = maze.bedroomModels;
+        const parkingObjects = maze.parkingLotModels;
 
         // Adicionar checkboxes para cada sala
         const roomVisibility = {
