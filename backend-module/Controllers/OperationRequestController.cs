@@ -19,7 +19,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Doctor,Admin")]
+        //[Authorize(Roles = "Doctor,Admin")]
         public async Task<ActionResult<List<OperationRequestDto>>> GetAllAsync()
         {
             var requests = await _service.GetAllAsync();
@@ -27,7 +27,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Doctor,Admin")]
+        //[Authorize(Roles = "Doctor,Admin")]
         public async Task<ActionResult<OperationRequestDto>> GetByIdAsync(Guid id)
         {
             var request = await _service.GetByIdAsync(new OperationRequestId(id));
@@ -41,7 +41,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationRequestDto>> CreateAsync(CreatingOperationRequestDto requestDto)
         {
             List<OperationRequestDto> list = await _service.GetAllAsync();
@@ -76,7 +76,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync(Guid id, OperationRequestDto requestDto)
         {
             if (id != requestDto.Id)
@@ -102,7 +102,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             try
