@@ -1,5 +1,4 @@
-/*import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminComponent } from './admin.component';
 
 describe('AdminComponent', () => {
@@ -21,4 +20,3 @@ describe('AdminComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-*/

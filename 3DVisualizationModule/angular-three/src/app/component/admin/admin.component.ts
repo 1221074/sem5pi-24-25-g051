@@ -10,37 +10,49 @@ import { Staff } from '../../interface/staff';
 import { StaffService } from '../../service/staff.service';
 import { SpecializationService } from '../../service/specialization.service';
 import { SpecializationSub } from '../../interface/specialization-sub';
+import { PlanningService } from 'src/app/service/planning.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
 
-  //SERVICE
+//SERVICE ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
   adminService: AdminService = inject(AdminService);
   userService: UserService = inject(UserService);
   authService: AuthenticationService = inject(AuthenticationService);
   staffService: StaffService = inject(StaffService);
   specializationService: SpecializationService= inject(SpecializationService);
+  planningService: PlanningService = inject(PlanningService);
 
-  //VARIABLES
+//VARIABLES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-      //Patient
+  //Patient
   filteredPatientList: Patient[] = [];
   patientList: Patient[] = [];
   selectedPatient: Patient | null = null;
 
-      //Staff
+  //Staff
   filteredStaffList: Staff[] = [];
   staffList: Staff[] = [];
   selectedStaff: Staff | null = null;
 
-      //Specializations
-      specList: SpecializationSub [] = [];
+  //Specializations
+  specList: SpecializationSub [] = [];
+
+  //Planning Module
+  roomNumber: string = '';
+  planningDate: string = '';
+  surgeriesList: string = '';
+  heuristic: string = '';
+  planningResult: any = null;
+  loading: boolean = false;
+
 
   selectedSection = '';
   errorMessage: string = '';
@@ -58,12 +70,28 @@ export class AdminComponent {
     this.errorMessage = '';
     this.successMessage = '';
     this.selectedPatient = null;
+    this.selectedStaff = null;
+    this.planningResult = null;
+    this.loading = false;
+    this.roomNumber = '';
+    this.planningDate = '';
+    this.surgeriesList = '';
+    this.heuristic = '';
   }
+
+
+//HELPER METHODS __________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 logout() {this.authService.logout();}
 showHospital() {this.router.navigate(['/hospital']);}
 
-//REGISTER CLASSES
+formatDate(dateString: string): string {
+  // dateString is in format 'YYYY-MM-DD'
+  return dateString.replace(/-/g, '');
+}
+
+
+//REGISTER CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 async registerPatient(
     firstName: string,
@@ -145,8 +173,9 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   );
 }
 
-//UPDATE CLASSES
-  //Patient
+//UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+//Patient =========================================================================================================================================================================================================================================================
   cancelUpdatePatient() {
   this.selectedPatient = null;
   this.errorMessage = '';
@@ -214,7 +243,8 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     this.filteredPatientList = filteredPatientList;
   }
 
-  //Staff
+//Staff =========================================================================================================================================================================================================================================================
+
   updateStaff(id: number,firstName: string,lastName: string,fullName: string,specializationId: string,email: string,phone: string): void {
   const updatedStaff: Staff = {
     id: id,
@@ -263,7 +293,7 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     });
   }
 
-//REMOVE CLASSES
+//REMOVE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 submitRemoval(patientId: number) {
   if (confirm('Are you sure you want to remove this patient?')) {
@@ -279,7 +309,7 @@ submitRemoval(patientId: number) {
 submitStaffDeactivation(staffId: number) {}
 
 
-//SEARCH CLASSES
+//SEARCH CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 filterResults(query: string) {
   const lowerQuery = query.toLowerCase();
@@ -303,5 +333,102 @@ filterResults(query: string) {
     op.emergencyContact.toLowerCase() === lowerQuery
   );
 }
+
+
+// ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+// 6.3.1
+async startOptimizedPlanning() {
+  this.errorMessage = '';
+  this.successMessage = '';
+  this.loading = true;
+  this.planningResult = null;
+
+  if (!this.roomNumber || !this.planningDate || !this.surgeriesList) {
+    this.errorMessage = 'Please fill in all required fields.';
+    this.loading = false;
+    return;
+  }
+
+  const formattedDate = this.formatDate(this.planningDate);
+
+  try {
+    const result = await this.planningService.getOptimalSchedule(
+      this.roomNumber,
+      formattedDate,
+      this.surgeriesList
+    );
+    this.planningResult = result;
+    this.loading = false;
+    this.successMessage = 'Optimized planning completed successfully.';
+  } catch (error: any) {
+    this.errorMessage = 'An error occurred during optimized planning.';
+    this.loading = false;
+  }
+}
+
+// 6.3.2
+
+async performComplexityAnalysis() {
+  this.errorMessage = '';
+  this.successMessage = '';
+  this.loading = true;
+  this.planningResult = null;
+
+  if (!this.roomNumber || !this.planningDate) {
+    this.errorMessage = 'Please fill in all required fields.';
+    this.loading = false;
+    return;
+  }
+
+  const formattedDate = this.formatDate(this.planningDate);
+
+  try {
+    const result = await this.planningService.getComplexityAnalysis(
+      this.roomNumber,
+      formattedDate
+    );
+    this.planningResult = result;
+    this.loading = false;
+    this.successMessage = 'Complexity analysis completed successfully.';
+  } catch (error: any) {
+    this.errorMessage = 'An error occurred during complexity analysis.';
+    this.loading = false;
+  }
+}
+
+
+// 6.3.3
+
+async startHeuristicPlanning() {
+  this.errorMessage = '';
+  this.successMessage = '';
+  this.loading = true;
+  this.planningResult = null;
+
+  if (!this.roomNumber || !this.planningDate || !this.surgeriesList || !this.heuristic) {
+    this.errorMessage = 'Please fill in all required fields.';
+    this.loading = false;
+    return;
+  }
+
+  const formattedDate = this.formatDate(this.planningDate);
+
+  try {
+    const result = await this.planningService.getHeuristicSchedule(
+      this.roomNumber,
+      formattedDate,
+      this.surgeriesList,
+      this.heuristic
+    );
+    this.planningResult = result;
+    this.loading = false;
+    this.successMessage = 'Heuristic planning completed successfully.';
+  } catch (error: any) {
+    this.errorMessage = 'An error occurred during heuristic planning.';
+    this.loading = false;
+  }
+}
+
 
 }

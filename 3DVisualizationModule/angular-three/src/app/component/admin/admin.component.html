@@ -12,9 +12,6 @@
     <div class="admin-panel">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
-      <button (click)="showSection('optimizedPlanning')">Otimized Schedule</button>
-      <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
-      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
     </div>
     <div class="admin-patient-management">
       <h3>Patient Management:</h3>
@@ -40,9 +37,14 @@
   </section>
 
 <section class="admin-3d-visualization" *ngIf="!selectedSection">
-      <h3>3D Visualization:</h3>
+      <h3>3D Visualization Module:</h3>
       <button (click)="showSection('3dVisualization')">3D Visualization</button>
-</section>
+
+      <h3>Planning Module:</h3>
+      <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
+      <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
+      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
+    </section>
 
 
   <!-- Register User Section -->
@@ -108,47 +110,7 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <section [style.display]="selectedSection === 'optimizedPlanning' ? 'block' : 'none'">
-    <h2>Optimized Schedule</h2>
-    <p>Here you can obtain the the better scheduling of a set of operations(surgeries) in a certain operation room in a specific day.</p>
 
-    <div class="schedule-container">
-      <form class="scheduleInput">
-        <label for="date">Starting Date:</label>
-        <input type="date" id="date1" name="datei" required>
-        <label for="room">Final Date:</label>
-        <input type="date" id="date2" name="datef" required>
-      </form>
-      <button name="scheduleBtn">Generate Schedule</button>
-    </div>
-
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
-
-  <section [style.display]="selectedSection === 'dimensionPlanning' ? 'block' : 'none'">
-    <h2>Better solution in terms of dimensions</h2>
-    <p>Perform a complexity analysis of the problem to understand to which dimension it is feasible to
-      ask for the better solution. Document your results and findings.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
-
-  <section [style.display]="selectedSection === 'preferedPlanning' ? 'block' : 'none'">
-    <h2>Information Sync Planning</h2>
-    <p>The system generates a "good" (non-optimal but efficient) schedule using heuristics or informed
-      methods (e.g., greedy algorithms, rule-based scheduling). </p>
-
-      <div class="schedule-container">
-        <form class="scheduleInput">
-          <label for="date">Starting Date:</label>
-          <input type="date" id="date1" name="datei" required>
-          <label for="room">Final Date:</label>
-          <input type="date" id="date2" name="datef" required>
-        </form>
-        <button name="scheduleBtn">Generate Schedule</button>
-      </div>
-
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
 
   <!-- Patient Sections -->
   <section [style.display]="selectedSection === 'createPatient' ? 'block' : 'none'">
@@ -654,7 +616,7 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <!-- 3D Visualization Section -->
+  <!-- 3D Visualization Module -->
 
   <section [style.display]="selectedSection === '3dVisualization' ? 'block' : 'none'">
     <h2>3D Visualization</h2>
@@ -662,6 +624,103 @@
     <button class="visualization-button" (click)="showHospital()">3D Visualization</button>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
+
+  <!-- Planning Module -->
+
+  <!-- 6.3.1-->
+  <section [style.display]="selectedSection === 'optimizedPlanning' ? 'block' : 'none'">
+    <h2>Optimized Planning</h2>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <form (ngSubmit)="startOptimizedPlanning()">
+      <label for="roomNumber">Room Number:</label>
+      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+
+      <label for="planningDate">Date:</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+
+      <label for="surgeriesList">Surgeries (comma-separated IDs):</label>
+      <input id="surgeriesList" type="text" [(ngModel)]="surgeriesList" name="surgeriesList" required>
+
+      <button type="submit" [disabled]="loading">Start Optimized Planning</button>
+    </form>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="planningResult">
+      <h3>Planning Result:</h3>
+      <!-- Display the planning result -->
+      <pre>{{ planningResult | json }}</pre>
+    </div>
+
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- 6.3.2-->
+  <section [style.display]="selectedSection === 'dimensionPlanning' ? 'block' : 'none'">
+    <h2>Dimension in Terms of Number of Surgeries</h2>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <form (ngSubmit)="performComplexityAnalysis()">
+      <label for="roomNumber">Room Number:</label>
+      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+
+      <label for="planningDate">Date:</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+
+      <button type="submit" [disabled]="loading">Perform Complexity Analysis</button>
+    </form>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="planningResult">
+      <h3>Complexity Analysis Result:</h3>
+      <!-- Display the analysis result -->
+      <pre>{{ planningResult | json }}</pre>
+    </div>
+
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- 6.3.3-->
+  <section [style.display]="selectedSection === 'preferedPlanning' ? 'block' : 'none'">
+    <h2>Heuristic Planning</h2>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <form (ngSubmit)="startHeuristicPlanning()">
+      <label for="roomNumber">Room Number:</label>
+      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+
+      <label for="planningDate">Date:</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+
+      <label for="surgeriesList">Surgeries (comma-separated IDs):</label>
+      <input id="surgeriesList" type="text" [(ngModel)]="surgeriesList" name="surgeriesList" required>
+
+      <label for="heuristic">Heuristic to Use:</label>
+      <input id="heuristic" type="text" [(ngModel)]="heuristic" name="heuristic" required>
+
+      <button type="submit" [disabled]="loading">Start Heuristic Planning</button>
+    </form>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="planningResult">
+      <h3>Planning Result:</h3>
+      <!-- Display the planning result -->
+      <pre>{{ planningResult | json }}</pre>
+    </div>
+
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+
+
+
+
 
 </div>
 <p>Current Section: {{ selectedSection }}</p>

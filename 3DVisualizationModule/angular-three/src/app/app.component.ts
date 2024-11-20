@@ -6,11 +6,12 @@ import { SpecializationComponent } from './component/specialization/specializati
 import { HomePageComponent } from './component/home-page/home-page.component';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './component/admin/admin.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule,CommonModule, CommonModule],
+  imports: [RouterModule,CommonModule, CommonModule, HttpClientModule],
   template: `
 
      <header class="brand-name">
