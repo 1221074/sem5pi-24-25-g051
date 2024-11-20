@@ -522,7 +522,7 @@ export default class ThumbRaiser {
                 const newMousePosition = new THREE.Vector2(event.clientX, window.innerHeight - event.clientY - 1);
                 const mouseIncrement = newMousePosition.clone().sub(this.mousePosition);
                 this.mousePosition = newMousePosition;
-                if (event.buttons == 1) { // Primary button down
+                /*if (event.buttons == 1) { // Primary button down
                     if (this.changeCameraDistance) {
                         this.activeViewCamera.updateDistance(-0.05 * (mouseIncrement.x + mouseIncrement.y));
                         this.displayPanel();
@@ -536,6 +536,12 @@ export default class ThumbRaiser {
                     }
                 }
                 else { // Secondary button down
+                    if (this.changeCameraOrientation) {
+                        this.activeViewCamera.updateOrientation(mouseIncrement.multiply(new THREE.Vector2(-0.5, 0.5)));
+                        this.displayPanel();
+                    }
+                }*/
+                if (event.buttons == 2) { // Secondary button down
                     if (this.changeCameraOrientation) {
                         this.activeViewCamera.updateOrientation(mouseIncrement.multiply(new THREE.Vector2(-0.5, 0.5)));
                         this.displayPanel();

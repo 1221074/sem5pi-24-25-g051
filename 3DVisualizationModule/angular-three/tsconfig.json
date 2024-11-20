@@ -28,7 +28,7 @@
     ],
     //mudar para true ou false dependendo da cadeira que quisermos testar
     //SGRAI - True ARQSI- False
-    "allowJs": false
+    "allowJs": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
