@@ -29,14 +29,14 @@ namespace backend_module.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<PatientDTO>> GetByIdAsync(Guid id)
         {
 
@@ -52,7 +52,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/firstname/{name}")]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFirstNameAsync(string name)
         {
             var patients = await _service.GetByFirstNameAsync(name);
@@ -65,7 +65,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/lastname/{name}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByLastNameAsync(string name)
         {
             var patients = await _service.GetByLastNameAsync(name);
@@ -78,7 +78,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/fullname/{name}")]
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByFullNameAsync(string name)
         {
             var patients = await _service.GetByFullNameAsync(name);
@@ -91,7 +91,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/birthdate/{date}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByBirthDateAsync(string date)
         {
             var patients = await _service.GetByBirthDateAsync(date);
@@ -104,7 +104,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/sex/{sex}")]
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetBySexAsync(string sex)
         {
             var patients = await _service.GetBySexAsync(sex);
@@ -117,7 +117,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/email/{email}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<PatientDTO>> GetByEmailAsync(string email)
         {
             var patients = await _service.GetByEmailAsync(email);
@@ -130,7 +130,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/phone/{phone}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByPhoneAsync(string phone)
         {
             var patients = await _service.GetByPhoneAsync(phone);
@@ -143,7 +143,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/emergencycontact/{emergencycontact}")]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByEmergencyContactAsync(string emergencycontact)
         {
             var patients = await _service.GetByEmergencyContactAsync(emergencycontact);
@@ -156,7 +156,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/allergy/{allergy}")]
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAllergyAsync(string allergy)
         {
             var patients = await _service.GetByAllergyAsync(allergy);
@@ -169,7 +169,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("/api/patient/appointment/{appointment}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<PatientDTO>>> GetByAppointmentAsync(string appointment)
         {
             var patients = await _service.GetByAppointmentAsync(appointment);
@@ -183,7 +183,7 @@ namespace backend_module.Controllers
 
 
         [HttpPost] 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<PatientDTO>> Create(CreatingPatientDTO PDTO)
         {
             List<PatientDTO> list = await _service.GetAllAsync();
@@ -208,7 +208,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, PatientDTO PDTO)
         {
             if (id != PDTO.Id)
@@ -230,7 +230,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
             var P = await _service.InactivateAsync(new PatientId(id));
@@ -243,7 +243,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}/hard")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try {

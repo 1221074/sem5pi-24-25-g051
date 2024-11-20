@@ -76,7 +76,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-//        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync(Guid id, OperationRequestDto requestDto)
         {
             if (id != requestDto.Id)
@@ -102,7 +102,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}")]
-      //  [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             try
