@@ -30,10 +30,12 @@ export class DoctorComponent implements OnInit {
 
   // VARIABLES
      //list
-  filteredOperationList: Operationrequest[] = [];
-  operationList: Operationrequest[] = [];
-  operationListToBeDisplayed: OperationDisplay[] = [];
-  selectedOperation: Operationrequest | null = null;
+    filteredOperationList: Operationrequest[] = [];
+    operationList: Operationrequest[] = [];
+    operationListToBeDisplayed: OperationDisplay[] = [];
+    fullOperationListToBeDisplayed: OperationDisplay[] = [];
+    selectedOperation: Operationrequest | null = null;
+
     //data
   operationTypes: OperationType[] = [];
   patients: Patient[] = [];
@@ -68,28 +70,31 @@ export class DoctorComponent implements OnInit {
   }
 
   updateList() {
-     this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
-      const loggedInDoctorId = this.authService.getUserId() as string;
-      // Filter operations where doctorId matches the logged-in user's ID
-      this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
-      console.log(this.operationList);
-      this.operationListToBeDisplayed = this.operationList.map(op => {
-        return {
-          id: op.id,
-          patientName: this.getNameOfpatient(op.patientId),
-          doctorId: op.doctorId,
-          operationTypeName: this.getOperationTypeName(op.operationTypeId),
-          deadlineDate: op.deadlineDate,
-          priorityState: op.priorityState
-        };
-      });
-    }).catch(error => {
-      this.errorMessage = 'Failed to load operations. Please try again.';
-    });
-  }
+  this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
+    const loggedInDoctorId = this.authService.getUserId() as string;
+    this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
 
-  updateListSearch(filteredOperationList: Operationrequest[]) {
-    this.filteredOperationList = filteredOperationList;
+    this.operationListToBeDisplayed = this.operationList.map(op => {
+      return {
+        id: op.id,
+        patientName: this.getNameOfpatient(op.patientId),
+        doctorId: op.doctorId,
+        operationTypeName: this.getOperationTypeName(op.operationTypeId),
+        deadlineDate: op.deadlineDate,
+        priorityState: op.priorityState
+      };
+    });
+
+    // Initialize the master list
+    this.fullOperationListToBeDisplayed = [...this.operationListToBeDisplayed];
+  }).catch(error => {
+    this.errorMessage = 'Failed to load operations. Please try again.';
+  });
+}
+
+
+  updateListSearch(operationToBeDisplayed: OperationDisplay[]) {
+    this.operationListToBeDisplayed = operationToBeDisplayed;
   }
 
   showSection(section: string) {
@@ -227,19 +232,33 @@ export class DoctorComponent implements OnInit {
   filterResults(query: string) {
     const lowerQuery = query.toLowerCase();
 
-    // If the query is empty, reset the list to display all operations
-
+    if (!lowerQuery) {
+      // If the query is empty, reset to show all operations
+      this.operationListToBeDisplayed = [...this.fullOperationListToBeDisplayed];
+      this.errorMessage = '';
+      return;
+    }
 
     // Filter the list based on the query
-    this.operationListToBeDisplayed.filter(op =>
+    const filteredList = this.fullOperationListToBeDisplayed.filter(op =>
       op.id.toString().toLowerCase().includes(lowerQuery) ||
       op.patientName.toLowerCase().includes(lowerQuery) ||
       op.doctorId.toString().toLowerCase().includes(lowerQuery) ||
       op.operationTypeName.toLowerCase().includes(lowerQuery) ||
-      op.deadlineDate.toString().toLowerCase().includes(lowerQuery) ||
+      op.deadlineDate.toString().includes(lowerQuery) ||
       op.priorityState.toLowerCase().includes(lowerQuery)
     );
+
+    this.updateListSearch(filteredList);
+
+    // Display a message if no results are found
+    if (filteredList.length === 0) {
+      this.errorMessage = 'No operations found matching your search.';
+    } else {
+      this.errorMessage = '';
+    }
   }
+
 
   // HELPER METHODS
 
@@ -266,7 +285,5 @@ export class DoctorComponent implements OnInit {
 
 
 }
-function foreach(arg0: (element: any) => void) {
-  throw new Error('Function not implemented.');
-}
+
 
