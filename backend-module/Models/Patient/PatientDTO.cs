@@ -45,6 +45,20 @@ namespace backend_module.Models.Patient
             this.AppointmentList = appointmentList;
             this.AllergyList = allergyList;
         }
+        public PatientDTO(string firstName, string lastName, string fullName, string birthDate, string sex, string email, string phone, string emergencyContact)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.FullName = fullName;
+            this.BirthDate = birthDate;
+            this.Sex = sex;
+            this.Email = email;
+            this.Phone = phone;
+            this.EmergencyContact = emergencyContact;
+            this.AppointmentList = [];
+            this.AllergyList = [];
+        }
+
 
         public PatientDTO()
         {

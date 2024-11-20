@@ -34,8 +34,8 @@ export class AdminComponent {
 
   //Patient
   filteredPatientList: Patient[] = [];
-  patientList: Patient[] = [];
   selectedPatient: Patient | null = null;
+  patientList: Patient[] =  [];
 
   //Staff
   filteredStaffList: Staff[] = [];
@@ -72,7 +72,6 @@ export class AdminComponent {
     // Clear messages when switching sections
     this.errorMessage = '';
     this.successMessage = '';
-    this.selectedPatient = null;
     this.selectedStaff = null;
     this.planningResult = null;
     this.loading = false;
@@ -121,6 +120,8 @@ if (new Date(birthDate) > new Date()) {
  this.errorMessage = 'Birth date must be in the past.';
  return;
 }
+let appointmentList: string[] = [];
+let allergyList: string[] = [];
   const patientData = {
     firstName,
     lastName,
@@ -129,7 +130,9 @@ if (new Date(birthDate) > new Date()) {
     sex,
     email,
     phone,
-    emergencyContact
+    emergencyContact,
+    appointmentList,
+    allergyList
   };
 
   try {
@@ -198,53 +201,40 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
 //UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 //Patient =========================================================================================================================================================================================================================================================
-  cancelUpdatePatient() {
-  this.selectedPatient = null;
-  this.errorMessage = '';
-  this.successMessage = '';
-  }
+  async updatePatient(id: number, firstName: string,
+    lastName: string,
+    fullName: string,
+    birthDate: string,
+    sex: string,
+    email: string,
+    phone: string,
+    emergencyContact: string) {
+      let appointmentList: string[] = [];
+      let allergyList: string[] = [];
+      const patientData = {
+        id,
+        firstName,
+        lastName,
+        fullName,
+        birthDate,
+        sex,
+        email,
+        phone,
+        emergencyContact,
+        appointmentList,
+        allergyList
+      };
 
-  async submitUpdatePatient() {
-  if (!this.selectedPatient) {
-    this.errorMessage = 'No patient selected for update.';
-    return;
-  }
-
-  if (
-    !this.selectedPatient.firstName ||
-    !this.selectedPatient.lastName ||
-    !this.selectedPatient.fullName ||
-    !this.selectedPatient.birthDate ||
-    !this.selectedPatient.sex ||
-    !this.selectedPatient.email ||
-    !this.selectedPatient.phone ||
-    !this.selectedPatient.emergencyContact
-  ) {
-    this.errorMessage = 'Please fill in all required fields.';
-    return;
-  }
-
-  if (new Date(this.selectedPatient.birthDate) > new Date()) {
-    this.errorMessage = 'Deadline date must be in the past.';
-    return;
-  }
-
-  try {
-    // Proceed to update the OperationRequest
-    await this.adminService.updatePatient(this.selectedPatient);
-    this.successMessage = 'Patient updated successfully.';
-    this.selectedPatient = null;
-    this.updatePatientList();
-  } catch (error: any) {
-    // Handle error based on error response
-    if (error.status === 400) {
-      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
-    } else if (error.status === 404) {
-      this.errorMessage = 'Patient not found.';
-    } else {
-      this.errorMessage = 'An error occurred while updating the patient. Please try again.';
-    }
-  }
+      this.adminService.updatePatient(patientData).then(
+        (response) => {
+          this.successMessage = 'Patient profile updated successfully.';
+          this.updatePatientList();
+          this.selectedPatient = null;
+        },
+        (error) => {
+          this.errorMessage = 'Error updating patient profile.';
+        }
+      );
   }
 
   updatePatientList() {
