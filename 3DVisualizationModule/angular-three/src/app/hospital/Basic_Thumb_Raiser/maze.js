@@ -1659,7 +1659,7 @@ export default class Maze {
             this.object.add(patient10);
         }
         );
-*/
+
 
 
         //=======================================================================================================
@@ -1793,53 +1793,180 @@ export default class Maze {
 
         //=======================================================================================================
         // Doors
-        
-        /*
-        loaderGLTF.load('./models/double_pocket_door/scene.gltf', (gltf) => {
-            this.frontDoor = gltf.scene;
-            this.frontDoor.scale.set(0.5, 0.43, 1);
-            this.frontDoor.position.set(-8.9655, 0.58, -7.135);
-            this.frontDoor.rotateY(Math.PI / 2);
-            this.object.add(this.frontDoor);
 
-            let frontDoor2 = gltf.scene.clone();
-            frontDoor2.position.set(-8.9655, 0.58, -1.135);
-            this.object.add(frontDoor2);
-        }
-        );*/
-
+        // Staff doors
         loaderGLTF.load('./models/metal_door/scene.gltf', (gltf) => {
             this.staffDoor = gltf.scene;
             this.staffDoor.scale.set(0.0035, 0.0042, 0.0035);
             this.staffDoor.position.set(-6.5, 0, -2.54);
+            this.staffDoor.visible = false;
             this.object.add(this.staffDoor);
 
             let staffDoor2 = gltf.scene.clone();
             staffDoor2.position.set(-6.5, 0, -2.46);
             staffDoor2.rotateY(Math.PI);
+            staffDoor2.visible = false;
             this.object.add(staffDoor2);
 
+            this.staffModels.push(this.staffDoor);
+            this.staffModels.push(staffDoor2);
         }
         );
 
-
-        /*
-        loaderGLTF.load('./models/double_doors/scene.gltf', (gltf) => {
-            this.staffDoor = gltf.scene;
-            this.staffDoor.scale.set(0.0025, 0.0028, 0.002);
-            this.staffDoor.position.set(-6.5, 0, -2.54);
-            this.object.add(this.staffDoor);
-
-            let staffDoor2 = gltf.scene.clone();
-            staffDoor2.position.set(-6.5, 0, -2.46);
-            staffDoor2.rotateY(Math.PI);
-            this.object.add(staffDoor2);
-
+        // Entrance door
+        loaderGLTF.load('./models/emergency_glass_double_door/scene.gltf', (gltf) => {
+            this.entranceDoor = gltf.scene;
+            this.entranceDoor.scale.set(0.0047, 0.00469, 0.0035);
+            this.entranceDoor.position.set(-10.04, 0.13, 0.11);
+            this.entranceDoor.rotateY(Math.PI / 2);
+            this.object.add(this.entranceDoor);
         }
         );
-        */
 
+        // Toilet doors
+        loaderGLTF.load('./models/double_door/scene.gltf', (gltf) => {
+            this.toiletDoor = gltf.scene;
+            this.toiletDoor.scale.set(0.6, 0.48, 0.5);
+            this.toiletDoor.position.set(7, 0, -3.47);
+            this.toiletDoor.rotateY(Math.PI);
+            this.toiletDoor.visible = false;
+            this.object.add(this.toiletDoor);
 
+            let toiletDoor2 = gltf.scene.clone();
+            toiletDoor2.position.set(5.96, 0, 3.48);
+            toiletDoor2.rotateY(Math.PI);
+            toiletDoor2.visible = false;
+            this.object.add(toiletDoor2);
+
+            let toiletDoor3 = gltf.scene.clone();
+            toiletDoor3.position.set(-8.97, 0, -4.47);
+            toiletDoor3.visible = false;
+            this.object.add(toiletDoor3);
+
+            let toiletDoor4 = gltf.scene.clone();
+            toiletDoor4.position.set(-9.98, 0, 4.48);
+            toiletDoor4.rotateY(Math.PI);
+            toiletDoor4.visible = false;
+            this.object.add(toiletDoor4);
+
+            this.toiletModels.push(this.toiletDoor);
+            this.toiletModels.push(toiletDoor2);
+            this.toiletModels.push(toiletDoor3);
+            this.toiletModels.push(toiletDoor4);
+        }
+        );
+
+         // Surgery and screeening doors
+         loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
+            this.surgeryDoor = gltf.scene;
+            this.surgeryDoor.scale.set(0.3, 0.312, 0.9);
+            this.surgeryDoor.position.set(-2.5, 0, -0.5325);
+            this.surgeryDoor.rotateY(Math.PI);
+            this.surgeryDoor.visible = false;
+            this.object.add(this.surgeryDoor);
+
+            let surgeryDoor2 = gltf.scene.clone();
+            surgeryDoor2.position.set(-2.5, 0, 0.5325);
+            surgeryDoor2.rotateY(Math.PI);
+            surgeryDoor2.visible = false;
+            this.object.add(surgeryDoor2);
+
+            let surgeryDoor3 = gltf.scene.clone();
+            surgeryDoor3.position.set(1.5, 0, -0.5325);
+            surgeryDoor3.visible = false;
+            this.object.add(surgeryDoor3);
+
+            let surgeryDoor4 = gltf.scene.clone();
+            surgeryDoor4.position.set(1.5, 0, 0.5325);
+            surgeryDoor4.rotateY(Math.PI); 
+            surgeryDoor4.visible = false;     
+            this.object.add(surgeryDoor4);
+
+            let surgeryDoor5 = gltf.scene.clone();
+            surgeryDoor5.position.set(0.5, 0, -3.5325);
+            surgeryDoor5.visible = false;
+            this.object.add(surgeryDoor5);
+
+            let surgeryDoor6 = gltf.scene.clone();
+            surgeryDoor6.position.set(0.5, 0, 3.5325);
+            surgeryDoor6.rotateY(Math.PI);
+            surgeryDoor6.visible = false;
+            this.object.add(surgeryDoor6);
+
+            let surgeryDoor7 = gltf.scene.clone();
+            surgeryDoor7.position.set(2.5, 0, -3.5325);
+            surgeryDoor7.visible = false;
+            this.object.add(surgeryDoor7);
+
+            let surgeryDoor8 = gltf.scene.clone();
+            surgeryDoor8.position.set(2.5, 0, 3.5325);
+            surgeryDoor8.rotateY(Math.PI);
+            surgeryDoor8.visible = false;
+            this.object.add(surgeryDoor8);
+
+            let surgeryDoor9 = gltf.scene.clone();
+            surgeryDoor9.position.set(4.5, 0, -3.5325);
+            surgeryDoor9.visible = false;
+            this.object.add(surgeryDoor9);
+
+            let surgeryDoor10 = gltf.scene.clone();
+            surgeryDoor10.position.set(4.5, 0, 3.5325);
+            surgeryDoor10.rotateY(Math.PI);
+            surgeryDoor10.visible = false;
+            this.object.add(surgeryDoor10);
+
+            let screeningDoor1 = gltf.scene.clone();
+            screeningDoor1.position.set(-6.5, 0, -3.5325);
+            screeningDoor1.visible = false;
+            this.object.add(screeningDoor1);
+
+            let screeningDoor2 = gltf.scene.clone();
+            screeningDoor2.position.set(-6.5, 0, 3.5325);
+            screeningDoor2.rotateY(Math.PI);
+            screeningDoor2.visible = false;
+            this.object.add(screeningDoor2);
+
+            let screeningDoor3 = gltf.scene.clone();
+            screeningDoor3.position.set(-4.5, 0, -3.5325);
+            screeningDoor3.visible = false;
+            this.object.add(screeningDoor3);
+
+            let screeningDoor4 = gltf.scene.clone();
+            screeningDoor4.position.set(-4.5, 0, 3.5325);
+            screeningDoor4.rotateY(Math.PI);
+            screeningDoor4.visible = false;
+            this.object.add(screeningDoor4);
+
+            let screeningDoor5 = gltf.scene.clone();
+            screeningDoor5.position.set(-2.5, 0, -3.5325);
+            screeningDoor5.visible = false;
+            this.object.add(screeningDoor5);
+
+            let screeningDoor6 = gltf.scene.clone();
+            screeningDoor6.position.set(-2.5, 0, 3.5325);
+            screeningDoor6.rotateY(Math.PI);
+            screeningDoor6.visible = false;
+            this.object.add(screeningDoor6);
+
+            this.surgeryRoomModels.push(this.surgeryDoor);
+            this.surgeryRoomModels.push(surgeryDoor2);
+            this.surgeryRoomModels.push(surgeryDoor3);
+            this.surgeryRoomModels.push(surgeryDoor4);
+            this.surgeryRoomModels.push(surgeryDoor5);
+            this.surgeryRoomModels.push(surgeryDoor6);
+            this.surgeryRoomModels.push(surgeryDoor7);
+            this.surgeryRoomModels.push(surgeryDoor8);
+            this.surgeryRoomModels.push(surgeryDoor9);
+            this.surgeryRoomModels.push(surgeryDoor10);
+
+            this.screeningModels.push(screeningDoor1);
+            this.screeningModels.push(screeningDoor2);
+            this.screeningModels.push(screeningDoor3);
+            this.screeningModels.push(screeningDoor4);
+            this.screeningModels.push(screeningDoor5);
+            this.screeningModels.push(screeningDoor6);
+        }
+        );
 
 
 
