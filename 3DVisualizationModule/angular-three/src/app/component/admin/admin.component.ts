@@ -162,9 +162,25 @@ async registerUser(nif: string, userName: string, email: string, phoneNumber: st
 }
 
 async registerStaff(firstName: string, lastName: string, fullName: string, specializationId: string, email: string, phone: string) {
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  if (!firstName || !lastName || !fullName || !specializationId || !email || !phone) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
+  }
+
+  if (this.checkIfStaffEmailExists(email)) {
+    this.errorMessage = 'This email is already associated to a staff member.';
+    return;
+  }
+
+  if (this.checkIfStaffPhoneNumberExists(phone)) {
+    this.errorMessage = 'This phone number is already associated to a staff member.';
+    return;
+  }
+
   const newStaff = { firstName, lastName, fullName, specializationId, email, phone };
-  
-  
   
   try {
     await this.staffService.postStaff(newStaff);
@@ -364,6 +380,24 @@ filterStaffResults(query: string) {
 
 updateStaffListSearch(filteredStaffList: Staff[]) {
   this.filteredStaffList = filteredStaffList;
+}
+
+checkIfStaffPhoneNumberExists(phoneNumber: string): boolean {
+  const lowerPhoneNumber = phoneNumber.toLowerCase();
+
+  // Check if the phone number exists in the staff list
+  const staffExists = this.staffList.some(staff => staff.phone.toLowerCase() === lowerPhoneNumber);
+
+  return staffExists;
+}
+
+checkIfStaffEmailExists(email: string): boolean {
+  const lowerEmail = email.toLowerCase();
+
+  // Check if the email exists in the staff list
+  const emailExists = this.staffList.some(staff => staff.email.toLowerCase() === lowerEmail);
+
+  return emailExists;
 }
 
 // ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________

@@ -348,6 +348,11 @@
     <h2>Create Staff Profile</h2>
     <p>Here you can create a new staff profile.</p>
     <P>Please enter the following data about the new staff member.</P>
+    
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    
     <form>
       <div class="staff-name">
         <input type="text" id="firstName" name="firstName" #firstName placeholder="First Name" required>
@@ -566,7 +571,7 @@
     <form>
       <div class="inputStaffFilterClass">
         <input class="inputStaffFilter" type="text" placeholder="Search Staff" #filter (input)="filterStaffResults(filter.value)" />
-        <button class="staffBtn" type="button" (click)="filterStaffResults(filter.value)">Search</button>
+        <button class="staffSearchBtn" type="button" (click)="filterStaffResults(filter.value)">Search</button>
       </div>
       </form>
     <table class="table-display">
@@ -588,7 +593,7 @@
       <td>{{ staff.phone }}</td>
     </tr>
     </table>
-
+    <br>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
