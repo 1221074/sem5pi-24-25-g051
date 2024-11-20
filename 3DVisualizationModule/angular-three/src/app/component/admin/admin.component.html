@@ -563,9 +563,14 @@
   <section [style.display]="selectedSection === 'listStaff' ? 'block' : 'none'">
     <h2>List/Search Staff Profiles</h2>
     <p>Here you can list or search for staff profiles.</p>
+    <form>
+      <div class="inputStaffFilterClass">
+        <input class="inputStaffFilter" type="text" placeholder="Search Staff" #filter (input)="filterStaffResults(filter.value)" />
+        <button class="staffBtn" type="button" (click)="filterStaffResults(filter.value)">Search</button>
+      </div>
+      </form>
     <table class="table-display">
     <tr>
-      <th>Staff ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
@@ -574,8 +579,7 @@
       <th>Phone</th>
     </tr>
 
-    <tr *ngFor="let staff of staffList">
-      <td>{{ staff.id }}</td>
+    <tr *ngFor="let staff of filteredStaffList">
       <td>{{ staff.firstName }}</td>
       <td>{{ staff.lastName }}</td>
       <td>{{ staff.fullName }}</td>

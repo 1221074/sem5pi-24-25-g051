@@ -27,14 +27,14 @@ namespace backend_module.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OperationTypeDTO>>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationTypeDTO>> GetByIdAsync(Guid id)
         {
 
@@ -86,7 +86,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPost] 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<OperationTypeDTO>> Create(CreatingOperationTypeDTO OTDTO)
         {
             
@@ -100,7 +100,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, OperationTypeDTO OTDTO)
         {
             if (id != OTDTO.Id)
@@ -122,7 +122,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(Guid id)
         {
             var OT = await _service.InactivateAsync(new OperationTypeId(id));
@@ -135,7 +135,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}/hard")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(Guid id)
         {
             try {

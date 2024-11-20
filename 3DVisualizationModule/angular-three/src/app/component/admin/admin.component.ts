@@ -59,6 +59,9 @@ export class AdminComponent {
   successMessage: string = '';
 
   constructor(private router: Router) {
+  }
+
+  ngOnInit() {
     this.updatePatientList();
     this.updateStaffList();
     this.getSpecs();
@@ -160,17 +163,20 @@ async registerUser(nif: string, userName: string, email: string, phoneNumber: st
 
 async registerStaff(firstName: string, lastName: string, fullName: string, specializationId: string, email: string, phone: string) {
   const newStaff = { firstName, lastName, fullName, specializationId, email, phone };
-  this.staffService.postStaff(newStaff).then(
-    response => {
-      this.successMessage = 'Staff registered successfully!';
-      this.errorMessage = '';
+  
+  
+  
+  try {
+    await this.staffService.postStaff(newStaff);
+    this.successMessage = 'Staff registered successfully.';
+    this.updateStaffList();
+  }catch(error: any) {
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else {
+      this.errorMessage = 'An error occurred while registering the staff. Please try again.';
     }
-  ).catch(
-    error => {
-      this.errorMessage = 'Failed to register staff. Please try again.';
-      this.successMessage = '';
-    }
-  );
+  }
 }
 
 //UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
@@ -271,6 +277,7 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   updateStaffList() {
     this.staffService.getAllStaff().then((staffList: Staff[]) => {
       this.staffList = staffList;
+      this.filteredStaffList = staffList;
     });
   }
 
@@ -334,6 +341,30 @@ filterResults(query: string) {
   );
 }
 
+filterStaffResults(query: string) {
+  const lowerQuery = query.toLowerCase();
+
+  // If the query is empty, reset the list to display all operations
+  if (!lowerQuery) {
+    this.filteredStaffList = [...this.staffList];
+    return;
+  }
+
+  // Filter the list based on the query
+  this.filteredStaffList.filter(op =>
+    op.id.toString().toLowerCase().includes(lowerQuery) 
+    || op.firstName.toString().toLowerCase().includes(lowerQuery)
+    || op.lastName.toString().toLowerCase().includes(lowerQuery)
+    || op.fullName.toString().toLowerCase().includes(lowerQuery)
+    || op.specializationId.toString().toLowerCase().includes(lowerQuery)
+    || op.email.toString().toLowerCase().includes(lowerQuery)
+    || op.phone.toString().toLowerCase().includes(lowerQuery)
+  );
+}
+
+updateStaffListSearch(filteredStaffList: Staff[]) {
+  this.filteredStaffList = filteredStaffList;
+}
 
 // ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
