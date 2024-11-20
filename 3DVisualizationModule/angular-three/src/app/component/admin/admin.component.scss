@@ -197,6 +197,12 @@ button:active {
   margin: 0 auto; /* Centraliza o formulário horizontalmente */
 }
 
+.button-staff-submit {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
 .staff-create input[type="text"],
 .staff-create input[type="email"],
 .staff-create input[type="tel"],
