@@ -378,9 +378,18 @@ submitRemoval(patientId: number) {
     });
   }
 }
-
-submitStaffDeactivation(staffId: number) {}
-
+/*
+submitStaffDeactivation(staffId: number) {
+  if (confirm('Are you sure you want to deactivate this staff member?')) {
+    this.staffService.deactivateStaff(staffId.toString()).then(() => {
+      this.successMessage = 'Staff member deactivated successfully.';
+      this.updateStaffList();
+    }).catch(error => {
+      this.errorMessage = 'An error occurred while deactivating the staff member. Please try again.';
+    });
+  }
+}
+*/
 
 //SEARCH CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
