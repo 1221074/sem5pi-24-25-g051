@@ -15,6 +15,7 @@ import { SpecializationSub } from '../../interface/specialization-sub';
 import { PlanningService } from 'src/app/service/planning.service';
 import { HttpClientModule } from '@angular/common/http';
 import { StaffDisplay } from '../../interface/staff-display';
+import { OperationTypeDisplay } from 'src/app/interface/operationtype-display';
 
 @Component({
   selector: 'app-admin',
@@ -53,8 +54,11 @@ export class AdminComponent {
   specList: SpecializationSub [] = [];
 
   //Operation Types
-  operationTypeList: OperationType[] = [];
+  operationTypeSearchQuery: string = '';
   filteredOperationTypeList: OperationType[] = [];
+  operationTypeList: OperationType[] = [];
+  operationTypeListToBeDisplayed: OperationTypeDisplay[] = [];
+  fullOperationTypeListToBeDisplayed: OperationTypeDisplay[] = [];
   selectedOperationType: OperationType | null = null;
 
   //Planning Module
@@ -433,7 +437,7 @@ async updateStaff() {
 
   //Operation Type =========================================================================================================================================================================================================================================================
 
-  updateOperationType(id: string, name: string, requiredStaff: string[], duration: string): void {
+  updateOperationType(id: string, name: string, requiredStaff: number[], duration: string): void {
     const updateOperationType: OperationType = {
       id: id,
       name: name,
@@ -457,8 +461,36 @@ async updateStaff() {
       this.operationTypeService.getAllOperationTypes().then((operationTypeList: OperationType[]) => {
         this.operationTypeList = operationTypeList;
         this.filteredOperationTypeList = operationTypeList;
+
+        this.operationTypeListToBeDisplayed = this.operationTypeList.map(operationType => {
+          return {
+            id: operationType.id,
+            name: operationType.name,
+            specializationName: this.getStaffSpecializationNameList(operationType.requiredStaff),
+            duration: operationType.duration
+          };
+        });
+
+        this.fullOperationTypeListToBeDisplayed = [...this.operationTypeListToBeDisplayed];
+      }).catch(error => {
+        this.errorMessage = 'Failed to load operation types. Please try again.';
       });
     }
+
+    getStaffSpecializationNameList(specializationId: number[]): string[] {
+      
+      console.log(specializationId)
+      return specializationId.map(id => {
+        const numId = id;
+        console.log('Converted id:', numId);
+        const name = this.getSpecializationName(numId);
+        console.log('Specialization name:', name);
+        return name;
+      });
+    }
+
+    
+
 
     cancelOperationTypeUpdate(): void {
     this.selectedOperationType = null;
@@ -466,11 +498,16 @@ async updateStaff() {
     this.errorMessage = '';
     }
 
-    selectOperationTypeForUpdate(operationType: OperationType) {
+    selectOperationTypeForUpdate(operationType: OperationTypeDisplay) {
       this.errorMessage = '';
       this.successMessage = '';
       // Create a copy of the patient to avoid mutating the list directly
-      this.selectedOperationType = operationType;
+      const selectedOT = this.operationTypeList.find(ot => ot.id === operationType.id);
+      if(selectedOT){
+        this.selectedOperationType = { ...selectedOT};
+      } else {
+        this.errorMessage = 'Operation Type not found';
+      }
     }
 
 
@@ -562,26 +599,27 @@ checkIfStaffEmailExists(email: string): boolean {
   return emailExists;
 }
 
-filterOperationTypeResults(query: string) {
-  const lowerQuery = query.toLowerCase();
+filterOperationTypeResults(operationTypeParameter: string): void {
+  
 
-  // If the query is empty, reset the list to display all operations
-  if (!lowerQuery) {
-    this.filteredOperationTypeList = [...this.operationTypeList];
+  console.log('Operation Type Parameter:', operationTypeParameter);
+  if (!operationTypeParameter) {
+    this.operationTypeListToBeDisplayed = [...this.fullOperationTypeListToBeDisplayed];
+    this.errorMessage = '';
     return;
-  }
+  } else {
+    const operationTypeListToBeDisplayed = this.fullOperationTypeListToBeDisplayed.filter(operationType =>
+      operationType.name.toLowerCase().includes(operationTypeParameter.toLowerCase()) ||
+      operationType.duration.toLowerCase().includes(operationTypeParameter.toLowerCase())
+    );
 
-  // Filter the list based on the query
-  this.filteredOperationTypeList.filter(op =>
-    op.id.toString().toLowerCase().includes(lowerQuery)
-    || op.name.toString().toLowerCase().includes(lowerQuery)
-    || op.requiredStaff.toString().toLowerCase().includes(lowerQuery)
-    || op.duration.toString().toLowerCase().includes(lowerQuery)
-  );
+    this.updateOperationTypeListSearch(operationTypeListToBeDisplayed);
+
+  }
 }
 
-updateOperationTypeListSearch(filteredOperationTypeList: OperationType[]) {
-  this.filteredOperationTypeList = filteredOperationTypeList;
+updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[]) {
+  this.operationTypeListToBeDisplayed = filteredOperationTypeList;
 }
 
 

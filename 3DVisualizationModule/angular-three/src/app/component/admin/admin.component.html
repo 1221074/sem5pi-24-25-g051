@@ -752,6 +752,31 @@
   <section [style.display]="selectedSection === 'editOperationType' ? 'block' : 'none'">
     <h2>Edit Operation Type</h2>
     <p>Here you can edit an existing operation type.</p>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Duration</th>
+        <th>Required Staff</th>
+      </tr>
+    
+      <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
+        <td>{{ operationType.name }}</td>
+        <td>{{ operationType.duration }}</td>
+        <td>{{ operationType.specializationName }}</td>
+        <td>
+          <button class="editOperationTypeBtn" (click)="selectOperationTypeForUpdate(operationType)">Edit</button>
+        </td>
+      </tr>
+    </table>
+
+
+
+
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -764,6 +789,40 @@
   <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
     <h2>List/Search Operation Types</h2>
     <p>Here you can list or search for operation types.</p>
+
+      <form>
+        <div class="inputOperationTypeFilterClass">
+          <input 
+            class="inputOperationTypeFilter" 
+            type="text" 
+            placeholder="Search Operation Type" 
+            [(ngModel)]="operationTypeSearchQuery" 
+            name="OTsearchQuery" 
+          />
+          <button 
+            class="operationTypeSearchBtn" 
+            type="button" 
+            (click)="filterOperationTypeResults(operationTypeSearchQuery)">
+            Search
+          </button>
+        </div>
+      </form>
+
+    <table class="table-display">
+    <tr>
+      <th>Name</th>
+      <th>Duration</th>
+      <th>Required Staff</th>
+      
+    </tr>
+
+    <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
+      <td>{{ operationType.name }}</td>
+      <td>{{ operationType.duration }}</td>
+      <td>{{ operationType.specializationName }}</td>
+    </tr>
+    </table>
+    <br>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
