@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
           console.log('User has been logged out of Google.');
         });
       },
-      (error) => {
+      (error: any) => {
         console.error('Login failed', error);
       }
     );

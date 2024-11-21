@@ -8,6 +8,8 @@ import { UserService } from '../../service/user.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Staff } from '../../interface/staff';
 import { StaffService } from '../../service/staff.service';
+import { OperationType } from '../../interface/operationtype';
+import { OperationTypeService } from '../../service/operation-type.service';
 import { SpecializationService } from '../../service/specialization.service';
 import { SpecializationSub } from '../../interface/specialization-sub';
 import { PlanningService } from 'src/app/service/planning.service';
@@ -29,6 +31,7 @@ export class AdminComponent {
   staffService: StaffService = inject(StaffService);
   specializationService: SpecializationService= inject(SpecializationService);
   planningService: PlanningService = inject(PlanningService);
+  operationTypeService: OperationTypeService = inject(OperationTypeService);
 
 //VARIABLES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -44,6 +47,11 @@ export class AdminComponent {
 
   //Specializations
   specList: SpecializationSub [] = [];
+
+  //Operation Types
+  operationTypeList: OperationType[] = [];
+  filteredOperationTypeList: OperationType[] = [];
+  selectedOperationType: OperationType | null = null;
 
   //Planning Module
   roomNumber: string = '';
@@ -64,6 +72,7 @@ export class AdminComponent {
   ngOnInit() {
     this.updatePatientList();
     this.updateStaffList();
+    this.updateOperationTypeList();
     this.getSpecs();
   }
 
@@ -74,6 +83,7 @@ export class AdminComponent {
     this.successMessage = '';
     this.selectedPatient = null;
     this.selectedStaff = null;
+    this.selectedOperationType = null;
     this.planningResult = null;
     this.loading = false;
     this.roomNumber = '';
@@ -194,6 +204,60 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     }
   }
 }
+
+selectedSpecializations: SpecializationSub[] = [];
+
+
+onCheckboxChange(event: Event, spec: SpecializationSub): void {
+  const checkbox = event.target as HTMLInputElement;
+
+  if (checkbox.checked) {
+    // Add to array if checked
+    this.selectedSpecializations.push(spec);
+  } else {
+    // Remove from array if unchecked
+    this.selectedSpecializations = this.selectedSpecializations.filter(
+      selected => selected.id !== spec.id
+    );
+  }
+
+  console.log('Selected Specializations:', this.selectedSpecializations);
+}
+
+// Get the name of a specialization by its ID
+getSpecializationName(id: number): string {
+  const spec = this.specList.find(spec => spec.id === id);
+  return spec ? spec.specializationName : 'Unknown';
+}
+
+
+async registerOperationType(name: string, duration: string) {
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  const requiredStaff = this.selectedSpecializations.map(spec => spec.id);
+
+  if (!name || !requiredStaff.length || !duration) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
+  }
+
+  const newOperationType = { name, requiredStaff, duration };
+  
+  try {
+    await this.operationTypeService.postOperationType(newOperationType);
+    this.successMessage = 'Operation type registered successfully.';
+    this.updateOperationTypeList();
+  } catch (error: any) {
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else {
+      this.errorMessage = 'An error occurred while registering the operation type. Please try again.';
+    }
+  }
+}
+
+
 
 //UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -316,6 +380,49 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     });
   }
 
+  //Operation Type =========================================================================================================================================================================================================================================================
+
+  updateOperationType(id: string, name: string, requiredStaff: string[], duration: string): void {
+    const updateOperationType: OperationType = {
+      id: id,
+      name: name,
+      requiredStaff: requiredStaff,
+      duration: duration
+    };
+  
+    this.operationTypeService.updateOperationType(id, updateOperationType).then(
+      (response) => {
+        this.successMessage = 'Operation type updated successfully.';
+        this.updateOperationTypeList();
+        this.selectedOperationType = null;
+      },
+      (error) => {
+        this.errorMessage = 'Error updating operation type.';
+      }
+    );
+    }
+  
+    updateOperationTypeList() {
+      this.operationTypeService.getAllOperationTypes().then((operationTypeList: OperationType[]) => {
+        this.operationTypeList = operationTypeList;
+        this.filteredOperationTypeList = operationTypeList;
+      });
+    }
+  
+    cancelOperationTypeUpdate(): void {
+    this.selectedOperationType = null;
+    this.successMessage = '';
+    this.errorMessage = '';
+    }
+  
+    selectOperationTypeForUpdate(operationType: OperationType) {
+      this.errorMessage = '';
+      this.successMessage = '';
+      // Create a copy of the patient to avoid mutating the list directly
+      this.selectedOperationType = operationType;
+    }
+  
+    
 //REMOVE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 submitRemoval(patientId: number) {
@@ -399,6 +506,30 @@ checkIfStaffEmailExists(email: string): boolean {
 
   return emailExists;
 }
+
+filterOperationTypeResults(query: string) {
+  const lowerQuery = query.toLowerCase();
+
+  // If the query is empty, reset the list to display all operations
+  if (!lowerQuery) {
+    this.filteredOperationTypeList = [...this.operationTypeList];
+    return;
+  }
+
+  // Filter the list based on the query
+  this.filteredOperationTypeList.filter(op =>
+    op.id.toString().toLowerCase().includes(lowerQuery) 
+    || op.name.toString().toLowerCase().includes(lowerQuery)
+    || op.requiredStaff.toString().toLowerCase().includes(lowerQuery)
+    || op.duration.toString().toLowerCase().includes(lowerQuery)
+  );
+}
+
+updateOperationTypeListSearch(filteredOperationTypeList: OperationType[]) {
+  this.filteredOperationTypeList = filteredOperationTypeList;
+}
+
+
 
 // ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 

@@ -598,10 +598,62 @@
   </section>
 
   <!-- Operation Types Sections -->
-  <section [style.display]="selectedSection === 'addOperationType' ? 'block' : 'none'">
-    <h2>Add Operation Type</h2>
-    <p>Here you can add a new operation type.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
+  <section class="operation-create" [style.display]="selectedSection === 'addOperationType' ? 'block' : 'none'">
+    <head>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <style>
+          body {
+              font-family: 'Roboto', sans-serif;
+          }
+      </style>
+    </head>
+
+
+    <h2>Create Operation Type</h2>
+    <P>Please enter the following data about the new operation type.</P>
+    
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    
+    <form>
+      <div class="operation-type-name">
+        <input type="text" id="name" name="name" #name placeholder="Name" required>
+      </div>
+
+      <div class="operation-type-duration">
+        <input type="text" id="duration" name="duration" #duration placeholder="Duration" required>
+      </div>
+
+      <div class="checkbox-container">
+        <div *ngFor="let spec of specList">
+          <label>
+            <input 
+              type="checkbox" 
+              [value]="spec" 
+              (change)="onCheckboxChange($event, spec)" 
+            />
+            {{ spec.specializationName }}
+          </label>
+        </div>
+      </div>
+      
+      <div class="selected-items">
+        <h4>Selected Specializations:</h4>
+        <ul>
+          <li *ngFor="let spec of selectedSpecializations">
+            {{ spec.specializationName }}
+          </li>
+        </ul>
+      </div>
+
+
+
+      <div class="button-operation-type-submit">
+        <button type="button" (click)="registerOperationType(name.value, duration.value)">Submit</button>
+        <button type="button" (click)="showSection('')">Back to Main Menu</button>
+      </div>
+      </form>
   </section>
 
   <section [style.display]="selectedSection === 'editOperationType' ? 'block' : 'none'">
