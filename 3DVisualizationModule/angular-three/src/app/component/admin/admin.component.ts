@@ -462,7 +462,7 @@ async updateStaff() {
   }
 
     updateOperationTypeList() {
-      this.operationTypeService.getAllOperationTypes().then((operationTypeList: OperationType[]) => {
+      this.operationTypeService.getAllActiveOperationType().then((operationTypeList: OperationType[]) => {
         this.operationTypeList = operationTypeList;
         this.filteredOperationTypeList = operationTypeList;
 

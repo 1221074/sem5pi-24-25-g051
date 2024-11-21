@@ -151,5 +151,17 @@ namespace backend_module.Controllers
             }
         }
 
+        [HttpGet("/api/operationtype/active")]
+        public async Task<ActionResult<List<OperationTypeDTO>>> GetActiveAsync()
+        {
+            var operationtype = await _service.GetActiveAsync();
+
+            if (operationtype == null)
+            {
+                return NotFound(new { message = "Operation Type not found" });
+            }
+            return operationtype;
+        }
+
     }
 }

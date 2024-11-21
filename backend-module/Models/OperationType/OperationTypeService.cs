@@ -172,6 +172,19 @@ namespace backend_module.Models.OperationType {
             return OperationTypeMapper.toDTO(OT);
 
         }
+
+        public async Task<List<OperationTypeDTO>> GetActiveAsync() {
+            var list = await this._OTrepo.GetAllAsync();
+
+            List<OperationTypeDTO> listDTO = new List<OperationTypeDTO>();
+            foreach (var OT in list) {
+                if (OT.Active) {
+                    listDTO.Add(OperationTypeMapper.toDTO(OT));
+                }
+            }
+
+            return listDTO;
+        }
     }
 
 }

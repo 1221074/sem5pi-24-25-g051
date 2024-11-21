@@ -93,4 +93,22 @@ export class OperationTypeService {
     }
   }
 
+  async getAllActiveOperationType() {
+    try {
+      const response = await fetch(`${this.url}/active`);
+      if (!response.ok) {
+        // Handle non-200 responses
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error getting active operation types');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+
+  }
+
 }
