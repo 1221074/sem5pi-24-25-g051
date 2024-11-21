@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import { Patient } from '../interface/patient';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  patient_url = 'https://localhost:7252/api/patient';
+  patient_url = environment.apiURL + '/patient';
 
   constructor() {}
 

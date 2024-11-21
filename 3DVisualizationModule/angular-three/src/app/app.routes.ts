@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SpecializationComponent } from './component/specialization/specialization.component'
 import { DetailsComponent } from './component/details/details.component';
-import { CubeComponent } from './cube/cube.component';
+import { CubeComponent } from  './component/cube/cube.component';
 import { HospitalComponent } from './hospital/hospital.component';
 import { HomePageComponent } from './component/home-page/home-page.component';
 import { LoginComponent } from './component/login/login.component';
