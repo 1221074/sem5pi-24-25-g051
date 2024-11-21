@@ -12,6 +12,7 @@ import { SpecializationService } from '../../service/specialization.service';
 import { SpecializationSub } from '../../interface/specialization-sub';
 import { PlanningService } from 'src/app/service/planning.service';
 import { HttpClientModule } from '@angular/common/http';
+import { StaffDisplay } from '../../interface/staff-display';
 
 @Component({
   selector: 'app-admin',
@@ -38,8 +39,11 @@ export class AdminComponent {
   selectedPatient: Patient | null = null;
 
   //Staff
+  staffSearchQuery: string = '';
   filteredStaffList: Staff[] = [];
   staffList: Staff[] = [];
+  staffListToBeDisplayed: StaffDisplay[] = [];
+  fullStaffListToBeDisplayed: StaffDisplay[] = [];
   selectedStaff: Staff | null = null;
 
   //Specializations
@@ -62,9 +66,9 @@ export class AdminComponent {
   }
 
   ngOnInit() {
+    this.getSpecs();
     this.updatePatientList();
     this.updateStaffList();
-    this.getSpecs();
   }
 
   showSection(section: string) {
@@ -267,34 +271,37 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
 
 //Staff =========================================================================================================================================================================================================================================================
 
-  updateStaff(id: number,firstName: string,lastName: string,fullName: string,specializationId: string,email: string,phone: string): void {
-  const updatedStaff: Staff = {
-    id: id,
-    firstName: firstName,
-    lastName: lastName,
-    fullName: fullName,
-    specializationId: Number(specializationId),
-    email: email,
-    phone: phone
-  };
-
-  this.staffService.updateStaff(id, updatedStaff).then(
-    (response) => {
-      this.successMessage = 'Staff profile updated successfully.';
-      this.updateStaffList();
-      this.selectedStaff = null;
-    },
-    (error) => {
-      this.errorMessage = 'Error updating staff profile.';
-    }
-  );
-  }
-
   updateStaffList() {
     this.staffService.getAllStaff().then((staffList: Staff[]) => {
       this.staffList = staffList;
       this.filteredStaffList = staffList;
-    });
+
+      this.staffListToBeDisplayed = this.staffList.map(staff => {
+        return {
+          id: staff.id,
+          firstName: staff.firstName,
+          lastName: staff.lastName,
+          fullName: staff.fullName,
+          specializationName: this.getStaffSpecializationName(staff.specializationId),
+          email: staff.email,
+          phone: staff.phone
+        };
+      });
+
+      this.fullStaffListToBeDisplayed = [...this.staffListToBeDisplayed];
+  }).catch(error => {
+    this.errorMessage = 'Failed to load operations. Please try again.';
+  });
+    
+  }
+
+  getStaffSpecializationName(specializationId: number): string {
+    const specialization = this.specList.find(spec => spec.id === specializationId);
+    return specialization ? specialization.specializationName : '';
+  }
+
+  updateFilteredStaffList(staffToBeDisplayed: StaffDisplay[]) {
+    this.staffListToBeDisplayed = staffToBeDisplayed;
   }
 
   cancelUpdate(): void {
@@ -302,12 +309,65 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   this.successMessage = '';
   this.errorMessage = '';
   }
+/*
+  async updateStaff(id: number, firstName: string,lastName: string,fullName: string,specializationId: string,email: string,phone: string) {
+    const updatedStaff: Staff = {
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      fullName: fullName,
+      specializationId: Number(specializationId),
+      email: email,
+      phone: phone
+    };
+  
+    this.staffService.updateStaff(id, updatedStaff).then(
+      (response) => {
+        this.successMessage = 'Staff profile updated successfully.';
+        this.updateStaffList();
+        this.selectedStaff = null;
+      },
+      (error) => {
+        this.errorMessage = 'Error updating staff profile.';
+      }
+    );
+  }
+*/
 
-  selectStaffForUpdate(staff: Staff) {
+async updateStaff() {
+  if (!this.selectedStaff) {
+    this.errorMessage = 'No staff member selected for update.';
+    return;
+  }
+  
+  try {
+    // Proceed to update the OperationRequest
+    await this.staffService.updateStaff(this.selectedStaff.id.toString(), this.selectedStaff);
+    this.successMessage = 'Staff updated successfully.';
+    this.selectedStaff = null;
+    this.updateStaffList();
+  } catch (error: any) {
+    // Handle error based on error response
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else if (error.status === 404) {
+      this.errorMessage = 'Staff member not found.';
+    } else {
+      this.errorMessage = 'An error occurred while updating the staff profile. Please try again.';
+    }
+  }
+}
+
+  selectStaffForUpdate(staff: StaffDisplay) {
     this.errorMessage = '';
     this.successMessage = '';
     // Create a copy of the patient to avoid mutating the list directly
-    this.selectedStaff = staff;
+    const selectedSt = this.staffList.find(op => op.id === staff.id);
+    if (selectedSt) {
+      this.selectedStaff = { ...selectedSt }; // Copiar os dados para edição
+    } else {
+      this.errorMessage = 'Staff not found for editing.';
+    }
   }
 
   getSpecs() {
@@ -334,6 +394,31 @@ submitStaffDeactivation(staffId: number) {}
 
 //SEARCH CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
+filterStaffResults(staffParameter: string): void {
+  //this.staffListToBeDisplayed = this.fullStaffListToBeDisplayed;
+
+    if (!staffParameter) {
+      // If the query is empty, reset to show all operations
+      this.staffListToBeDisplayed = [...this.fullStaffListToBeDisplayed];
+      this.errorMessage = '';
+      return;
+    }
+
+  if (staffParameter) {
+    const staffListToBeDisplayed = this.fullStaffListToBeDisplayed.filter(staff =>
+      staff.firstName.toLowerCase().includes(staffParameter.toLowerCase())||
+      staff.lastName.toLowerCase().includes(staffParameter.toLowerCase())||
+      staff.fullName.toLowerCase().includes(staffParameter.toLowerCase())||
+      staff.specializationName.toLowerCase().includes(staffParameter.toLowerCase())||
+      staff.email.toLowerCase().includes(staffParameter.toLowerCase())||
+      staff.phone.toLowerCase().includes(staffParameter.toLowerCase())
+    );
+
+    this.updateStaffListSearch(staffListToBeDisplayed);
+  }
+}
+
+
 filterResults(query: string) {
   const lowerQuery = query.toLowerCase();
 
@@ -357,29 +442,8 @@ filterResults(query: string) {
   );
 }
 
-filterStaffResults(query: string) {
-  const lowerQuery = query.toLowerCase();
-
-  // If the query is empty, reset the list to display all operations
-  if (!lowerQuery) {
-    this.filteredStaffList = [...this.staffList];
-    return;
-  }
-
-  // Filter the list based on the query
-  this.filteredStaffList.filter(op =>
-    op.id.toString().toLowerCase().includes(lowerQuery) 
-    || op.firstName.toString().toLowerCase().includes(lowerQuery)
-    || op.lastName.toString().toLowerCase().includes(lowerQuery)
-    || op.fullName.toString().toLowerCase().includes(lowerQuery)
-    || op.specializationId.toString().toLowerCase().includes(lowerQuery)
-    || op.email.toString().toLowerCase().includes(lowerQuery)
-    || op.phone.toString().toLowerCase().includes(lowerQuery)
-  );
-}
-
-updateStaffListSearch(filteredStaffList: Staff[]) {
-  this.filteredStaffList = filteredStaffList;
+updateStaffListSearch(filteredStaffList: StaffDisplay[]) {
+  this.staffListToBeDisplayed = filteredStaffList;
 }
 
 checkIfStaffPhoneNumberExists(phoneNumber: string): boolean {

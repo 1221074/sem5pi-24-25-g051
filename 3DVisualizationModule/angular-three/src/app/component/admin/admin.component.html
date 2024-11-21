@@ -399,7 +399,6 @@
   <!-- Table for Staff Members -->
   <table class="table-display">
     <tr>
-      <th>Staff ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
@@ -409,29 +408,29 @@
       <th>Action</th>
     </tr>
 
-    <tr *ngFor="let staff of staffList">
-      <td>{{ staff.id }}</td>
+    <tr *ngFor="let staff of staffListToBeDisplayed">
       <td>{{ staff.firstName }}</td>
       <td>{{ staff.lastName }}</td>
       <td>{{ staff.fullName }}</td>
-      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.specializationName }}</td>
       <td>{{ staff.email }}</td>
       <td>{{ staff.phone }}</td>
       <td>
-        <button (click)="selectStaffForUpdate(staff)">Edit</button>
+        <button class="editStaffBtn" (click)="selectStaffForUpdate(staff)">Edit</button>
       </td>
     </tr>
   </table>
 
   <!-- Update Form -->
   <div *ngIf="selectedStaff">
-    <h3>Update Staff ID: {{ selectedStaff.id }}</h3>
-    <div class="staff-name">
-      <form>
+    <form>
+
+    <div class="staff-edit-update">
         <label for="updatedFirstName">First Name:</label><br>
         <input
           type="text"
           id="updatedFirstName"
+          [(ngModel)]="selectedStaff.firstName"
           name="firstName"
           placeholder="First Name"
           #updatedFirstNameRef
@@ -442,35 +441,35 @@
         <input
           type="text"
           id="updatedLastName"
+          [(ngModel)]="selectedStaff.lastName"
           name="lastName"
           placeholder="Last Name"
           #updatedLastNameRef
           required
           [value]="selectedStaff.lastName"
         />
-      </form>
+      
     </div>
-    <div class="staff-fullName">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedFullName">Full Name:</label><br />
         <input
           type="text"
           id="updatedFullName"
+          [(ngModel)]="selectedStaff.fullName"
           name="fullName"
           placeholder="Full Name"
           #updatedFullNameRef
           required
           [value]="selectedStaff.fullName"
         />
-      </form>
     </div>
     <br />
-    <div class="staff-contact">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedEmail">Email:</label><br />
         <input
           type="email"
           id="updatedEmail"
+          [(ngModel)]="selectedStaff.email"
           name="email"
           placeholder="Email"
           #updatedEmailRef
@@ -481,21 +480,21 @@
         <input
           type="tel"
           id="updatedPhone"
+          [(ngModel)]="selectedStaff.phone"
           name="phone"
           placeholder="Phone Number"
           #updatedPhoneRef
           required
           [value]="selectedStaff.phone"
         />
-      </form>
     </div>
     <br />
-    <div class="staff-specialization">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedSpecialization">Specialization:</label><br />
         <select
           id="updatedSpecialization"
           name="specialization"
+          [(ngModel)]="selectedStaff.specializationId"
           #updatedSpecializationRef
           required
         >
@@ -508,27 +507,19 @@
             {{ spec.specializationName }}
           </option>
         </select>
-      </form>
     </div>
     <br />
     <button
       type="button"
-      (click)="updateStaff(
-        selectedStaff.id,
-        updatedFirstNameRef.value,
-        updatedLastNameRef.value,
-        updatedFullNameRef.value,
-        updatedSpecializationRef.value,
-        updatedEmailRef.value,
-        updatedPhoneRef.value
-      )"
+      (click)="updateStaff()"
     >
       Update Staff
     </button>
     <button type="button" (click)="cancelUpdate()">Cancel</button>
+  </form>
   </div>
 
-
+  <br>
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
 
@@ -538,7 +529,6 @@
 
     <table class="table-display">
       <tr>
-        <th>Staff ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Full Name</th>
@@ -549,7 +539,6 @@
       </tr>
 
       <tr *ngFor="let staff of staffList">
-        <td>{{ staff.id }}</td>
         <td>{{ staff.firstName }}</td>
         <td>{{ staff.lastName }}</td>
         <td>{{ staff.fullName }}</td>
@@ -565,30 +554,49 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- List/Search Staff Section -->
   <section [style.display]="selectedSection === 'listStaff' ? 'block' : 'none'">
     <h2>List/Search Staff Profiles</h2>
     <p>Here you can list or search for staff profiles.</p>
-    <form>
+    <!--<form>
       <div class="inputStaffFilterClass">
         <input class="inputStaffFilter" type="text" placeholder="Search Staff" #filter (input)="filterStaffResults(filter.value)" />
         <button class="staffSearchBtn" type="button" (click)="filterStaffResults(filter.value)">Search</button>
       </div>
+      </form>-->
+
+      <form>
+        <div class="inputStaffFilterClass">
+          <input 
+            class="inputStaffFilter" 
+            type="text" 
+            placeholder="Search Staff" 
+            [(ngModel)]="staffSearchQuery" 
+            name="searchQuery" 
+          />
+          <button 
+            class="staffSearchBtn" 
+            type="button" 
+            (click)="filterStaffResults(staffSearchQuery)">
+            Search
+          </button>
+        </div>
       </form>
     <table class="table-display">
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
-      <th>Specialization ID</th>
+      <th>Specialization</th>
       <th>Email</th>
       <th>Phone</th>
     </tr>
 
-    <tr *ngFor="let staff of filteredStaffList">
+    <tr *ngFor="let staff of staffListToBeDisplayed">
       <td>{{ staff.firstName }}</td>
       <td>{{ staff.lastName }}</td>
       <td>{{ staff.fullName }}</td>
-      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.specializationName }}</td>
       <td>{{ staff.email }}</td>
       <td>{{ staff.phone }}</td>
     </tr>
