@@ -605,7 +605,7 @@
   </div>
 
   <br>
-  <button (click)="showSection('')">Back to Main Menu</button>
+  <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
 </section>
 
 
@@ -613,6 +613,9 @@
   <section [style.display]="selectedSection === 'deactivateStaff' ? 'block' : 'none'">
     <h2>Deactivate Staff Profile</h2>
     <p>Here you can deactivate a staff profile.</p>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
     <table class="table-display">
       <tr>
@@ -633,12 +636,13 @@
         <td>{{ staff.email }}</td>
         <td>{{ staff.phone }}</td>
         <td>
-          <button (click)="submitStaffDeactivation(staff.id)">Deactivate</button>
+          <button class="deactivate-staff-btn" (click)="submitStaffDeactivation(staff.id)">Deactivate</button>
         </td>
       </tr>
     </table>
 
-    <button (click)="showSection('')">Back to Main Menu</button>
+    <br>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <!-- List/Search Staff Section -->
@@ -689,7 +693,7 @@
     </tr>
     </table>
     <br>
-    <button (click)="showSection('')">Back to Main Menu</button>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <!-- Operation Types Sections -->
