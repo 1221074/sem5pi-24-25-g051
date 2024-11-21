@@ -5,8 +5,6 @@ import { AppComponent } from './app.component';
 import { RouterOutlet } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-
-
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
@@ -14,9 +12,13 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent]
+      imports: [
+        AppComponent,
+        RouterTestingModule
+      ]
     }).compileComponents();
   });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;

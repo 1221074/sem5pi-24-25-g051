@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./cube.component.scss']
   })
   export class CubeComponent implements AfterViewInit {
-    @ViewChild('myCanvas') private canvasRef!: ElementRef;
+    @ViewChild('myCanvas') public canvasRef!: ElementRef;
 
     //* Cube Properties
     @Input() public rotationSpeedX: number = 0.05;
