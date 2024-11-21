@@ -12,8 +12,8 @@ describe('AuthGuard', () => {
     // Define methods to spy on for Router
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
-    // AuthenticationService may not have methods; pass an empty array or object
-    mockAuthService = jasmine.createSpyObj('AuthenticationService', [], {});
+    // AuthenticationService example: specify an empty object or add methods to spy on
+    mockAuthService = jasmine.createSpyObj('AuthenticationService', ['someMethod']); // Replace 'someMethod' with actual method names
 
     TestBed.configureTestingModule({
       providers: [
@@ -71,4 +71,3 @@ describe('AuthGuard', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
   });
 });
-

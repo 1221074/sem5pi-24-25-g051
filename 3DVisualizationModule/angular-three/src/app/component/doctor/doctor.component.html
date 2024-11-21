@@ -100,7 +100,7 @@
       <td>{{ operation.deadlineDate | date: 'yyyy-MM-dd HH:mm' }}</td>
       <td>{{ operation.priorityState }}</td>
       <td>
-        <button (click)="selectOperationForUpdate(operation)">Edit</button>
+        <button class="edtButton"(click)="selectOperationForUpdate(operation)">Edit</button>
       </td>
     </tr>
   </table>
@@ -148,7 +148,7 @@
   </form>
 </div>
 
-
+  <Br>
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
 
@@ -180,6 +180,8 @@
     </tr>
  </table>
 
+
+  <Br>
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
 
@@ -212,6 +214,7 @@
 
   </table>
 
+  <Br>
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
 

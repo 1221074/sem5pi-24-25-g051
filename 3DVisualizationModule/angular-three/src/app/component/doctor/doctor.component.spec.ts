@@ -1,111 +1,152 @@
-/*import { Router } from "@angular/router";
-import { AuthenticationService } from "src/app/service/authentication.service";
-import { DoctorService } from "src/app/service/doctor.service";
-import { OperationTypeService } from "src/app/service/operation-type.service";
-import { PatientService } from "src/app/service/patient.service";
-import { DoctorComponent } from "./doctor.component";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DoctorComponent } from './doctor.component';
+import { Router } from '@angular/router';
+import { DoctorService } from '../../service/doctor.service';
+import { AuthenticationService } from '../../service/authentication.service';
+import { PatientService } from '../../service/patient.service';
+import { OperationTypeService } from '../../service/operation-type.service';
 
 describe('DoctorComponent', () => {
-    let component: DoctorComponent;
-    let fixture: ComponentFixture<DoctorComponent>;
-    let doctorService: jasmine.SpyObj<DoctorService>;
-    let authService: jasmine.SpyObj<AuthenticationService>;
-    let patientService: jasmine.SpyObj<PatientService>;
-    let operationTypeService: jasmine.SpyObj<OperationTypeService>;
-    let router: jasmine.SpyObj<Router>;
+  let component: DoctorComponent;
+  let fixture: ComponentFixture<DoctorComponent>;
+  let mockRouter: jasmine.SpyObj<Router>;
+  let mockDoctorService: jasmine.SpyObj<DoctorService>;
+  let mockAuthService: jasmine.SpyObj<AuthenticationService>;
+  let mockPatientService: jasmine.SpyObj<PatientService>;
+  let mockOperationTypeService: jasmine.SpyObj<OperationTypeService>;
 
-    beforeEach(async () => {
-        const doctorServiceSpy = jasmine.createSpyObj('DoctorService', ['getAllDoctorOperations', 'postOperationRequest', 'updateOperationRequest', 'deleteOperationRequest']);
-        const authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['getUserId', 'logout']);
-        const patientServiceSpy = jasmine.createSpyObj('PatientService', ['getAllPatients']);
-        const operationTypeServiceSpy = jasmine.createSpyObj('OperationTypeService', ['getAllOperationTypes']);
-        const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+  beforeEach(async () => {
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    mockDoctorService = jasmine.createSpyObj('DoctorService', [
+      'getAllDoctorOperations',
+      'postOperationRequest',
+      'deleteOperationRequest',
+      'updateOperationRequest',
+    ]);
+    mockAuthService = jasmine.createSpyObj('AuthenticationService', [
+      'getUserId',
+      'logout',
+    ]);
+    mockPatientService = jasmine.createSpyObj('PatientService', ['getAllPatients']);
+    mockOperationTypeService = jasmine.createSpyObj('OperationTypeService', [
+      'getAllOperationTypes',
+    ]);
 
-        await TestBed.configureTestingModule({
-            declarations: [DoctorComponent],
-            providers: [
-                { provide: DoctorService, useValue: doctorServiceSpy },
-                { provide: AuthenticationService, useValue: authServiceSpy },
-                { provide: PatientService, useValue: patientServiceSpy },
-                { provide: OperationTypeService, useValue: operationTypeServiceSpy },
-                { provide: Router, useValue: routerSpy }
-            ]
-        }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [DoctorComponent],
+      providers: [
+        { provide: Router, useValue: mockRouter },
+        { provide: DoctorService, useValue: mockDoctorService },
+        { provide: AuthenticationService, useValue: mockAuthService },
+        { provide: PatientService, useValue: mockPatientService },
+        { provide: OperationTypeService, useValue: mockOperationTypeService },
+      ],
+    }).compileComponents();
 
-        fixture = TestBed.createComponent(DoctorComponent);
-        component = fixture.componentInstance;
-        doctorService = TestBed.inject(DoctorService) as jasmine.SpyObj<DoctorService>;
-        authService = TestBed.inject(AuthenticationService) as jasmine.SpyObj<AuthenticationService>;
-        patientService = TestBed.inject(PatientService) as jasmine.SpyObj<PatientService>;
-        operationTypeService = TestBed.inject(OperationTypeService) as jasmine.SpyObj<OperationTypeService>;
-        router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
-    });
+    fixture = TestBed.createComponent(DoctorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-    it('should load patients on init', async () => {
-        const mockPatients = [{ id: '1', fullName: 'John Doe' }];
-        patientService.getAllPatients.and.returnValue(Promise.resolve(mockPatients));
+  it('should load patients on initialization', async () => {
+    const mockPatients = [
+      { id: 1, fullName: 'John Doe', birthDate: '01-01-1990', sex: 'M', email: 'johndoe@gmail.com', phone: '12345', emergencyContact: '67890', appointmentList: [], allergyList: [] },
+    ];
+    mockPatientService.getAllPatients.and.returnValue(Promise.resolve(mockPatients));
 
-        await component.ngOnInit();
+    await component.loadPatients();
+    expect(component.patients.length).toBe(1);
+    expect(component.patients[0].fullName).toBe('John Doe');
+  });
 
-        expect(component.patients).toEqual(mockPatients);
-    });
+  it('should load operation types on initialization', async () => {
+    const mockOperationTypes = [
+      { id: '1', name: 'Surgery', requiredStaff: ['Doctor', 'Nurse'], duration: '2 hours' },
+    ];
+    mockOperationTypeService.getAllOperationTypes.and.returnValue(Promise.resolve(mockOperationTypes));
 
-    it('should handle error when loading patients fails', async () => {
-        patientService.getAllPatients.and.returnValue(Promise.reject('Error'));
+    await component.loadOperationTypes();
+    expect(component.operationTypes.length).toBe(1);
+    expect(component.operationTypes[0].name).toBe('Surgery');
+  });
 
-        await component.ngOnInit();
+  it('should filter operations based on logged-in doctor ID', async () => {
+    const mockOperations = [
+      { id: 1, doctorId: '123', patientId: '1', operationTypeId: '1', deadlineDate: new Date('2021-01-01'), priorityState: 'High' },
+      { id: 2, doctorId: '456', patientId: '2', operationTypeId: '2', deadlineDate: new Date('2021-01-01'), priorityState: 'Low' },
+    ];
+    mockAuthService.getUserId.and.returnValue('123');
+    mockDoctorService.getAllDoctorOperations.and.returnValue(Promise.resolve(mockOperations));
 
-        expect(component.errorMessage).toBe('Failed to load patients. Please try again.');
-    });
+    await component.updateList();
 
-    it('should load operation types on init', async () => {
-        const mockOperationTypes = [{ id: '1', name: 'Surgery' }];
-        operationTypeService.getAllOperationTypes.and.returnValue(Promise.resolve(mockOperationTypes));
+    expect(component.operationList.length).toBe(1);
+    expect(component.operationList[0].id).toBe(1);
+    expect(component.operationList[0].doctorId).toBe('123');
+    expect(component.operationList[0].priorityState).toBe('High');
+  });
 
-        await component.ngOnInit();
+  it('should register a new operation successfully', async () => {
+    mockAuthService.getUserId.and.returnValue('123');
+    mockDoctorService.postOperationRequest.and.returnValue(Promise.resolve());
 
-        expect(component.operationTypes).toEqual(mockOperationTypes);
-    });
+    await component.registerOperation('John Doe', 'Surgery', '2024-01-01', 'High');
 
-    it('should handle error when loading operation types fails', async () => {
-        operationTypeService.getAllOperationTypes.and.returnValue(Promise.reject('Error'));
+    expect(component.successMessage).toBe('Operation registered successfully.');
+  });
 
-        await component.ngOnInit();
+  it('should handle operation registration errors', async () => {
+    mockAuthService.getUserId.and.returnValue('123');
+    mockDoctorService.postOperationRequest.and.returnValue(Promise.reject({ status: 400, error: { message: 'Invalid input' } }));
 
-        expect(component.errorMessage).toBe('Failed to load operation types. Please try again.');
-    });
+    await component.registerOperation('John Doe', 'Surgery', '2024-01-01', 'High');
 
-    it('should update operation list on init', async () => {
-        const mockOperations = [{ id: 1, doctorId: '123', patientId: '1', operationTypeId: '1', deadlineDate: '2023-12-31', priorityState: 'High' }];
-        const mockUserId = '123';
-        doctorService.getAllDoctorOperations.and.returnValue(Promise.resolve(mockOperations));
-        authService.getUserId.and.returnValue(mockUserId);
+    expect(component.errorMessage).toBe('Invalid input. Please check your data.');
+  });
 
-        await component.ngOnInit();
+  it('should update an operation successfully', async () => {
+    const mockOperation = { id: 1, doctorId: '123', patientId: '1', operationTypeId: '1', deadlineDate: new Date('2024-01-01'), priorityState: 'High' };
+    mockDoctorService.updateOperationRequest.and.returnValue(Promise.resolve());
 
-        expect(component.operationList).toEqual(mockOperations);
-    });
+    component.selectedOperation = mockOperation;
+    await component.submitUpdate();
 
-    it('should handle error when updating operation list fails', async () => {
-        doctorService.getAllDoctorOperations.and.returnValue(Promise.reject('Error'));
+    expect(component.successMessage).toBe('Operation updated successfully.');
+  });
 
-        await component.ngOnInit();
+  it('should handle operation update errors', async () => {
+    const mockOperation = { id: 1, doctorId: '123', patientId: '1', operationTypeId: '1', deadlineDate: new Date('2024-01-01'), priorityState: 'High' };
+    mockDoctorService.updateOperationRequest.and.returnValue(Promise.reject({ status: 404 }));
 
-        expect(component.errorMessage).toBe('Failed to load operations. Please try again.');
-    });
+    component.selectedOperation = mockOperation;
+    await component.submitUpdate();
 
-    it('should register operation successfully', async () => {
-        const mockUserId = '123';
-        authService.getUserId.and.returnValue(mockUserId);
-        doctorService.postOperationRequest.and.returnValue(Promise.resolve());
+    expect(component.errorMessage).toBe('Operation not found.');
+  });
 
-        await component.registerOperation('John Doe', 'Surgery', '2023-12-31', 'High');
+  it('should delete an operation successfully', async () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    mockDoctorService.deleteOperationRequest.and.returnValue(Promise.resolve());
 
-        expect(component.successMessage).toBe('Operation registered successfully.');
-    });
-});*/
+    await component.submitRemoval(1);
+    expect(component.successMessage).toBe('Operation removed successfully.');
+  });
+
+  it('should handle operation deletion errors', async () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    mockDoctorService.deleteOperationRequest.and.returnValue(Promise.reject({}));
+
+    await component.submitRemoval(1);
+    expect(component.errorMessage).toBe('An error occurred while removing the operation. Please try again.');
+  });
+
+  it('should log out the user', () => {
+    component.logout();
+    expect(mockAuthService.logout).toHaveBeenCalled();
+  });
+});
+*/
