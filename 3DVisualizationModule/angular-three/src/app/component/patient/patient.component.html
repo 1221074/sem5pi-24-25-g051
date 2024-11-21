@@ -1,1 +1,29 @@
-<p>patient works!</p>
+<div class="patient-container">
+  <section class="patient-section" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="header-container">
+      <h2>Patient, welcome</h2>
+      <button class="logout-button" (click)="logout()">
+        <span class="material-icons">logout</span>
+      </button>
+    </div>
+
+    <button (click)="showSection('updateProfile')">Update Profile</button>
+    <button (click)="showSection('eliminateData')">Delete Account</button>
+    <button (click)="showSection('checkInformation')">Check Information</button>
+  </section>
+
+  <!-- Update Profile Section -->
+<section [style.display]="selectedSection === 'updateProfile' ? 'block' : 'none'">
+
+</section>
+
+
+  <!-- Delete Account Section -->
+  <section></section>
+
+  <!-- Check Information Section -->
+  <section
+    class="checkInformation"
+    [style.display]="selectedSection === 'checkInformation' ? 'block' : 'none'">
+  </section>
+</div>
