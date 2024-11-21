@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
 // ***********************************************
-// This example commands.ts shows you how to
+// This example commands.js shows you how to
 // create various custom commands and overwrite
 // existing commands.
 //
@@ -24,18 +23,3 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-
-Cypress.Commands.add('loginWithDoctor', () => {
-  cy.visit('/'); // Navigate to your application's root or login page
-
-  // Wait for the page to load
-  cy.window().then((window) => {
-    window.localStorage.setItem('token', 'your_jwt_token_here');
-    window.localStorage.setItem('role', '1');
-    window.localStorage.setItem('userId', '211256391');
-  });
-});
-
-
-
