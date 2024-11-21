@@ -510,7 +510,7 @@
   <div *ngIf="selectedStaff">
     <form>
 
-    <div class="staff-edit-update">
+    <div class="staff-edit-name-update">
         <label for="updatedFirstName">First Name:</label><br>
         <input
           type="text"
@@ -535,7 +535,7 @@
         />
       
     </div>
-    <div class="staff-edit-update">
+    <div class="staff-edit-fullname-update">
         <label for="updatedFullName">Full Name:</label><br />
         <input
           type="text"
@@ -549,7 +549,7 @@
         />
     </div>
     <br />
-    <div class="staff-edit-update">
+    <div class="staff-edit-contact-update">
         <label for="updatedEmail">Email:</label><br />
         <input
           type="email"
@@ -574,7 +574,7 @@
         />
     </div>
     <br />
-    <div class="staff-edit-update">
+    <div class="staff-edit-spec-update">
         <label for="updatedSpecialization">Specialization:</label><br />
         <select
           id="updatedSpecialization"
@@ -595,48 +595,55 @@
     </div>
     <br />
     <button
+      class="update-staff-btn"
       type="button"
       (click)="updateStaff()"
     >
       Update Staff
     </button>
-    <button type="button" (click)="cancelUpdate()">Cancel</button>
+    <button class="cancel-update-staff-btn" type="button" (click)="cancelUpdate()">Cancel</button>
   </form>
   </div>
 
   <br>
-  <button (click)="showSection('')">Back to Main Menu</button>
+  <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
 </section>
 
+
+  <!--Staff Deactivation-->
   <section [style.display]="selectedSection === 'deactivateStaff' ? 'block' : 'none'">
     <h2>Deactivate Staff Profile</h2>
     <p>Here you can deactivate a staff profile.</p>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
     <table class="table-display">
       <tr>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Full Name</th>
-        <th>Specialization ID</th>
+        <th>Specialization</th>
         <th>Email</th>
         <th>Phone</th>
         <th>Action</th>
       </tr>
 
-      <tr *ngFor="let staff of staffList">
+      <tr *ngFor="let staff of staffListToBeDisplayed">
         <td>{{ staff.firstName }}</td>
         <td>{{ staff.lastName }}</td>
         <td>{{ staff.fullName }}</td>
-        <td>{{ staff.specializationId }}</td>
+        <td>{{ staff.specializationName }}</td>
         <td>{{ staff.email }}</td>
         <td>{{ staff.phone }}</td>
         <td>
-          <button (click)="submitStaffDeactivation(staff.id)">Deactivate</button>
+          <button class="deactivate-staff-btn" (click)="submitStaffDeactivation(staff.id)">Deactivate</button>
         </td>
       </tr>
     </table>
 
-    <button (click)="showSection('')">Back to Main Menu</button>
+    <br>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <!-- List/Search Staff Section -->
@@ -687,7 +694,7 @@
     </tr>
     </table>
     <br>
-    <button (click)="showSection('')">Back to Main Menu</button>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
   <!-- Operation Types Sections -->

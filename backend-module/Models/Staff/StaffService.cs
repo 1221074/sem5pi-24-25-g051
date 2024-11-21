@@ -233,5 +233,14 @@ namespace backend_module.Models.Staff
         var mailMessage = new MailMessage(mail, toEmail, subject, body);
         return smtpClient.SendMailAsync(mailMessage);
         }
+
+        public async Task<List<StaffDto>> GetAllActiveStaffAsync()
+        {
+            var allStaff = await this._repo.GetAllAsync();
+            var activeStaff = allStaff.Where(staff => staff.Active).ToList();
+
+            return activeStaff.Select(staff => StaffMapper.toDTO(staff)).ToList();
+        }
+        
     }
 }

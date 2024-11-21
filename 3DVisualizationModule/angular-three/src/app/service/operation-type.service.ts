@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { OperationType } from '../interface/operationtype';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperationTypeService {
-  url = 'https://localhost:7252/api/operationtype';
+  url = environment.apiURL + '/operationtype';
 
   constructor() { }
 

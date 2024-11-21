@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import { Operationrequest } from '../interface/operationrequest';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class DoctorService {
-  url = 'https://localhost:7252/api/operationrequest';
+  url = environment.apiURL + '/operationrequest';
 
   constructor() {}
 

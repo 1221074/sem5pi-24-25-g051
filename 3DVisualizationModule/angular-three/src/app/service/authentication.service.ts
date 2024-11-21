@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../interface/user';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 declare var google: any;
 
@@ -10,7 +11,7 @@ declare var google: any;
 })
 export class AuthenticationService {
 
-  url1 = 'https://localhost:7252/api/user/email';
+  url1 = environment.apiURL + '/user/email';
 
   mail: string | null = null;
   userId: string | null = null;

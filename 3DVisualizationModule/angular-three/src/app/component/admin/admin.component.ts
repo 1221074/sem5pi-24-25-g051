@@ -331,7 +331,8 @@ async registerOperationType(name: string, duration: string) {
 //Staff =========================================================================================================================================================================================================================================================
 
   updateStaffList() {
-    this.staffService.getAllStaff().then((staffList: Staff[]) => {
+    //.getAllStaff() para retornar todos os staffs sem filtar por ativo ou não
+    this.staffService.getAllActiveStaff().then((staffList: Staff[]) => {
       this.staffList = staffList;
       this.filteredStaffList = staffList;
 
@@ -524,7 +525,16 @@ submitRemoval(patientId: number) {
   }
 }
 
-submitStaffDeactivation(staffId: number) {}
+submitStaffDeactivation(staffId: number) {
+  if (confirm('Are you sure you want to deactivate this staff member?')) {
+    this.staffService.deactivateStaff(staffId.toString()).then(() => {
+      this.successMessage = 'Staff member deactivated successfully.';
+      this.updateStaffList();
+    }).catch(error => {
+      this.errorMessage = 'An error occurred while deactivating the staff member. Please try again.';
+    });
+  }
+}
 
 
 //SEARCH CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
