@@ -36,14 +36,14 @@
 }
 
 /*Admin Section Styles ========================================================================================*/
-.admin-section {
+/*.admin-section { //final
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
-  width: 30%;
-  background-color: #ffffff; /* Light background color */
+  width: 40%;
+  background-color: #ffffff; 
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -51,6 +51,41 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   box-sizing: border-box;
+}*/
+.admin-section, .admin-panel, .admin-patient-management, .admin-staff-management, 
+.admin-operation-type-management, .admin-3d-visualization {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  gap: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  //box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1; /* Ensures all columns have the same width */
+
+  h1, h2, h3 {
+    border-radius: 50px;
+    text-align: center;
+    //box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+  } 
+}
+/*
+.admin-panel{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: auto;
+  padding: 15px;
+  transition: transform 0.2s;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
 }
 
 .admin-patient-management {
@@ -109,7 +144,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
-}
+}*/
 
 .register-button {
   cursor: pointer;

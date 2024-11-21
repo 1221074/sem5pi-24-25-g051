@@ -9,25 +9,35 @@
 <div class="admin-container">
 
   <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
-    <div class="admin-panel">
+    <div class="admin-panel1">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
     </div>
-    <div class="admin-patient-management">
+    <div>
+      <h3>3D Visualization Module:</h3>
+      <button (click)="showSection('3dVisualization')">3D Visualization</button>
+    </div>
+  </section>
+  <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-patient-management1">
       <h3>Patient Management:</h3>
       <button (click)="showSection('createPatient')">Create Patient Profile</button>
       <button (click)="showSection('editPatient')">Edit Patient Profile</button>
       <button (click)="showSection('deletePatient')">Delete Patient Profile</button>
       <button (click)="showSection('listPatients')">List/Search Patient Profiles</button>
     </div>
-    <div class="admin-staff-management">
+    </section>
+    <section class="admin-staff-management" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-staff-management1">
       <h3>Staff Management:</h3>
       <button (click)="showSection('createStaff')">Create Staff Profile</button>
       <button (click)="showSection('editStaff')">Edit Staff Profile</button>
       <button (click)="showSection('deactivateStaff')">Deactivate Staff Profile</button>
       <button (click)="showSection('listStaff')">List/Search Staff Profiles</button>
     </div>
-    <div class="admin-operation-type-management">
+  </section>
+  <section class="admin-operation-type-management" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-operation-type-management1">
       <h3>Operation Type Management:</h3>
       <button (click)="showSection('addOperationType')">Add Operation Type</button>
       <button (click)="showSection('editOperationType')">Edit Operation Type</button>
@@ -36,10 +46,8 @@
     </div>
   </section>
 
-<section class="admin-3d-visualization" *ngIf="!selectedSection">
-      <h3>3D Visualization Module:</h3>
-      <button (click)="showSection('3dVisualization')">3D Visualization</button>
-
+<section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
+      
       <h3>Planning Module:</h3>
       <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
       <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
