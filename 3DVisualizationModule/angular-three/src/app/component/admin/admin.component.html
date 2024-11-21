@@ -47,7 +47,7 @@
   </section>
 
 <section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
-      
+
       <h3>Planning Module:</h3>
       <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
       <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
@@ -192,11 +192,11 @@
   <section [style.display]="selectedSection === 'editPatient' ? 'block' : 'none'">
     <h2>Edit Patient Profile</h2>
     <p>Here you can edit an existing patient profile.</p>
-  
+
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-  
+
     <!-- Table for Patients -->
     <table class="table-display">
       <tr>
@@ -211,7 +211,7 @@
         <th>Emergency Contact</th>
         <th>Action</th>
       </tr>
-  
+
       <tr *ngFor="let patient of patientList">
         <td>{{ patient.id }}</td>
         <td>{{ patient.firstName }}</td>
@@ -227,7 +227,7 @@
         </td>
       </tr>
     </table>
-  
+
     <!-- Update Form -->
     <div *ngIf="selectedPatient">
       <h3>Update Patient ID: {{ selectedPatient.id }}</h3>
@@ -294,7 +294,7 @@
             #updatedPatientBirthDate
             required
             [value]="selectedPatient.birthDate"
-          />  
+          />
         </form>
       </div>
       <div class="patient-contact">
@@ -350,8 +350,8 @@
       </button>
       <button type="button" (click)="cancelUpdate()">Cancel</button>
     </div>
-  
-  
+
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -441,11 +441,11 @@
     <h2>Create Staff Profile</h2>
     <p>Here you can create a new staff profile.</p>
     <P>Please enter the following data about the new staff member.</P>
-    
+
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    
+
     <form>
       <div class="staff-name">
         <input type="text" id="firstName" name="firstName" #firstName placeholder="First Name" required>
@@ -541,7 +541,7 @@
           required
           [value]="selectedStaff.lastName"
         />
-      
+
     </div>
     <div class="staff-edit-fullname-update">
         <label for="updatedFullName">Full Name:</label><br />
@@ -667,16 +667,16 @@
 
       <form>
         <div class="inputStaffFilterClass">
-          <input 
-            class="inputStaffFilter" 
-            type="text" 
-            placeholder="Search Staff" 
-            [(ngModel)]="staffSearchQuery" 
-            name="searchQuery" 
+          <input
+            class="inputStaffFilter"
+            type="text"
+            placeholder="Search Staff"
+            [(ngModel)]="staffSearchQuery"
+            name="searchQuery"
           />
-          <button 
-            class="staffSearchBtn" 
-            type="button" 
+          <button
+            class="staffSearchBtn"
+            type="button"
             (click)="filterStaffResults(staffSearchQuery)">
             Search
           </button>
@@ -719,11 +719,11 @@
 
     <h2>Create Operation Type</h2>
     <P>Please enter the following data about the new operation type.</P>
-    
+
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    
+
     <form>
       <div class="operation-type-name">
         <input type="text" id="name" name="name" #name placeholder="Name" required>
@@ -736,16 +736,16 @@
       <div class="checkbox-container">
         <div *ngFor="let spec of specList">
           <label>
-            <input 
-              type="checkbox" 
-              [value]="spec" 
-              (change)="onCheckboxChange($event, spec)" 
+            <input
+              type="checkbox"
+              [value]="spec"
+              (change)="onCheckboxChange($event, spec)"
             />
             {{ spec.specializationName }}
           </label>
         </div>
       </div>
-      
+
       <div class="selected-items">
         <h4>Selected Specializations:</h4>
         <ul>
@@ -777,7 +777,7 @@
         <th>Duration</th>
         <th>Required Staff</th>
       </tr>
-    
+
       <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
         <td>{{ operationType.name }}</td>
         <td>{{ operationType.duration }}</td>
@@ -788,18 +788,117 @@
       </tr>
     </table>
 
+    <!-- Update Form -->
+  <div *ngIf="selectedOperationType">
+    <form>
+
+    <div class="operation-type-edit-name-update">
+        <label for="updatedName">Name:</label><br>
+        <input
+          type="text"
+          id="updatedName"
+          [(ngModel)]="selectedOperationType.name"
+          name="Name"
+          placeholder="Name"
+          #updatedNameRef
+          required
+          [value]="selectedOperationType.name"
+        />
+
+    </div>
+    <div class="operation-type-edit-duration-update">
+        <label for="updatedDuration">Duration:</label><br />
+        <input
+          type="text"
+          id="updatedDuration"
+          [(ngModel)]="selectedOperationType.duration"
+          name="duration"
+          placeholder="Duration"
+          #updatedDurationRef
+          required
+          [value]="selectedOperationType.duration"
+        />
+    </div>
+
+    <div class="checkbox-container">
+      <div *ngFor="let spec of specList">
+        <label>
+          <input
+            type="checkbox"
+            [value]="spec"
+            (change)="onCheckboxUpdate($event, spec)"
+          />
+          {{ spec.specializationName }}
+        </label>
+      </div>
+    </div>
+
+    <div class="selected-items">
+      <h4>Selected Specializations:</h4>
+      <ul>
+        <li *ngFor="let spec of selectedSpecializations">
+          {{ spec.specializationName }}
+        </li>
+      </ul>
+    </div>
+    <br />
+    <button
+      class="update-operation-type-btn"
+      type="button"
+      (click)="updateOperationType()"
+    >
+      Update Operation Type
+    </button>
+    <button class="cancel-update-operation-type-btn" type="button" (click)="cancelOperationTypeUpdate()">Cancel</button>
+  </form>
+  </div>
+
 
 
 
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
+
+
+
+
 
   <section [style.display]="selectedSection === 'removeOperationType' ? 'block' : 'none'">
     <h2>Remove Operation Type</h2>
     <p>Here you can remove an obsolete operation type.</p>
+    <p>ola </p>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Duration</th>
+        <th>Required Staff</th>
+      </tr>
+
+      <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
+        <td>{{ operationType.name }}</td>
+        <td>{{ operationType.duration }}</td>
+        <td>{{ operationType.specializationName }}</td>
+        
+        <td>
+          <button class="deactivate-operation-type-btn" (click)="submitOperationTypeDeactivation(operationType.id)">Deactivate</button>
+        </td>
+      </tr>
+    </table>
+
+
+
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
+
+
+
+  
 
   <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
     <h2>List/Search Operation Types</h2>
@@ -807,16 +906,16 @@
 
       <form>
         <div class="inputOperationTypeFilterClass">
-          <input 
-            class="inputOperationTypeFilter" 
-            type="text" 
-            placeholder="Search Operation Type" 
-            [(ngModel)]="operationTypeSearchQuery" 
-            name="OTsearchQuery" 
+          <input
+            class="inputOperationTypeFilter"
+            type="text"
+            placeholder="Search Operation Type"
+            [(ngModel)]="operationTypeSearchQuery"
+            name="OTsearchQuery"
           />
-          <button 
-            class="operationTypeSearchBtn" 
-            type="button" 
+          <button
+            class="operationTypeSearchBtn"
+            type="button"
             (click)="filterOperationTypeResults(operationTypeSearchQuery)">
             Search
           </button>
@@ -828,7 +927,7 @@
       <th>Name</th>
       <th>Duration</th>
       <th>Required Staff</th>
-      
+
     </tr>
 
     <tr *ngFor="let operationType of operationTypeListToBeDisplayed">

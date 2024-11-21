@@ -268,14 +268,14 @@ export class DoctorComponent implements OnInit {
   }
 
   getOperationTypeName(operationTypeId: string): string {
-    const operationType = this.operationTypes.find(o => o.id === operationTypeId);
+    const operationType = this.operationTypes.find(o => o.id.toString() === operationTypeId);
     return operationType ? operationType.name : 'Unknown Operation Type';
   }
 
 
   getOperationTypeId(operationTypeName: string) : string {
     const operationType = this.operationTypes.find(o => o.name === operationTypeName);
-    return operationType ? operationType.id : 'Unknown Operation Type Id';
+    return operationType ? operationType.id.toString() : 'Unknown Operation Type Id';
   }
 
   getPatientId(patientName: string) {

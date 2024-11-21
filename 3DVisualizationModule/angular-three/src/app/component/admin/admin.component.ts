@@ -438,25 +438,28 @@ async updateStaff() {
 
   //Operation Type =========================================================================================================================================================================================================================================================
 
-  updateOperationType(id: string, name: string, requiredStaff: number[], duration: string): void {
-    const updateOperationType: OperationType = {
-      id: id,
-      name: name,
-      requiredStaff: requiredStaff,
-      duration: duration
-    };
-
-    this.operationTypeService.updateOperationType(id, updateOperationType).then(
-      (response) => {
-        this.successMessage = 'Operation type updated successfully.';
-        this.updateOperationTypeList();
-        this.selectedOperationType = null;
-      },
-      (error) => {
-        this.errorMessage = 'Error updating operation type.';
-      }
-    );
+  async updateOperationType(): Promise<void> {
+    if(!this.selectedOperationType) {
+      this.errorMessage = 'No operation type selected for update.';
+      return;
     }
+
+    try{
+      this.selectedOperationType.requiredStaff = this.selectedSpecializations.map(spec => spec.id);
+      await this.operationTypeService.updateOperationType(this.selectedOperationType.id.toString(), this.selectedOperationType);
+      this.successMessage = 'Operation type updated successfully.';
+      this.selectedOperationType = null;
+      this.updateOperationTypeList();
+    } catch (error: any) {
+      if (error.status === 400) {
+        this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+      } else if (error.status === 404) {
+        this.errorMessage = 'Operation type not found.';
+      } else {
+        this.errorMessage = 'An error occurred while updating the operation type. Please try again.';
+      }
+    }
+  }
 
     updateOperationTypeList() {
       this.operationTypeService.getAllOperationTypes().then((operationTypeList: OperationType[]) => {
@@ -479,7 +482,7 @@ async updateStaff() {
     }
 
     getStaffSpecializationNameList(specializationId: number[]): string[] {
-      
+
       console.log(specializationId)
       return specializationId.map(id => {
         const numId = id;
@@ -490,7 +493,7 @@ async updateStaff() {
       });
     }
 
-    
+
 
 
     cancelOperationTypeUpdate(): void {
@@ -502,6 +505,7 @@ async updateStaff() {
     selectOperationTypeForUpdate(operationType: OperationTypeDisplay) {
       this.errorMessage = '';
       this.successMessage = '';
+      this.selectedSpecializations = [];
       // Create a copy of the patient to avoid mutating the list directly
       const selectedOT = this.operationTypeList.find(ot => ot.id === operationType.id);
       if(selectedOT){
@@ -509,6 +513,21 @@ async updateStaff() {
       } else {
         this.errorMessage = 'Operation Type not found';
       }
+    }
+
+    onCheckboxUpdate(event: Event, spec: SpecializationSub): void {
+      const checkbox = event.target as HTMLInputElement;
+    
+      if (checkbox.checked) {
+        // Add to array if checked
+        this.selectedSpecializations.push(spec);
+      } else {
+        // Remove from array if unchecked
+        this.selectedSpecializations = this.selectedSpecializations.filter(
+          selected => selected.id !== spec.id
+        );
+      }
+    
     }
 
 
@@ -535,6 +554,20 @@ submitStaffDeactivation(staffId: number) {
     });
   }
 }
+
+submitOperationTypeDeactivation(operationTypeId: number) {
+  console.log('Operation Type ID:', operationTypeId);
+  if (confirm('Are you sure you want to deactivate this operation type?')) {
+    this.operationTypeService.deactivateOperationType(operationTypeId).then(() => {
+      this.successMessage = 'Operation type deactivated successfully.';
+      this.updateOperationTypeList();
+    }).catch(error => {
+      this.errorMessage = 'An error occurred while deactivating the operation type. Please try again.';
+    });
+  }
+}
+
+
 
 
 //SEARCH CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
@@ -610,7 +643,7 @@ checkIfStaffEmailExists(email: string): boolean {
 }
 
 filterOperationTypeResults(operationTypeParameter: string): void {
-  
+
 
   console.log('Operation Type Parameter:', operationTypeParameter);
   if (!operationTypeParameter) {

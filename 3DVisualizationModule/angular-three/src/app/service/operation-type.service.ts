@@ -72,9 +72,9 @@ export class OperationTypeService {
     }
   }
 
-  async deleteOperationType(id: string) {
+  async deactivateOperationType(id: number) {
     try {
-      const response = await fetch(`${this.url}/${id}/hard`, {
+      const response = await fetch(`${this.url}/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });

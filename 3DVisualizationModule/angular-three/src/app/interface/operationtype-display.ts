@@ -1,5 +1,5 @@
 export interface OperationTypeDisplay {
-    id: string;
+    id: number;
     name: string;
     specializationName: string[];
     duration: string;

@@ -1,5 +1,5 @@
 export interface OperationType {
-    id: string;
+    id: number;
     name: string;
     requiredStaff: number[];
     duration: string;
