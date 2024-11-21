@@ -249,12 +249,56 @@ button:active {
   width: auto;
 }
 
-.staff-edit-update{
+.staff-edit-name-update{
   display: flex;
   gap: 5px;
-  width: 50%;
+  width: 70%;
   max-width: 600px;
-  padding: 20px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.staff-edit-contact-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.staff-edit-fullname-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.staff-edit-spec-update {
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  select{
+    display: flex;
+    width: 100%;
+  }
 }
 
 .deactivate-staff-btn {
@@ -263,6 +307,17 @@ button:active {
 
 .back-menu-btn {
   width: auto;
+}
+
+.update-staff-btn {
+  gap: 5px;
+  width: 17.5%;
+  margin-right: 5px;
+}
+
+.cancel-update-staff-btn {
+  gap: 5px;
+  width: 17.5%;
 }
 
 .staff-create input[type="text"],

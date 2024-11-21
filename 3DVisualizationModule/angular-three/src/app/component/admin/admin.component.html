@@ -510,7 +510,7 @@
   <div *ngIf="selectedStaff">
     <form>
 
-    <div class="staff-edit-update">
+    <div class="staff-edit-name-update">
         <label for="updatedFirstName">First Name:</label><br>
         <input
           type="text"
@@ -535,7 +535,7 @@
         />
       
     </div>
-    <div class="staff-edit-update">
+    <div class="staff-edit-fullname-update">
         <label for="updatedFullName">Full Name:</label><br />
         <input
           type="text"
@@ -549,7 +549,7 @@
         />
     </div>
     <br />
-    <div class="staff-edit-update">
+    <div class="staff-edit-contact-update">
         <label for="updatedEmail">Email:</label><br />
         <input
           type="email"
@@ -574,7 +574,7 @@
         />
     </div>
     <br />
-    <div class="staff-edit-update">
+    <div class="staff-edit-spec-update">
         <label for="updatedSpecialization">Specialization:</label><br />
         <select
           id="updatedSpecialization"
@@ -595,12 +595,13 @@
     </div>
     <br />
     <button
+      class="update-staff-btn"
       type="button"
       (click)="updateStaff()"
     >
       Update Staff
     </button>
-    <button type="button" (click)="cancelUpdate()">Cancel</button>
+    <button class="cancel-update-staff-btn" type="button" (click)="cancelUpdate()">Cancel</button>
   </form>
   </div>
 
