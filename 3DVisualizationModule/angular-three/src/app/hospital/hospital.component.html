@@ -111,6 +111,9 @@
 </head>
 
 <body>
+  <button class="logout-button" (click)="logout()">
+    <span class="material-icons">logout</span>
+  </button>
     <div id="parent">
         <div id="views-panel">
             <table class="views">
@@ -300,9 +303,7 @@
             </table>
         </div>
     </div>
-    <canvas #myCanvas id="myCanvas"></canvas> 
-
-    
+    <canvas #myCanvas id="myCanvas"></canvas>
 </body>
 
 </html>
