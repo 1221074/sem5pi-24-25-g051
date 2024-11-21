@@ -8,11 +8,14 @@ import { UserService } from '../../service/user.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { Staff } from '../../interface/staff';
 import { StaffService } from '../../service/staff.service';
+import { OperationType } from '../../interface/operationtype';
+import { OperationTypeService } from '../../service/operation-type.service';
 import { SpecializationService } from '../../service/specialization.service';
 import { SpecializationSub } from '../../interface/specialization-sub';
 import { PlanningService } from 'src/app/service/planning.service';
 import { HttpClientModule } from '@angular/common/http';
 import { StaffDisplay } from '../../interface/staff-display';
+import { OperationTypeDisplay } from 'src/app/interface/operationtype-display';
 
 @Component({
   selector: 'app-admin',
@@ -30,6 +33,7 @@ export class AdminComponent {
   staffService: StaffService = inject(StaffService);
   specializationService: SpecializationService= inject(SpecializationService);
   planningService: PlanningService = inject(PlanningService);
+  operationTypeService: OperationTypeService = inject(OperationTypeService);
 
 //VARIABLES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -48,6 +52,14 @@ export class AdminComponent {
 
   //Specializations
   specList: SpecializationSub [] = [];
+
+  //Operation Types
+  operationTypeSearchQuery: string = '';
+  filteredOperationTypeList: OperationType[] = [];
+  operationTypeList: OperationType[] = [];
+  operationTypeListToBeDisplayed: OperationTypeDisplay[] = [];
+  fullOperationTypeListToBeDisplayed: OperationTypeDisplay[] = [];
+  selectedOperationType: OperationType | null = null;
 
   //Planning Module
   roomNumber: string = '';
@@ -69,6 +81,8 @@ export class AdminComponent {
     this.getSpecs();
     this.updatePatientList();
     this.updateStaffList();
+    this.updateOperationTypeList();
+    this.getSpecs();
   }
 
   showSection(section: string) {
@@ -77,6 +91,7 @@ export class AdminComponent {
     this.errorMessage = '';
     this.successMessage = '';
     this.selectedStaff = null;
+    this.selectedOperationType = null;
     this.planningResult = null;
     this.loading = false;
     this.roomNumber = '';
@@ -188,7 +203,7 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   }
 
   const newStaff = { firstName, lastName, fullName, specializationId, email, phone };
-  
+
   try {
     await this.staffService.postStaff(newStaff);
     this.successMessage = 'Staff registered successfully.';
@@ -201,6 +216,60 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     }
   }
 }
+
+selectedSpecializations: SpecializationSub[] = [];
+
+
+onCheckboxChange(event: Event, spec: SpecializationSub): void {
+  const checkbox = event.target as HTMLInputElement;
+
+  if (checkbox.checked) {
+    // Add to array if checked
+    this.selectedSpecializations.push(spec);
+  } else {
+    // Remove from array if unchecked
+    this.selectedSpecializations = this.selectedSpecializations.filter(
+      selected => selected.id !== spec.id
+    );
+  }
+
+  console.log('Selected Specializations:', this.selectedSpecializations);
+}
+
+// Get the name of a specialization by its ID
+getSpecializationName(id: number): string {
+  const spec = this.specList.find(spec => spec.id === id);
+  return spec ? spec.specializationName : 'Unknown';
+}
+
+
+async registerOperationType(name: string, duration: string) {
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  const requiredStaff = this.selectedSpecializations.map(spec => spec.id);
+
+  if (!name || !requiredStaff.length || !duration) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
+  }
+
+  const newOperationType = { name, requiredStaff, duration };
+
+  try {
+    await this.operationTypeService.postOperationType(newOperationType);
+    this.successMessage = 'Operation type registered successfully.';
+    this.updateOperationTypeList();
+  } catch (error: any) {
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else {
+      this.errorMessage = 'An error occurred while registering the operation type. Please try again.';
+    }
+  }
+}
+
+
 
 //UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -283,7 +352,7 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
   }).catch(error => {
     this.errorMessage = 'Failed to load operations. Please try again.';
   });
-    
+
   }
 
   getStaffSpecializationName(specializationId: number): string {
@@ -311,7 +380,7 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
       email: email,
       phone: phone
     };
-  
+
     this.staffService.updateStaff(id, updatedStaff).then(
       (response) => {
         this.successMessage = 'Staff profile updated successfully.';
@@ -330,7 +399,7 @@ async updateStaff() {
     this.errorMessage = 'No staff member selected for update.';
     return;
   }
-  
+
   try {
     // Proceed to update the OperationRequest
     await this.staffService.updateStaff(this.selectedStaff.id.toString(), this.selectedStaff);
@@ -366,6 +435,82 @@ async updateStaff() {
       this.specList = specList;
     });
   }
+
+  //Operation Type =========================================================================================================================================================================================================================================================
+
+  updateOperationType(id: string, name: string, requiredStaff: number[], duration: string): void {
+    const updateOperationType: OperationType = {
+      id: id,
+      name: name,
+      requiredStaff: requiredStaff,
+      duration: duration
+    };
+
+    this.operationTypeService.updateOperationType(id, updateOperationType).then(
+      (response) => {
+        this.successMessage = 'Operation type updated successfully.';
+        this.updateOperationTypeList();
+        this.selectedOperationType = null;
+      },
+      (error) => {
+        this.errorMessage = 'Error updating operation type.';
+      }
+    );
+    }
+
+    updateOperationTypeList() {
+      this.operationTypeService.getAllOperationTypes().then((operationTypeList: OperationType[]) => {
+        this.operationTypeList = operationTypeList;
+        this.filteredOperationTypeList = operationTypeList;
+
+        this.operationTypeListToBeDisplayed = this.operationTypeList.map(operationType => {
+          return {
+            id: operationType.id,
+            name: operationType.name,
+            specializationName: this.getStaffSpecializationNameList(operationType.requiredStaff),
+            duration: operationType.duration
+          };
+        });
+
+        this.fullOperationTypeListToBeDisplayed = [...this.operationTypeListToBeDisplayed];
+      }).catch(error => {
+        this.errorMessage = 'Failed to load operation types. Please try again.';
+      });
+    }
+
+    getStaffSpecializationNameList(specializationId: number[]): string[] {
+      
+      console.log(specializationId)
+      return specializationId.map(id => {
+        const numId = id;
+        console.log('Converted id:', numId);
+        const name = this.getSpecializationName(numId);
+        console.log('Specialization name:', name);
+        return name;
+      });
+    }
+
+    
+
+
+    cancelOperationTypeUpdate(): void {
+    this.selectedOperationType = null;
+    this.successMessage = '';
+    this.errorMessage = '';
+    }
+
+    selectOperationTypeForUpdate(operationType: OperationTypeDisplay) {
+      this.errorMessage = '';
+      this.successMessage = '';
+      // Create a copy of the patient to avoid mutating the list directly
+      const selectedOT = this.operationTypeList.find(ot => ot.id === operationType.id);
+      if(selectedOT){
+        this.selectedOperationType = { ...selectedOT};
+      } else {
+        this.errorMessage = 'Operation Type not found';
+      }
+    }
+
 
 //REMOVE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -463,6 +608,31 @@ checkIfStaffEmailExists(email: string): boolean {
 
   return emailExists;
 }
+
+filterOperationTypeResults(operationTypeParameter: string): void {
+  
+
+  console.log('Operation Type Parameter:', operationTypeParameter);
+  if (!operationTypeParameter) {
+    this.operationTypeListToBeDisplayed = [...this.fullOperationTypeListToBeDisplayed];
+    this.errorMessage = '';
+    return;
+  } else {
+    const operationTypeListToBeDisplayed = this.fullOperationTypeListToBeDisplayed.filter(operationType =>
+      operationType.name.toLowerCase().includes(operationTypeParameter.toLowerCase()) ||
+      operationType.duration.toLowerCase().includes(operationTypeParameter.toLowerCase())
+    );
+
+    this.updateOperationTypeListSearch(operationTypeListToBeDisplayed);
+
+  }
+}
+
+updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[]) {
+  this.operationTypeListToBeDisplayed = filteredOperationTypeList;
+}
+
+
 
 // ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 

@@ -706,15 +706,92 @@
   </section>
 
   <!-- Operation Types Sections -->
-  <section [style.display]="selectedSection === 'addOperationType' ? 'block' : 'none'">
-    <h2>Add Operation Type</h2>
-    <p>Here you can add a new operation type.</p>
-    <button (click)="showSection('')">Back to Main Menu</button>
+  <section class="operation-create" [style.display]="selectedSection === 'addOperationType' ? 'block' : 'none'">
+    <head>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <style>
+          body {
+              font-family: 'Roboto', sans-serif;
+          }
+      </style>
+    </head>
+
+
+    <h2>Create Operation Type</h2>
+    <P>Please enter the following data about the new operation type.</P>
+    
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    
+    <form>
+      <div class="operation-type-name">
+        <input type="text" id="name" name="name" #name placeholder="Name" required>
+      </div>
+
+      <div class="operation-type-duration">
+        <input type="text" id="duration" name="duration" #duration placeholder="Duration" required>
+      </div>
+
+      <div class="checkbox-container">
+        <div *ngFor="let spec of specList">
+          <label>
+            <input 
+              type="checkbox" 
+              [value]="spec" 
+              (change)="onCheckboxChange($event, spec)" 
+            />
+            {{ spec.specializationName }}
+          </label>
+        </div>
+      </div>
+      
+      <div class="selected-items">
+        <h4>Selected Specializations:</h4>
+        <ul>
+          <li *ngFor="let spec of selectedSpecializations">
+            {{ spec.specializationName }}
+          </li>
+        </ul>
+      </div>
+
+
+
+      <div class="button-operation-type-submit">
+        <button type="button" (click)="registerOperationType(name.value, duration.value)">Submit</button>
+        <button type="button" (click)="showSection('')">Back to Main Menu</button>
+      </div>
+      </form>
   </section>
 
   <section [style.display]="selectedSection === 'editOperationType' ? 'block' : 'none'">
     <h2>Edit Operation Type</h2>
     <p>Here you can edit an existing operation type.</p>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Duration</th>
+        <th>Required Staff</th>
+      </tr>
+    
+      <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
+        <td>{{ operationType.name }}</td>
+        <td>{{ operationType.duration }}</td>
+        <td>{{ operationType.specializationName }}</td>
+        <td>
+          <button class="editOperationTypeBtn" (click)="selectOperationTypeForUpdate(operationType)">Edit</button>
+        </td>
+      </tr>
+    </table>
+
+
+
+
+
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -727,6 +804,40 @@
   <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
     <h2>List/Search Operation Types</h2>
     <p>Here you can list or search for operation types.</p>
+
+      <form>
+        <div class="inputOperationTypeFilterClass">
+          <input 
+            class="inputOperationTypeFilter" 
+            type="text" 
+            placeholder="Search Operation Type" 
+            [(ngModel)]="operationTypeSearchQuery" 
+            name="OTsearchQuery" 
+          />
+          <button 
+            class="operationTypeSearchBtn" 
+            type="button" 
+            (click)="filterOperationTypeResults(operationTypeSearchQuery)">
+            Search
+          </button>
+        </div>
+      </form>
+
+    <table class="table-display">
+    <tr>
+      <th>Name</th>
+      <th>Duration</th>
+      <th>Required Staff</th>
+      
+    </tr>
+
+    <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
+      <td>{{ operationType.name }}</td>
+      <td>{{ operationType.duration }}</td>
+      <td>{{ operationType.specializationName }}</td>
+    </tr>
+    </table>
+    <br>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
