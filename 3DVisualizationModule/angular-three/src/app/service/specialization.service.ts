@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {SpecializationSub} from '../interface/specialization-sub';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SpecializationService {
-  url = 'https://localhost:7252/api/specialization';
+  url = environment.apiURL + '/specialization';
 
   //protected specializationList: SpecializationSub[] = [];
   constructor() { }

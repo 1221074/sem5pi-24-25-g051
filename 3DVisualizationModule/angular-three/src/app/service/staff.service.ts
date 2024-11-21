@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Staff } from '../interface/staff';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StaffService {
-  url = 'https://localhost:7252/api/staff';
+  url = environment.apiURL + '/staff';
 
   constructor() {}
 
