@@ -1,10 +1,11 @@
-import {  Component, ElementRef, Input, ViewChild } from
+import {  Component, ElementRef, inject, Input, ViewChild } from
  '@angular/core';
  import { CommonModule } from '@angular/common';
 
 import * as THREE from "three";
 import Orientation from "./Basic_Thumb_Raiser/orientation";
 import ThumbRaiser from "./Basic_Thumb_Raiser/thumb_raiser";
+import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
   selector: 'app-hospital',
@@ -14,6 +15,9 @@ import ThumbRaiser from "./Basic_Thumb_Raiser/thumb_raiser";
   styleUrls: []
 })
 export class HospitalComponent  {
+  //inject the authentification service
+  authService: AuthenticationService = inject(AuthenticationService);
+
   thumbRaiser!: ThumbRaiser;
 
   ngOnInit(): void {
@@ -40,5 +44,10 @@ export class HospitalComponent  {
     requestAnimationFrame(() => this.animate());
     // Update the game
     this.thumbRaiser.update();
+  }
+
+  logout() {
+    this.authService.logout();
+    
   }
 }
