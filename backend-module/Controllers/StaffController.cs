@@ -241,5 +241,12 @@ namespace backend_module.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("active")]
+
+        public async Task<ActionResult<List<StaffDto>>> GetActiveAsync()
+        {
+            return await _service.GetAllActiveStaffAsync();
+        }
     }
 }
