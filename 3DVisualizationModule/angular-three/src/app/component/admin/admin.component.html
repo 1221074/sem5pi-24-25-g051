@@ -121,7 +121,7 @@
               font-family: 'Roboto', sans-serif;
           }
       </style>
-    </head>
+  </head>
     <h2>Create Patient Profile</h2>
     <p>Here you can create a new patient profile.</p>
     <P>Please enter the following data about the new patient.</P>
@@ -156,7 +156,7 @@
     <div class="patient-contact">
       <form>
         <label for="contactInfo">Contact Information:</label><br>
-        <input type="email" id="email" name="email" placeholder="Email" #emailRef required>
+        <input type="text" id="newpatientemail" name="newpatientemail" placeholder="Email" #patientEmailRef required>
         <input type="tel" id="phone" name="phone" placeholder="Phone Number" #phoneRef required>
         <input type="tel" id="emergencycontact" name="emergencycontact" placeholder="Emergency Contact" #emergencyRef required>
       </form>
@@ -170,7 +170,7 @@
         fullNameRef.value,
         birthDateRef.value,
         sexRef.value,
-        emailRef.value,
+        patientEmailRef.value,
         phoneRef.value,
         emergencyRef.value
       )"
@@ -184,81 +184,166 @@
   <section [style.display]="selectedSection === 'editPatient' ? 'block' : 'none'">
     <h2>Edit Patient Profile</h2>
     <p>Here you can edit an existing patient profile.</p>
-
-     <!-- Display success or error messages -->
+  
+    <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  
+    <!-- Table for Patients -->
+    <table class="table-display">
+      <tr>
+        <th>Patient ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Full Name</th>
+        <th>Birth Date</th>
+        <th>Sex</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Emergency Contact</th>
+        <th>Action</th>
+      </tr>
+  
+      <tr *ngFor="let patient of patientList">
+        <td>{{ patient.id }}</td>
+        <td>{{ patient.firstName }}</td>
+        <td>{{ patient.lastName }}</td>
+        <td>{{ patient.fullName}}</td>
+        <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ patient.sex }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.emergencyContact }}</td>
+        <td>
+          <button class="table-button" (click)="selectPatientForUpdate(patient)">Edit</button>
+        </td>
+      </tr>
+    </table>
+  
+    <!-- Update Form -->
+    <div *ngIf="selectedPatient">
+      <h3>Update Patient ID: {{ selectedPatient.id }}</h3>
+      <div class="patient-name">
+        <form>
+          <label for="updatedPatientFirstName">First Name:</label><br>
+          <input
+            type="text"
+            id="updatedPatientFirstName"
+            name="firstName"
+            placeholder="First Name"
+            #updatedPatientFirstNameRef
+            required
+            [value]="selectedPatient.firstName"
+          />
+          <label for="updatedLastName">Last Name:</label><br />
+          <input
+            type="text"
+            id="updatedLastName"
+            name="lastName"
+            placeholder="Last Name"
+            #updatedPatientLastNameRef
+            required
+            [value]="selectedPatient.lastName"
+          />
+        </form>
+      </div>
+      <div class="staff-fullName">
+        <form>
+          <label for="updatedPatientFullName">Full Name:</label><br />
+          <input
+            type="text"
+            id="updatedPatientFullName"
+            name="fullName"
+            placeholder="Full Name"
+            #updatedPatientFullNameRef
+            required
+            [value]="selectedPatient.sex"
+          />
+        </form>
+      </div>
 
-  <!-- Table for Patients -->
-  <table class="table-display">
-    <tr>
-      <th>Patient ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Full Name</th>
-      <th>Birth Date</th>
-      <th>Sex</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Emergency Contact</th>
-      <th>Action</th>
-    </tr>
-
-    <tr *ngFor="let patient of patientList">
-      <td>{{ patient.id }}</td>
-      <td>{{ patient.firstName }}</td>
-      <td>{{ patient.lastName }}</td>
-      <td>{{ patient.fullName}}</td>
-      <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
-      <td>{{ patient.sex }}</td>
-      <td>{{ patient.email }}</td>
-      <td>{{ patient.phone }}</td>
-      <td>{{ patient.emergencyContact }}</td>
-      <td>
-        <button (click)="selectPatientForUpdate(patient)">Edit</button>
-      </td>
-    </tr>
-  </table>
-
-  <!-- Update Form -->
-  <div *ngIf="selectedPatient">
-    <h3>Update Patient ID: {{ selectedPatient.id }}</h3>
-    <div class="patient-name">
-      <form>
-        <label for="updatedname">Patient Name:</label><br>
-        <input type="text" id="updatedfirstName" name="firstName" placeholder="Fist Name" #updatedfirstNameRef required>
-        <input type="text" id="updatedlastName" name="lastName" placeholder="Last Name" #updatedlastNameRef required>
-      </form>
-    </div>
-    <div class="updatedpatient-fullName">
-      <form>
-        <input type="text" id="updatedfullName" name="fullName" placeholder="Full Name" #updatedfullNameRef required>
-      </form>
-    </div>
-    <br>
-    <div class="updatedpatient-sex-birthdate">
-      <form>
-        <label for="sex-birthdate">Patient Sex and Birthdate:</label><br>
-        <select id="updatedSex" name="sex" #updatedsexRef required>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="" disabled selected>Select Sex</option>
-        </select>
-        <input type="date" id="updatedBirthdate" name="birthdate" placeholder="Birth date" #updatedbirthDateRef required>
-      </form>
-    </div>
-    <div class="patient-contact">
-      <form>
-        <label for="contactInfo">Contact Information:</label><br>
-        <input type="email" id="updatedemail" name="email" placeholder="Email" #updatedemailRef required>
-        <input type="tel" id="updatedphone" name="phone" placeholder="Phone Number" #updatedphoneRef required>
-        <input type="tel" id="updatedemergencycontact" name="emergencycontact" placeholder="Emergency Contact" #updatedemergencyRef required>
-      </form>
-    </div>
-
+      <br />
+      <div class="patient-info">
+        <form>
+          <label for="updatedPatientSex">Sex:</label><br />
+          <select
+            id="updatedPatientSex"
+            name="sex"
+            #updatedPatientSexRef
+            required
+            [value]="selectedPatient.fullName"
+          >
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="" disabled selected>Select Sex</option>
+          </select>
+          <label for="updatedBirthDay">Birthdate</label><br />
+          <input
+            id="updatedBirthDay"
+            type="date"
+            name="birthdate"
+            placeholder="Birth Date"
+            #updatedPatientBirthDate
+            required
+            [value]="selectedPatient.birthDate"
+          />  
+        </form>
+      </div>
+      <div class="patient-contact">
+        <form>
+          <label for="updatedPatientEmail">Email:</label><br />
+          <input
+            type="email"
+            id="updatedPatientEmail"
+            name="email"
+            placeholder="Email"
+            #updatedPatientEmailRef
+            required
+            [value]="selectedPatient.email"
+          />
+          <label for="updatedPatientPhone">Phone Number:</label><br />
+          <input
+            type="tel"
+            id="updatedPatientPhone"
+            name="phone"
+            placeholder="Phone Number"
+            #updatedPatientPhoneRef
+            required
+            [value]="selectedPatient.phone"
+          />
+          <label for="updatedPatientEmergencyContact">Phone Number:</label><br />
+          <input
+            type="tel"
+            id="updatedPatientEmergencyContact"
+            name="phone"
+            placeholder="Phone Number"
+            #updatedPatientEmergencyContactPhoneRef
+            required
+            [value]="selectedPatient.phone"
+          />
+        </form>
+      </div>
+      <br />
+      <button
+        type="button"
+        (click)="updatePatient(
+          selectedPatient.id,
+          updatedPatientFirstNameRef.value,
+          updatedPatientLastNameRef.value,
+          updatedPatientFullNameRef.value,
+          updatedPatientBirthDate.value,
+          updatedPatientSexRef.value,
+          updatedPatientEmailRef.value,
+          updatedPatientPhoneRef.value,
+          updatedPatientEmergencyContactPhoneRef.value
+        )"
+      >
+        Update Staff
+      </button>
       <button type="button" (click)="cancelUpdate()">Cancel</button>
-  </div>
-
+    </div>
+  
+  
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -399,7 +484,6 @@
   <!-- Table for Staff Members -->
   <table class="table-display">
     <tr>
-      <th>Staff ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
@@ -409,29 +493,29 @@
       <th>Action</th>
     </tr>
 
-    <tr *ngFor="let staff of staffList">
-      <td>{{ staff.id }}</td>
+    <tr *ngFor="let staff of staffListToBeDisplayed">
       <td>{{ staff.firstName }}</td>
       <td>{{ staff.lastName }}</td>
       <td>{{ staff.fullName }}</td>
-      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.specializationName }}</td>
       <td>{{ staff.email }}</td>
       <td>{{ staff.phone }}</td>
       <td>
-        <button (click)="selectStaffForUpdate(staff)">Edit</button>
+        <button class="editStaffBtn" (click)="selectStaffForUpdate(staff)">Edit</button>
       </td>
     </tr>
   </table>
 
   <!-- Update Form -->
   <div *ngIf="selectedStaff">
-    <h3>Update Staff ID: {{ selectedStaff.id }}</h3>
-    <div class="staff-name">
-      <form>
+    <form>
+
+    <div class="staff-edit-update">
         <label for="updatedFirstName">First Name:</label><br>
         <input
           type="text"
           id="updatedFirstName"
+          [(ngModel)]="selectedStaff.firstName"
           name="firstName"
           placeholder="First Name"
           #updatedFirstNameRef
@@ -442,35 +526,35 @@
         <input
           type="text"
           id="updatedLastName"
+          [(ngModel)]="selectedStaff.lastName"
           name="lastName"
           placeholder="Last Name"
           #updatedLastNameRef
           required
           [value]="selectedStaff.lastName"
         />
-      </form>
+      
     </div>
-    <div class="staff-fullName">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedFullName">Full Name:</label><br />
         <input
           type="text"
           id="updatedFullName"
+          [(ngModel)]="selectedStaff.fullName"
           name="fullName"
           placeholder="Full Name"
           #updatedFullNameRef
           required
           [value]="selectedStaff.fullName"
         />
-      </form>
     </div>
     <br />
-    <div class="staff-contact">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedEmail">Email:</label><br />
         <input
           type="email"
           id="updatedEmail"
+          [(ngModel)]="selectedStaff.email"
           name="email"
           placeholder="Email"
           #updatedEmailRef
@@ -481,21 +565,21 @@
         <input
           type="tel"
           id="updatedPhone"
+          [(ngModel)]="selectedStaff.phone"
           name="phone"
           placeholder="Phone Number"
           #updatedPhoneRef
           required
           [value]="selectedStaff.phone"
         />
-      </form>
     </div>
     <br />
-    <div class="staff-specialization">
-      <form>
+    <div class="staff-edit-update">
         <label for="updatedSpecialization">Specialization:</label><br />
         <select
           id="updatedSpecialization"
           name="specialization"
+          [(ngModel)]="selectedStaff.specializationId"
           #updatedSpecializationRef
           required
         >
@@ -508,27 +592,19 @@
             {{ spec.specializationName }}
           </option>
         </select>
-      </form>
     </div>
     <br />
     <button
       type="button"
-      (click)="updateStaff(
-        selectedStaff.id,
-        updatedFirstNameRef.value,
-        updatedLastNameRef.value,
-        updatedFullNameRef.value,
-        updatedSpecializationRef.value,
-        updatedEmailRef.value,
-        updatedPhoneRef.value
-      )"
+      (click)="updateStaff()"
     >
       Update Staff
     </button>
     <button type="button" (click)="cancelUpdate()">Cancel</button>
+  </form>
   </div>
 
-
+  <br>
   <button (click)="showSection('')">Back to Main Menu</button>
 </section>
 
@@ -538,7 +614,6 @@
 
     <table class="table-display">
       <tr>
-        <th>Staff ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Full Name</th>
@@ -549,7 +624,6 @@
       </tr>
 
       <tr *ngFor="let staff of staffList">
-        <td>{{ staff.id }}</td>
         <td>{{ staff.firstName }}</td>
         <td>{{ staff.lastName }}</td>
         <td>{{ staff.fullName }}</td>
@@ -565,30 +639,49 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- List/Search Staff Section -->
   <section [style.display]="selectedSection === 'listStaff' ? 'block' : 'none'">
     <h2>List/Search Staff Profiles</h2>
     <p>Here you can list or search for staff profiles.</p>
-    <form>
+    <!--<form>
       <div class="inputStaffFilterClass">
         <input class="inputStaffFilter" type="text" placeholder="Search Staff" #filter (input)="filterStaffResults(filter.value)" />
         <button class="staffSearchBtn" type="button" (click)="filterStaffResults(filter.value)">Search</button>
       </div>
+      </form>-->
+
+      <form>
+        <div class="inputStaffFilterClass">
+          <input 
+            class="inputStaffFilter" 
+            type="text" 
+            placeholder="Search Staff" 
+            [(ngModel)]="staffSearchQuery" 
+            name="searchQuery" 
+          />
+          <button 
+            class="staffSearchBtn" 
+            type="button" 
+            (click)="filterStaffResults(staffSearchQuery)">
+            Search
+          </button>
+        </div>
       </form>
     <table class="table-display">
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
-      <th>Specialization ID</th>
+      <th>Specialization</th>
       <th>Email</th>
       <th>Phone</th>
     </tr>
 
-    <tr *ngFor="let staff of filteredStaffList">
+    <tr *ngFor="let staff of staffListToBeDisplayed">
       <td>{{ staff.firstName }}</td>
       <td>{{ staff.lastName }}</td>
       <td>{{ staff.fullName }}</td>
-      <td>{{ staff.specializationId }}</td>
+      <td>{{ staff.specializationName }}</td>
       <td>{{ staff.email }}</td>
       <td>{{ staff.phone }}</td>
     </tr>

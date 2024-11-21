@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AdminService {
-  patient_url = 'https//localhost:7252/api/patient';
+  patient_url = 'https://localhost:7252/api/patient';
 
   constructor() {}
 
@@ -31,9 +31,9 @@ export class AdminService {
       });
 
       if (!response.ok) {
-        // Handle non-200 responses
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error posting Patient');
+        // Include the status in the error
+        throw { status: response.status, message: errorData.message || 'Error posting patient' };
       }
 
       return await response.json();
