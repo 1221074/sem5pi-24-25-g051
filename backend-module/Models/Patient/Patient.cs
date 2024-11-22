@@ -43,7 +43,7 @@ namespace backend_module.Models.Patient
             this.EmergencyContact = emergencyContact;
             this.AppointmentList = appointmentList;
             this.AllergyList = allergyList;
-            this.Active = false;
+            this.Active = true;
             
         }
 
@@ -63,7 +63,7 @@ namespace backend_module.Models.Patient
             this.EmergencyContact = emergencyContact;
             this.AppointmentList = [];
             this.AllergyList = [];
-            this.Active = false;
+            this.Active = true;
             
         }
 

@@ -110,6 +110,7 @@ logout() {this.authService.logout();}
 showHospital() {this.router.navigate(['/hospital']);}
 
 clearMessages() {
+  this.planningResult = null;
   this.errorMessage = '';
   this.successMessage = '';
 }
@@ -765,7 +766,7 @@ async startHeuristicPlanning() {
       this.roomNumber,
       formattedDate,
       this.surgeriesList,
-      //this.heuristic
+      this.heuristic
     );
     this.planningResult = result;
     this.successMessage = 'Heuristic planning completed successfully.';
