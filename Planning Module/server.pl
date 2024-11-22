@@ -25,7 +25,8 @@ start_server(Port) :-
 
 % HTTP Handlers
 :- http_handler('/optimal_schedule', cors_wrapper(handle_optimal_schedule), []).
-:- http_handler('/heuristic_schedule', cors_wrapper(handle_heuristic_schedule), []).
+:- http_handler('/heuristic_schedule_maximized', cors_wrapper(handle_heuristic_maximized_schedule), []).
+:- http_handler('/heuristic_schedule_earliest', cors_wrapper(handle_heuristic_schedule_earliest), []).
 :- http_handler('/complexity_analysis', cors_wrapper(handle_complexity_analysis), []).
 
 % Enable CORS by adding headers to all responses
@@ -76,10 +77,8 @@ surgery(so4, 45, 75, 45).
 surgery_id(so100001, so2).
 surgery_id(so100002, so3).
 surgery_id(so100003, so4).
-%surgery_id(so100004, so2).
-%surgery_id(so100005, so4).
-%surgery_id(so100004,so2).
-%surgery_id(so100005,so4).
+surgery_id(so100004, so2).
+surgery_id(so100005, so4).
 %surgery_id(so100006,so2).
 %surgery_id(so100007,so3).
 %surgery_id(so100008,so2).
@@ -95,9 +94,9 @@ assignment_surgery(so100001, d001).
 assignment_surgery(so100002, d002).
 assignment_surgery(so100003, d003).
 assignment_surgery(so100004, d001).
-%assignment_surgery(so100004, d002).
-%assignment_surgery(so100005, d002).
-%assignment_surgery(so100005, d003).
+assignment_surgery(so100004, d002).
+assignment_surgery(so100005, d002).
+assignment_surgery(so100005, d003).
 %assignment_surgery(so100006,d001).
 %assignment_surgery(so100007,d003).
 %assignment_surgery(so100008,d004).
@@ -132,7 +131,23 @@ handle_optimal_schedule(Request) :-
     % Send JSON response
     reply_json(Response).
 
-handle_heuristic_schedule(Request) :-
+    handle_heuristic_schedule_earliest(Request) :-
+        % Parse parameters from the request
+        http_parameters(Request, [
+            room(Room, []),
+            date(DateAtom, []),
+            surgeries(SurgeriesAtom, [])
+        ]),
+        % Convert date and surgeries to appropriate formats
+        atom_number(DateAtom, Date),
+        atomic_list_concat(SurgeryList, ',', SurgeriesAtom),
+        % Call the heuristic scheduler
+        schedule_heuristic_earliest(Room, Date, SurgeryList, Response),
+        % Send JSON response
+        reply_json(Response).
+    
+
+handle_heuristic_maximized_schedule(Request) :-
     % Parse parameters from the request
     http_parameters(Request, [
         room(Room, []),
@@ -142,8 +157,8 @@ handle_heuristic_schedule(Request) :-
     % Convert date and surgeries to appropriate formats
     atom_number(DateAtom, Date),
     atomic_list_concat(SurgeryList, ',', SurgeriesAtom),
-    % Start heuristic scheduling
-    schedule_heuristic(Room, Date, SurgeryList, Response),
+    % Call the scheduling heuristic
+    schedule_heuristic_maximize(Room, Date, SurgeryList, Response),
     % Send JSON response
     reply_json(Response).
 
@@ -197,32 +212,12 @@ schedule_optimal(Room, Date, SurgeryList, Response) :-
         doctors_agenda: DoctorsAgendaJson
     }.
 
-% Heuristic Scheduling Algorithm
+% Heuristic Scheduling Algorithm ==========================================================================================
 % ------------------------------
 
-% First Heuristic - Earliest Avaibility 
-% Find the earliest available doctor for a given surgery
-earliest_available_doctor(OpCode, Date, Doctor, StartTime) :-
-    surgery_id(OpCode, OpType),
-    surgery(OpType, _, TSurgery, _),
-    findall(Doctor, assignment_surgery(OpCode, Doctor), LDoctors),
-    intersect_all_agendas(LDoctors, Date, LA),
-    remove_unf_intervals(TSurgery, LA, LPossibilities),
-    LPossibilities = [(StartTime, _) | _],
-    member(Doctor, LDoctors),
-    availability(Doctor, Date, DoctorAgenda),
-    member((StartTime, _), DoctorAgenda).
+%%% First Heuristic - Earliest Availability
 
-% Sort surgeries based on the earliest availability of doctors
-sort_surgeries_by_earliest_availability(Surgeries, Date, SortedSurgeries) :-
-    findall((StartTime, OpCode),
-            (member(OpCode, Surgeries),
-             earliest_available_doctor(OpCode, Date, _, StartTime)),
-            SurgeryTimes),
-    keysort(SurgeryTimes, SortedSurgeryTimes),
-    pairs_values(SortedSurgeryTimes, SortedSurgeries).
-
-schedule_heuristic(Room, Date, SurgeryList, Response) :-
+schedule_heuristic_earliest(Room, Date, SurgeryList, Response) :-
     % Record start time
     get_time(Ti),
     % Reset agendas
@@ -258,6 +253,28 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
         }
     ).
 
+
+% Sort surgeries based on the earliest availability of doctors
+sort_surgeries_by_earliest_availability(Surgeries, Date, SortedSurgeries) :-
+    findall(StartTime-OpCode,
+            (member(OpCode, Surgeries),
+             earliest_available_doctor(OpCode, Date, _, StartTime)),
+            SurgeryTimes),
+    keysort(SurgeryTimes, SortedSurgeryTimes),
+    pairs_values(SortedSurgeryTimes, SortedSurgeries).
+
+% Find the earliest available doctor for a given surgery
+earliest_available_doctor(OpCode, Date, Doctor, StartTime) :-
+    surgery_id(OpCode, OpType),
+    surgery(OpType, _, TSurgery, _),
+    findall(Doctor, assignment_surgery(OpCode, Doctor), LDoctors),
+    intersect_all_agendas(LDoctors, Date, LA),
+    remove_unf_intervals(TSurgery, LA, LPossibilities),
+    LPossibilities = [(StartTime, _) | _],
+    member(Doctor, LDoctors),
+    availability(Doctor, Date, DoctorAgenda),
+    member((StartTime, _), DoctorAgenda).
+
 % Calculate the occupation percentage for a doctor
 occupation_percentage(Doctor, Date, OccupationPercentage) :-
     findall(OpCode, assignment_surgery(OpCode, Doctor), Surgeries),
@@ -268,9 +285,9 @@ occupation_percentage(Doctor, Date, OccupationPercentage) :-
     sum_list(FreeTimes, TotalFreeTime),
     (TotalFreeTime > 0 -> OccupationPercentage is TotalSurgeryTime / TotalFreeTime * 100 ; OccupationPercentage is 0).
 
-% Sort surgeries based on the occupation percentage of doctors
+% Sort surgeries by occupation percentage
 sort_surgeries_by_occupation_percentage(Surgeries, Date, SortedSurgeries) :-
-    findall((OccupationPercentage, OpCode),
+    findall(OccupationPercentage-OpCode,
             (member(OpCode, Surgeries),
              assignment_surgery(OpCode, Doctor),
              occupation_percentage(Doctor, Date, OccupationPercentage)),
@@ -278,7 +295,7 @@ sort_surgeries_by_occupation_percentage(Surgeries, Date, SortedSurgeries) :-
     keysort(SurgeryPercentages, SortedSurgeryPercentages),
     pairs_values(SortedSurgeryPercentages, SortedSurgeries).
 
-% Heuristic Scheduling Algorithm
+% Heuristic Scheduling Algorithm ==========================================================================================
 % ------------------------------
 % Second Heuristic - Maximize Occupied Time
 schedule_heuristic_maximize(Room, Date, SurgeryList, Response) :-
@@ -286,7 +303,7 @@ schedule_heuristic_maximize(Room, Date, SurgeryList, Response) :-
     get_time(Ti),
     % Reset agendas
     reset_agendas(Date),
-    % Sort surgeries based on the occupation percentage of doctors
+    % Sort surgeries by occupation percentage
     sort_surgeries_by_occupation_percentage(SurgeryList, Date, SortedSurgeries),
     % Attempt to schedule surgeries
     (   schedule_surgeries(SortedSurgeries, Room, Date)
