@@ -1,0 +1,27 @@
+name: Periodic Test Runner
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight UTC (adjust as needed)
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0' # Match your .NET version
+
+    - name: Install dependencies
+      run: dotnet restore ./backend-module
+
+    - name: Run tests
+      run: dotnet test ./backend-module --no-restore --verbosity normal
+
+
