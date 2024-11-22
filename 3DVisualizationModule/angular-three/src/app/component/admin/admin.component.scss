@@ -43,7 +43,7 @@
   align-items: center;
   gap: 10px;
   width: 40%;
-  background-color: #ffffff; 
+  background-color: #ffffff;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -52,7 +52,7 @@
   font-weight: 700;
   box-sizing: border-box;
 }*/
-.admin-section, .admin-panel, .admin-patient-management, .admin-staff-management, 
+.admin-section, .admin-panel, .admin-patient-management, .admin-staff-management,
 .admin-operation-type-management, .admin-3d-visualization {
   display: flex;
   flex-direction: column;
@@ -74,7 +74,7 @@
     width: 100%;
     margin-bottom: 5px;
     align-items: center;
-  } 
+  }
 }
 /*
 .admin-panel{
@@ -497,3 +497,14 @@ button:active {
   width: auto;
 }
 
+
+// ========================================================================================================================
+// planning module
+
+.planButton {
+  display: flex;
+  gap: 5px;
+  width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

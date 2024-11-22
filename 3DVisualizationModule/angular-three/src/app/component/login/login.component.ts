@@ -14,7 +14,7 @@ declare var google: any;
   standalone: true,
   templateUrl: './login.component.html',
   imports: [CommonModule, FormsModule,HttpClientModule],
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   @ViewChild('loginBox') private canvasRef!: ElementRef;

@@ -46,9 +46,10 @@ export class DoctorComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    this.loadPatients();
+  ngOnInit() { 
     this.loadOperationTypes();
+    this.loadPatients();
+
     this.updateList();
   }
 

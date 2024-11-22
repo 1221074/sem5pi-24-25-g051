@@ -17,13 +17,13 @@ describe('OperationTypeService', () => {
   it('should fetch all operation types', async () => {
     const mockOperationTypes: OperationType[] = [
       {
-        id: '1',
+        id: 1,
         name: 'Operation Type 1',
         requiredStaff: [12313124, 242356],
         duration: '1h',
       },
       {
-        id: '2',
+        id: 2,
         name: 'Operation Type 2',
         requiredStaff: [123124, 232324],
         duration: '2h',

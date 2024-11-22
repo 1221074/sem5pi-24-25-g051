@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "patientName": "Patient One",
+    "doctorId": "doctor123",
+    "operationTypeName": "Operation Type 1",
+    "deadlineDate": "2025-12-31T12:00",
+    "priorityState": "Urgent"
+  },
+  {
+    "id": 2,
+    "patientName": "Patient Two",
+    "doctorId": "doctor123",
+    "operationTypeName": "Operation Type 2",
+    "deadlineDate": "2025-11-30T13:00",
+    "priorityState": "Elective"
+  }
+]

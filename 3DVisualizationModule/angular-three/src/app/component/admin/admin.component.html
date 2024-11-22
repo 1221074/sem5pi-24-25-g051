@@ -883,7 +883,7 @@
         <td>{{ operationType.name }}</td>
         <td>{{ operationType.duration }}</td>
         <td>{{ operationType.specializationName }}</td>
-        
+
         <td>
           <button class="deactivate-operation-type-btn" (click)="submitOperationTypeDeactivation(operationType.id)">Deactivate</button>
         </td>
@@ -898,7 +898,7 @@
 
 
 
-  
+
 
   <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
     <h2>List/Search Operation Types</h2>
@@ -954,97 +954,160 @@
   <!-- 6.3.1-->
   <section [style.display]="selectedSection === 'optimizedPlanning' ? 'block' : 'none'">
     <h2>Optimized Planning</h2>
+
+    <!-- Status Messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
+    <!-- Planning Form -->
     <form (ngSubmit)="startOptimizedPlanning()">
-      <label for="roomNumber">Room Number:</label>
-      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+      <label for="roomNumber">Room Number</label>
+      <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
+        <option value="" disabled selected>Select Room Number</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.name">{{ room.name }}</option>
+      </select>
 
-      <label for="planningDate">Date:</label>
-      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+      <label for="planningDate">Date</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required />
 
-      <label for="surgeriesList">Surgeries (comma-separated IDs):</label>
-      <input id="surgeriesList" type="text" [(ngModel)]="surgeriesList" name="surgeriesList" required>
+      <label for="surgeriesList">Surgeries (comma-separated IDs)</label>
+      <input
+        id="surgeriesList"
+        type="text"
+        [(ngModel)]="surgeriesList"
+        name="surgeriesList"
+        required
+      />
 
-      <button type="submit" [disabled]="loading">Start Optimized Planning</button>
+      <button class="planButton" type="submit" [disabled]="loading">Start Optimized Planning</button>
     </form>
 
-    <div *ngIf="loading">Loading...</div>
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">Loading...</div>
 
+    <!-- Planning Results -->
     <div *ngIf="planningResult">
-      <h3>Planning Result:</h3>
-      <!-- Display the planning result -->
-      <pre>{{ planningResult | json }}</pre>
+      <h3>Operation Room Agenda:</h3>
+      <ul>
+        <li *ngFor="let item of planningResult.operation_room_agenda">
+          Surgery: {{ item.surgery }} | Start: {{ item.start }} | End: {{ item.end }}
+        </li>
+      </ul>
+
+      <h3>Doctors' Agendas:</h3>
+      <div *ngFor="let doctorAgenda of planningResult.doctors_agenda">
+        <h4>{{ doctorAgenda.doctor }}</h4>
+        <ul>
+          <li *ngFor="let agenda of doctorAgenda.agenda">
+            Surgery: {{ agenda.surgery }} | Start: {{ agenda.start }} | End: {{ agenda.end }}
+          </li>
+        </ul>
+      </div>
     </div>
+
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
+
 
   <!-- 6.3.2-->
   <section [style.display]="selectedSection === 'dimensionPlanning' ? 'block' : 'none'">
-    <h2>Dimension in Terms of Number of Surgeries</h2>
+    <h2>Complexity Analysis</h2>
+
+    <!-- Status Messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
+    <!-- Complexity Analysis Form -->
     <form (ngSubmit)="performComplexityAnalysis()">
-      <label for="roomNumber">Room Number:</label>
-      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+      <label for="roomNumber">Room Number</label>
+      <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
+        <option value="" disabled selected>Select Room Number</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.id">{{ room.name }}</option>
+      </select>
 
-      <label for="planningDate">Date:</label>
-      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+      <label for="planningDate">Date</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required />
 
-      <button type="submit" [disabled]="loading">Perform Complexity Analysis</button>
+      <button class="planButton" type="submit" [disabled]="loading">Perform Complexity Analysis</button>
     </form>
 
-    <div *ngIf="loading">Loading...</div>
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="loading-spinner">Loading...</div>
 
+    <!-- Complexity Analysis Results -->
     <div *ngIf="planningResult">
       <h3>Complexity Analysis Result:</h3>
-      <!-- Display the analysis result -->
       <pre>{{ planningResult | json }}</pre>
     </div>
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
+
 
   <!-- 6.3.3-->
   <section [style.display]="selectedSection === 'preferedPlanning' ? 'block' : 'none'">
     <h2>Heuristic Planning</h2>
+
+    <!-- Status Messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
+    <!-- Heuristic Planning Form -->
     <form (ngSubmit)="startHeuristicPlanning()">
-      <label for="roomNumber">Room Number:</label>
-      <input id="roomNumber" type="text" [(ngModel)]="roomNumber" name="roomNumber" required>
+      <label for="roomNumber">Room Number</label>
+      <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
+        <option value="" disabled selected>Select Room Number</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.name">{{ room.name }}</option>
+      </select>
 
-      <label for="planningDate">Date:</label>
-      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required>
+      <label for="planningDate">Date</label>
+      <input id="planningDate" type="date" [(ngModel)]="planningDate" name="planningDate" required />
 
-      <label for="surgeriesList">Surgeries (comma-separated IDs):</label>
-      <input id="surgeriesList" type="text" [(ngModel)]="surgeriesList" name="surgeriesList" required>
+      <label for="surgeriesList">Surgeries (comma-separated IDs)</label>
+      <input
+        id="surgeriesList"
+        type="text"
+        [(ngModel)]="surgeriesList"
+        name="surgeriesList"
+        placeholder="e.g., so100001,so100002"
+        required
+      />
 
-      <label for="heuristic">Heuristic to Use:</label>
-      <input id="heuristic" type="text" [(ngModel)]="heuristic" name="heuristic" required>
+      <label for="heuristic">Select Heuristic</label>
+      <select id="heuristic" [(ngModel)]="heuristic" name="heuristic" required>
+        <option value="" disabled selected>Select Heuristic</option>
+        <option value="earliest">Earliest Availability</option>
+        <option value="maximized">Maximize Occupied Time</option>
+      </select>
 
-      <button type="submit" [disabled]="loading">Start Heuristic Planning</button>
+      <button class="planButton" type="submit" [disabled]="loading">Start Heuristic Planning</button>
     </form>
 
-    <div *ngIf="loading">Loading...</div>
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="loading-spinner">Loading...</div>
 
-    <div *ngIf="planningResult">
-      <h3>Planning Result:</h3>
-      <!-- Display the planning result -->
-      <pre>{{ planningResult | json }}</pre>
+   <!-- Planning Results -->
+   <div *ngIf="planningResult">
+    <h3>Operation Room Agenda:</h3>
+    <ul>
+      <li *ngFor="let item of planningResult.operation_room_agenda">
+        Surgery: {{ item.surgery }} | Start: {{ item.start }} | End: {{ item.end }}
+      </li>
+    </ul>
+
+    <h3>Doctors' Agendas:</h3>
+    <div *ngFor="let doctorAgenda of planningResult.doctors_agenda">
+      <h4>{{ doctorAgenda.doctor }}</h4>
+      <ul>
+        <li *ngFor="let agenda of doctorAgenda.agenda">
+          Surgery: {{ agenda.surgery }} | Start: {{ agenda.start }} | End: {{ agenda.end }}
+        </li>
+      </ul>
     </div>
-
+  </div>
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
-
-
-
-
-
 
 </div>
 <p>Current Section: {{ selectedSection }}</p>
