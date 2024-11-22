@@ -258,37 +258,64 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
         }
     ).
 
-%Second Heuristic - Maximize Occupied Time
+% Calculate the occupation percentage for a doctor
+occupation_percentage(Doctor, Date, OccupationPercentage) :-
+    findall(OpCode, assignment_surgery(OpCode, Doctor), Surgeries),
+    findall(TSurgery, (member(OpCode, Surgeries), surgery_id(OpCode, OpType), surgery(OpType, _, TSurgery, _)), Durations),
+    sum_list(Durations, TotalSurgeryTime),
+    availability(Doctor, Date, DoctorAgenda),
+    findall(FreeTime, (member((Start, End), DoctorAgenda), FreeTime is End - Start + 1), FreeTimes),
+    sum_list(FreeTimes, TotalFreeTime),
+    (TotalFreeTime > 0 -> OccupationPercentage is TotalSurgeryTime / TotalFreeTime * 100 ; OccupationPercentage is 0).
 
-%schedule_heuristic_maximize(Room, Date, SurgeryList, Response) :-
-%    get_time(Ti),
-%    reset_agendas(Date),
-%    prioritize_most_occupied_doctor(SurgeryList, PrioritizedSurgeries),
-%    schedule_surgeries(PrioritizedSurgeries, Room, Date),
-%   agenda_operation_room1(Room, Date, AgOpRoomBetter),
-%    findall(Doctor, assignment_surgery(_, Doctor), LDoctors),
-%    list_doctors_agenda(Date, LDoctors, LAgDoctorsBetter),
-%    reverse(AgOpRoomBetter, AgendaR),
-%    evaluate_final_time(AgendaR, PrioritizedSurgeries, TFinOp),
-%    get_time(Tf),
-%    ExecutionTime is Tf - Ti,
-%    transform_agenda(AgOpRoomBetter, OperationRoomAgendaJson),
-%    transform_doctor_agenda(LAgDoctorsBetter, DoctorsAgendaJson),
-%    Response = _{
-%        status: 'success',
-%        execution_time: ExecutionTime,
-%       finish_time: TFinOp,
-%        operation_room_agenda: OperationRoomAgendaJson,
-%        doctors_agenda: DoctorsAgendaJson
-%    }.
+% Sort surgeries based on the occupation percentage of doctors
+sort_surgeries_by_occupation_percentage(Surgeries, Date, SortedSurgeries) :-
+    findall((OccupationPercentage, OpCode),
+            (member(OpCode, Surgeries),
+             assignment_surgery(OpCode, Doctor),
+             occupation_percentage(Doctor, Date, OccupationPercentage)),
+            SurgeryPercentages),
+    keysort(SurgeryPercentages, SortedSurgeryPercentages),
+    pairs_values(SortedSurgeryPercentages, SortedSurgeries).
 
-% Prioritize Most Occupied Doctor
-%prioritize_most_occupied_doctor(SurgeryList, PrioritizedSurgeries) :-
-%       FILL THE CODE HERE
-%       FILL THE CODE HERE
-% Placeholder
-
-
+% Heuristic Scheduling Algorithm
+% ------------------------------
+% Second Heuristic - Maximize Occupied Time
+schedule_heuristic_maximize(Room, Date, SurgeryList, Response) :-
+    % Record start time
+    get_time(Ti),
+    % Reset agendas
+    reset_agendas(Date),
+    % Sort surgeries based on the occupation percentage of doctors
+    sort_surgeries_by_occupation_percentage(SurgeryList, Date, SortedSurgeries),
+    % Attempt to schedule surgeries
+    (   schedule_surgeries(SortedSurgeries, Room, Date)
+    ->  agenda_operation_room1(Room, Date, AgOpRoomBetter),
+        findall(Doctor, assignment_surgery(_, Doctor), LDoctors),
+        list_doctors_agenda(Date, LDoctors, LAgDoctorsBetter),
+        % Evaluate finish time
+        reverse(AgOpRoomBetter, AgendaR),
+        evaluate_final_time(AgendaR, SortedSurgeries, TFinOp),
+        % Record end time
+        get_time(Tf),
+        ExecutionTime is Tf - Ti,
+        transform_agenda(AgOpRoomBetter, OperationRoomAgendaJson),
+        transform_doctor_agenda(LAgDoctorsBetter, DoctorsAgendaJson),
+        Response = _{
+            status: 'success',
+            execution_time: ExecutionTime,
+            finish_time: TFinOp,
+            operation_room_agenda: OperationRoomAgendaJson,
+            doctors_agenda: DoctorsAgendaJson
+        }
+    ;   get_time(Tf),
+        ExecutionTime is Tf - Ti,
+        Response = _{
+            status: 'failure',
+            execution_time: ExecutionTime,
+            message: 'Unable to schedule all surgeries with heuristic method.'
+        }
+    ).
 
 % Transform Agendas to JSON-Compatible Structures
 % -----------------------------------------------
