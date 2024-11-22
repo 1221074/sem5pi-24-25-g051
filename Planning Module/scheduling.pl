@@ -5,6 +5,7 @@
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
+:- use_module(library(http/http_header)).
 
 % Declare dynamic predicates
 :- dynamic availability/3.
@@ -23,9 +24,28 @@ start_server(Port) :-
     format('Prolog scheduling server started on port ~w~n', [Port]).
 
 % HTTP Handlers
-:- http_handler('/optimal_schedule', handle_optimal_schedule, []).
-:- http_handler('/heuristic_schedule', handle_heuristic_schedule, []).
-:- http_handler('/complexity_analysis', handle_complexity_analysis, []).
+:- http_handler('/optimal_schedule', cors_wrapper(handle_optimal_schedule), []).
+:- http_handler('/heuristic_schedule', cors_wrapper(handle_heuristic_schedule), []).
+:- http_handler('/complexity_analysis', cors_wrapper(handle_complexity_analysis), []).
+
+% Enable CORS by adding headers to all responses
+add_cors_headers :-
+    format('Access-Control-Allow-Origin: http://localhost:4000~n'),
+    format('Access-Control-Allow-Methods: GET, POST, OPTIONS~n'),
+    format('Access-Control-Allow-Headers: Content-Type~n').
+
+% Handle OPTIONS preflight requests
+handle_options_request(_Request) :-
+    add_cors_headers,
+    format('~n'). 
+
+% Wrapper to add CORS headers to responses
+cors_wrapper(Handler, Request) :-
+(   memberchk(method(options), Request)
+->  handle_options_request(Request)
+;   add_cors_headers,
+    call(Handler, Request)
+).
 
 % Sample Data
 % ------------

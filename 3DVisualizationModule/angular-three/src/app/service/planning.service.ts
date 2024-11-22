@@ -1,42 +1,109 @@
 import { Injectable } from '@angular/core';
+import { SurgeryRoom } from '../interface/surgeryroom';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlanningService {
+
+  //url = localhost:5000
+
+  private url = 'http://localhost:5000';
+
+
   constructor() {}
 
-  async getOptimalSchedule(room: string, date: string, surgeries: string): Promise<any> {
-    const url = `/api/OptimalSchedule?room=${encodeURIComponent(room)}&date=${encodeURIComponent(
-      date
-    )}&surgeries=${encodeURIComponent(surgeries)}`;
+  private async fetchData(
+    url: string,
+    params: Record<string, any>,
+    method: string = 'POST'
+  ): Promise<any> {
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
 
-    const response = await fetch(url);
+    // Convert params to x-www-form-urlencoded format
+    const body = new URLSearchParams(params).toString();
+
+    const response = await fetch(url, {
+      method,
+      headers,
+      body,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return response.json(); // Parse JSON response
+  }
+
+
+  async getOptimalSchedule(room: string, date: string, surgeries: string): Promise<any> {
+    const url = 'http://localhost:5000/optimal_schedule';
+
+    const params = new URLSearchParams({
+      room,
+      date,
+      surgeries,
+    });
+
+    console.log(params.toString());
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    });
+
     if (!response.ok) {
       throw new Error(`Error fetching optimal schedule: ${response.statusText}`);
     }
+
     return response.json();
   }
 
-  async getHeuristicSchedule(room: string, date: string, surgeries: string, heuristic: string): Promise<any> {
-    const url = `/api/HeuristicSchedule?room=${encodeURIComponent(room)}&date=${encodeURIComponent(
-      date
-    )}&surgeries=${encodeURIComponent(surgeries)}&heuristic=${encodeURIComponent(heuristic)}`;
 
-    const response = await fetch(url);
+  async getHeuristicSchedule(room: string, date: string, surgeries: string): Promise<any> {
+    const url = 'http://localhost:5000/optimal_schedule';
+
+    const params = new URLSearchParams({
+      room,
+      date,
+      surgeries,
+    });
+
+    console.log(params.toString());
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    });
+
     if (!response.ok) {
       throw new Error(`Error fetching heuristic schedule: ${response.statusText}`);
     }
+
     return response.json();
   }
+
 
   async getComplexityAnalysis(room: string, date: string): Promise<any> {
-    const url = `/api/ComplexityAnalysis?room=${encodeURIComponent(room)}&date=${encodeURIComponent(date)}`;
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Error fetching complexity analysis: ${response.statusText}`);
-    }
-    return response.json();
+    return this.fetchData(this.url+'/complexity_analysis', { room, date });
   }
+
+  getAllRooms(): Promise<SurgeryRoom[]> {
+    //declare an array so i can place data
+    let rooms: SurgeryRoom[] = [
+      {"id": 1, "name": "or1"},
+      {"id": 2, "name": "or2"},
+      {"id": 3, "name": "or3"},
+    ];
+
+    return Promise.resolve(rooms);
+  }
+
 }

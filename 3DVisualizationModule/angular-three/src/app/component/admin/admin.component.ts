@@ -16,6 +16,7 @@ import { PlanningService } from 'src/app/service/planning.service';
 import { HttpClientModule } from '@angular/common/http';
 import { StaffDisplay } from '../../interface/staff-display';
 import { OperationTypeDisplay } from 'src/app/interface/operationtype-display';
+import { SurgeryRoom } from 'src/app/interface/surgeryroom';
 
 @Component({
   selector: 'app-admin',
@@ -62,6 +63,7 @@ export class AdminComponent {
   selectedOperationType: OperationType | null = null;
 
   //Planning Module
+  roomNumbers: SurgeryRoom[] | null = [];
   roomNumber: string = '';
   planningDate: string = '';
   surgeriesList: string = '';
@@ -82,6 +84,7 @@ export class AdminComponent {
     this.updatePatientList();
     this.updateStaffList();
     this.updateOperationTypeList();
+    this.getRooms();
     this.getSpecs();
   }
 
@@ -106,9 +109,25 @@ export class AdminComponent {
 logout() {this.authService.logout();}
 showHospital() {this.router.navigate(['/hospital']);}
 
-formatDate(dateString: string): string {
-  // dateString is in format 'YYYY-MM-DD'
-  return dateString.replace(/-/g, '');
+clearMessages() {
+  this.errorMessage = '';
+  this.successMessage = '';
+}
+
+validateInputs(requiredFields: (keyof AdminComponent)[]): boolean {
+  for (const field of requiredFields) {
+    if (!(this as any)[field]) {
+      this.errorMessage = 'Please fill in all required fields.';
+      this.loading = false;
+      return false;
+    }
+  }
+  return true;
+}
+
+formatDate(date: Date): string {
+  const formattedDate = date.toISOString().split('T')[0]; // Get YYYY-MM-DD
+  return formattedDate.replace(/-/g, ''); // Remove dashes to get YYYYMMDD
 }
 
 
@@ -436,6 +455,13 @@ async updateStaff() {
     });
   }
 
+  getRooms() {
+    this.planningService.getAllRooms().then((planningList: SurgeryRoom[]) => {
+      this.roomNumbers = planningList;
+    });
+
+  }
+
   //Operation Type =========================================================================================================================================================================================================================================================
 
   async updateOperationType(): Promise<void> {
@@ -517,7 +543,7 @@ async updateStaff() {
 
     onCheckboxUpdate(event: Event, spec: SpecializationSub): void {
       const checkbox = event.target as HTMLInputElement;
-    
+
       if (checkbox.checked) {
         // Add to array if checked
         this.selectedSpecializations.push(spec);
@@ -527,7 +553,7 @@ async updateStaff() {
           selected => selected.id !== spec.id
         );
       }
-    
+
     }
 
 
@@ -671,30 +697,30 @@ updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[])
 
 // 6.3.1
 async startOptimizedPlanning() {
-  this.errorMessage = '';
-  this.successMessage = '';
-  this.loading = true;
-  this.planningResult = null;
 
-  if (!this.roomNumber || !this.planningDate || !this.surgeriesList) {
-    this.errorMessage = 'Please fill in all required fields.';
-    this.loading = false;
+  this.clearMessages();
+
+
+  if (!this.validateInputs(['roomNumber', 'planningDate', 'surgeriesList'])) {
     return;
   }
 
-  const formattedDate = this.formatDate(this.planningDate);
+  this.loading = true;
 
   try {
+    const formattedDate = this.formatDate(new Date(this.planningDate));
     const result = await this.planningService.getOptimalSchedule(
       this.roomNumber,
       formattedDate,
       this.surgeriesList
     );
     this.planningResult = result;
-    this.loading = false;
+    console.log('Planning Result:', this.planningResult);
+
     this.successMessage = 'Optimized planning completed successfully.';
   } catch (error: any) {
-    this.errorMessage = 'An error occurred during optimized planning.';
+    this.errorMessage = error.message || 'An error occurred during optimized planning.';
+  } finally {
     this.loading = false;
   }
 }
@@ -702,65 +728,55 @@ async startOptimizedPlanning() {
 // 6.3.2
 
 async performComplexityAnalysis() {
-  this.errorMessage = '';
-  this.successMessage = '';
-  this.loading = true;
-  this.planningResult = null;
+  this.clearMessages();
 
-  if (!this.roomNumber || !this.planningDate) {
-    this.errorMessage = 'Please fill in all required fields.';
-    this.loading = false;
+  if (!this.validateInputs(['roomNumber', 'planningDate'])) {
     return;
   }
 
-  const formattedDate = this.formatDate(this.planningDate);
-
+  this.loading = true;
   try {
-    const result = await this.planningService.getComplexityAnalysis(
-      this.roomNumber,
-      formattedDate
-    );
+    const formattedDate = this.formatDate(new Date(this.planningDate));
+    const result = await this.planningService.getComplexityAnalysis(this.roomNumber, formattedDate);
     this.planningResult = result;
-    this.loading = false;
     this.successMessage = 'Complexity analysis completed successfully.';
   } catch (error: any) {
-    this.errorMessage = 'An error occurred during complexity analysis.';
+    this.errorMessage = error.message || 'An error occurred during complexity analysis.';
+  } finally {
     this.loading = false;
   }
 }
+
 
 
 // 6.3.3
 
 async startHeuristicPlanning() {
-  this.errorMessage = '';
-  this.successMessage = '';
-  this.loading = true;
-  this.planningResult = null;
+  this.clearMessages();
 
-  if (!this.roomNumber || !this.planningDate || !this.surgeriesList || !this.heuristic) {
-    this.errorMessage = 'Please fill in all required fields.';
-    this.loading = false;
+  if (!this.validateInputs(['roomNumber', 'planningDate', 'surgeriesList', 'heuristic'])) {
     return;
   }
 
-  const formattedDate = this.formatDate(this.planningDate);
-
+  this.loading = true;
   try {
+    const formattedDate = this.formatDate(new Date(this.planningDate));
     const result = await this.planningService.getHeuristicSchedule(
       this.roomNumber,
       formattedDate,
       this.surgeriesList,
-      this.heuristic
+      //this.heuristic
     );
     this.planningResult = result;
-    this.loading = false;
     this.successMessage = 'Heuristic planning completed successfully.';
   } catch (error: any) {
-    this.errorMessage = 'An error occurred during heuristic planning.';
+    this.errorMessage = error.message || 'An error occurred during heuristic planning.';
+  } finally {
     this.loading = false;
   }
+
+}
+
 }
 
 
-}
