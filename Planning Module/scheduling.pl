@@ -34,11 +34,13 @@ start_server(Port) :-
 agenda_staff(d001, 20241028, [(720, 790, m01), (1080, 1140, c01)]).
 agenda_staff(d002, 20241028, [(850, 900, m02), (901, 960, m02), (1380, 1440, c02)]).
 agenda_staff(d003, 20241028, [(720, 790, m01), (910, 980, m02)]).
+%agenda_staff(d004,20241028,[(850,900,m02),(940,980,c04)]).
 
 % Timetables for staff members
 timetable(d001, 20241028, (480, 1200)).
 timetable(d002, 20241028, (500, 1440)).
 timetable(d003, 20241028, (520, 1320)).
+%timetable(d004,20241028,(620,1020)).
 
 % Staff details
 staff(d001, doctor, orthopaedist, [so2, so3, so4]).
@@ -54,25 +56,46 @@ surgery(so4, 45, 75, 45).
 surgery_id(so100001, so2).
 surgery_id(so100002, so3).
 surgery_id(so100003, so4).
-surgery_id(so100004, so2).
-surgery_id(so100005, so4).
+%surgery_id(so100004, so2).
+%surgery_id(so100005, so4).
+%surgery_id(so100004,so2).
+%surgery_id(so100005,so4).
+%surgery_id(so100006,so2).
+%surgery_id(so100007,so3).
+%surgery_id(so100008,so2).
+%surgery_id(so100009,so2).
+%surgery_id(so100010,so2).
+%surgery_id(so100011,so4).
+%surgery_id(so100012,so2).
+%surgery_id(so100013,so2).
 
 % Surgery priorities (for heuristic scheduling)
 % Lower numbers indicate higher priority
-surgery_priority(so100001, 1). % Urgent
-surgery_priority(so100002, 2). % High
-surgery_priority(so100003, 3). % Normal
-surgery_priority(so100004, 2). % High
-surgery_priority(so100005, 3). % Normal
+surgery_priority(so100001, 1). 
+surgery_priority(so100002, 2). 
+surgery_priority(so100003, 3). 
+surgery_priority(so100004, 2). 
+surgery_priority(so100005, 3). 
 
 % Assignment of surgeries to doctors
 assignment_surgery(so100001, d001).
 assignment_surgery(so100002, d002).
 assignment_surgery(so100003, d003).
 assignment_surgery(so100004, d001).
-assignment_surgery(so100004, d002).
-assignment_surgery(so100005, d002).
-assignment_surgery(so100005, d003).
+%assignment_surgery(so100004, d002).
+%assignment_surgery(so100005, d002).
+%assignment_surgery(so100005, d003).
+%assignment_surgery(so100006,d001).
+%assignment_surgery(so100007,d003).
+%assignment_surgery(so100008,d004).
+%assignment_surgery(so100008,d003).
+%assignment_surgery(so100009,d002).
+%assignment_surgery(so100009,d004).
+%assignment_surgery(so100010,d003).
+%assignment_surgery(so100011,d001).
+%assignment_surgery(so100012,d001).
+%assignment_surgery(so100013,d004).
+
 
 % Agenda for the operation room
 agenda_operation_room(or1, 20241028, [(520, 579, so100000), (1000, 1059, so099999)]).
@@ -151,17 +174,20 @@ schedule_optimal(Room, Date, SurgeryList, Response) :-
     % Record end time
     get_time(Tf),
     ExecutionTime is Tf - Ti,
-    % Prepare response
+    transform_agenda(AgOpRoomBetter, OperationRoomAgendaJson),
+    transform_doctor_agenda(LAgDoctorsBetter, DoctorsAgendaJson),
     Response = _{
         status: 'success',
         execution_time: ExecutionTime,
         finish_time: TFinOp,
-        operation_room_agenda: AgOpRoomBetter,
-        doctors_agenda: LAgDoctorsBetter
+        operation_room_agenda: OperationRoomAgendaJson,
+        doctors_agenda: DoctorsAgendaJson
     }.
 
 % Heuristic Scheduling Algorithm
 % ------------------------------
+
+% First Heuristic - Earliest Avaibility 
 
 schedule_heuristic(Room, Date, SurgeryList, Response) :-
     % Record start time
@@ -172,8 +198,7 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
     sort_surgeries_by_priority(SurgeryList, SortedSurgeries),
     % Attempt to schedule surgeries
     (   schedule_surgeries(SortedSurgeries, Room, Date)
-    ->  % Get the final agendas
-        agenda_operation_room1(Room, Date, AgOpRoomBetter),
+    ->  agenda_operation_room1(Room, Date, AgOpRoomBetter),
         findall(Doctor, assignment_surgery(_, Doctor), LDoctors),
         list_doctors_agenda(Date, LDoctors, LAgDoctorsBetter),
         % Evaluate finish time
@@ -182,15 +207,15 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
         % Record end time
         get_time(Tf),
         ExecutionTime is Tf - Ti,
-        % Prepare response
+        transform_agenda(AgOpRoomBetter, OperationRoomAgendaJson),
+        transform_doctor_agenda(LAgDoctorsBetter, DoctorsAgendaJson),
         Response = _{
             status: 'success',
             execution_time: ExecutionTime,
             finish_time: TFinOp,
-            operation_room_agenda: AgOpRoomBetter,
-            doctors_agenda: LAgDoctorsBetter
-        }
-    ;   % Scheduling failed
+            operation_room_agenda: OperationRoomAgendaJson,
+            doctors_agenda: DoctorsAgendaJson
+        };   
         get_time(Tf),
         ExecutionTime is Tf - Ti,
         Response = _{
@@ -199,6 +224,50 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
             message: 'Unable to schedule all surgeries with heuristic method.'
         }
     ).
+
+%Second Heuristic - Maximize Occupied Time
+
+%schedule_heuristic_maximize(Room, Date, SurgeryList, Response) :-
+%    get_time(Ti),
+%    reset_agendas(Date),
+%    prioritize_most_occupied_doctor(SurgeryList, PrioritizedSurgeries),
+%    schedule_surgeries(PrioritizedSurgeries, Room, Date),
+%   agenda_operation_room1(Room, Date, AgOpRoomBetter),
+%    findall(Doctor, assignment_surgery(_, Doctor), LDoctors),
+%    list_doctors_agenda(Date, LDoctors, LAgDoctorsBetter),
+%    reverse(AgOpRoomBetter, AgendaR),
+%    evaluate_final_time(AgendaR, PrioritizedSurgeries, TFinOp),
+%    get_time(Tf),
+%    ExecutionTime is Tf - Ti,
+%    transform_agenda(AgOpRoomBetter, OperationRoomAgendaJson),
+%    transform_doctor_agenda(LAgDoctorsBetter, DoctorsAgendaJson),
+%    Response = _{
+%        status: 'success',
+%        execution_time: ExecutionTime,
+%       finish_time: TFinOp,
+%        operation_room_agenda: OperationRoomAgendaJson,
+%        doctors_agenda: DoctorsAgendaJson
+%    }.
+
+% Prioritize Most Occupied Doctor
+%prioritize_most_occupied_doctor(SurgeryList, PrioritizedSurgeries) :-
+%       FILL THE CODE HERE
+%       FILL THE CODE HERE
+% Placeholder
+
+
+
+% Transform Agendas to JSON-Compatible Structures
+% -----------------------------------------------
+
+transform_agenda([], []).
+transform_agenda([(Start, End, Surgery) | Rest], [_{start: Start, end: End, surgery: Surgery} | RestJson]) :-
+    transform_agenda(Rest, RestJson).
+
+transform_doctor_agenda([], []).
+transform_doctor_agenda([(Doctor, Agenda) | Rest], [_{doctor: Doctor, agenda: AgendaJson} | RestJson]) :-
+    transform_agenda(Agenda, AgendaJson),
+    transform_doctor_agenda(Rest, RestJson).
 
 % Complexity Analysis
 % -------------------
@@ -310,6 +379,16 @@ availability_operation(OpCode, Room, Date, LPossibilities, LDoctors) :-
     intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
     remove_unf_intervals(TSurgery, LIntAgDoctorsRoom, LPossibilities).
 
+%availability_operation_staff(OpCode, Room, Date, LPossibilities, LStaff) :-
+%    surgery_id(OpCode, OpType),
+%    surgery(OpType, _, TSurgery, _),
+%    findall(Staff, assignment_surgery(OpCode, Staff), LStaff),
+%    intersect_all_agendas(LStaff, Date, LA),
+%    agenda_operation_room1(Room, Date, LAgenda),
+%    free_agenda0(LAgenda, LFAgRoom),
+%    intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
+%    remove_unf_intervals(TSurgery, LIntAgDoctorsRoom, LPossibilities).
+
 % Remove unfeasible intervals
 remove_unf_intervals(_, [], []).
 remove_unf_intervals(TSurgery, [(Tin, Tfin) | LA], [(Tin, Tfin) | LA1]) :-
@@ -339,7 +418,7 @@ insert_agenda_doctors((TinS, TfinS, OpCode), Date, [Doctor | LDoctors]) :-
     insert_agenda_doctors((TinS, TfinS, OpCode), Date, LDoctors).
 
 % Agenda Utilities
-% ----------------
+% -------------------------------------------------------------------------
 
 % Compute free agenda slots
 free_agenda0([], [(0, 1440)]).
@@ -385,6 +464,7 @@ treatfin(FinTime, [(In, _) | _], [(In, FinTime)]).
 treatfin(_, [], []).
 
 % Intersect agendas
+
 intersect_all_agendas([Name], Date, LA) :- !,
     availability(Name, Date, LA).
 intersect_all_agendas([Name | LNames], Date, LI) :-
@@ -426,4 +506,4 @@ sort_surgeries_by_priority(Surgeries, SortedSurgeries) :-
 get_surgery_priority(OpCode, Priority) :-
     surgery_priority(OpCode, Priority).
 
-% End of Prolog code
+% End of File
