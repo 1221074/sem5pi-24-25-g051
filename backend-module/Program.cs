@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using backend_module.Services;
 using Microsoft.Extensions.Configuration;
+using backend_module.Models.File;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
+builder.Services.AddScoped<FileService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
