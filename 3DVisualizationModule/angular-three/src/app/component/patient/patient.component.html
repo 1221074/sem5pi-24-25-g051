@@ -1,29 +1,130 @@
 <div class="patient-container">
   <section class="patient-section" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="header-container">
-      <h2>Patient, welcome</h2>
-      <button class="logout-button" (click)="logout()">
-        <span class="material-icons">logout</span>
-      </button>
+      <h2>Welcome, {{ patient?.firstName }} {{ patient?.lastName }}.</h2>
+      <h3>This is your panel</h3>
     </div>
 
-    <button (click)="showSection('updateProfile')">Update Profile</button>
-    <button (click)="showSection('eliminateData')">Delete Account</button>
-    <button (click)="showSection('checkInformation')">Check Information</button>
+    <button class="main-menu-btn" (click)="showSection('updateProfile')">Update Profile</button>
+    <button class="main-menu-btn" (click)="showSection('checkInformation')">Check Information</button>
+    <button class="main-menu-delete-btn" (click)="showSection('eliminateData')">Delete Account</button>
+    
+    <button class="logout-button" (click)="logout()">
+      <span class="material-icons">logout</span>
+    </button>
   </section>
 
   <!-- Update Profile Section -->
-<section [style.display]="selectedSection === 'updateProfile' ? 'block' : 'none'">
+  <section [style.display]="selectedSection === 'updateProfile' ? 'block' : 'none'">
+    <h2>Update Profile</h2>
+    <p>Here you can update your profile information.</p>
 
-</section>
+    <!-- Display success or error messages -->
+    <div class="error-message" [style.display]="errorMessage ? 'block' : 'none'">{{ errorMessage }}</div>
+    <div class="success-message" [style.display]="successMessage ? 'block' : 'none'">{{ successMessage }}</div>
 
+    <form>
+      <div class="form-field">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required />
+      </div>
+
+      <div class="form-field">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required />
+      </div>
+
+      <div class="form-field">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required />
+      </div>
+
+      <div class="form-field">
+        <label for="sex">Sex:</label>
+        <input type="text" id="sex" name="sex" required />
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-field">
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required />
+      </div>
+
+      <div class="form-field">
+        <label for="emergencyContact">Emergency Contact:</label>
+        <input type="text" id="emergencyContact" name="emergencyContact" required />
+      </div>
+
+      <div class="form-field">
+        <label for="appointmentList">Appointment List:</label>
+        <input type="text" id="appointmentList" name="appointmentList" required />
+      </div>
+
+      <div class="form-field">
+        <label for="allergyList">Allergy List:</label>
+        <input type="text" id="allergyList" name="allergyList" required />
+      </div>
+
+      <button class="updateBtn" type="submit"(click)= "submitUpdate()">Update</button>
+    </form>
+
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
   <!-- Delete Account Section -->
-  <section></section>
+  <section [style.display]="selectedSection === 'eliminateData' ? 'block' : 'none'">
+    <h2>Delete Account</h2>
+    <p>Here you can delete your account.</p>
+    <p>Warning: This action is irreversible!</p>
+    <br>
+
+    <!-- Display success or error messages -->
+    <div class="error-message" [style.display]="errorMessage ? 'block' : 'none'">{{ errorMessage }}</div>
+    <div class="success-message" [style.display]="successMessage ? 'block' : 'none'">{{ successMessage }}</div>
+
+    <form>
+      <button class="delete-account-btn" type="submit" (click)="deleteAccount()" >Delete Account</button>
+    </form>
+
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
   <!-- Check Information Section -->
-  <section
-    class="checkInformation"
-    [style.display]="selectedSection === 'checkInformation' ? 'block' : 'none'">
+  <section class="checkInformation" [style.display]="selectedSection === 'checkInformation' ? 'block' : 'none'">
+    <h2>Check Information</h2>
+    <p>Here you can check your information.</p>
+
+    <div class="info-container">
+      <div class="info-field">
+        <label>First Name: </label>
+        <span>{{ patient?.firstName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Last Name: </label>
+        <span>{{ patient?.lastName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Email: </label>
+        <span>{{ patient?.email }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Phone: </label>
+        <span>{{ patient?.phone }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Emergency Contact: </label>
+        <span>{{ patient?.emergencyContact }}</span>
+      </div>
+    </div>
+
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 </div>
