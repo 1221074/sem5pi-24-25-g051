@@ -1,0 +1,36 @@
+[ {
+  "id": "3c5f7ac2-2622-471e-8993-a99038865e41",
+  "firstName": "Patient",
+  "lastName": "One",
+  "fullName": "Patient One",
+  "birthDate": "12-01-2024",
+  "sex": "M",
+  "email": "r@gmail.com",
+  "phone": "986053132",
+  "emergencyContact": "913456719",
+  "appointmentList": [
+    "s"
+  ],
+  "allergyList": [
+    "ret"
+  ]
+},
+
+{
+    "id": "3c5f6ac2-1622-471e-8993-a99038865e41",
+    "firstName": "Patient",
+    "lastName": "Two",
+    "fullName": "Patient Two",
+    "birthDate": "12-01-2024",
+    "sex": "M",
+    "email": "g@gmail.com",
+    "phone": "986053131",
+    "emergencyContact": "913456789",
+    "appointmentList": [
+      "s"
+    ],
+    "allergyList": [
+      "ret"
+    ]
+  }
+]

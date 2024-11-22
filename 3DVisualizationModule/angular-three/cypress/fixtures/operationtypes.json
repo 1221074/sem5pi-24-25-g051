@@ -1,0 +1,19 @@
+[
+  {
+    "id": "4479a7f5-871a-473f-ba37-0c4f39ce69fa",
+    "name": "Operation Type 2",
+    "requiredStaff": [
+        "fbfd12ab-e6e3-4f8f-8410-4d93ff60f54f",
+        "62c766e2-262d-4354-b4c1-1c970a646c34",
+        "dd4e8025-c350-4f49-a423-667613f7bc9a"
+    ],
+    "duration": "1 hours"
+},
+{
+    "id": "529b0823-d454-4e07-8b63-a2c7285d4bbf",
+    "name": "Operation Type 1",
+    "requiredStaff": [
+        "fbfd12ab-e6e3-4f8f-8410-4d93ff60f54f"
+    ],
+    "duration": "2 hours"
+}]
