@@ -89,13 +89,6 @@ surgery_id(so100003, so4).
 %surgery_id(so100012,so2).
 %surgery_id(so100013,so2).
 
-% Surgery priorities (for heuristic scheduling)
-% Lower numbers indicate higher priority
-surgery_priority(so100001, 1). 
-surgery_priority(so100002, 2). 
-surgery_priority(so100003, 3). 
-surgery_priority(so100004, 2). 
-surgery_priority(so100005, 3). 
 
 % Assignment of surgeries to doctors
 assignment_surgery(so100001, d001).
@@ -118,7 +111,7 @@ assignment_surgery(so100004, d001).
 
 
 % Agenda for the operation room
-agenda_operation_room(or1, 20241028, [(520, 579, so100000), (1000, 1059, so099999)]).
+agenda_operation_room(or1, 20241028, []).
 
 % Utility Predicates
 % ------------------
@@ -208,14 +201,34 @@ schedule_optimal(Room, Date, SurgeryList, Response) :-
 % ------------------------------
 
 % First Heuristic - Earliest Avaibility 
+% Find the earliest available doctor for a given surgery
+earliest_available_doctor(OpCode, Date, Doctor, StartTime) :-
+    surgery_id(OpCode, OpType),
+    surgery(OpType, _, TSurgery, _),
+    findall(Doctor, assignment_surgery(OpCode, Doctor), LDoctors),
+    intersect_all_agendas(LDoctors, Date, LA),
+    remove_unf_intervals(TSurgery, LA, LPossibilities),
+    LPossibilities = [(StartTime, _) | _],
+    member(Doctor, LDoctors),
+    availability(Doctor, Date, DoctorAgenda),
+    member((StartTime, _), DoctorAgenda).
+
+% Sort surgeries based on the earliest availability of doctors
+sort_surgeries_by_earliest_availability(Surgeries, Date, SortedSurgeries) :-
+    findall((StartTime, OpCode),
+            (member(OpCode, Surgeries),
+             earliest_available_doctor(OpCode, Date, _, StartTime)),
+            SurgeryTimes),
+    keysort(SurgeryTimes, SortedSurgeryTimes),
+    pairs_values(SortedSurgeryTimes, SortedSurgeries).
 
 schedule_heuristic(Room, Date, SurgeryList, Response) :-
     % Record start time
     get_time(Ti),
     % Reset agendas
     reset_agendas(Date),
-    % Sort surgeries based on priority (heuristic)
-    sort_surgeries_by_priority(SurgeryList, SortedSurgeries),
+    % Sort surgeries based on the earliest availability of doctors
+    sort_surgeries_by_earliest_availability(SurgeryList, Date, SortedSurgeries),
     % Attempt to schedule surgeries
     (   schedule_surgeries(SortedSurgeries, Room, Date)
     ->  agenda_operation_room1(Room, Date, AgOpRoomBetter),
@@ -235,8 +248,8 @@ schedule_heuristic(Room, Date, SurgeryList, Response) :-
             finish_time: TFinOp,
             operation_room_agenda: OperationRoomAgendaJson,
             doctors_agenda: DoctorsAgendaJson
-        };   
-        get_time(Tf),
+        }
+    ;   get_time(Tf),
         ExecutionTime is Tf - Ti,
         Response = _{
             status: 'failure',
@@ -399,15 +412,7 @@ availability_operation(OpCode, Room, Date, LPossibilities, LDoctors) :-
     intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
     remove_unf_intervals(TSurgery, LIntAgDoctorsRoom, LPossibilities).
 
-%availability_operation_staff(OpCode, Room, Date, LPossibilities, LStaff) :-
-%    surgery_id(OpCode, OpType),
-%    surgery(OpType, _, TSurgery, _),
-%    findall(Staff, assignment_surgery(OpCode, Staff), LStaff),
-%    intersect_all_agendas(LStaff, Date, LA),
-%    agenda_operation_room1(Room, Date, LAgenda),
-%    free_agenda0(LAgenda, LFAgRoom),
-%    intersect_2_agendas(LA, LFAgRoom, LIntAgDoctorsRoom),
-%    remove_unf_intervals(TSurgery, LIntAgDoctorsRoom, LPossibilities).
+
 
 % Remove unfeasible intervals
 remove_unf_intervals(_, [], []).
