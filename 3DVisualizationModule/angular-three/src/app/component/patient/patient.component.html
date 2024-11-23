@@ -27,53 +27,44 @@
     <form>
       <div class="form-field">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required />
+        <input type="text" id="firstName" name="firstName" [(ngModel)]="patient.firstName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required />
+        <input type="text" id="lastName" name="lastName" [(ngModel)]="patient.lastName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required />
+        <input type="text" id="fullName" name="fullName" [(ngModel)]="patient.fullName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="sex">Sex:</label>
-        <input type="text" id="sex" name="sex" required />
+        <input type="text" id="sex" name="sex" [(ngModel)]="patient.sex" required />
       </div>
-
+    
       <div class="form-field">
         <label for="email">Email: </label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" [(ngModel)]="patient.email" required />
       </div>
-
+    
       <div class="form-field">
         <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required />
+        <input type="text" id="phone" name="phone" [(ngModel)]="patient.phone" required />
       </div>
-
+    
       <div class="form-field">
         <label for="emergencyContact">Emergency Contact:</label>
-        <input type="text" id="emergencyContact" name="emergencyContact" required />
+        <input type="text" id="emergencyContact" name="emergencyContact" [(ngModel)]="patient.emergencyContact" required />
       </div>
-
-      <div class="form-field">
-        <label for="appointmentList">Appointment List:</label>
-        <input type="text" id="appointmentList" name="appointmentList" required />
-      </div>
-
-      <div class="form-field">
-        <label for="allergyList">Allergy List:</label>
-        <input type="text" id="allergyList" name="allergyList" required />
-      </div>
-
-      <button class="updateBtn" type="submit"(click)= "submitUpdate()">Update</button>
+    
+      <button class="updateBtn" type="button" (click)="submitUpdate()">Update</button>
     </form>
-
+    
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+    
   </section>
 
   <!-- Deactivate Account Section -->
@@ -128,6 +119,16 @@
       <div class="info-field">
         <label>Last Name: </label>
         <span>{{ patient?.lastName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Full Name: </label>
+        <span>{{ patient?.fullName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Sex: </label>
+        <span>{{ patient?.sex }}</span>
       </div>
 
       <div class="info-field">

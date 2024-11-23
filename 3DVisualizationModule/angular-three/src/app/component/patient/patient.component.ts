@@ -3,12 +3,13 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { PatientService } from 'src/app/service/patient.service';
 import { Patient } from '../../interface/patient';
 import { UserService } from 'src/app/service/user.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.scss'
 })
@@ -47,11 +48,13 @@ export class PatientComponent implements OnInit {
 
   // UPDATE METHODS_____________________________________________________________
   async submitUpdate() {
+    const patientData = { ...this.patient }; // Cria um clone do objeto para evitar mutação acidental
+
     try {
-      await this.patientService.updatePatient(this.patient.id.toString(), this.patient);
+      await this.patientService.updatePatient(this.patient.id.toString(), patientData);
       this.successMessage = 'Patient profile updated successfully.';
     } catch (error: any) {
-      // Handle error based on error response
+      // Tratamento de erros com base no status
       if (error.status === 400) {
         this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
       } else if (error.status === 404) {
@@ -60,7 +63,6 @@ export class PatientComponent implements OnInit {
         this.errorMessage = 'An error occurred while updating your profile. Please try again.';
       }
     }
-        
   }
 
   // DELETE METHODS_____________________________________________________________
@@ -98,6 +100,8 @@ export class PatientComponent implements OnInit {
   showSection(section: string) {
     this.selectedSection = section;
     // Clear messages when switching sections
+    this.errorMessage = '';
+    this.successMessage = '';
   }
 
 }
