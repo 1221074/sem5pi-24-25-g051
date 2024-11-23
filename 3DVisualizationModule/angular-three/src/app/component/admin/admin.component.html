@@ -51,7 +51,7 @@
       <h3>Planning Module:</h3>
       <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
       <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
-      <button (click)="showSection('dimensionPlanning')">Dimension in Terms of Number of Surgeries</button>
+      <button (click)="showSection('dimensionPlanning')">Complexity Analysis</button>
     </section>
 
 
@@ -111,9 +111,7 @@
         phoneNumberRef.value,
         roleRef.value
       )"
-    >
-      Register User
-    </button>
+    >Register</button>
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
@@ -776,6 +774,7 @@
         <th>Name</th>
         <th>Duration</th>
         <th>Required Staff</th>
+        <th>Action</th>
       </tr>
 
       <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
@@ -877,13 +876,13 @@
         <th>Name</th>
         <th>Duration</th>
         <th>Required Staff</th>
+        <th>Action</th>
       </tr>
 
       <tr *ngFor="let operationType of operationTypeListToBeDisplayed">
         <td>{{ operationType.name }}</td>
         <td>{{ operationType.duration }}</td>
         <td>{{ operationType.specializationName }}</td>
-
         <td>
           <button class="deactivate-operation-type-btn" (click)="submitOperationTypeDeactivation(operationType.id)">Deactivate</button>
         </td>
@@ -1036,10 +1035,25 @@
     <div *ngIf="loading" class="loading-spinner">Loading...</div>
 
     <!-- Complexity Analysis Results -->
-    <div *ngIf="planningResult">
-      <h3>Complexity Analysis Result:</h3>
-      <pre>{{ planningResult | json }}</pre>
+    <div>
+      <table class="table-display" [class.hidden]="!planningResultComplexity || planningResultComplexity.length === 0">
+        <thead>
+          <tr>
+            <th>Execution Time</th>
+            <th>Number of Surgeries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of planningResultComplexity">
+            <td>{{ item.execution_time }}</td>
+            <td>{{ item.number_of_surgeries }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="planningResultComplexity && planningResultComplexity.length === 0">No data available.</p>
     </div>
+
+
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>

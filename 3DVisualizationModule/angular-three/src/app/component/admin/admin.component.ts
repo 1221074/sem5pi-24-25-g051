@@ -70,6 +70,7 @@ export class AdminComponent {
   heuristic: string = '';
   planningResult: any = null;
   loading: boolean = false;
+  planningResultComplexity: Array<{ execution_time: number; number_of_surgeries: number }> = [];
 
 
   selectedSection = '';
@@ -738,8 +739,9 @@ async performComplexityAnalysis() {
   this.loading = true;
   try {
     const formattedDate = this.formatDate(new Date(this.planningDate));
-    const result = await this.planningService.getComplexityAnalysis(this.roomNumber, formattedDate);
-    this.planningResult = result;
+    this.planningResultComplexity = await this.planningService.getComplexityAnalysis(this.roomNumber, formattedDate);
+
+    console.log('Complexity Analysis Result:', this.planningResultComplexity);
     this.successMessage = 'Complexity analysis completed successfully.';
   } catch (error: any) {
     this.errorMessage = error.message || 'An error occurred during complexity analysis.';
