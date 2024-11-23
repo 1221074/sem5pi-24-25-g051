@@ -7,8 +7,9 @@
 
     <button class="main-menu-btn" (click)="showSection('updateProfile')">Update Profile</button>
     <button class="main-menu-btn" (click)="showSection('checkInformation')">Check Information</button>
+    <button class="main-menu-delete-btn" (click)="showSection('deactivateAcc')">Deactivate Account</button>
     <button class="main-menu-delete-btn" (click)="showSection('eliminateData')">Delete Account</button>
-    
+
     <button class="logout-button" (click)="logout()">
       <span class="material-icons">logout</span>
     </button>
@@ -75,11 +76,31 @@
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- Deactivate Account Section -->
+  <section [style.display]="selectedSection === 'deactivateAcc' ? 'block' : 'none'">
+    <h2>Deactivate Account</h2>
+    <p>Here you can deactivate your account.</p>
+    <p>If your account was deactivated by mistake, please contact a staff member.</p>
+    <br>
+
+    <!-- Display success or error messages -->
+    <div class="error-message" [style.display]="errorMessage ? 'block' : 'none'">{{ errorMessage }}</div>
+    <div class="success-message" [style.display]="successMessage ? 'block' : 'none'">{{ successMessage }}</div>
+
+    <form>
+      <button class="delete-account-btn" type="submit" (click)="deactivateAccount()">Deactivate Account</button>
+    </form>
+
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
   <!-- Delete Account Section -->
   <section [style.display]="selectedSection === 'eliminateData' ? 'block' : 'none'">
     <h2>Delete Account</h2>
     <p>Here you can delete your account.</p>
     <p>Warning: This action is irreversible!</p>
+    <p>If you want to delete your account, please make sure you deactivated it first.</p>
+    <p></p>
     <br>
 
     <!-- Display success or error messages -->
