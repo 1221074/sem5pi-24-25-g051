@@ -1036,10 +1036,25 @@
     <div *ngIf="loading" class="loading-spinner">Loading...</div>
 
     <!-- Complexity Analysis Results -->
-    <div *ngIf="planningResult">
-      <h3>Complexity Analysis Result:</h3>
-      <pre>{{ planningResult | json }}</pre>
+    <div>
+      <table class="table-display" [class.hidden]="!planningResultComplexity || planningResultComplexity.length === 0">
+        <thead>
+          <tr>
+            <th>Execution Time</th>
+            <th>Number of Surgeries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of planningResultComplexity">
+            <td>{{ item.execution_time }}</td>
+            <td>{{ item.number_of_surgeries }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="planningResultComplexity && planningResultComplexity.length === 0">No data available.</p>
     </div>
+
+
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>

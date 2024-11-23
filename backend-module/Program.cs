@@ -76,6 +76,15 @@ builder.Services.AddCors(options =>
                           .AllowCredentials());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost5000",
+    builder => builder.WithOrigins("http://localhost:5000")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials());
+});
+
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
