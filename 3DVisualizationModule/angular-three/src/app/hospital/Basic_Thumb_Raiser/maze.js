@@ -17,6 +17,7 @@ export default class Maze {
             // Store the maze's map and size
             this.map = description.map;
             this.size = description.size;
+            this.surgicalBeds = description.surgicalBeds;
 
             // Store the player's initial position and direction
             this.initialPosition = this.cellToCartesian(description.initialPosition);
@@ -1546,6 +1547,23 @@ export default class Maze {
         }
         );
 
+        // Load the surgical bed model
+        loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
+            const originalBed = gltf.scene;
+            originalBed.scale.set(0.5, 0.57, 0.5);
+            originalBed.visible = false;
+
+            this.surgicalBeds.forEach((bedData, index) => {
+                let bedClone = originalBed.clone(true);
+                bedClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]);
+                bedClone.visible = false;
+                this.object.add(bedClone);
+                this.surgeryRoomModels.push(bedClone);
+            });
+        });
+
+        
+/*
         loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
             this.surgicalBed = gltf.scene;
             this.surgicalBed.scale.set(0.5, 0.57, 0.5);
@@ -1610,7 +1628,7 @@ export default class Maze {
             this.surgeryRoomModels.push(surgicalBed10);
         }
         );
-
+*/
         //=======================================================================================================
         // PATIENT
 /*
@@ -1659,7 +1677,7 @@ export default class Maze {
             this.object.add(patient10);
         }
         );
-
+*/
 
 
         //=======================================================================================================
@@ -1968,6 +1986,10 @@ export default class Maze {
         }
         );
 
+        //=======================================================================================================
+        // Walls
+
+        
 
 
         //=======================================================================================================
