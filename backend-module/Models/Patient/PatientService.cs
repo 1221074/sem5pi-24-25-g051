@@ -310,7 +310,7 @@ namespace backend_module.Models.Patient {
             }
 
             if (P.Active) {
-                throw new BusinessRuleValidationException("It is not possible to delete an active patient.");
+                P.MarkAsInative();
             }
 
             this._Prepo.Remove(P);
