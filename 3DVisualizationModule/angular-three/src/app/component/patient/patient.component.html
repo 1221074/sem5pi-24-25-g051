@@ -1,7 +1,7 @@
 <div class="patient-container">
   <section class="patient-section" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="header-container">
-      <h2>Welcome, {{ patient?.firstName }} {{ patient?.lastName }}.</h2>
+      <h2>Welcome, {{ patient.firstName }} {{ patient.lastName }}.</h2>
       <h3>This is your panel</h3>
     </div>
 
@@ -113,37 +113,37 @@
     <div class="info-container">
       <div class="info-field">
         <label>First Name: </label>
-        <span>{{ patient?.firstName }}</span>
+        <span>{{ patient.firstName }}</span>
       </div>
 
       <div class="info-field">
         <label>Last Name: </label>
-        <span>{{ patient?.lastName }}</span>
+        <span>{{ patient.lastName }}</span>
       </div>
 
       <div class="info-field">
         <label>Full Name: </label>
-        <span>{{ patient?.fullName }}</span>
+        <span>{{ patient.fullName }}</span>
       </div>
 
       <div class="info-field">
         <label>Sex: </label>
-        <span>{{ patient?.sex }}</span>
+        <span>{{ patient.sex }}</span>
       </div>
 
       <div class="info-field">
         <label>Email: </label>
-        <span>{{ patient?.email }}</span>
+        <span>{{ patient.email }}</span>
       </div>
 
       <div class="info-field">
         <label>Phone: </label>
-        <span>{{ patient?.phone }}</span>
+        <span>{{ patient.phone }}</span>
       </div>
 
       <div class="info-field">
         <label>Emergency Contact: </label>
-        <span>{{ patient?.emergencyContact }}</span>
+        <span>{{ patient.emergencyContact }}</span>
       </div>
     </div>
 
