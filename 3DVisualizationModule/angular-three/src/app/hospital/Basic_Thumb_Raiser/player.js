@@ -19,6 +19,7 @@ export default class Player {
         this.onLoad = function (description) {
             this.object = description.scene;
             this.animations = description.animations;
+            this.playerModels = [];
 
             // Turn on shadows for this object
             this.setShadow(this.object);
@@ -41,6 +42,12 @@ export default class Player {
             this.eyeHeight *= size.y * this.scale.y;
 
             this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
+            this.object.traverse((child) => {
+                if (child instanceof THREE.Object3D) {
+                    child.visible = false;
+                    this.playerModels.push(child);
+                }
+            });
             this.loaded = true;
         }
 

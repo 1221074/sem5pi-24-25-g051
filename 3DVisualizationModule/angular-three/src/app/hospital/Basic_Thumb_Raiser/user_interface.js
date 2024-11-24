@@ -3,7 +3,7 @@ import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 import Maze from "./maze";
 
 export default class UserInteraction {
-    constructor(scene, renderer, lights, fog, object, animations, maze) {
+    constructor(scene, renderer, lights, fog, object, animations, maze, player) {
 
         function colorCallback(object, color) {
             object.color.set(color);
@@ -46,6 +46,8 @@ export default class UserInteraction {
         const surgicalObjects = maze.surgeryRoomModels;
         const bedroomObjects = maze.bedroomModels;
         const parkingObjects = maze.parkingLotModels;
+        const playerObjects = player.playerModels;
+        const cristianoObjects = maze.cristianoModels;
 
         // Adicionar checkboxes para cada sala
         const roomVisibility = {
@@ -58,7 +60,9 @@ export default class UserInteraction {
             waitingRoom: false,
             surgical: false,
             bedroom: false,
-            parking: false
+            parking: false,
+            playerBoneco: false,
+            cristiano: false
         };
 
         roomFolder.add(roomVisibility, 'reception').name('Reception').onChange(visible => visibilityCallback(receptionObjects, visible));
@@ -151,6 +155,9 @@ export default class UserInteraction {
         }
 
         expressionsFolder.close();
+
+        characterFolder.add(roomVisibility, 'playerBoneco').name('Player').onChange(visible => visibilityCallback(playerObjects, visible));
+        characterFolder.add(roomVisibility, 'cristiano').name('CR7').onChange(visible => visibilityCallback(cristianoObjects, visible));
 
         characterFolder.close();
     }
