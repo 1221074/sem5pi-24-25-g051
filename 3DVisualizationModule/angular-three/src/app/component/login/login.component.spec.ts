@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication.service';
+import { environment } from 'src/environments/environment';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -69,7 +70,7 @@ describe('LoginComponent', () => {
     spyOn(window, 'fetch').and.callFake(async (input: RequestInfo | URL) => {
       if (
         typeof input === 'string' &&
-        input.includes(`https://localhost:7252/api/user/role?token=${mockResponse.credential}`)
+        input.includes(environment.apiURL +'/user/role?token=${mockResponse.credential}')
       ) {
         return new Response(JSON.stringify(apiResponse));
       }

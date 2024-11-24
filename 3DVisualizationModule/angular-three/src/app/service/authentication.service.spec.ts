@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
+import { environment } from 'src/environments/environment';
 
 describe('AuthenticationService', () => {
   let service: AuthenticationService;
@@ -72,7 +73,7 @@ describe('AuthenticationService', () => {
 
     const user = await (service as any).getUserByMail('test@mail.com');
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost:7252/api/user/email/test@mail.com');
+    expect(window.fetch).toHaveBeenCalledWith(environment.apiURL +'/user/email/test@mail.com');
     expect(user).toEqual(mockResponse);
   });
 });

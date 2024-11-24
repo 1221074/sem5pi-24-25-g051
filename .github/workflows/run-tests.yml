@@ -2,8 +2,8 @@ name: Periodic Test Runner
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs daily at midnight UTC (adjust as needed)
-  workflow_dispatch: # Allows manual triggering of the workflow
+    - cron: "0 0 * * *" 
+  workflow_dispatch: 
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0' # Match your .NET version
+        dotnet-version: '8.0' 
 
     - name: Install dependencies
       run: dotnet restore ./backend-module
