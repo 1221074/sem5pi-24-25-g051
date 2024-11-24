@@ -18,7 +18,7 @@
       <button (click)="showSection('3dVisualization')">3D Visualization</button>
     </div>
   </section>
-  <section class="admin-section" [style.display]="selectedSection ? 'none' : 'block'">
+  <section class="admin-patient-management" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="admin-patient-management1">
       <h3>Patient Management:</h3>
       <button (click)="showSection('createPatient')">Create Patient Profile</button>
@@ -119,7 +119,7 @@
 
 
   <!-- Patient Sections -->
-  <section [style.display]="selectedSection === 'createPatient' ? 'block' : 'none'">
+  <section class="patient-create" [style.display]="selectedSection === 'createPatient' ? 'block' : 'none'">
     <head>
       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
       <style>
@@ -226,7 +226,7 @@
 
     <!-- Update Form -->
     <div *ngIf="selectedPatient">
-      <div class="patient-name">
+      <div class="patient-edit-name-update">
         <form>
           <label for="updatedPatientFirstName">First Name:</label><br>
           <input
@@ -250,7 +250,7 @@
           />
         </form>
       </div>
-      <div class="staff-fullName">
+      <div class="patient-edit-fullname-update">
         <form>
           <label for="updatedPatientFullName">Full Name:</label><br />
           <input
@@ -260,13 +260,13 @@
             placeholder="Full Name"
             #updatedPatientFullNameRef
             required
-            [value]="selectedPatient.sex"
+            [value]="selectedPatient.fullName"
           />
         </form>
       </div>
 
       <br />
-      <div class="patient-info">
+      <div class="patient-edit-info-update">
         <form>
           <label for="updatedPatientSex">Sex:</label><br />
           <select
@@ -274,7 +274,7 @@
             name="sex"
             #updatedPatientSexRef
             required
-            [value]="selectedPatient.fullName"
+            [value]="selectedPatient.sex"
           >
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -292,7 +292,7 @@
           />
         </form>
       </div>
-      <div class="patient-contact">
+      <div class="patient-edit-contact-update">
         <form>
           <label for="updatedPatientEmail">Email:</label><br />
           <input

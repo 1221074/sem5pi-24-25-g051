@@ -237,6 +237,191 @@ button:active {
 
 // Staff Create Component Styles ============================================================================================
 
+.patient-create {
+
+  h1, h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Negrito para títulos */
+  }
+  p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400; /* Regular para parágrafos */
+  }
+  label {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500; /* Médio para rótulos */
+  }
+  select {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500; /* Médio para seleções */
+  }
+
+  button {
+    width: 50%;
+  }
+
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px; /* Limita a largura máxima para telas maiores */
+  background-color: #ffffff; /* Cor de fundo clara */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+  margin: 0 auto; /* Centraliza o formulário horizontalmente */
+}
+
+.button-patient-submit {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
+.editPatientBtn {
+  width: auto;
+}
+
+.patient-edit-name-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.patient-edit-contact-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.patient-edit-info-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.patient-edit-fullname-update{
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.patient-edit-spec-update {
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  select{
+    display: flex;
+    width: 100%;
+  }
+}
+
+.deactivate-patient-btn {
+  width: auto;
+}
+
+.back-menu-btn {
+  width: auto;
+}
+
+.update-patient-btn {
+  gap: 5px;
+  width: 17.5%;
+  margin-right: 5px;
+}
+
+.cancel-update-patient-btn {
+  gap: 5px;
+  width: 17.5%;
+}
+
+.patient-create input[type="text"],
+.patient-create input[type="email"],
+.patient-create input[type="tel"],
+.patient-create input[type="date"],
+.patient-create select {
+  width: 100%; /* Ocupa toda a largura do contêiner */
+  padding: 10px; /* Adiciona espaço interno para tornar os campos maiores */
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+.inputPatientFilterContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between the input and button */
+}
+
+.inputPatientFilter {
+  flex: 1; /* Input will take up available space */
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 50%;
+}
+
+.patientSearchBtn {
+  padding: 10px 15px; /* Adjust padding for a smaller button */
+  font-size: 1em;
+  background-color: #007bff; /* Adjust the color if needed */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: auto;
+}
+
+
+.patient-name {
+  gap: 10px;
+  width: 100%; /* Garante que ocupe a largura completa do contêiner */
+}
+
+.patient-name input[type="text"] {
+  width: 50%; /* Cada campo ocupa metade da largura */
+}
+
+
+// Staff Create Component Styles ============================================================================================
+
 .staff-create {
 
   h1, h2, h3 {
