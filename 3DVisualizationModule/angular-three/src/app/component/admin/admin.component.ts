@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StaffDisplay } from '../../interface/staff-display';
 import { OperationTypeDisplay } from 'src/app/interface/operationtype-display';
 import { SurgeryRoom } from 'src/app/interface/surgeryroom';
+import { PatientDisplay } from 'src/app/interface/patient-display';
 
 @Component({
   selector: 'app-admin',
@@ -39,9 +40,12 @@ export class AdminComponent {
 //VARIABLES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
   //Patient
+  patientSearchQuery: string = '';
   filteredPatientList: Patient[] = [];
   selectedPatient: Patient | null = null;
   patientList: Patient[] =  [];
+  patientListToBeDisplayed: PatientDisplay[] = [];
+  fullPatientListToBeDisplayed: PatientDisplay[] = [];
 
   //Staff
   staffSearchQuery: string = '';
@@ -335,7 +339,27 @@ async registerOperationType(name: string, duration: string) {
     this.adminService.getAllPatients().then((patientList: Patient[]) => {
       this.patientList = patientList;
       this.filteredPatientList = patientList;
-    });
+
+      this.patientListToBeDisplayed = this.patientList.map(patient => {
+        return {
+          id: patient.id,
+          firstName: patient.firstName,
+          lastName: patient.lastName,
+          fullName: patient.fullName,
+          birthDate: patient.birthDate,
+          sex: patient.sex,
+          email: patient.email,
+          phone: patient.phone,
+          emergencyContact: patient.emergencyContact,
+          appointmentList: patient.appointmentList,
+          allergyList: patient.allergyList
+        };
+      });
+
+      this.fullPatientListToBeDisplayed = [...this.patientListToBeDisplayed];
+  }).catch(error => {
+    this.errorMessage = 'Failed to load operations. Please try again.';
+  });
   }
 
   selectPatientForUpdate(patient: Patient) {
@@ -625,27 +649,32 @@ filterStaffResults(staffParameter: string): void {
 }
 
 
-filterResults(query: string) {
-  const lowerQuery = query.toLowerCase();
-
-  // If the query is empty, reset the list to display all operations
-  if (!lowerQuery) {
-    this.filteredPatientList = [...this.patientList];
+filterPatientResults(patientParameter: string) {
+  if (!patientParameter) {
+    // If the query is empty, reset to show all operations
+    this.patientListToBeDisplayed = [...this.fullPatientListToBeDisplayed];
+    this.errorMessage = '';
     return;
   }
 
-  // Filter the list based on the query
-  this.filteredPatientList = this.patientList.filter(op =>
-    op.id.toString().toLowerCase() === lowerQuery ||
-    op.firstName.toString().toLowerCase() === lowerQuery ||
-    op.lastName.toString().toLowerCase()=== lowerQuery ||
-    op.fullName.toString().toLowerCase() === lowerQuery ||
-    op.birthDate.toString() === lowerQuery ||
-    op.sex.toLowerCase() === lowerQuery ||
-    op.email.toLowerCase() === lowerQuery ||
-    op.phone.toLowerCase() === lowerQuery ||
-    op.emergencyContact.toLowerCase() === lowerQuery
+if (patientParameter) {
+  const patientListToBeDisplayed = this.fullPatientListToBeDisplayed.filter(staff =>
+    staff.firstName.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.lastName.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.fullName.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.birthDate.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.sex.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.email.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.phone.toLowerCase().includes(patientParameter.toLowerCase())||
+    staff.emergencyContact.toLowerCase().includes(patientParameter.toLowerCase())
   );
+
+  this.updatePatientListSearch(patientListToBeDisplayed);
+}
+}
+
+updatePatientListSearch(filteredPatientList: PatientDisplay[]) {
+  this.patientListToBeDisplayed = filteredPatientList;
 }
 
 updateStaffListSearch(filteredStaffList: StaffDisplay[]) {
