@@ -17,6 +17,71 @@ export default class Maze {
             // Store the maze's map and size
             this.map = description.map;
             this.size = description.size;
+            this.surgicalBeds = description.surgicalBeds;
+            this.exitSigns = description.exitSigns;
+            this.keypads = description.keypads;
+            this.staffDoors = description.staffDoors;
+            this.entranceDoors = description.entranceDoors;
+            this.toiletDoors = description.toiletDoors;
+            this.surgeryDoors = description.surgeryDoors;
+            this.screeningDoors = description.screeningDoors;
+            this.cobblestoneGround = description.cobblestoneGround;
+            this.studioLights = description.studioLights;
+            this.doctorsOffices = description.doctorsOffices;
+            this.surgicalInstrumentModels = description.surgicalInstrumentModels;
+            this.hospitalBedModels = description.hospitalBedModels;
+            this.cabinetModels = description.cabinetModels;
+            this.chairModels = description.chairModels;
+            this.chairCModels = description.chairCModels;
+            this.computerCModels = description.computerCModels;
+            this.tableCModels = description.tableCModels;
+            this.ambulanceModels = description.ambulanceModels;
+            this.roadBarrierModels = description.roadBarrierModels;
+            this.parkingMachineModels = description.parkingMachineModels;
+            this.suzukiModels = description.suzukiModels;
+            this.mclarenModels = description.mclarenModels;
+            this.aventadorModels = description.aventadorModels;
+            this.kOneProModels = description.kOneProModels;
+            this.gourneyModels = description.gourneyModels;
+            this.hospitalBedroomBedModels = description.hospitalBedroomBedModels;
+            this.bedData = description.bedData;
+            this.coffeeData = description.coffeeData;
+            this.mugData = description.mugData;
+            this.smallTableData = description.smallTableData;
+            this.cafeTableData = description.cafeTableData;
+            this.ovenData = description.ovenData;
+            this.sinkData = description.sinkData;
+            this.stoveData = description.stoveData;
+            this.fridgeData = description.fridgeData;
+            this.trayData = description.trayData;
+            this.buffetData = description.buffetData;
+            this.extingData = description.extingData;
+            this.extingDataCaf = description.extingDataCaf;
+            this.fireAlarmModels = description.fireAlarmModels;
+            this.fireAlarmCafModels = description.fireAlarmCafModels;
+            this.securityCameraModels = description.securityCameraModels;
+            this.securityCameraRecModels = description.securityCameraRecModels;
+            this.broomModels = description.broomModels;
+            this.cleaningCartModels = description.cleaningCartModels;
+            this.schoolLockerModels = description.schoolLockerModels;
+            this.printerModels = description.printerModels;
+            this.serverModels = description.serverModels;
+            this.computerStaffModels = description.computerStaffModels;
+            this.tableModels = description.tableModels;
+            this.cubicleModels = description.cubicleModels;
+            this.urinalModels = description.urinalModels;
+            this.dryerModels = description.dryerModels;
+            this.mirrorModels = description.mirrorModels;
+            this.sinkModels = description.sinkModels;
+            this.toiletPaperModels = description.toiletPaperModels;
+            this.toiletRoundModels = description.toiletRoundModels;
+            this.receptionChairModels = description.receptionChairModels;
+            this.staffChairModels = description.staffChairModels;
+            this.receptionPCModels = description.receptionPCModels;
+            this.receptionDeskModels = description.receptionDeskModels;
+            this.waitingRoomChairs = description.waitingRoomChairs;
+            this.receptionChairs = description.receptionChairs;
+            this.cristiano = description.cristiano;
 
             // Store the player's initial position and direction
             this.initialPosition = this.cellToCartesian(description.initialPosition);
@@ -142,6 +207,7 @@ export default class Maze {
         this.surgeryRoomModels = [];
         this.bedroomModels = [];
         this.parkingLotModels = [];
+        this.cristianoModels = [];
 
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
@@ -149,799 +215,663 @@ export default class Maze {
 
         //=======================================================================================================
         // CHAIRS
+        // Load the chair model
         loaderGLTF.load('./models/tandem_seating_-_hospital/scene.gltf', (gltf) => {
-            this.chair = gltf.scene;
-            this.chair.scale.set(0.4, 0.4, 0.4);
-            this.chair.position.set(-9.85, 0, -3);
-            this.chair.rotateY(3 * Math.PI / 1.975); //1.94 virado para a porta
-            this.chair.visible = false;
-            this.object.add(this.chair);
+            const originalChair = gltf.scene;
+            originalChair.visible = false;
 
-            let chair2 = gltf.scene.clone();
-            chair2.position.set(-9.85, 0, 3);
-            chair2.visible = false;
-            this.object.add(chair2);
+            // Load reception chairs
+            this.receptionChairs.forEach((chairData) => {
+                let chairClone = originalChair.clone(true);
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0);
+                chairClone.visible = false;
+                this.object.add(chairClone);
+                this.receptionModels.push(chairClone);
+            });
 
-            let chair3 = gltf.scene.clone();
-            chair3.position.set(-9.85, 0, 2);
-            chair3.visible = false;
-            this.object.add(chair3);
+            // Load waiting room 1 chairs
+            this.waitingRoomChairs.forEach((chairData) => {
+                let chairClone = originalChair.clone(true);
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0);
+                chairClone.visible = false;
+                this.object.add(chairClone);
+                this.waitingRoomModels.push(chairClone);
+            });
+        });
 
-            let chair4 = gltf.scene.clone();
-            chair4.position.set(-9.85, 0, -2);
-            chair4.visible = false;
-            this.object.add(chair4);
-
-            this.receptionModels.push(this.chair);
-            this.receptionModels.push(chair2);
-            this.receptionModels.push(chair3);
-            this.receptionModels.push(chair4);
-
-            //=======================================================================================================
-            // waiting room 1
-            let chair5 = gltf.scene.clone();
-            chair5.position.set(-1.6, 0, -5.35);
-            chair5.rotateY(3 * Math.PI / 2);
-            chair5.visible = false;
-            this.object.add(chair5);
-
-            let chair6 = gltf.scene.clone();
-            chair6.position.set(-0.4, 0, -5.35);
-            chair6.rotateY(3 * Math.PI / 2);
-            chair6.visible = false;
-            this.object.add(chair6);
-
-            let chair7 = gltf.scene.clone();
-            chair7.position.set(-1.6, 0, -4.6);
-            chair7.rotateY( 3 * Math.PI / 2);
-            chair7.visible = false;
-            this.object.add(chair7);
-
-            let chair8 = gltf.scene.clone();
-            chair8.position.set(-0.4, 0, -4.6);
-            chair8.rotateY( 3 * Math.PI / 2);
-            chair8.visible = false;
-            this.object.add(chair8);
-
-            let chair9 = gltf.scene.clone();
-            chair9.position.set(-1.6, 0, -3.85);
-            chair9.rotateY( 3 * Math.PI / 2);
-            chair9.visible = false;
-            this.object.add(chair9);
-
-            let chair10 = gltf.scene.clone();
-            chair10.position.set(-0.4, 0, -3.85);
-            chair10.rotateY( 3 * Math.PI / 2);
-            chair10.visible = false;
-            this.object.add(chair10);
-
-            this.waitingRoomModels.push(chair5);
-            this.waitingRoomModels.push(chair6);
-            this.waitingRoomModels.push(chair7);
-            this.waitingRoomModels.push(chair8);
-            this.waitingRoomModels.push(chair9);
-            this.waitingRoomModels.push(chair10);
-
-
-            //=======================================================================================================
-            // waiting room 2
-            let chair11 = gltf.scene.clone();
-            chair11.position.set(-1.6, 0, 5.35);
-            chair11.rotateY(Math.PI / 2);
-            chair11.visible = false;
-            this.object.add(chair11);
-
-            let chair12 = gltf.scene.clone();
-            chair12.position.set(-0.4, 0, 5.35);
-            chair12.rotateY(Math.PI / 2);
-            chair12.visible = false;
-            this.object.add(chair12);
-
-            let chair13 = gltf.scene.clone();
-            chair13.position.set(-1.6, 0, 4.6);
-            chair13.rotateY(Math.PI / 2);
-            chair13.visible = false;
-            this.object.add(chair13);
-
-            let chair14 = gltf.scene.clone();
-            chair14.position.set(-0.4, 0, 4.6);
-            chair14.rotateY(Math.PI / 2);
-            chair14.visible = false;
-            this.object.add(chair14);
-
-            let chair15 = gltf.scene.clone();
-            chair15.position.set(-1.6, 0, 3.85);
-            chair15.rotateY(Math.PI / 2);
-            chair15.visible = false;
-            this.object.add(chair15);
-
-            let chair16 = gltf.scene.clone();
-            chair16.position.set(-0.4, 0, 3.85);
-            chair16.rotateY(Math.PI / 2);
-            chair16.visible = false;
-            this.object.add(chair16);
-
-            this.waitingRoomModels.push(chair11);
-            this.waitingRoomModels.push(chair12);
-            this.waitingRoomModels.push(chair13);
-            this.waitingRoomModels.push(chair14);
-            this.waitingRoomModels.push(chair15);
-            this.waitingRoomModels.push(chair16);
-        }
-        );
 
         //=======================================================================================================
         // Reception desk
         loaderGLTF.load('./models/reception_desk/scene.gltf', (gltf) => {
-            this.desk = gltf.scene;
-            this.desk.scale.set(4, 5.5, 4);
-            this.desk.position.set(-8.72, 0, -0.67);
-            this.desk.rotateY(3 * Math.PI / 2);
-            this.desk.visible = false;
-            this.object.add(this.desk);
-
-            this.receptionModels.push(this.desk);
-        }
-        );
+            const deskModel = gltf.scene;
+            deskModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the receptionDeskModels array to create each instance.
+            this.receptionDeskModels.forEach((deskData) => {
+                let deskClone = deskModel.clone(true); // Clone the original desk model
+                deskClone.scale.set(deskData.scale[0], deskData.scale[1], deskData.scale[2]);
+                deskClone.position.set(deskData.position[0], deskData.position[1], deskData.position[2]);
+                deskClone.rotateY(deskData.rotationY || 0); // Apply rotation if provided
+                deskClone.visible = false; // Set visibility to false initially
+                this.object.add(deskClone);
+        
+                // Add to the reception models array
+                this.receptionModels.push(deskClone);
+            });
+        });
+        
 
         //=======================================================================================================
-        // Reception pc
         loaderGLTF.load('./models/imac_computer/scene.gltf', (gltf) => {
-            this.pc = gltf.scene;
-            this.pc.scale.set(0.37, 0.5, 0.37);
-            this.pc.position.set(-8.55, 0.4, 0);
-            this.pc.rotateY(3 * Math.PI / 2);
-            this.pc.visible = false;
-            this.object.add(this.pc);
-
-            this.receptionModels.push(this.pc);
-        }
-        );
+            const pcModel = gltf.scene;
+            pcModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the receptionPCModels array to create each instance.
+            this.receptionPCModels.forEach((pcData) => {
+                let pcClone = pcModel.clone(true); // Clone the original pc model
+                pcClone.scale.set(pcData.scale[0], pcData.scale[1], pcData.scale[2]);
+                pcClone.position.set(pcData.position[0], pcData.position[1], pcData.position[2]);
+                pcClone.rotateY(pcData.rotationY || 0); // Apply rotation if provided
+                pcClone.visible = false; // Set visibility to false initially
+                this.object.add(pcClone);
+        
+                // Add to the reception models array
+                this.receptionModels.push(pcClone);
+            });
+        });
+        
 
         //=======================================================================================================
         // Reception chair
         loaderGLTF.load('./models/ikea_markus_office_chair/scene.gltf', (gltf) => {
-            this.recChair = gltf.scene;
-            this.recChair.scale.set(0.0045, 0.0045, 0.0045);
-            this.recChair.position.set(-8.25, 0, 0);
-            this.recChair.rotateY(3 * Math.PI / 2);
-            this.recChair.visible = false;
-            this.object.add(this.recChair);
+            const chairModel = gltf.scene;
+            chairModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the receptionChairModels array to create each instance.
+            this.receptionChairModels.forEach((chairData) => {
+                let chairClone = chairModel.clone(true); // Clone the original chair model
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0); // Apply rotation if provided
+                chairClone.visible = false; // Set visibility to false initially
+                this.object.add(chairClone);
+        
+                // Add to the reception models array
+                this.receptionModels.push(chairClone);
+            });
 
-            let recChair2 = gltf.scene.clone();
-            recChair2.position.set(-7.57, 0, 1.99);
-            recChair2.rotateY(Math.PI / 2);
-            recChair2.visible = false;
-            this.object.add(recChair2);
-
-            this.receptionModels.push(this.recChair);
-            this.staffModels.push(recChair2);
-        }
-        );
+            this.staffChairModels.forEach((chairData) => {
+                let chairClone = chairModel.clone(true); // Clone the original chair model
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0); // Apply rotation if provided
+                chairClone.visible = false; // Set visibility to false initially
+                this.object.add(chairClone);
+        
+                // Add to the reception models array
+                this.staffModels.push(chairClone);
+            });
+        });        
 
 
         //=======================================================================================================
         // Toilet
         loaderGLTF.load('./models/toilet/scene.gltf', (gltf) => {
-            this.toilet = gltf.scene;
-            this.toilet.scale.set(0.4, 0.5, 0.4);
-            this.toilet.position.set(-8.2, 0.25, -5.363);
-            this.toilet.rotateY(3 * Math.PI / 2);
-            this.toilet.visible = false;
-            this.object.add(this.toilet);
-
-            let toilet2 = gltf.scene.clone();
-            toilet2.position.set(-8.2, 0.25, 5.363);
-            toilet2.rotateY(Math.PI);
-            toilet2.visible = false;
-            this.object.add(toilet2);
-
-            let toilet3 = gltf.scene.clone();
-            toilet3.position.set(6.55, 0.25, -5.363);
-            toilet3.visible = false;
-            this.object.add(toilet3);
-
-            let toilet4 = gltf.scene.clone();
-            toilet4.position.set(6.55, 0.25, 5.363);
-            toilet4.rotateY(Math.PI);
-            toilet4.visible = false;
-            this.object.add(toilet4);
-
-            this.toiletModels.push(this.toilet);
-            this.toiletModels.push(toilet2);
-            this.toiletModels.push(toilet3);
-            this.toiletModels.push(toilet4);
-        }
-        );
+            const toiletModel = gltf.scene;
+            toiletModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the toiletModels array to create each instance.
+            this.toiletRoundModels.forEach((toiletData) => {
+                let toiletClone = toiletModel.clone(true); // Clone the original toilet model
+                toiletClone.scale.set(toiletData.scale[0], toiletData.scale[1], toiletData.scale[2]);
+                toiletClone.position.set(toiletData.position[0], toiletData.position[1], toiletData.position[2]);
+                toiletClone.rotateY(toiletData.rotationY || 0); // Apply rotation if provided
+                toiletClone.visible = false; // Set visibility to false initially
+                this.object.add(toiletClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(toiletClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/toilet_paper_holder/scene.gltf', (gltf) => {
-            this.toiletPaper = gltf.scene;
-            this.toiletPaper.scale.set(0.4, 0.5, 0.4);
-            this.toiletPaper.position.set(-8.4, 0, -5.35);
-            this.toiletPaper.visible = false;
-            this.object.add(this.toiletPaper);
-
-            let toiletPaper2 = gltf.scene.clone();
-            toiletPaper2.position.set(-8.4, 0, 5.35);
-            toiletPaper2.rotateY(Math.PI);
-            toiletPaper2.visible = false;
-            this.object.add(toiletPaper2);
-
-            let toiletPaper3 = gltf.scene.clone();
-            toiletPaper3.position.set(6.35, 0, -5.35);
-            toiletPaper3.visible = false;
-            this.object.add(toiletPaper3);
-
-            let toiletPaper4 = gltf.scene.clone();
-            toiletPaper4.position.set(6.35, 0, 5.35);
-            toiletPaper4.rotateY(Math.PI);
-            toiletPaper4.visible = false;
-            this.object.add(toiletPaper4);
-
-            this.toiletModels.push(this.toiletPaper);
-            this.toiletModels.push(toiletPaper2);
-            this.toiletModels.push(toiletPaper3);
-            this.toiletModels.push(toiletPaper4);
-        }
-        );
+            const toiletPaperModel = gltf.scene;
+            toiletPaperModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the toiletPaperModels array to create each instance.
+            this.toiletPaperModels.forEach((toiletPaperData) => {
+                let toiletPaperClone = toiletPaperModel.clone(true); // Clone the original toilet paper holder model
+                toiletPaperClone.scale.set(toiletPaperData.scale[0], toiletPaperData.scale[1], toiletPaperData.scale[2]);
+                toiletPaperClone.position.set(toiletPaperData.position[0], toiletPaperData.position[1], toiletPaperData.position[2]);
+                toiletPaperClone.rotateY(toiletPaperData.rotationY || 0); // Apply rotation if provided
+                toiletPaperClone.visible = false; // Set visibility to false initially
+                this.object.add(toiletPaperClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(toiletPaperClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/sink/scene.gltf', (gltf) => {
-            this.sink = gltf.scene;
-            this.sink.scale.set(0.25, 0.35, 0.25);
-            this.sink.position.set(-9.5, 0, -5.37);
-            this.sink.rotateY(2 * Math.PI);
-            this.sink.visible = false;
-            this.object.add(this.sink);
-
-            let sink2 = gltf.scene.clone();
-            sink2.position.set(-9.5, 0, 5.37);
-            sink2.rotateY(Math.PI);
-            sink2.visible = false;
-            this.object.add(sink2);
-
-            let sink3 = gltf.scene.clone();
-            sink3.position.set(6.13, 0, -4);
-            sink3.rotateY(Math.PI / 2);
-            sink3.visible = false;
-            this.object.add(sink3);
-
-            let sink4 = gltf.scene.clone();
-            sink4.position.set(6.13, 0, 4.6);
-            sink4.rotateY(Math.PI / 2);
-            sink4.visible = false;
-            this.object.add(sink4);
-
-            this.toiletModels.push(this.sink);
-            this.toiletModels.push(sink2);
-            this.toiletModels.push(sink3);
-            this.toiletModels.push(sink4);
-        }
-        );
-
+            const sinkModel = gltf.scene;
+            sinkModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the sinkModels array to create each instance.
+            this.sinkModels.forEach((sinkData) => {
+                let sinkClone = sinkModel.clone(true); // Clone the original sink model
+                sinkClone.scale.set(sinkData.scale[0], sinkData.scale[1], sinkData.scale[2]);
+                sinkClone.position.set(sinkData.position[0], sinkData.position[1], sinkData.position[2]);
+                sinkClone.rotateY(sinkData.rotationY || 0); // Apply rotation if provided
+                sinkClone.visible = false; // Set visibility to false initially
+                this.object.add(sinkClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(sinkClone);
+            });
+        });
+        
         loaderGLTF.load('./models/ornate_mirror_01_1k.gltf/ornate_mirror_01_1k.gltf', (gltf) => {
-            this.mirror = gltf.scene;
-            this.mirror.scale.set(0.4, 0.52, 0.4);
-            this.mirror.position.set(-9.5, 0.7, -5.47);
-            this.mirror.rotateY(2 * Math.PI);
-            this.mirror.visible = false;
-            this.object.add(this.mirror);
-
-            let mirror2 = gltf.scene.clone();
-            mirror2.position.set(-9.5, 0.7, 5.47);
-            mirror2.rotateY(Math.PI);
-            mirror2.visible = false;
-            this.object.add(mirror2);
-
-            let mirror3 = gltf.scene.clone();
-            mirror3.position.set(6.03, 0.7, -4);
-            mirror3.rotateY(Math.PI / 2);
-            mirror3.visible = false;
-            this.object.add(mirror3);
-
-            let mirror4 = gltf.scene.clone();
-            mirror4.position.set(6.03, 0.7, 4.6);
-            mirror4.rotateY(Math.PI / 2);
-            mirror4.visible = false;
-            this.object.add(mirror4);
-
-            this.toiletModels.push(this.mirror);
-            this.toiletModels.push(mirror2);
-            this.toiletModels.push(mirror3);
-            this.toiletModels.push(mirror4);
-        }
-        );
+            const mirrorModel = gltf.scene;
+            mirrorModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the mirrorModels array to create each instance.
+            this.mirrorModels.forEach((mirrorData) => {
+                let mirrorClone = mirrorModel.clone(true); // Clone the original mirror model
+                mirrorClone.scale.set(mirrorData.scale[0], mirrorData.scale[1], mirrorData.scale[2]);
+                mirrorClone.position.set(mirrorData.position[0], mirrorData.position[1], mirrorData.position[2]);
+                mirrorClone.rotateY(mirrorData.rotationY || 0); // Apply rotation if provided
+                mirrorClone.visible = false; // Set visibility to false initially
+                this.object.add(mirrorClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(mirrorClone);
+            });
+        });        
 
         loaderGLTF.load('./models/hand_dryer_clean/scene.gltf', (gltf) => {
-            this.dryer = gltf.scene;
-            this.dryer.scale.set(0.2, 0.2, 0.2);
-            this.dryer.position.set(-9.15, 0.5, -5.4);
-            this.dryer.rotateY(2 * Math.PI);
-            this.dryer.visible = false;
-            this.object.add(this.dryer);
-
-            let dryer2 = gltf.scene.clone();
-            dryer2.position.set(-9.15, 0.5, 5.4);
-            dryer2.rotateY(Math.PI);
-            dryer2.visible = false;
-            this.object.add(dryer2);
-
-            let dryer3 = gltf.scene.clone();
-            dryer3.position.set(6.1, 0.5, -4.33);
-            dryer3.rotateY(Math.PI / 2);
-            dryer3.visible = false;
-            this.object.add(dryer3);
-
-            let dryer4 = gltf.scene.clone();
-            dryer4.position.set(6.1, 0.5, 4.9);
-            dryer4.rotateY(Math.PI / 2);
-            dryer4.visible = false;
-            this.object.add(dryer4);
-
-            this.toiletModels.push(this.dryer);
-            this.toiletModels.push(dryer2);
-            this.toiletModels.push(dryer3);
-            this.toiletModels.push(dryer4);
-        }
-        );
+            const dryerModel = gltf.scene;
+            dryerModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the dryerModels array to create each instance.
+            this.dryerModels.forEach((dryerData) => {
+                let dryerClone = dryerModel.clone(true); // Clone the original dryer model
+                dryerClone.scale.set(dryerData.scale[0], dryerData.scale[1], dryerData.scale[2]);
+                dryerClone.position.set(dryerData.position[0], dryerData.position[1], dryerData.position[2]);
+                dryerClone.rotateY(dryerData.rotationY || 0); // Apply rotation if provided
+                dryerClone.visible = false; // Set visibility to false initially
+                this.object.add(dryerClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(dryerClone);
+            });
+        });        
 
 
         loaderGLTF.load('./models/free_urinal__commercial_urinal_realistic/scene.gltf', (gltf) => {
-            this.urinal = gltf.scene;
-            this.urinal.scale.set(0.1, 0.15, 0.12);
-            this.urinal.position.set(-8.9, 0.4, -4.6);
-            this.urinal.rotateY(Math.PI);
-            this.urinal.visible = false;
-            this.object.add(this.urinal);
-
-            let urinal2 = gltf.scene.clone();
-            urinal2.position.set(6.9, 0.4, -4.15);
-            urinal2.rotateY(Math.PI / 2);
-            urinal2.visible = false;
-            this.object.add(urinal2);
-
-            let urinal3 = gltf.scene.clone();
-            urinal3.position.set(6.9, 0.4, -3.85);
-            urinal3.rotateY(Math.PI / 2);
-            urinal3.visible = false;
-            this.object.add(urinal3);
-
-            this.toiletModels.push(this.urinal);
-            this.toiletModels.push(urinal2);
-            this.toiletModels.push(urinal3);
-        }
-        );
+            const urinalModel = gltf.scene;
+            urinalModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the urinalModels array to create each instance.
+            this.urinalModels.forEach((urinalData) => {
+                let urinalClone = urinalModel.clone(true); // Clone the original urinal model
+                urinalClone.scale.set(urinalData.scale[0], urinalData.scale[1], urinalData.scale[2]);
+                urinalClone.position.set(urinalData.position[0], urinalData.position[1], urinalData.position[2]);
+                urinalClone.rotateY(urinalData.rotationY || 0); // Apply rotation if provided
+                urinalClone.visible = false; // Set visibility to false initially
+                this.object.add(urinalClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(urinalClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/cubicle_without_toilet/scene.gltf', (gltf) => {
-            this.cubicle = gltf.scene;
-            this.cubicle.scale.set(0.455, 0.43, 0.3);
-            this.cubicle.position.set(-8.25, 0, -5.3);
-            this.cubicle.visible = false;
-            this.object.add(this.cubicle);
-
-            let cubicle2 = gltf.scene.clone();
-            cubicle2.scale.set(0.65, 0.43, 0.3);
-            cubicle2.position.set(6.5, 0, -5.3);
-            cubicle2.visible = false;
-            this.object.add(cubicle2);
-
-            this.toiletModels.push(this.cubicle);
-            this.toiletModels.push(cubicle2);
-        }
-        );
+            const cubicleModel = gltf.scene;
+            cubicleModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the cubicleModels array to create each instance.
+            this.cubicleModels.forEach((cubicleData) => {
+                let cubicleClone = cubicleModel.clone(true); // Clone the original cubicle model
+                cubicleClone.scale.set(cubicleData.scale[0], cubicleData.scale[1], cubicleData.scale[2]);
+                cubicleClone.position.set(cubicleData.position[0], cubicleData.position[1], cubicleData.position[2]);
+                cubicleClone.rotateY(cubicleData.rotationY || 0); // Apply rotation if provided
+                cubicleClone.visible = false; // Set visibility to false initially
+                this.object.add(cubicleClone);
+        
+                // Add to the toilet models array
+                this.toiletModels.push(cubicleClone);
+            });
+        });
+        
 
         //=======================================================================================================
         // Staff room
 
         loaderGLTF.load('./models/table/scene.gltf', (gltf) => {
-            this.table = gltf.scene;
-            this.table.scale.set(0.65, 0.8, 0.75);
-            this.table.position.set(-7.44, 0.35, 2.23);
-            this.table.visible = false;
-            this.object.add(this.table);
-
-            this.staffModels.push(this.table);
-        }
-        );
-
-        loaderGLTF.load('./models/retro_computer_setup_free/scene.gltf', (gltf) => {
-            this.computer = gltf.scene;
-            this.computer.scale.set(0.005, 0.005, 0.004);
-            this.computer.position.set(-7.6, 0.38, 2.2);
-            this.computer.rotateY(Math.PI);
-            this.computer.visible = false;
-            this.object.add(this.computer);
-
-            this.staffModels.push(this.computer);
-        }
-        );
+            const tableModel = gltf.scene;
+            tableModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the tableModels array to create each instance.
+            this.tableModels.forEach((tableData) => {
+                let tableClone = tableModel.clone(true); // Clone the original table model
+                tableClone.scale.set(tableData.scale[0], tableData.scale[1], tableData.scale[2]);
+                tableClone.position.set(tableData.position[0], tableData.position[1], tableData.position[2]);
+                tableClone.rotateY(tableData.rotationY || 0); // Apply rotation if provided
+                tableClone.visible = false; // Set visibility to false initially
+                this.object.add(tableClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(tableClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/server_rack/scene.gltf', (gltf) => {
-            this.server = gltf.scene;
-            this.server.scale.set(0.3, 0.4, 0.3);
-            this.server.position.set(-6.15, 0.4, 2.3);
-            this.server.rotateY(Math.PI / 2);
-            this.server.visible = false;
-            this.object.add(this.server);
-
-            let server2 = gltf.scene.clone();
-            server2.scale.set(0.3, 0.4, 0.3);
-            server2.position.set(-6.15, 0.4, 2.1);
-            server2.visible = false;
-            this.object.add(server2);
-
-            let server3 = gltf.scene.clone();
-            server3.scale.set(0.3, 0.4, 0.3);
-            server3.position.set(-6.15, 0.4, 1.9);
-            server3.visible = false;
-            this.object.add(server3);
-
-            let server4 = gltf.scene.clone();
-            server4.scale.set(0.3, 0.4, 0.3);
-            server4.position.set(-6.15, 0.4, 1.7);
-            server4.visible = false;
-            this.object.add(server4);
-
-            this.staffModels.push(this.server);
-            this.staffModels.push(server2);
-            this.staffModels.push(server3);
-            this.staffModels.push(server4);
-        }
-        );
-
+            const serverModel = gltf.scene;
+            serverModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the serverModels array to create each instance.
+            this.serverModels.forEach((serverData) => {
+                let serverClone = serverModel.clone(true); // Clone the original server model
+                serverClone.scale.set(serverData.scale[0], serverData.scale[1], serverData.scale[2]);
+                serverClone.position.set(serverData.position[0], serverData.position[1], serverData.position[2]);
+                serverClone.rotateY(serverData.rotationY || 0); // Apply rotation if provided
+                serverClone.visible = false; // Set visibility to false initially
+                this.object.add(serverClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(serverClone);
+            });
+        });
+        
         loaderGLTF.load('./models/printer_copy_machine_and_scanner_in_one/scene.gltf', (gltf) => {
-            this.printer = gltf.scene;
-            this.printer.scale.set(0.3, 0.38, 0.3);
-            this.printer.position.set(-7.17, 0.437, 2.24);
-            this.printer.rotateY(Math.PI);
-            this.printer.visible = false;
-            this.object.add(this.printer);
-
-            this.staffModels.push(this.printer);
-        }
-        );
+            const printerModel = gltf.scene;
+            printerModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the printerModels array to create each instance.
+            this.printerModels.forEach((printerData) => {
+                let printerClone = printerModel.clone(true); // Clone the original printer model
+                printerClone.scale.set(printerData.scale[0], printerData.scale[1], printerData.scale[2]);
+                printerClone.position.set(printerData.position[0], printerData.position[1], printerData.position[2]);
+                printerClone.rotateY(printerData.rotationY || 0); // Apply rotation if provided
+                printerClone.visible = false; // Set visibility to false initially
+                this.object.add(printerClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(printerClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/school_locker/scene.gltf', (gltf) => {
-            this.locker = gltf.scene;
-            this.locker.scale.set(0.1, 0.15, 0.1);
-            this.locker.position.set(-7.95, 0, 0.8);
-            this.locker.visible = false;
-            this.object.add(this.locker);
-
-            let locker2 = gltf.scene.clone();
-            locker2.position.set(-7.95, 0, 0.4);
-            locker2.visible = false;
-            this.object.add(locker2);
-
-            let locker3 = gltf.scene.clone();
-            locker3.position.set(-7.95, 0, 0);
-            locker3.visible = false;
-            this.object.add(locker3);
-
-            let locker4 = gltf.scene.clone();
-            locker4.position.set(-7.95, 0, -0.4);
-            locker4.visible = false;
-            this.object.add(locker4);
-
-            let locker5 = gltf.scene.clone();
-            locker5.position.set(-7.95, 0, -0.8);
-            locker5.visible = false;
-            this.object.add(locker5);
-
-            this.staffModels.push(this.locker);
-            this.staffModels.push(locker2);
-            this.staffModels.push(locker3);
-            this.staffModels.push(locker4);
-            this.staffModels.push(locker5);
-        }
-        );
+            const lockerModel = gltf.scene;
+            lockerModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the schoolLockerModels array to create each instance.
+            this.schoolLockerModels.forEach((lockerData) => {
+                let lockerClone = lockerModel.clone(true); // Clone the original locker model
+                lockerClone.scale.set(lockerData.scale[0], lockerData.scale[1], lockerData.scale[2]);
+                lockerClone.position.set(lockerData.position[0], lockerData.position[1], lockerData.position[2]);
+                lockerClone.visible = false; // Set visibility to false initially
+                this.object.add(lockerClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(lockerClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/cleaning_cart/scene.gltf', (gltf) => {
-            this.cart = gltf.scene;
-            this.cart.scale.set(0.1, 0.1, 0.1);
-            this.cart.position.set(-7.58, 0, -2.2);
-            this.cart.rotateY(Math.PI / 2);
-            this.cart.visible = false;
-            this.object.add(this.cart);
-
-            this.staffModels.push(this.cart);
-        }
-        );
+            const cleaningCartModel = gltf.scene;
+            cleaningCartModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the cleaningCartModels array to create each instance.
+            this.cleaningCartModels.forEach((cartData) => {
+                let cartClone = cleaningCartModel.clone(true); // Clone the original cleaning cart model
+                cartClone.scale.set(cartData.scale[0], cartData.scale[1], cartData.scale[2]);
+                cartClone.position.set(cartData.position[0], cartData.position[1], cartData.position[2]);
+                cartClone.rotateY(cartData.rotationY || 0); // Apply rotation if provided
+                cartClone.visible = false; // Set visibility to false
+                this.object.add(cartClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(cartClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/broom/scene.gltf', (gltf) => {
-            this.broom = gltf.scene;
-            this.broom.scale.set(0.0051, 0.0051, 0.0051);
-            this.broom.position.set(-7.8, 0, -1.8);
-            this.broom.rotateY(3 * Math.PI / 2);
-            this.broom.rotateX(Math.PI / 16);
-            this.broom.visible = false;
-            this.object.add(this.broom);
-
-            this.staffModels.push(this.broom);
-        }
-        );
-
+            const broomModel = gltf.scene;
+            broomModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the broomModels array to create each instance.
+            this.broomModels.forEach((broomData) => {
+                let broomClone = broomModel.clone(true); // Clone the original broom model
+                broomClone.scale.set(broomData.scale[0], broomData.scale[1], broomData.scale[2]);
+                broomClone.position.set(broomData.position[0], broomData.position[1], broomData.position[2]);
+                broomClone.rotateY(broomData.rotationY || 0); // Apply Y rotation if provided
+                broomClone.rotateX(broomData.rotationX || 0); // Apply X rotation if provided
+                broomClone.visible = false; // Set visibility to false
+                this.object.add(broomClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(broomClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/security_camera/scene.gltf', (gltf) => {
-            this.camera = gltf.scene;
-            this.camera.scale.set(0.5, 0.5, 0.5);
-            this.camera.position.set(-3, 0.785, -2.59);
-            this.camera.visible = false;
-            this.object.add(this.camera);
+            const securityCameraModel = gltf.scene;
+            securityCameraModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the securityCameraModels array to create each instance.
+            this.securityCameraModels.forEach((cameraData) => {
+                let securityCameraClone = securityCameraModel.clone(true); // Clone the original camera model
+                securityCameraClone.scale.set(cameraData.scale[0], cameraData.scale[1], cameraData.scale[2]);
+                securityCameraClone.position.set(cameraData.position[0], cameraData.position[1], cameraData.position[2]);
+                securityCameraClone.rotateY(cameraData.rotationY || 0); // Apply rotation if provided
+                securityCameraClone.visible = false; // Set visibility to true
+                this.object.add(securityCameraClone);
+                this.waitingRoomModels.push(securityCameraClone);
+            });
 
-            let camera2 = gltf.scene.clone();
-            camera2.position.set(-3, 0.785, 2.59);
-            camera2.rotateY(Math.PI);
-            camera2.visible = false;
-            this.object.add(camera2);
+            this.securityCameraRecModels.forEach((cameraData) => {
+                let securityCameraClone = securityCameraModel.clone(true); // Clone the original camera model
+                securityCameraClone.scale.set(cameraData.scale[0], cameraData.scale[1], cameraData.scale[2]);
+                securityCameraClone.position.set(cameraData.position[0], cameraData.position[1], cameraData.position[2]);
+                securityCameraClone.rotateY(cameraData.rotationY || 0); // Apply rotation if provided
+                securityCameraClone.visible = false; // Set visibility to true
+                this.object.add(securityCameraClone);
+                this.receptionModels.push(securityCameraClone);
+            });
+        });
+        
 
-            let camera3 = gltf.scene.clone();
-            camera3.position.set(-8.09, 0.785, -1);
-            camera3.rotateY(Math.PI / 2);
-            camera3.visible = false;
-            this.object.add(camera3);
-
-            this.waitingRoomModels.push(this.camera);
-            this.waitingRoomModels.push(camera2);
-            this.receptionModels.push(camera3);
-        }
-        );
 
         loaderGLTF.load('./models/fire_alarm/scene.gltf', (gltf) => {
-            this.alarm = gltf.scene;
-            this.alarm.scale.set(0.05, 0.05, 0.05);
-            this.alarm.position.set(-8.025, 0.5, 1);
-            this.alarm.rotateY(3 * Math.PI / 2);
-            this.alarm.visible = false;
-            this.object.add(this.alarm);
+            const fireAlarmModel = gltf.scene;
+            fireAlarmModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the fireAlarmModels array to create each instance.
+            this.fireAlarmModels.forEach((alarmData, index) => {
+                let fireAlarmClone = fireAlarmModel.clone(true); // Clone the original alarm model
+                fireAlarmClone.scale.set(alarmData.scale[0], alarmData.scale[1], alarmData.scale[2]);
+                fireAlarmClone.position.set(alarmData.position[0], alarmData.position[1], alarmData.position[2]);
+                fireAlarmClone.rotateY(alarmData.rotationY || 0); // Apply rotation if provided
+                fireAlarmClone.visible = false; // Set visibility to true
+                this.object.add(fireAlarmClone);
+                this.receptionModels.push(fireAlarmClone); // Push the alarm model into the receptionModels array
+            });
 
-            let alarm2 = gltf.scene.clone();
-            alarm2.position.set(-3.02, 0.5, 0.1);
-            alarm2.visible = false;
-            this.object.add(alarm2);
+            this.fireAlarmCafModels.forEach((alarmData, index) => {
+                let fireAlarmClone = fireAlarmModel.clone(true); // Clone the original alarm model
+                fireAlarmClone.scale.set(alarmData.scale[0], alarmData.scale[1], alarmData.scale[2]);
+                fireAlarmClone.position.set(alarmData.position[0], alarmData.position[1], alarmData.position[2]);
+                fireAlarmClone.rotateY(alarmData.rotationY || 0); // Apply rotation if provided
+                fireAlarmClone.visible = false; // Set visibility to true
+                this.object.add(fireAlarmClone);
+                this.cafeteriaModels.push(fireAlarmClone); // Push the alarm model into the cafeteriaModels array
+            });
+        });
+        
 
-            this.receptionModels.push(this.alarm);
-            this.cafeteriaModels.push(alarm2);
-        }
-        );
-
+        // Load the GLTF model for the fire extinguisher
         loaderGLTF.load('./models/fire_exting/scene.gltf', (gltf) => {
-            this.exting = gltf.scene;
-            this.exting.scale.set(0.003, 0.004, 0.003);
-            this.exting.position.set(-8.07, 0.4, 1.5);
-            this.exting.rotateY(3 * Math.PI / 2);
-            this.exting.visible = false;
-            this.object.add(this.exting);
+        const extingModel = gltf.scene;
+        extingModel.visible = false; // Hide the original model for cloning.
 
-            let exting2 = gltf.scene.clone();
-            exting2.position.set(-3.06, 0.4, -0.1);
-            exting2.visible = false;
-            this.object.add(exting2);
+        // Iterate over the extingData array (from JSON) to create each instance.
+        this.extingData.forEach((extingConfig) => {
+        let extingClone = extingModel.clone(true); // Clone the original fire extinguisher model
+        extingClone.scale.set(extingConfig.scale[0], extingConfig.scale[1], extingConfig.scale[2]);
+        extingClone.position.set(extingConfig.position[0], extingConfig.position[1], extingConfig.position[2]);
+        extingClone.rotateY(extingConfig.rotationY || 0); // Apply Y-axis rotation if specified
+        extingClone.visible = false; // Set visibility to false
+        this.object.add(extingClone); // Add the cloned model to the scene
+        this.receptionModels.push(extingClone); // Push the extinguisher model into the receptionModels array
+        });
 
-            this.receptionModels.push(this.exting);
-            this.cafeteriaModels.push(exting2);
-        }
-        );
+        this.extingDataCaf.forEach((extingConfig) => {
+            let extingClone = extingModel.clone(true); // Clone the original fire extinguisher model
+            extingClone.scale.set(extingConfig.scale[0], extingConfig.scale[1], extingConfig.scale[2]);
+            extingClone.position.set(extingConfig.position[0], extingConfig.position[1], extingConfig.position[2]);
+            extingClone.rotateY(extingConfig.rotationY || 0); // Apply Y-axis rotation if specified
+            extingClone.visible = false; // Set visibility to false
+            this.object.add(extingClone); // Add the cloned model to the scene
+            this.cafeteriaModels.push(extingClone); // Push the extinguisher model into the receptionModels array
+            });
+        });
+
 
 
         //=======================================================================================================
         // Cafeteria
 
+        // Load the GLTF model for the buffet table
         loaderGLTF.load('./models/buffet_table/scene.gltf', (gltf) => {
-            this.buffet = gltf.scene;
-            this.buffet.scale.set(0.05, 0.05, 0.05);
-            this.buffet.position.set(-5.4, 0.36, 0.6);
-            this.buffet.rotateY(Math.PI / 2);
-            this.buffet.visible = false;
-            this.object.add(this.buffet);
+        const buffetModel = gltf.scene;
+        buffetModel.visible = false; // Hide the original model for cloning.
 
-            this.cafeteriaModels.push(this.buffet);
-        }
-        );
+        // Iterate over the buffetData array (from JSON) to create each instance.
+        this.buffetData.forEach((buffetConfig) => {
+        let buffetClone = buffetModel.clone(true); // Clone the original buffet model
+        buffetClone.scale.set(buffetConfig.scale[0], buffetConfig.scale[1], buffetConfig.scale[2]);
+        buffetClone.position.set(buffetConfig.position[0], buffetConfig.position[1], buffetConfig.position[2]);
+        buffetClone.rotateY(buffetConfig.rotationY || 0); // Apply Y-axis rotation if specified
+        buffetClone.visible = false; // Set visibility to false
+        this.object.add(buffetClone); // Add the cloned model to the scene
+        this.cafeteriaModels.push(buffetClone); // Push the buffet model into the cafeteriaModels array
+        });
+        });
 
+
+        // Load the GLTF model for the tray
         loaderGLTF.load('./models/buffets_food_warmer_foods_and_plates/scene.gltf', (gltf) => {
-            this.tray = gltf.scene;
-            this.tray.scale.set(0.2, 0.2, 0.2);
-            this.tray.position.set(-5.55, -0.03, -0.2);
-            this.tray.rotateY(Math.PI / 2);
-            this.tray.visible = false;
-            this.object.add(this.tray);
+        const trayModel = gltf.scene;
+        trayModel.visible = false; // Hide the original model for cloning.
 
-            this.cafeteriaModels.push(this.tray);
-        }
-        );
+        // Iterate over the trayData array (from JSON) to create each instance.
+        this.trayData.forEach((trayData) => {
+        let trayClone = trayModel.clone(true); // Clone the original tray model
+        trayClone.scale.set(trayData.scale[0], trayData.scale[1], trayData.scale[2]);
+        trayClone.position.set(trayData.position[0], trayData.position[1], trayData.position[2]);
+        trayClone.rotateY(trayData.rotationY || 0); // Apply Y-axis rotation if specified
+        trayClone.visible = false; // Set visibility to false
+        this.object.add(trayClone); // Add the cloned model to the scene
+        this.cafeteriaModels.push(trayClone); // Push the tray model into the cafeteriaModels array
+        });
+        });
 
+
+        // Load the GLTF model for the fridge
         loaderGLTF.load('./models/unbranded_conventional_fridge/scene.gltf', (gltf) => {
-            this.fridge = gltf.scene;
-            this.fridge.scale.set(0.002, 0.002, 0.002);
-            this.fridge.position.set(-6.7, 0.465, -1.2);
-            this.fridge.rotateY(Math.PI / 2);
-            this.fridge.visible = false;
-            this.object.add(this.fridge);
+        const fridgeModel = gltf.scene;
+        fridgeModel.visible = false; // Hide the original model for cloning.
 
-            this.kitchenModels.push(this.fridge);
-        }
-        );
+        // Iterate over the fridgeData array (from JSON) to create each instance.
+        this.fridgeData.forEach((fridgeData) => {
+        let fridgeClone = fridgeModel.clone(true); // Clone the original fridge model
+        fridgeClone.scale.set(fridgeData.scale[0], fridgeData.scale[1], fridgeData.scale[2]);
+        fridgeClone.position.set(fridgeData.position[0], fridgeData.position[1], fridgeData.position[2]);
+        fridgeClone.rotateY(fridgeData.rotationY || 0); // Apply Y-axis rotation if specified
+        fridgeClone.visible = false; // Set visibility to false
+        this.object.add(fridgeClone); // Add the cloned model to the scene
+        this.kitchenModels.push(fridgeClone); // Push the fridge model into the kitchenModels array
+        });
+        });
+
 
         loaderGLTF.load('./models/stove_with_hood/scene.gltf', (gltf) => {
-            this.stove = gltf.scene;
-            this.stove.scale.set(0.4, 0.5, 0.4);
-            this.stove.position.set(-6.95, 0, 1.3);
-            this.stove.visible = false;
-            this.object.add(this.stove);
-
-            let stove2 = gltf.scene.clone();
-            stove2.position.set(-6.95, 0, 1);
-            stove2.visible = false;
-            this.object.add(stove2);
-
-            this.kitchenModels.push(this.stove);
-            this.kitchenModels.push(stove2);
-        }
-        );
+            const stoveModel = gltf.scene;
+            stoveModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `stoveData` array (from JSON) to create each instance.
+            this.stoveData.forEach((stoveData) => {
+                let stoveClone = stoveModel.clone(true); // Clone the original stove model
+                stoveClone.scale.set(stoveData.scale[0], stoveData.scale[1], stoveData.scale[2]);
+                stoveClone.position.set(stoveData.position[0], stoveData.position[1], stoveData.position[2]);
+                stoveClone.visible = false; // Set visibility to false
+                this.object.add(stoveClone);
+                this.kitchenModels.push(stoveClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/kitchen_sink/scene.gltf', (gltf) => {
-            this.sink = gltf.scene;
-            this.sink.scale.set(0.4, 0.5, 0.4);
-            this.sink.position.set(-6.95, 0.4, 0.65);
-            this.sink.rotateY(Math.PI / 2);
-            this.sink.visible = false;
-            this.object.add(this.sink);
-
-            this.kitchenModels.push(this.sink);
-        }
-        );
+            const sinkModel = gltf.scene;
+            sinkModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `sinkData` array (from JSON) to create each instance.
+            this.sinkData.forEach((sinkData) => {
+                let sinkClone = sinkModel.clone(true); // Clone the original sink model
+                sinkClone.scale.set(sinkData.scale[0], sinkData.scale[1], sinkData.scale[2]);
+                sinkClone.position.set(sinkData.position[0], sinkData.position[1], sinkData.position[2]);
+                sinkClone.rotateY(sinkData.rotationY); // Apply rotation (if needed)
+                sinkClone.visible = false; // Set visibility to false
+                this.object.add(sinkClone);
+                this.kitchenModels.push(sinkClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/furniture__mobel_-_kuchentisch/scene.gltf', (gltf) => {
-            this.oven = gltf.scene;
-            this.oven.scale.set(0.3, 0.5, 0.7);
-            this.oven.position.set(-6.8, 0.24, -0.35);
-            this.oven.visible = false;
-            this.object.add(this.oven);
-
-            this.kitchenModels.push(this.oven);
-        }
-        );
+            const ovenModel = gltf.scene;
+            ovenModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `ovenData` array (from JSON) to create each instance.
+            this.ovenData.forEach((ovenData, index) => {
+                let ovenClone = ovenModel.clone(true); // Clone the original oven model
+                ovenClone.scale.set(ovenData.scale[0], ovenData.scale[1], ovenData.scale[2]);
+                ovenClone.position.set(ovenData.position[0], ovenData.position[1], ovenData.position[2]);
+                ovenClone.visible = false; // Set visibility to false
+                this.object.add(ovenClone);
+                this.kitchenModels.push(ovenClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/sm_chair_table/scene.gltf', (gltf) => {
-            this.cafeTable = gltf.scene;
-            this.cafeTable.scale.set(0.5, 0.4, 0.5);
-            this.cafeTable.position.set(-5.4, 0, -2);
-            this.cafeTable.visible = false;
-            this.object.add(this.cafeTable);
-
-            let cafeTable2 = gltf.scene.clone();
-            cafeTable2.position.set(-5.4, 0, 2);
-            cafeTable2.visible = false;
-            this.object.add(cafeTable2);
-
-            let cafeTable3 = gltf.scene.clone();
-            cafeTable3.position.set(-3.6, 0, -2);
-            cafeTable3.visible = false;
-            this.object.add(cafeTable3);
-
-            let cafeTable4 = gltf.scene.clone();
-            cafeTable4.position.set(-3.6, 0, 2);
-            cafeTable4.visible = false;
-            this.object.add(cafeTable4);
-
-            let cafeTable5 = gltf.scene.clone();
-            cafeTable5.position.set(-4.2, 0, 0);
-            cafeTable5.visible = false;
-            this.object.add(cafeTable5);
-
-            this.cafeteriaModels.push(this.cafeTable);
-            this.cafeteriaModels.push(cafeTable2);
-            this.cafeteriaModels.push(cafeTable3);
-            this.cafeteriaModels.push(cafeTable4);
-            this.cafeteriaModels.push(cafeTable5);
-        }
-        );
+            const cafeTableModel = gltf.scene;
+            cafeTableModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `cafeTableData` array (from JSON) to create each instance.
+            this.cafeTableData.forEach((tableData, index) => {
+                let cafeTableClone = cafeTableModel.clone(true); // Clone the original table model
+                cafeTableClone.scale.set(tableData.scale[0], tableData.scale[1], tableData.scale[2]);
+                cafeTableClone.position.set(tableData.position[0], tableData.position[1], tableData.position[2]);
+                cafeTableClone.visible = false; // Set visibility to false
+                this.object.add(cafeTableClone);
+                this.cafeteriaModels.push(cafeTableClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/small_table/scene.gltf', (gltf) => {
-            this.smallTable = gltf.scene;
-            this.smallTable.scale.set(0.15, 0.12, 0.15);
-            this.smallTable.position.set(-5.4, 0.1, 0.85);
-            this.smallTable.visible = false;
-            this.object.add(this.smallTable);
-
-            this.cafeteriaModels.push(this.smallTable);
-        }
-        );
+            const tableModel = gltf.scene;
+            tableModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `smallTableData` array (from JSON) to create each instance.
+            this.smallTableData.forEach((tableData, index) => {
+                let tableClone = tableModel.clone(true); // Clone the original table model
+                tableClone.scale.set(tableData.scale[0], tableData.scale[1], tableData.scale[2]);
+                tableClone.position.set(tableData.position[0], tableData.position[1], tableData.position[2]);
+                tableClone.visible = false; // Set visibility to false
+                this.object.add(tableClone);
+                this.cafeteriaModels.push(tableClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/coffee__tea_mugs_free/scene.gltf', (gltf) => {
-            this.mug = gltf.scene;
-            this.mug.scale.set(0.2, 0.2, 0.2);
-            this.mug.position.set(-5.32, 0.3, 0.85);
-            this.mug.visible = false;
-            this.object.add(this.mug);
-
-            this.cafeteriaModels.push(this.mug);
-        }
-        );
+            const mugModel = gltf.scene;
+            mugModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `mugData` array (from JSON) to create each instance.
+            this.mugData.forEach((mugData, index) => {
+                let mugClone = mugModel.clone(true); // Clone the original mug model
+                mugClone.scale.set(mugData.scale[0], mugData.scale[1], mugData.scale[2]);
+                mugClone.position.set(mugData.position[0], mugData.position[1], mugData.position[2]);
+                mugClone.visible = false; // Set visibility to false
+                this.object.add(mugClone);
+                this.cafeteriaModels.push(mugClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/coffeemachinemodel_archviz_productdesign_free/scene.gltf', (gltf) => {
-            this.coffee = gltf.scene;
-            this.coffee.scale.set(0.7, 0.7, 0.7);
-            this.coffee.position.set(-5.55, 0.3, 0.85);
-            this.coffee.visible = false;
-            this.object.add(this.coffee);
-
-            this.cafeteriaModels.push(this.coffee);
-        }
-        );
+            const coffeeModel = gltf.scene;
+            coffeeModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `coffeeMachines` array (from JSON) to create each instance.
+            this.coffeeData.forEach((coffeeData, index) => {
+                let coffeeClone = coffeeModel.clone(true); // Clone the original coffee machine model
+                coffeeClone.scale.set(coffeeData.scale[0], coffeeData.scale[1], coffeeData.scale[2]);
+                coffeeClone.position.set(coffeeData.position[0], coffeeData.position[1], coffeeData.position[2]);
+                coffeeClone.visible = false; // Set visibility to false
+                this.object.add(coffeeClone);
+                this.cafeteriaModels.push(coffeeClone); // Add to models array
+            });
+        });
+        
 
         //=======================================================================================================
         // Bedroom
 
         loaderGLTF.load('./models/bed_curtain_and_vital_signs_monitor/scene.gltf', (gltf) => {
-            this.bed = gltf.scene;
-            this.bed.scale.set(0.15, 0.12, 0.12);
-            this.bed.position.set(5.2, 0, -2.1);
-            this.bed.rotateY(3 * Math.PI / 2);
-            this.bed.visible = false;
-            this.object.add(this.bed);
-
-            let bed2 = gltf.scene.clone();
-            bed2.position.set(5.2, 0, -0.85);
-            bed2.visible = false;
-            this.object.add(bed2);
-
-            let bed3 = gltf.scene.clone();
-            bed3.position.set(5.2, 0, 0.4);
-            bed3.visible = false;
-            this.object.add(bed3);
-
-            let bed4 = gltf.scene.clone();
-            bed4.position.set(5.2, 0, 1.55);
-            bed4.visible = false;
-            this.object.add(bed4);
-
-            this.bedroomModels.push(this.bed);
-            this.bedroomModels.push(bed2);
-            this.bedroomModels.push(bed3);
-            this.bedroomModels.push(bed4);
-        }
-        );
+            const bedModel = gltf.scene;
+            bedModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `bedModels` array (from JSON) to create each instance.
+            this.bedData.forEach((bedData, index) => {
+                let bedClone = bedModel.clone(true); // Clone the original bed model
+                bedClone.scale.set(bedData.scale[0], bedData.scale[1], bedData.scale[2]);
+                bedClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]);
+                bedClone.rotateY(bedData.rotationY); // Apply rotation if any
+                bedClone.visible = false; // Set visibility to false
+                this.object.add(bedClone);
+                this.bedroomModels.push(bedClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/hospital_bed/scene.gltf', (gltf) => {
-            this.hospitalBed = gltf.scene;
-            this.hospitalBed.scale.set(0.18, 0.3, 0.18);
-            this.hospitalBed.position.set(5.6, 0, -2.1);
-            this.hospitalBed.visible = false;
-            this.object.add(this.hospitalBed);
-
-            let hospitalBed2 = gltf.scene.clone();
-            hospitalBed2.position.set(5.6, 0, -0.85);
-            hospitalBed2.visible = false;
-            this.object.add(hospitalBed2);
-
-            let hospitalBed3 = gltf.scene.clone();
-            hospitalBed3.position.set(5.6, 0, 0.4);
-            hospitalBed3.visible = false;
-            this.object.add(hospitalBed3);
-
-            let hospitalBed4 = gltf.scene.clone();
-            hospitalBed4.position.set(5.6, 0, 1.55);
-            hospitalBed4.visible = false;
-            this.object.add(hospitalBed4);
-
-            this.bedroomModels.push(this.hospitalBed);
-            this.bedroomModels.push(hospitalBed2);
-            this.bedroomModels.push(hospitalBed3);
-            this.bedroomModels.push(hospitalBed4);
-        }
-        );
+            const hospitalBedroomBedModel = gltf.scene;
+            hospitalBedroomBedModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `hospitalBedroomBedModels` array (from JSON) to create each instance.
+            this.hospitalBedroomBedModels.forEach((bedData, index) => {
+                let hospitalBedClone = hospitalBedroomBedModel.clone(true); // Clone the original hospital bed model
+                hospitalBedClone.scale.set(bedData.scale[0], bedData.scale[1], bedData.scale[2]);
+                hospitalBedClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]);
+                hospitalBedClone.visible = false; // Set visibility to false
+                this.object.add(hospitalBedClone);
+                this.bedroomModels.push(hospitalBedClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/gourney_-_hospital_bed/scene.gltf', (gltf) => {
-            this.gourney = gltf.scene;
-            this.gourney.scale.set(0.115, 0.115, 0.115);
-            this.gourney.position.set(4.3, 0.25, -1.7);
-            this.gourney.visible = false;
-            this.object.add(this.gourney);
-
-            this.bedroomModels.push(this.gourney);
-        }
-        );
+            const gourneyModel = gltf.scene;
+            gourneyModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `gourneyModels` array (from JSON) to create each instance.
+            this.gourneyModels.forEach((bedData, index) => {
+                let gourneyClone = gourneyModel.clone(true); // Clone the original Gourney hospital bed model
+                gourneyClone.scale.set(bedData.scale[0], bedData.scale[1], bedData.scale[2]);
+                gourneyClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]);
+                gourneyClone.visible = false; // Set visibility to false
+                this.object.add(gourneyClone);
+                this.bedroomModels.push(gourneyClone); // Add to models array
+            });
+        });
+        
 
 
 
@@ -951,666 +881,319 @@ export default class Maze {
 
         // KOENIGSEGG ONE PRO
         loaderGLTF.load('./models/koenigsegg_one_pro/scene.gltf', (gltf) => {
-            this.kOnePro = gltf.scene;
-            this.kOnePro.scale.set(4, 5.5, 4);
-            this.kOnePro.position.set(8, 0, 1);
-            this.kOnePro.rotateY(Math.PI / 2);
-            this.object.add(this.kOnePro);
-            this.kOnePro.visible = false;
-
-            this.parkingLotModels.push(this.kOnePro);
-        }
-        );
+            const kOneProModel = gltf.scene;
+            kOneProModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `kOneProModels` array (from JSON) to create each instance.
+            this.kOneProModels.forEach((carData, index) => {
+                let kOneProClone = kOneProModel.clone(true); // Clone the original Koenigsegg model
+                kOneProClone.scale.set(carData.scale[0], carData.scale[1], carData.scale[2]);
+                kOneProClone.position.set(carData.position[0], carData.position[1], carData.position[2]);
+                kOneProClone.rotateY(carData.rotationY || 0); // Apply rotation if provided
+                kOneProClone.visible = false; // Set visibility to false
+                this.object.add(kOneProClone);
+                this.parkingLotModels.push(kOneProClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/aventador_svj_black-ghosttm/scene.gltf', (gltf) => {
-            this.aventador = gltf.scene;
-            this.aventador.scale.set(0.3, 0.4, 0.3);
-            this.aventador.position.set(8, 0, 2);
-            this.aventador.rotateY(Math.PI / 2);
-            this.aventador.visible = false;
-            this.object.add(this.aventador);
-
-            this.parkingLotModels.push(this.aventador);
-        }
-        );
+            const aventadorModel = gltf.scene;
+            aventadorModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `aventadorModels` array (from JSON) to create each instance.
+            this.aventadorModels.forEach((carData, index) => {
+                let aventadorClone = aventadorModel.clone(true); // Clone the original Aventador model
+                aventadorClone.scale.set(carData.scale[0], carData.scale[1], carData.scale[2]);
+                aventadorClone.position.set(carData.position[0], carData.position[1], carData.position[2]);
+                aventadorClone.rotateY(carData.rotationY || 0); // Apply rotation if provided
+                aventadorClone.visible = false; // Set visibility to false
+                this.object.add(aventadorClone);
+                this.parkingLotModels.push(aventadorClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/ac_-_mclaren_p1_free/scene.gltf', (gltf) => {
-            this.mclaren = gltf.scene;
-            this.mclaren.scale.set(0.27, 0.34, 0.27);
-            this.mclaren.position.set(8, 0, 3);
-            this.mclaren.rotateY(Math.PI / 2);
-            this.mclaren.visible = false;
-            this.object.add(this.mclaren);
-
-            this.parkingLotModels.push(this.mclaren);
-        }
-        );
+            const mclarenModel = gltf.scene;
+            mclarenModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `mclarenModels` array (from JSON) to create each instance.
+            this.mclarenModels.forEach((carData, index) => {
+                let mclarenClone = mclarenModel.clone(true); // Clone the original McLaren model
+                mclarenClone.scale.set(carData.scale[0], carData.scale[1], carData.scale[2]);
+                mclarenClone.position.set(carData.position[0], carData.position[1], carData.position[2]);
+                mclarenClone.rotateY(carData.rotationY || 0); // Apply rotation if provided
+                mclarenClone.visible = false; // Set visibility to false
+                this.object.add(mclarenClone);
+                this.parkingLotModels.push(mclarenClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/suzuki_gsx_750_bike_3d_model/scene.gltf', (gltf) => {
-            this.suzuki = gltf.scene;
-            this.suzuki.scale.set(0.3, 0.3, 0.3);
-            this.suzuki.position.set(8, 0, 4);
-            this.suzuki.rotateY(3 * Math.PI / 2);
-            this.suzuki.visible = false;
-            this.object.add(this.suzuki);
-
-            this.parkingLotModels.push(this.suzuki);
-        }
-        );
+            const suzukiModel = gltf.scene;
+            suzukiModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `suzukiModels` array (from JSON) to create each instance.
+            this.suzukiModels.forEach((bikeData, index) => {
+                let suzukiClone = suzukiModel.clone(true); // Clone the original Suzuki bike model
+                suzukiClone.scale.set(bikeData.scale[0], bikeData.scale[1], bikeData.scale[2]);
+                suzukiClone.position.set(bikeData.position[0], bikeData.position[1], bikeData.position[2]);
+                suzukiClone.rotateY(bikeData.rotationY || 0); // Apply rotation if provided
+                suzukiClone.visible = false; // Set visibility to false
+                this.object.add(suzukiClone);
+                this.parkingLotModels.push(suzukiClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/japanese_parking_machine/scene.gltf', (gltf) => {
-            this.parkingMachine = gltf.scene;
-            this.parkingMachine.scale.set(0.008, 0.008, 0.008);
-            this.parkingMachine.position.set(7.15, 0, 5);
-            this.parkingMachine.rotateY(Math.PI / 2);
-            this.parkingMachine.visible = false;
-            this.object.add(this.parkingMachine);
-
-            this.parkingLotModels.push(this.parkingMachine);
-        }
-        );
+            const parkingMachineModel = gltf.scene;
+            parkingMachineModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `parkingMachineModels` array (from JSON) to create each instance.
+            this.parkingMachineModels.forEach((machineData, index) => {
+                let parkingMachineClone = parkingMachineModel.clone(true); // Clone the original parking machine model
+                parkingMachineClone.scale.set(machineData.scale[0], machineData.scale[1], machineData.scale[2]);
+                parkingMachineClone.position.set(machineData.position[0], machineData.position[1], machineData.position[2]);
+                parkingMachineClone.rotateY(machineData.rotationY || 0); // Apply rotation if provided
+                parkingMachineClone.visible = false; // Set visibility to false
+                this.object.add(parkingMachineClone);
+                this.parkingLotModels.push(parkingMachineClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/concrete_road_barrier_photoscanned/scene.gltf', (gltf) => {
-            this.roadBarrier = gltf.scene;
-            this.roadBarrier.scale.set(0.5, 0.5, 0.5);
-            this.roadBarrier.position.set(8, 0, 0);
-            this.roadBarrier.rotateY(Math.PI / 2);
-            this.roadBarrier.visible = false;
-            this.object.add(this.roadBarrier);
-
-            let roadBarrier2 = gltf.scene.clone();
-            roadBarrier2.position.set(9, 0, 0);
-            roadBarrier2.visible = false;
-            this.object.add(roadBarrier2);
-
-            let roadBarrier3 = gltf.scene.clone();
-            roadBarrier3.position.set(10, 0, 0);
-            roadBarrier3.visible = false;
-            this.object.add(roadBarrier3);
-
-            this.parkingLotModels.push(this.roadBarrier);
-            this.parkingLotModels.push(roadBarrier2);
-            this.parkingLotModels.push(roadBarrier3);
-        }
-        );
+            const roadBarrierModel = gltf.scene;
+            roadBarrierModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `roadBarrierModels` array (from JSON) to create each instance.
+            this.roadBarrierModels.forEach((barrierData, index) => {
+                let roadBarrierClone = roadBarrierModel.clone(true); // Clone the original road barrier model
+                roadBarrierClone.scale.set(barrierData.scale[0], barrierData.scale[1], barrierData.scale[2]);
+                roadBarrierClone.position.set(barrierData.position[0], barrierData.position[1], barrierData.position[2]);
+                roadBarrierClone.rotateY(barrierData.rotationY || 0); // Apply rotation if provided
+                roadBarrierClone.visible = false; // Set visibility to false
+                this.object.add(roadBarrierClone);
+                this.parkingLotModels.push(roadBarrierClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/ambulance/scene.gltf', (gltf) => {
-            this.ambulance = gltf.scene;
-            this.ambulance.scale.set(0.3, 0.45, 0.3);
-            this.ambulance.position.set(8.2, 0, -1);
-            this.ambulance.rotateY(Math.PI / 2);
-            this.ambulance.visible = false;
-            this.object.add(this.ambulance);
-
-            let ambulance2 = gltf.scene.clone();
-            ambulance2.position.set(8.2, 0, -2);
-            ambulance2.visible = false;
-            this.object.add(ambulance2);
-
-            this.parkingLotModels.push(this.ambulance);
-            this.parkingLotModels.push(ambulance2);
-        }
-        );
+            const ambulanceModel = gltf.scene;
+            ambulanceModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `ambulanceModels` array (from JSON) to create each instance.
+            this.ambulanceModels.forEach((ambulanceData, index) => {
+                let ambulanceClone = ambulanceModel.clone(true); // Clone the original ambulance model
+                ambulanceClone.scale.set(ambulanceData.scale[0], ambulanceData.scale[1], ambulanceData.scale[2]);
+                ambulanceClone.position.set(ambulanceData.position[0], ambulanceData.position[1], ambulanceData.position[2]);
+                ambulanceClone.rotateY(ambulanceData.rotationY || 0); // Apply rotation if provided
+                ambulanceClone.visible = false; // Set visibility to false
+                this.object.add(ambulanceClone);
+                this.parkingLotModels.push(ambulanceClone); // Add to models array
+            });
+        });
+        
 
 
         //=======================================================================================================
         // Consultório
 
         loaderGLTF.load('./models/table/scene.gltf', (gltf) => {
-            this.tableC = gltf.scene;
-            this.tableC.scale.set(0.65, 0.8, 0.75);
-            this.tableC.position.set(-7.44, 0.39, -4.73);
-            this.tableC.visible = false;
-            this.object.add(this.tableC);
-
-            let tableC2 = gltf.scene.clone();
-            tableC2.position.set(-7.44, 0.39, 4.73);
-            tableC2.visible = false;
-            this.object.add(tableC2);
-
-            let tableC3 = gltf.scene.clone();
-            tableC3.position.set(-5.44, 0.39, -4.73);
-            tableC3.visible = false;
-            this.object.add(tableC3);
-
-            let tableC4 = gltf.scene.clone();
-            tableC4.position.set(-5.44, 0.39, 4.73);
-            tableC4.visible = false;
-            this.object.add(tableC4);
-
-            let tableC5 = gltf.scene.clone();
-            tableC5.position.set(-3.44, 0.39, -4.73);
-            tableC5.visible = false;
-            this.object.add(tableC5);
-
-            let tableC6 = gltf.scene.clone();
-            tableC6.position.set(-3.44, 0.39, 4.73);
-            tableC6.visible = false;
-            this.object.add(tableC6);
-
-            this.screeningModels.push(this.tableC);
-            this.screeningModels.push(tableC2);
-            this.screeningModels.push(tableC3);
-            this.screeningModels.push(tableC4);
-            this.screeningModels.push(tableC5);
-            this.screeningModels.push(tableC6);
-        }
-        );
+            const tableModel = gltf.scene;
+            tableModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `tableCModels` array (from JSON) to create each instance.
+            this.tableCModels.forEach((tableData, index) => {
+                let tableClone = tableModel.clone(true); // Clone the original table model
+                tableClone.scale.set(tableData.scale[0], tableData.scale[1], tableData.scale[2]);
+                tableClone.position.set(tableData.position[0], tableData.position[1], tableData.position[2]);
+                tableClone.visible = false; // Set visibility to false
+                this.object.add(tableClone);
+                this.screeningModels.push(tableClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/retro_computer_setup_free/scene.gltf', (gltf) => {
-            this.computerC = gltf.scene;
-            this.computerC.scale.set(0.005, 0.005, 0.004);
-            this.computerC.position.set(-7.6, 0.42, -4.8);
-            this.computerC.rotateY(Math.PI);
-            this.computerC.visible = false;
-            this.object.add(this.computerC);
+            const computerModel = gltf.scene;
+            computerModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `computerCModels` array (from JSON) to create each instance.
+            this.computerCModels.forEach((computerData, index) => {
+                let computerClone = computerModel.clone(true); // Clone the original computer model
+                computerClone.scale.set(computerData.scale[0], computerData.scale[1], computerData.scale[2]);
+                computerClone.position.set(computerData.position[0], computerData.position[1], computerData.position[2]);
+                computerClone.rotateY(computerData.rotationY || 0); // Apply rotation if provided
+                computerClone.visible = false; // Set visibility to false
+                this.object.add(computerClone);
+                this.screeningModels.push(computerClone); // Add to models array
+            });
 
-            let computerC2 = gltf.scene.clone();
-            computerC2.position.set(-7.6, 0.42, 4.8);
-            computerC2.rotateY(Math.PI);
-            computerC2.visible = false;
-            this.object.add(computerC2);
-
-            let computerC3 = gltf.scene.clone();
-            computerC3.position.set(-5.6, 0.42, -4.8);
-            computerC3.visible = false;
-            this.object.add(computerC3);
-
-            let computerC4 = gltf.scene.clone();
-            computerC4.position.set(-5.6, 0.42, 4.8);
-            computerC4.rotateY(Math.PI);
-            computerC4.visible = false;
-            this.object.add(computerC4);
-
-            let computerC5 = gltf.scene.clone();
-            computerC5.position.set(-3.6, 0.42, -4.8);
-            computerC5.visible = false;
-            this.object.add(computerC5);
-
-            let computerC6 = gltf.scene.clone();
-            computerC6.position.set(-3.6, 0.42, 4.8);
-            computerC6.rotateY(Math.PI);
-            computerC6.visible = false;
-            this.object.add(computerC6);
-
-            this.screeningModels.push(this.computerC);
-            this.screeningModels.push(computerC2);
-            this.screeningModels.push(computerC3);
-            this.screeningModels.push(computerC4);
-            this.screeningModels.push(computerC5);
-            this.screeningModels.push(computerC6);
-        }
-        );
+            this.computerStaffModels.forEach((computerData) => {
+                let computerClone = computerModel.clone(true); // Clone the original computer model
+                computerClone.scale.set(computerData.scale[0], computerData.scale[1], computerData.scale[2]);
+                computerClone.position.set(computerData.position[0], computerData.position[1], computerData.position[2]);
+                computerClone.rotateY(computerData.rotationY || 0); // Apply rotation if provided
+                computerClone.visible = false; // Set visibility to false initially
+                this.object.add(computerClone);
+        
+                // Add to the staff models array
+                this.staffModels.push(computerClone);
+            });
+        });
+        
 
         loaderGLTF.load('./models/ikea_markus_office_chair/scene.gltf', (gltf) => {
-            this.chairC = gltf.scene;
-            this.chairC.scale.set(0.0045, 0.0055, 0.0045);
-            this.chairC.position.set(-7.55, 0, -5);
-            this.chairC.visible = false;
-            this.object.add(this.chairC);
-
-            let chairC2 = gltf.scene.clone();
-            chairC2.position.set(-7.55, 0, 5);
-            chairC2.rotateY(Math.PI);
-            chairC2.visible = false;
-            this.object.add(chairC2);
-
-            let chairC3 = gltf.scene.clone();
-            chairC3.position.set(-5.55, 0, -5);
-            chairC3.visible = false;
-            this.object.add(chairC3);
-
-            let chairC4 = gltf.scene.clone();
-            chairC4.position.set(-5.55, 0, 5);
-            chairC4.rotateY(Math.PI);
-            chairC4.visible = false;
-            this.object.add(chairC4);
-
-            let chairC5 = gltf.scene.clone();
-            chairC5.position.set(-3.55, 0, -5);
-            chairC5.visible = false;
-            this.object.add(chairC5);
-
-            let chairC6 = gltf.scene.clone();
-            chairC6.position.set(-3.55, 0, 5);
-            chairC6.rotateY(Math.PI);
-            chairC6.visible = false;
-            this.object.add(chairC6);
-
-            this.screeningModels.push(this.chairC);
-            this.screeningModels.push(chairC2);
-            this.screeningModels.push(chairC3);
-            this.screeningModels.push(chairC4);
-            this.screeningModels.push(chairC5);
-            this.screeningModels.push(chairC6);
-        }
-        );
+            const chairModel = gltf.scene;
+            chairModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `chairCModels` array (from JSON) to create each instance.
+            this.chairCModels.forEach((chairData, index) => {
+                let chairClone = chairModel.clone(true); // Clone the original chair model
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0); // Apply rotation if provided
+                chairClone.visible = false; // Set visibility to false
+                this.object.add(chairClone);
+                this.screeningModels.push(chairClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/chair/scene.gltf', (gltf) => {
-            this.patientChair = gltf.scene;
-            this.patientChair.scale.set(0.39, 0.45, 0.39);
-            this.patientChair.position.set(-7.7, 0.01, -4.4);
-            this.patientChair.rotateY(Math.PI);
-            this.patientChair.visible = false;
-            this.object.add(this.patientChair);
-
-            let patientChair2 = gltf.scene.clone();
-            patientChair2.position.set(-7.3, 0.01, -4.4);
-            patientChair2.visible = false;
-            this.object.add(patientChair2);
-
-            let patientChair3 = gltf.scene.clone();
-            patientChair3.position.set(-7.7, 0.01, 4.4);
-            patientChair3.rotateY(Math.PI);
-            patientChair3.visible = false;
-            this.object.add(patientChair3);
-
-            let patientChair4 = gltf.scene.clone();
-            patientChair4.position.set(-7.3, 0.01, 4.4);
-            patientChair4.rotateY(Math.PI);
-            patientChair4.visible = false;
-            this.object.add(patientChair4);
-
-            let patientChair5 = gltf.scene.clone();
-            patientChair5.position.set(-5.7, 0.01, -4.4);
-            patientChair5.visible = false;
-            this.object.add(patientChair5);
-
-            let patientChair6 = gltf.scene.clone();
-            patientChair6.position.set(-5.3, 0.01, -4.4);
-            patientChair6.visible = false;
-            this.object.add(patientChair6);
-
-            let patientChair7 = gltf.scene.clone();
-            patientChair7.position.set(-5.7, 0.01, 4.4);
-            patientChair7.rotateY(Math.PI);
-            patientChair7.visible = false;
-            this.object.add(patientChair7);
-
-            let patientChair8 = gltf.scene.clone();
-            patientChair8.position.set(-5.3, 0.01, 4.4);
-            patientChair8.rotateY(Math.PI);
-            patientChair8.visible = false;
-            this.object.add(patientChair8);
-
-            let patientChair9 = gltf.scene.clone();
-            patientChair9.position.set(-3.7, 0.01, -4.4);
-            patientChair9.visible = false;
-            this.object.add(patientChair9);
-
-            let patientChair10 = gltf.scene.clone();
-            patientChair10.position.set(-3.3, 0.01, -4.4);
-            patientChair10.visible = false;
-            this.object.add(patientChair10);
-
-            let patientChair11 = gltf.scene.clone();
-            patientChair11.position.set(-3.7, 0.01, 4.4);
-            patientChair11.rotateY(Math.PI);
-            patientChair11.visible = false;
-            this.object.add(patientChair11);
-
-            let patientChair12 = gltf.scene.clone();
-            patientChair12.position.set(-3.3, 0.01, 4.4);
-            patientChair12.rotateY(Math.PI);
-            patientChair12.visible = false;
-            this.object.add(patientChair12);
-
-            this.screeningModels.push(this.patientChair);
-            this.screeningModels.push(patientChair2);
-            this.screeningModels.push(patientChair3);
-            this.screeningModels.push(patientChair4);
-            this.screeningModels.push(patientChair5);
-            this.screeningModels.push(patientChair6);
-            this.screeningModels.push(patientChair7);
-            this.screeningModels.push(patientChair8);
-            this.screeningModels.push(patientChair9);
-            this.screeningModels.push(patientChair10);
-            this.screeningModels.push(patientChair11);
-            this.screeningModels.push(patientChair12);
-        }
-        );
+            const chairModel = gltf.scene;
+            chairModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `chairModels` array (from JSON) to create each instance.
+            this.chairModels.forEach((chairData, index) => {
+                let chairClone = chairModel.clone(true); // Clone the original chair model
+                chairClone.scale.set(chairData.scale[0], chairData.scale[1], chairData.scale[2]);
+                chairClone.position.set(chairData.position[0], chairData.position[1], chairData.position[2]);
+                chairClone.rotateY(chairData.rotationY || 0); // Apply rotation if provided
+                chairClone.visible = false; // Set visibility to false
+                this.object.add(chairClone);
+                this.screeningModels.push(chairClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/office_filing_cabinet_free/scene.gltf', (gltf) => {
-            this.cabinet = gltf.scene;
-            this.cabinet.scale.set(0.11, 0.13, 0.12);
-            this.cabinet.position.set(-7, 0.2, -5.33);
-            this.cabinet.visible = false;
-            this.object.add(this.cabinet);
-
-            let cabinet2 = gltf.scene.clone();
-            cabinet2.position.set(-7, 0.2, 5.33);
-            cabinet2.rotateY(Math.PI);
-            cabinet2.visible = false;
-            this.object.add(cabinet2);
-
-            let cabinet3 = gltf.scene.clone();
-            cabinet3.position.set(-5, 0.2, -5.33);
-            cabinet3.visible = false;
-            this.object.add(cabinet3);
-
-            let cabinet4 = gltf.scene.clone();
-            cabinet4.position.set(-5, 0.2, 5.33);
-            cabinet4.rotateY(Math.PI);
-            cabinet4.visible = false;
-            this.object.add(cabinet4);
-
-            let cabinet5 = gltf.scene.clone();
-            cabinet5.position.set(-3, 0.2, -5.33);
-            cabinet5.visible = false;
-            this.object.add(cabinet5);
-
-            let cabinet6 = gltf.scene.clone();
-            cabinet6.position.set(-3, 0.2, 5.33);
-            cabinet6.rotateY(Math.PI);
-            cabinet6.visible = false;
-            this.object.add(cabinet6);
-
-            this.screeningModels.push(this.cabinet);
-            this.screeningModels.push(cabinet2);
-            this.screeningModels.push(cabinet3);
-            this.screeningModels.push(cabinet4);
-            this.screeningModels.push(cabinet5);
-            this.screeningModels.push(cabinet6);
-        }
-        );
+            const cabinetModel = gltf.scene;
+            cabinetModel.visible = false; // Hide the original model for cloning.
+            
+            // Iterate over the `cabinetModels` array (from JSON) to create each instance.
+            this.cabinetModels.forEach((cabinetData, index) => {
+                let cabinetClone = cabinetModel.clone(true); // Clone the original cabinet model
+                cabinetClone.scale.set(cabinetData.scale[0], cabinetData.scale[1], cabinetData.scale[2]);
+                cabinetClone.position.set(cabinetData.position[0], cabinetData.position[1], cabinetData.position[2]);
+                cabinetClone.rotateY(cabinetData.rotationY || 0); // Apply rotation if provided
+                cabinetClone.visible = false; // Set visibility to false
+                this.object.add(cabinetClone);
+                this.screeningModels.push(cabinetClone); // Add to models array
+            });
+        });
+        
 
         loaderGLTF.load('./models/hospital_bed_patient/scene.gltf', (gltf) => {
-            this.hospitalBedC = gltf.scene;
-            this.hospitalBedC.scale.set(0.5, 0.5, 0.5);
-            this.hospitalBedC.position.set(-6.25, 0, -4.8);
-            this.hospitalBedC.rotateY(Math.PI / 2);
-            this.hospitalBedC.visible = false;
-            this.object.add(this.hospitalBedC);
-
-            let hospitalBedC2 = gltf.scene.clone();
-            hospitalBedC2.position.set(-6.25, 0, 4.8);
-            hospitalBedC2.rotateY(Math.PI);
-            hospitalBedC2.visible = false;
-            this.object.add(hospitalBedC2);
-
-            let hospitalBedC3 = gltf.scene.clone();
-            hospitalBedC3.position.set(-4.25, 0, -4.8);
-            hospitalBedC3.visible = false;
-            this.object.add(hospitalBedC3);
-
-            let hospitalBedC4 = gltf.scene.clone();
-            hospitalBedC4.position.set(-4.25, 0, 4.8);
-            hospitalBedC4.rotateY(Math.PI);
-            hospitalBedC4.visible = false;
-            this.object.add(hospitalBedC4);
-
-            let hospitalBedC5 = gltf.scene.clone();
-            hospitalBedC5.position.set(-2.25, 0, -4.8);
-            hospitalBedC5.visible = false;
-            this.object.add(hospitalBedC5);
-
-            let hospitalBedC6 = gltf.scene.clone();
-            hospitalBedC6.position.set(-2.25, 0, 4.8);
-            hospitalBedC6.rotateY(Math.PI);
-            hospitalBedC6.visible = false;
-            this.object.add(hospitalBedC6);
-
-            this.screeningModels.push(this.hospitalBedC);
-            this.screeningModels.push(hospitalBedC2);
-            this.screeningModels.push(hospitalBedC3);
-            this.screeningModels.push(hospitalBedC4);
-            this.screeningModels.push(hospitalBedC5);
-            this.screeningModels.push(hospitalBedC6);
-        }
-        );
+            const hospitalBedModel = gltf.scene;
+            hospitalBedModel.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `hospitalBedModels` array (from JSON) to create each instance.
+            this.hospitalBedModels.forEach((bedData, index) => {
+                let hospitalBedClone = hospitalBedModel.clone(true); // Clone the original bed model
+                hospitalBedClone.scale.set(bedData.scale[0], bedData.scale[1], bedData.scale[2]);
+                hospitalBedClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]);
+                hospitalBedClone.rotateY(bedData.rotationY || 0); // Apply rotation if provided
+                hospitalBedClone.visible = false; // Set visibility to true
+                this.object.add(hospitalBedClone);
+                this.screeningModels.push(hospitalBedClone); // Add to models array
+            });
+        });
+        
 
 
         //=======================================================================================================
         // Surgery room
 
         loaderGLTF.load('./models/surgical__instrument_table_collection/scene.gltf', (gltf) => {
-            this.surgicalInstruments = gltf.scene;
-            this.surgicalInstruments.scale.set(0.4, 0.5, 0.4);
-            this.surgicalInstruments.position.set(-0.9, 0, -0.8);
-            this.surgicalInstruments.rotateY(Math.PI / 2);
-            this.surgicalInstruments.visible = false;
-            this.object.add(this.surgicalInstruments);
+            const originalInstruments = gltf.scene;
+            originalInstruments.visible = false; // Hide the original model for cloning.
+        
+            // Iterate over the `surgicalInstrumentModels` array (from JSON) to create each instance
+            this.surgicalInstrumentModels.forEach((instrumentData, index) => {
+                let instrumentClone = originalInstruments.clone(true); // Clone the original model.
+                instrumentClone.scale.set(instrumentData.scale[0], instrumentData.scale[1], instrumentData.scale[2]);
+                instrumentClone.position.set(instrumentData.position[0], instrumentData.position[1], instrumentData.position[2]);
+                instrumentClone.rotateY(instrumentData.rotationY || 0); // Apply rotation if provided
+                instrumentClone.visible = false; // Set visibility to true
+                this.object.add(instrumentClone);
+                this.surgeryRoomModels.push(instrumentClone); // Add to models array
+            });
+        });
+        
 
-            let surgicalInstruments2 = gltf.scene.clone();
-            surgicalInstruments2.position.set(-0.9, 0, 0.8);
-            surgicalInstruments2.rotateY(Math.PI);
-            surgicalInstruments2.visible = false;
-            this.object.add(surgicalInstruments2);
-
-            let surgicalInstruments3 = gltf.scene.clone();
-            surgicalInstruments3.position.set(3.1, 0, -0.8);
-            surgicalInstruments3.visible = false;
-            this.object.add(surgicalInstruments3);
-
-            let surgicalInstruments4 = gltf.scene.clone();
-            surgicalInstruments4.position.set(3.1, 0, 0.8);
-            surgicalInstruments4.rotateY(Math.PI);
-            surgicalInstruments4.visible = false;
-            this.object.add(surgicalInstruments4);
-
-            let surgicalInstruments5 = gltf.scene.clone();
-            surgicalInstruments5.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments5.position.set(1, 0, -5.35);
-            surgicalInstruments5.visible = false;
-            this.object.add(surgicalInstruments5);
-
-            let surgicalInstruments6 = gltf.scene.clone();
-            surgicalInstruments6.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments6.position.set(1, 0, 5.35);
-            surgicalInstruments6.rotateY(Math.PI);
-            surgicalInstruments6.visible = false;
-            this.object.add(surgicalInstruments6);
-
-            let surgicalInstruments7 = gltf.scene.clone();
-            surgicalInstruments7.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments7.position.set(3, 0, -5.35);
-            surgicalInstruments7.visible = false;
-            this.object.add(surgicalInstruments7);
-
-            let surgicalInstruments8 = gltf.scene.clone();
-            surgicalInstruments8.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments8.position.set(3, 0, 5.35);
-            surgicalInstruments8.rotateY(Math.PI);
-            surgicalInstruments8.visible = false;
-            this.object.add(surgicalInstruments8);
-
-            let surgicalInstruments9 = gltf.scene.clone();
-            surgicalInstruments9.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments9.position.set(5, 0, -5.35);
-            surgicalInstruments9.visible = false;
-            this.object.add(surgicalInstruments9);
-
-            let surgicalInstruments10 = gltf.scene.clone();
-            surgicalInstruments10.scale.set(0.3, 0.5, 0.3);
-            surgicalInstruments10.position.set(5, 0, 5.35);
-            surgicalInstruments10.rotateY(Math.PI);
-            surgicalInstruments10.visible = false;
-            this.object.add(surgicalInstruments10);
-
-            this.surgeryRoomModels.push(this.surgicalInstruments);
-            this.surgeryRoomModels.push(surgicalInstruments2);
-            this.surgeryRoomModels.push(surgicalInstruments3);
-            this.surgeryRoomModels.push(surgicalInstruments4);
-            this.surgeryRoomModels.push(surgicalInstruments5);
-            this.surgeryRoomModels.push(surgicalInstruments6);
-            this.surgeryRoomModels.push(surgicalInstruments7);
-            this.surgeryRoomModels.push(surgicalInstruments8);
-            this.surgeryRoomModels.push(surgicalInstruments9);
-            this.surgeryRoomModels.push(surgicalInstruments10);
-        }
-        );
-
+        // Load the doctor's office model
         loaderGLTF.load('./models/doctors_office_-_assets/scene.gltf', (gltf) => {
-            this.doctorsOffice = gltf.scene;
-            this.doctorsOffice.scale.set(0.5, 0.5, 0.5);
-            this.doctorsOffice.position.set(-2.3, 0, -2.2);
-            this.doctorsOffice.rotateY(3 * Math.PI / 2);
-            this.doctorsOffice.visible = false;
-            this.object.add(this.doctorsOffice);
+        const originalOffice = gltf.scene;
+        originalOffice.visible = false;
 
-            let doctorsOffice2 = gltf.scene.clone();
-            doctorsOffice2.position.set(-2.3, 0, 2.2);
-            doctorsOffice2.rotateY(Math.PI);
-            doctorsOffice2.visible = false;
-            this.object.add(doctorsOffice2);
+        this.doctorsOffices.forEach((officeData, index) => {
+        let officeClone = originalOffice.clone(true);
+        officeClone.scale.set(officeData.scale[0], officeData.scale[1], officeData.scale[2]);
+        officeClone.position.set(officeData.position[0], officeData.position[1], officeData.position[2]);
+        officeClone.rotateY(officeData.rotationY || 0); // Apply rotation if provided
+        officeClone.visible = false; // Set visibility for added elements
+        this.object.add(officeClone);
+        this.surgeryRoomModels.push(officeClone);
+        });
+        });
 
-            let doctorsOffice3 = gltf.scene.clone();
-            doctorsOffice3.position.set(1.7, 0, -2.2);
-            doctorsOffice3.visible = false;
-            this.object.add(doctorsOffice3);
 
-            let doctorsOffice4 = gltf.scene.clone();
-            doctorsOffice4.position.set(1.7, 0, 2.2);
-            doctorsOffice4.rotateY(Math.PI);
-            doctorsOffice4.visible = false;
-            this.object.add(doctorsOffice4);
-
-            this.surgeryRoomModels.push(this.doctorsOffice);
-            this.surgeryRoomModels.push(doctorsOffice2);
-            this.surgeryRoomModels.push(doctorsOffice3);
-            this.surgeryRoomModels.push(doctorsOffice4);
-        }
-        );
-
+        // Load the studio light model
         loaderGLTF.load('./models/simple_studio_light/scene.gltf', (gltf) => {
-            this.light = gltf.scene;
-            this.light.scale.set(0.5, 0.45, 0.5);
-            this.light.position.set(-0.3, 0, -2.2);
-            this.light.rotateY(7 * Math.PI / 4);
-            this.light.visible = false;
-            this.object.add(this.light);
+        const originalLight = gltf.scene;
+        originalLight.visible = false;
 
-            let light2 = gltf.scene.clone();
-            light2.position.set(-0.3, 0, 2.2);
-            light2.rotateY(3 * Math.PI / 2);
-            light2.visible = false;
-            this.object.add(light2);
+        this.studioLights.forEach((lightData, index) => {
+        let lightClone = originalLight.clone(true);
+        lightClone.scale.set(lightData.scale[0], lightData.scale[1], lightData.scale[2]);
+        lightClone.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
+        lightClone.rotateY(lightData.rotationY || 0); // Apply rotation if provided
+        lightClone.visible = false; // Set visibility for added elements
+        this.object.add(lightClone);
+        this.surgeryRoomModels.push(lightClone);
+        });
+        });
 
-            let light3 = gltf.scene.clone();
-            light3.position.set(3.7, 0, -2.2);
-            light3.visible = false;
-            this.object.add(light3);
-
-            let light4 = gltf.scene.clone();
-            light4.position.set(3.7, 0, 2.2);
-            light4.rotateY(3 * Math.PI / 2);
-            light4.visible = false;
-            this.object.add(light4);
-
-            let light5 = gltf.scene.clone();
-            light5.position.set(1.7, 0, -3.8);
-            light5.rotateY(7 * Math.PI / 5);
-            light5.visible = false;
-            this.object.add(light5);
-
-            let light6 = gltf.scene.clone();
-            light6.position.set(1.7, 0, 3.8);
-            light6.rotateY(11 * Math.PI / 5);
-            light6.visible = false;
-            this.object.add(light6);
-
-            let light7 = gltf.scene.clone();
-            light7.position.set(3.7, 0, -3.8);
-            light7.rotateY(7 * Math.PI / 5);
-            light7.visible = false;
-            this.object.add(light7);
-
-            let light8 = gltf.scene.clone();
-            light8.position.set(3.7, 0, 3.8);
-            light8.rotateY(11 * Math.PI / 5);
-            light8.visible = false;
-            this.object.add(light8);
-
-            let light9 = gltf.scene.clone();
-            light9.position.set(5.7, 0, -3.8);
-            light9.rotateY(7 * Math.PI / 5);
-            light9.visible = false;
-            this.object.add(light9);
-
-            let light10 = gltf.scene.clone();
-            light10.position.set(5.7, 0, 3.8);
-            light10.rotateY(11 * Math.PI / 5);
-            light10.visible = false;
-            this.object.add(light10);
-
-            this.surgeryRoomModels.push(this.light);
-            this.surgeryRoomModels.push(light2);
-            this.surgeryRoomModels.push(light3);
-            this.surgeryRoomModels.push(light4);
-            this.surgeryRoomModels.push(light5);
-            this.surgeryRoomModels.push(light6);
-            this.surgeryRoomModels.push(light7);
-            this.surgeryRoomModels.push(light8);
-            this.surgeryRoomModels.push(light9);
-            this.surgeryRoomModels.push(light10);
-        }
-        );
 
         loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
-            this.surgicalBed = gltf.scene;
-            this.surgicalBed.scale.set(0.5, 0.57, 0.5);
-            this.surgicalBed.position.set(-2.7, 0, -4.2);
-            this.surgicalBed.visible = false;
-            this.object.add(this.surgicalBed);
-
-            let surgicalBed2 = gltf.scene.clone();
-            surgicalBed2.position.set(-2.7, 0, -1);
-            surgicalBed2.visible = false;
-            this.object.add(surgicalBed2);
-
-            let surgicalBed3 = gltf.scene.clone();
-            surgicalBed3.position.set(1.3, 0, -4.2);
-            surgicalBed3.visible = false;
-            this.object.add(surgicalBed3);
-
-            let surgicalBed4 = gltf.scene.clone();
-            surgicalBed4.position.set(1.3, 0, -1);
-            surgicalBed4.visible = false;
-            this.object.add(surgicalBed4);
-
-            let surgicalBed5 = gltf.scene.clone();
-            surgicalBed5.position.set(-0.5, 0, -7.2);
-            surgicalBed5.visible = false;
-            this.object.add(surgicalBed5);
-
-            let surgicalBed6 = gltf.scene.clone();
-            surgicalBed6.position.set(-0.5, 0, 2);
-            surgicalBed6.visible = false;
-            this.object.add(surgicalBed6);
-
-            let surgicalBed7 = gltf.scene.clone();
-            surgicalBed7.position.set(1.5, 0, -7.2);
-            surgicalBed7.visible = false;
-            this.object.add(surgicalBed7);
-
-            let surgicalBed8 = gltf.scene.clone();
-            surgicalBed8.position.set(1.5, 0, 2);
-            surgicalBed8.visible = false;
-            this.object.add(surgicalBed8);
-
-            let surgicalBed9 = gltf.scene.clone();
-            surgicalBed9.position.set(3.5, 0, -7.2);
-            surgicalBed9.visible = false;
-            this.object.add(surgicalBed9);
-
-            let surgicalBed10 = gltf.scene.clone();
-            surgicalBed10.position.set(3.5, 0, 2);
-            surgicalBed10.visible = false;
-            this.object.add(surgicalBed10);
-
-            this.surgeryRoomModels.push(this.surgicalBed);
-            this.surgeryRoomModels.push(surgicalBed2);
-            this.surgeryRoomModels.push(surgicalBed3);
-            this.surgeryRoomModels.push(surgicalBed4);
-            this.surgeryRoomModels.push(surgicalBed5);
-            this.surgeryRoomModels.push(surgicalBed6);
-            this.surgeryRoomModels.push(surgicalBed7);
-            this.surgeryRoomModels.push(surgicalBed8);
-            this.surgeryRoomModels.push(surgicalBed9);
-            this.surgeryRoomModels.push(surgicalBed10);
-        }
-        );
-
+            const originalBed = gltf.scene;
+            originalBed.visible = false; // Hide the original model for cloning
+        
+            // Iterate over the surgicalBeds configuration and create clones for each
+            this.surgicalBeds.forEach((bedData) => {
+                let bedClone = originalBed.clone(true); // Clone the original bed
+                
+                // Apply scale from configuration
+                bedClone.scale.set(bedData.scale[0], bedData.scale[1], bedData.scale[2]);
+                
+                bedClone.position.set(bedData.position[0], bedData.position[1], bedData.position[2]); // Set position from configuration
+                
+                // Apply rotation from configuration (rotation is in radians)
+                bedClone.rotation.set(bedData.rotation[0], bedData.rotation[1], bedData.rotation[2]);
+        
+                bedClone.visible = false; // Initially hide the clone
+                this.object.add(bedClone); // Add the clone to the object
+        
+                this.surgeryRoomModels.push(bedClone); // Add the cloned bed to the surgery room models array
+            });
+        });
+        
         //=======================================================================================================
         // PATIENT
 /*
@@ -1659,19 +1242,148 @@ export default class Maze {
             this.object.add(patient10);
         }
         );
+*/
+        //=======================================================================================================
 
+        // Load the exit sign model
+        loaderGLTF.load('./models/low_poly_green_running_man_exit_sign/scene.gltf', (gltf) => {
+        const originalExitSign = gltf.scene;
+        originalExitSign.scale.set(0.15, 0.2, 0.1);
+        originalExitSign.visible = false;
+
+        this.exitSigns.forEach((signData, index) => {
+        let exitSignClone = originalExitSign.clone(true);
+        exitSignClone.position.set(signData.position[0], signData.position[1], signData.position[2]);
+        exitSignClone.rotateY(signData.rotationY || 0); // Apply rotation if provided
+        exitSignClone.visible = false;
+        this.object.add(exitSignClone);
+        this.receptionModels.push(exitSignClone);
+            });
+        });
+
+        // Load the keypad model
+        loaderGLTF.load('./models/cc0_-_keypad_door_lock/scene.gltf', (gltf) => {
+        const originalKeypad = gltf.scene;
+        originalKeypad.scale.set(1, 1, 0.7);
+        originalKeypad.visible = false;
+
+        this.keypads.forEach((keypadData, index) => {
+        let keypadClone = originalKeypad.clone(true);
+        keypadClone.position.set(keypadData.position[0], keypadData.position[1], keypadData.position[2]);
+        keypadClone.rotateY(keypadData.rotationY || 0); // Apply rotation if defined
+        keypadClone.visible = false;
+        this.object.add(keypadClone);
+        this.staffModels.push(keypadClone);
+        });
+        });
+
+        //=======================================================================================================
+        // Doors
+
+        // Load the staff door model
+        loaderGLTF.load('./models/metal_door/scene.gltf', (gltf) => {
+        const originalStaffDoor = gltf.scene;
+        originalStaffDoor.scale.set(0.0035, 0.0042, 0.0035);
+        originalStaffDoor.visible = false;
+
+        this.staffDoors.forEach((doorData, index) => {
+        let doorClone = originalStaffDoor.clone(true);
+        doorClone.position.set(doorData.position[0], doorData.position[1], doorData.position[2]);
+        doorClone.rotateY(doorData.rotationY || 0); // Apply rotation if provided
+        doorClone.visible = false;
+        this.object.add(doorClone);
+        this.staffModels.push(doorClone);
+        });
+        });
+
+        // Load the entrance door model
+        loaderGLTF.load('./models/emergency_glass_double_door/scene.gltf', (gltf) => {
+        const originalEntranceDoor = gltf.scene;
+        originalEntranceDoor.scale.set(0.0047, 0.00469, 0.0035);
+        originalEntranceDoor.visible = false;
+
+        this.entranceDoors.forEach((doorData, index) => {
+        let doorClone = originalEntranceDoor.clone(true);
+        doorClone.position.set(doorData.position[0], doorData.position[1], doorData.position[2]);
+        doorClone.rotateY(doorData.rotationY || 0); // Apply rotation if provided
+        doorClone.visible = true;
+        this.object.add(doorClone);
+        });
+        });
+
+        // Load the toilet door model
+        loaderGLTF.load('./models/double_door/scene.gltf', (gltf) => {
+        const originalToiletDoor = gltf.scene;
+        originalToiletDoor.scale.set(0.6, 0.48, 0.5);
+        originalToiletDoor.visible = false;
+
+        this.toiletDoors.forEach((doorData, index) => {
+        let doorClone = originalToiletDoor.clone(true);
+        doorClone.position.set(doorData.position[0], doorData.position[1], doorData.position[2]);
+        doorClone.rotateY(doorData.rotationY || 0); // Apply rotation if provided
+        doorClone.visible = false;
+        this.object.add(doorClone);
+        this.toiletModels.push(doorClone);
+        });
+        });
+
+        // Load the surgery door model
+loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
+    const originalSurgeryDoor = gltf.scene;
+    originalSurgeryDoor.visible = false;
+
+    // Loop through surgeryDoors configuration and create clones
+    this.surgeryDoors.forEach((doorData) => {
+        let doorClone = originalSurgeryDoor.clone(true);
+        doorClone.scale.set(doorData.scale[0], doorData.scale[1], doorData.scale[2]);  // Apply scale from JSON
+        doorClone.position.set(doorData.position[0], doorData.position[1], doorData.position[2]);
+        doorClone.rotateY(doorData.rotationY || 0);  // Apply rotation from JSON
+        doorClone.visible = false;
+        this.object.add(doorClone);
+        this.surgeryRoomModels.push(doorClone);
+    });
+
+    // Loop through screeningDoors configuration and create clones
+    this.screeningDoors.forEach((doorData) => {
+        let doorClone = originalSurgeryDoor.clone(true);
+        doorClone.scale.set(doorData.scale[0], doorData.scale[1], doorData.scale[2]);
+        doorClone.position.set(doorData.position[0], doorData.position[1], doorData.position[2]);
+        doorClone.rotateY(doorData.rotationY || 0);  // Apply rotation from JSON
+        doorClone.visible = false;
+        this.object.add(doorClone);
+        this.screeningModels.push(doorClone);
+    });
+});
 
 
         //=======================================================================================================
+        
+        // Load the cobblestone ground model
+        loaderGLTF.load('./models/cobblestone_ground_-_lowpoly/scene.gltf', (gltf) => {
+        const originalCobblestone = gltf.scene;
+        originalCobblestone.visible = false;
+
+        this.cobblestoneGround.forEach((groundData, index) => {
+        let cobblestoneClone = originalCobblestone.clone(true);
+        cobblestoneClone.scale.set(groundData.scale[0], groundData.scale[1], groundData.scale[2]);
+        cobblestoneClone.position.set(groundData.position[0], groundData.position[1], groundData.position[2]);
+        cobblestoneClone.rotateY(groundData.rotationY || 0); // Apply rotation if provided
+        cobblestoneClone.visible = true; // Set visibility for added elements
+        this.object.add(cobblestoneClone);
+        });
+        });
+
+        //=======================================================================================================
         // CRISTIANO RONALDO
-        /*
         loaderGLTF.load('./models/3d_rigged_cristiano_ronaldo_al_nassr/scene.gltf', (gltf) => {
             this.cr = gltf.scene;
             this.cr.scale.set(0.01, 0.013, 0.01);
             this.cr.position.set(-1.45, 0.6, -1.59);
             this.cr.rotateY(3 * Math.PI / 2);
             this.cr.rotateX(3 * Math.PI / 2);
+            this.cr.visible = false;
             this.object.add(this.cr);
+            this.cristianoModels.push(this.cr);
         }
         );
 
@@ -1681,7 +1393,9 @@ export default class Maze {
             this.cr2.position.set(-1.45, 0.6, 1.59);
             this.cr2.rotateY(3 * Math.PI / 2);
             this.cr2.rotateX(3 * Math.PI / 2);
+            this.cr2.visible = false;
             this.object.add(this.cr2);
+            this.cristianoModels.push(this.cr2);
         }
         );
 
@@ -1691,7 +1405,9 @@ export default class Maze {
             this.cr3.position.set(2.55, 0.6, -1.59);
             this.cr3.rotateY(3 * Math.PI / 2);
             this.cr3.rotateX(3 * Math.PI / 2);
+            this.cr3.visible = false;
             this.object.add(this.cr3);
+            this.cristianoModels.push(this.cr3);
         }
         );
 
@@ -1701,7 +1417,9 @@ export default class Maze {
             this.cr4.position.set(2.55, 0.6, 1.59);
             this.cr4.rotateY(3 * Math.PI / 2);
             this.cr4.rotateX(3 * Math.PI / 2);
+            this.cr4.visible = false;
             this.object.add(this.cr4);
+            this.cristianoModels.push(this.cr4);
         }
         );
 
@@ -1711,7 +1429,9 @@ export default class Maze {
             this.cr5.position.set(0.73, 0.6, -4.59);
             this.cr5.rotateY(3 * Math.PI / 2);
             this.cr5.rotateX(3 * Math.PI / 2);
+            this.cr5.visible = false;
             this.object.add(this.cr5);
+            this.cristianoModels.push(this.cr5);
         }
         );
 
@@ -1721,7 +1441,9 @@ export default class Maze {
             this.cr6.position.set(0.73, 0.6, 4.59);
             this.cr6.rotateY(3 * Math.PI / 2);
             this.cr6.rotateX(3 * Math.PI / 2);
+            this.cr6.visible = false;
             this.object.add(this.cr6);
+            this.cristianoModels.push(this.cr6);
         }
         );
 
@@ -1731,7 +1453,9 @@ export default class Maze {
             this.cr7.position.set(2.73, 0.6, -4.59);
             this.cr7.rotateY(3 * Math.PI / 2);
             this.cr7.rotateX(3 * Math.PI / 2);
+            this.cr7.visible = false;
             this.object.add(this.cr7);
+            this.cristianoModels.push(this.cr7);
         }
         );
 
@@ -1741,7 +1465,9 @@ export default class Maze {
             this.cr8.position.set(2.73, 0.6, 4.59);
             this.cr8.rotateY(3 * Math.PI / 2);
             this.cr8.rotateX(3 * Math.PI / 2);
+            this.cr8.visible = false;
             this.object.add(this.cr8);
+            this.cristianoModels.push(this.cr8);
         }
         );
 
@@ -1751,7 +1477,9 @@ export default class Maze {
             this.cr9.position.set(4.73, 0.6, -4.59);
             this.cr9.rotateY(3 * Math.PI / 2);
             this.cr9.rotateX(3 * Math.PI / 2);
+            this.cr9.visible = false;
             this.object.add(this.cr9);
+            this.cristianoModels.push(this.cr9);
         }
         );
 
@@ -1761,274 +1489,14 @@ export default class Maze {
             this.cr10.position.set(4.73, 0.6, 4.59);
             this.cr10.rotateY(3 * Math.PI / 2);
             this.cr10.rotateX(3 * Math.PI / 2);
+            this.cr10.visible = false;
             this.object.add(this.cr10);
+            this.cristianoModels.push(this.cr10);
         }
         );
-        */
-
-
-        loaderGLTF.load('./models/low_poly_green_running_man_exit_sign/scene.gltf', (gltf) => {
-            this.exitSign = gltf.scene;
-            this.exitSign.scale.set(0.15, 0.2, 0.1);
-            this.exitSign.position.set(-9.97, 0.7, 1);
-            this.exitSign.rotateY(Math.PI / 2);
-            this.exitSign.visible = false;
-            this.object.add(this.exitSign);
-
-            this.receptionModels.push(this.exitSign);
-        }
-        ); //a porta para todos os quartos ja esta nos transferidos
-
-        loaderGLTF.load('./models/cc0_-_keypad_door_lock/scene.gltf', (gltf) => {
-            this.keypad = gltf.scene;
-            this.keypad.scale.set(1, 1, 0.7);
-            this.keypad.position.set(-6.2, 0.5, -2.53);
-            this.keypad.rotateY(Math.PI);
-            this.keypad.visible = false;
-            this.object.add(this.keypad);
-
-            this.staffModels.push(this.keypad);
-        }
-        );
-
-        //=======================================================================================================
-        // Doors
-
-        // Staff doors
-        loaderGLTF.load('./models/metal_door/scene.gltf', (gltf) => {
-            this.staffDoor = gltf.scene;
-            this.staffDoor.scale.set(0.0035, 0.0042, 0.0035);
-            this.staffDoor.position.set(-6.5, 0, -2.54);
-            this.staffDoor.visible = false;
-            this.object.add(this.staffDoor);
-
-            let staffDoor2 = gltf.scene.clone();
-            staffDoor2.position.set(-6.5, 0, -2.46);
-            staffDoor2.rotateY(Math.PI);
-            staffDoor2.visible = false;
-            this.object.add(staffDoor2);
-
-            this.staffModels.push(this.staffDoor);
-            this.staffModels.push(staffDoor2);
-        }
-        );
-
-        // Entrance door
-        loaderGLTF.load('./models/emergency_glass_double_door/scene.gltf', (gltf) => {
-            this.entranceDoor = gltf.scene;
-            this.entranceDoor.scale.set(0.0047, 0.00469, 0.0035);
-            this.entranceDoor.position.set(-10.04, 0.13, 0.11);
-            this.entranceDoor.rotateY(Math.PI / 2);
-            this.object.add(this.entranceDoor);
-        }
-        );
-
-        // Toilet doors
-        loaderGLTF.load('./models/double_door/scene.gltf', (gltf) => {
-            this.toiletDoor = gltf.scene;
-            this.toiletDoor.scale.set(0.6, 0.48, 0.5);
-            this.toiletDoor.position.set(7, 0, -3.47);
-            this.toiletDoor.rotateY(Math.PI);
-            this.toiletDoor.visible = false;
-            this.object.add(this.toiletDoor);
-
-            let toiletDoor2 = gltf.scene.clone();
-            toiletDoor2.position.set(5.96, 0, 3.48);
-            toiletDoor2.rotateY(Math.PI);
-            toiletDoor2.visible = false;
-            this.object.add(toiletDoor2);
-
-            let toiletDoor3 = gltf.scene.clone();
-            toiletDoor3.position.set(-8.97, 0, -4.47);
-            toiletDoor3.visible = false;
-            this.object.add(toiletDoor3);
-
-            let toiletDoor4 = gltf.scene.clone();
-            toiletDoor4.position.set(-9.98, 0, 4.48);
-            toiletDoor4.rotateY(Math.PI);
-            toiletDoor4.visible = false;
-            this.object.add(toiletDoor4);
-
-            this.toiletModels.push(this.toiletDoor);
-            this.toiletModels.push(toiletDoor2);
-            this.toiletModels.push(toiletDoor3);
-            this.toiletModels.push(toiletDoor4);
-        }
-        );
-
-         // Surgery and screeening doors
-         loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
-            this.surgeryDoor = gltf.scene;
-            this.surgeryDoor.scale.set(0.3, 0.312, 0.9);
-            this.surgeryDoor.position.set(-2.5, 0, -0.5325);
-            this.surgeryDoor.rotateY(Math.PI);
-            this.surgeryDoor.visible = false;
-            this.object.add(this.surgeryDoor);
-
-            let surgeryDoor2 = gltf.scene.clone();
-            surgeryDoor2.position.set(-2.5, 0, 0.5325);
-            surgeryDoor2.rotateY(Math.PI);
-            surgeryDoor2.visible = false;
-            this.object.add(surgeryDoor2);
-
-            let surgeryDoor3 = gltf.scene.clone();
-            surgeryDoor3.position.set(1.5, 0, -0.5325);
-            surgeryDoor3.visible = false;
-            this.object.add(surgeryDoor3);
-
-            let surgeryDoor4 = gltf.scene.clone();
-            surgeryDoor4.position.set(1.5, 0, 0.5325);
-            surgeryDoor4.rotateY(Math.PI); 
-            surgeryDoor4.visible = false;     
-            this.object.add(surgeryDoor4);
-
-            let surgeryDoor5 = gltf.scene.clone();
-            surgeryDoor5.position.set(0.5, 0, -3.5325);
-            surgeryDoor5.visible = false;
-            this.object.add(surgeryDoor5);
-
-            let surgeryDoor6 = gltf.scene.clone();
-            surgeryDoor6.position.set(0.5, 0, 3.5325);
-            surgeryDoor6.rotateY(Math.PI);
-            surgeryDoor6.visible = false;
-            this.object.add(surgeryDoor6);
-
-            let surgeryDoor7 = gltf.scene.clone();
-            surgeryDoor7.position.set(2.5, 0, -3.5325);
-            surgeryDoor7.visible = false;
-            this.object.add(surgeryDoor7);
-
-            let surgeryDoor8 = gltf.scene.clone();
-            surgeryDoor8.position.set(2.5, 0, 3.5325);
-            surgeryDoor8.rotateY(Math.PI);
-            surgeryDoor8.visible = false;
-            this.object.add(surgeryDoor8);
-
-            let surgeryDoor9 = gltf.scene.clone();
-            surgeryDoor9.position.set(4.5, 0, -3.5325);
-            surgeryDoor9.visible = false;
-            this.object.add(surgeryDoor9);
-
-            let surgeryDoor10 = gltf.scene.clone();
-            surgeryDoor10.position.set(4.5, 0, 3.5325);
-            surgeryDoor10.rotateY(Math.PI);
-            surgeryDoor10.visible = false;
-            this.object.add(surgeryDoor10);
-
-            let screeningDoor1 = gltf.scene.clone();
-            screeningDoor1.position.set(-6.5, 0, -3.5325);
-            screeningDoor1.visible = false;
-            this.object.add(screeningDoor1);
-
-            let screeningDoor2 = gltf.scene.clone();
-            screeningDoor2.position.set(-6.5, 0, 3.5325);
-            screeningDoor2.rotateY(Math.PI);
-            screeningDoor2.visible = false;
-            this.object.add(screeningDoor2);
-
-            let screeningDoor3 = gltf.scene.clone();
-            screeningDoor3.position.set(-4.5, 0, -3.5325);
-            screeningDoor3.visible = false;
-            this.object.add(screeningDoor3);
-
-            let screeningDoor4 = gltf.scene.clone();
-            screeningDoor4.position.set(-4.5, 0, 3.5325);
-            screeningDoor4.rotateY(Math.PI);
-            screeningDoor4.visible = false;
-            this.object.add(screeningDoor4);
-
-            let screeningDoor5 = gltf.scene.clone();
-            screeningDoor5.position.set(-2.5, 0, -3.5325);
-            screeningDoor5.visible = false;
-            this.object.add(screeningDoor5);
-
-            let screeningDoor6 = gltf.scene.clone();
-            screeningDoor6.position.set(-2.5, 0, 3.5325);
-            screeningDoor6.rotateY(Math.PI);
-            screeningDoor6.visible = false;
-            this.object.add(screeningDoor6);
-
-            this.surgeryRoomModels.push(this.surgeryDoor);
-            this.surgeryRoomModels.push(surgeryDoor2);
-            this.surgeryRoomModels.push(surgeryDoor3);
-            this.surgeryRoomModels.push(surgeryDoor4);
-            this.surgeryRoomModels.push(surgeryDoor5);
-            this.surgeryRoomModels.push(surgeryDoor6);
-            this.surgeryRoomModels.push(surgeryDoor7);
-            this.surgeryRoomModels.push(surgeryDoor8);
-            this.surgeryRoomModels.push(surgeryDoor9);
-            this.surgeryRoomModels.push(surgeryDoor10);
-
-            this.screeningModels.push(screeningDoor1);
-            this.screeningModels.push(screeningDoor2);
-            this.screeningModels.push(screeningDoor3);
-            this.screeningModels.push(screeningDoor4);
-            this.screeningModels.push(screeningDoor5);
-            this.screeningModels.push(screeningDoor6);
-        }
-        );
-
-
-
-        //=======================================================================================================
-        // Create ground
-
-        loaderGLTF.load('./models/cobblestone_ground_-_lowpoly/scene.gltf', (gltf) => {
-            this.cobblestone = gltf.scene;
-            this.cobblestone.scale.set(1, 0.05, 1.65);
-            this.cobblestone.position.set(9, 0, 0.085);
-            this.object.add(this.cobblestone);
-
-            let cobblestone2 = gltf.scene.clone();
-            cobblestone2.scale.set(0.25, 0.05, 0.765);
-            cobblestone2.position.set(4.02, 0, -6);
-            cobblestone2.rotateY(Math.PI / 2);
-            this.object.add(cobblestone2);
-
-            let cobblestone3 = gltf.scene.clone();
-            cobblestone3.scale.set(0.25, 0.05, 0.765);
-            cobblestone3.position.set(-2.04, 0, -6);
-            cobblestone3.rotateY(Math.PI / 2);
-            this.object.add(cobblestone3);
-
-            let cobblestone4 = gltf.scene.clone();
-            cobblestone4.scale.set(0.25, 0.05, 0.765);
-            cobblestone4.position.set(-8.102, 0, -6);
-            cobblestone4.rotateY(Math.PI / 2);
-            this.object.add(cobblestone4);
-
-            let cobblestone5 = gltf.scene.clone();
-            cobblestone5.scale.set(0.25, 0.05, 0.765);
-            cobblestone5.position.set(4.02, 0, 6);
-            cobblestone5.rotateY(Math.PI / 2);
-            this.object.add(cobblestone5);
-
-            let cobblestone6 = gltf.scene.clone();
-            cobblestone6.scale.set(0.25, 0.05, 0.765);
-            cobblestone6.position.set(-2.04, 0, 6);
-            cobblestone6.rotateY(Math.PI / 2);
-            this.object.add(cobblestone6);
-
-            let cobblestone7 = gltf.scene.clone();
-            cobblestone7.scale.set(0.25, 0.05, 0.765);
-            cobblestone7.position.set(-8.102, 0, 6);
-            cobblestone7.rotateY(Math.PI / 2);
-            this.object.add(cobblestone7);
-
-            let cobblestone8 = gltf.scene.clone();
-            cobblestone8.scale.set(0.3, 0.05, 0.7);
-            cobblestone8.position.set(-10.605, 0, -2.68);
-            this.object.add(cobblestone8);
-
-            let cobblestone9 = gltf.scene.clone();
-            cobblestone9.scale.set(0.3, 0.05, 0.6895);
-            cobblestone9.position.set(-10.605, 0, 2.818);
-            this.object.add(cobblestone9);
-
-        }
-        );
-
+        
     }
+    
 
     // Convert cell [row, column] coordinates to cartesian (x, y, z) coordinates
     cellToCartesian(position) {

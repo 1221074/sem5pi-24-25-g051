@@ -62,5 +62,27 @@ describe('Doctor Tests', () => {
     cy.contains('Update Operations').should('be.visible');
     cy.contains('Remove Operations').should('be.visible');
     cy.contains('List/Search Operations').should('be.visible');
-  }
-)});
+  });
+
+  it('should validate the create operation form', () => {
+      // Set token and role in localStorage
+      cy.window().then((window) => {
+        window.localStorage.setItem('token', doctorToken);
+        window.localStorage.setItem('role', '1'); // Role 1 represents the doctor's role
+      });
+
+      cy.visit('/doctor');
+      // Assert that the user stays on the /doctor page
+      cy.url().should('include', '/doctor');
+
+      // Click the "Register Operation" button
+      cy.contains('Request Operation').click();
+
+  // Ensure the Register Operation section is visible
+    cy.contains('Fill in the information according to system requirements', { timeout: 10000 }).should('be.visible');
+
+   cy.contains('Register Operation').click();
+  cy.contains('Please fill in all required fields.', { timeout: 10000 }).should('be.visible');
+
+  });
+});

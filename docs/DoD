@@ -1,0 +1,11 @@
+Steps towards Definition of Done (DoD) for a User Story !
+-----------------------------------------
+-> Understand the User Story
+-> Define Acceptance Criteria (if not already available)
+-> Break Down into Small Tasks
+-> Create a high coverage tests
+-> Update Relevant documentation
+-> Validate any possible unforeseen scenarios
+
+
+

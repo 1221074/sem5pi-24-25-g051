@@ -287,10 +287,14 @@ occupation_percentage(Doctor, Date, OccupationPercentage) :-
 
 % Sort surgeries by occupation percentage
 sort_surgeries_by_occupation_percentage(Surgeries, Date, SortedSurgeries) :-
-    findall(OccupationPercentage-OpCode,
-            (member(OpCode, Surgeries),
-             assignment_surgery(OpCode, Doctor),
-             occupation_percentage(Doctor, Date, OccupationPercentage)),
+    list_to_set(Surgeries, UniqueSurgeries),
+    findall(MinOccupationPercentage-OpCode,
+            (member(OpCode, UniqueSurgeries),
+             findall(OccupationPercentage,
+                     (assignment_surgery(OpCode, Doctor),
+                      occupation_percentage(Doctor, Date, OccupationPercentage)),
+                     OccupationPercentages),
+             min_list(OccupationPercentages, MinOccupationPercentage)),
             SurgeryPercentages),
     keysort(SurgeryPercentages, SortedSurgeryPercentages),
     pairs_values(SortedSurgeryPercentages, SortedSurgeries).

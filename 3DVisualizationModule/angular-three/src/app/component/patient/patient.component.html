@@ -7,8 +7,9 @@
 
     <button class="main-menu-btn" (click)="showSection('updateProfile')">Update Profile</button>
     <button class="main-menu-btn" (click)="showSection('checkInformation')">Check Information</button>
+    <button class="main-menu-delete-btn" (click)="showSection('deactivateAcc')">Deactivate Account</button>
     <button class="main-menu-delete-btn" (click)="showSection('eliminateData')">Delete Account</button>
-    
+
     <button class="logout-button" (click)="logout()">
       <span class="material-icons">logout</span>
     </button>
@@ -26,50 +27,59 @@
     <form>
       <div class="form-field">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required />
+        <input type="text" id="firstName" name="firstName" [(ngModel)]="patient.firstName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required />
+        <input type="text" id="lastName" name="lastName" [(ngModel)]="patient.lastName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required />
+        <input type="text" id="fullName" name="fullName" [(ngModel)]="patient.fullName" required />
       </div>
-
+    
       <div class="form-field">
         <label for="sex">Sex:</label>
-        <input type="text" id="sex" name="sex" required />
+        <input type="text" id="sex" name="sex" [(ngModel)]="patient.sex" required />
       </div>
-
+    
       <div class="form-field">
         <label for="email">Email: </label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" [(ngModel)]="patient.email" required />
       </div>
-
+    
       <div class="form-field">
         <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required />
+        <input type="text" id="phone" name="phone" [(ngModel)]="patient.phone" required />
       </div>
-
+    
       <div class="form-field">
         <label for="emergencyContact">Emergency Contact:</label>
-        <input type="text" id="emergencyContact" name="emergencyContact" required />
+        <input type="text" id="emergencyContact" name="emergencyContact" [(ngModel)]="patient.emergencyContact" required />
       </div>
+    
+      <button class="updateBtn" type="button" (click)="submitUpdate()">Update</button>
+    </form>
+    
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+    
+  </section>
 
-      <div class="form-field">
-        <label for="appointmentList">Appointment List:</label>
-        <input type="text" id="appointmentList" name="appointmentList" required />
-      </div>
+  <!-- Deactivate Account Section -->
+  <section [style.display]="selectedSection === 'deactivateAcc' ? 'block' : 'none'">
+    <h2>Deactivate Account</h2>
+    <p>Here you can deactivate your account.</p>
+    <p>If your account was deactivated by mistake, please contact a staff member.</p>
+    <br>
 
-      <div class="form-field">
-        <label for="allergyList">Allergy List:</label>
-        <input type="text" id="allergyList" name="allergyList" required />
-      </div>
+    <!-- Display success or error messages -->
+    <div class="error-message" [style.display]="errorMessage ? 'block' : 'none'">{{ errorMessage }}</div>
+    <div class="success-message" [style.display]="successMessage ? 'block' : 'none'">{{ successMessage }}</div>
 
-      <button class="updateBtn" type="submit"(click)= "submitUpdate()">Update</button>
+    <form>
+      <button class="delete-account-btn" type="submit" (click)="deactivateAccount()">Deactivate Account</button>
     </form>
 
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
@@ -80,6 +90,8 @@
     <h2>Delete Account</h2>
     <p>Here you can delete your account.</p>
     <p>Warning: This action is irreversible!</p>
+    <p>If you want to delete your account, please make sure you deactivated it first.</p>
+    <p></p>
     <br>
 
     <!-- Display success or error messages -->
@@ -107,6 +119,16 @@
       <div class="info-field">
         <label>Last Name: </label>
         <span>{{ patient?.lastName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Full Name: </label>
+        <span>{{ patient?.fullName }}</span>
+      </div>
+
+      <div class="info-field">
+        <label>Sex: </label>
+        <span>{{ patient?.sex }}</span>
       </div>
 
       <div class="info-field">

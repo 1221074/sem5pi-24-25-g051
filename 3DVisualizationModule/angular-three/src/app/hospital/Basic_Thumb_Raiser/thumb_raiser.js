@@ -675,7 +675,7 @@ export default class ThumbRaiser {
                 this.player.direction = this.maze.initialDirection;
 
                 // Create the user interface
-                this.userInterface = new UserInterface(this.scene3D, this.renderer, this.lights, this.fog, this.player.object, this.animations, this.maze);
+                this.userInterface = new UserInterface(this.scene3D, this.renderer, this.lights, this.fog, this.player.object, this.animations, this.maze, this.player);
 
                 // Start the game
                 this.gameRunning = true;
