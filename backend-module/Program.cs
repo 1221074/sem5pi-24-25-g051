@@ -88,15 +88,6 @@ builder.Services.AddCors(options =>
     .AllowCredentials());
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Allowvs1438r",
-    builder => builder.WithOrigins("https://vs1438.dei.isep.ipp.pt:7252")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials());
-});
-
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
