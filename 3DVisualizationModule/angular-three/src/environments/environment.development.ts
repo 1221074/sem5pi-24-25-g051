@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiURL: 'https://localhost:7252/api'
+    apiURL: 'https://vs1438.dei.isep.ipp.pt:7252/api'
 };
