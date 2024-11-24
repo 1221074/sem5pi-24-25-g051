@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from '../../service/authentication.service';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from 'src/environments/environment';
 
 declare var google: any;
 
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
   handleCredentialResponse(response: any) {
     console.log('Encoded JWT ID token: ' + response.credential);
 
-    const apiUrl = `https://localhost:7252/api/user/role?token=${response.credential}`;
+    const apiUrl = environment.apiURL + `/user/role?token=${response.credential}`;
     const token = response.credential;
     const decodedToken: any = jwtDecode(token);
     const email = decodedToken.email;
