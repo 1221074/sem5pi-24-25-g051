@@ -198,7 +198,6 @@
     <!-- Table for Patients -->
     <table class="table-display">
       <tr>
-        <th>Patient ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Full Name</th>
@@ -210,12 +209,11 @@
         <th>Action</th>
       </tr>
 
-      <tr *ngFor="let patient of patientList">
-        <td>{{ patient.id }}</td>
+      <tr *ngFor="let patient of patientListToBeDisplayed">
         <td>{{ patient.firstName }}</td>
         <td>{{ patient.lastName }}</td>
         <td>{{ patient.fullName}}</td>
-        <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ patient.birthDate}}</td>
         <td>{{ patient.sex }}</td>
         <td>{{ patient.email }}</td>
         <td>{{ patient.phone }}</td>
@@ -228,7 +226,6 @@
 
     <!-- Update Form -->
     <div *ngIf="selectedPatient">
-      <h3>Update Patient ID: {{ selectedPatient.id }}</h3>
       <div class="patient-name">
         <form>
           <label for="updatedPatientFirstName">First Name:</label><br>
@@ -356,14 +353,9 @@
   <section [style.display]="selectedSection === 'deletePatient' ? 'block' : 'none'">
     <h2>Delete Patient Profile</h2>
     <p>Here you can delete a patient profile.</p>
-    <form>
-      <input type="text" placeholder="Search Patients" #filter (input)="filterResults(filter.value)" />
-      <button class="patientsBtn" type="button" (click)="filterResults(filter.value)">Search</button>
-    </form>
      <!-- Table for Patients -->
   <table class="table-display">
     <tr>
-      <th>Patient ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Full Name</th>
@@ -375,8 +367,7 @@
       <th>Action</th>
     </tr>
 
-    <tr *ngFor="let patient of patientList">
-      <td>{{ patient.id }}</td>
+    <tr *ngFor="let patient of patientListToBeDisplayed">
       <td>{{ patient.firstName }}</td>
       <td>{{ patient.lastName }}</td>
       <td>{{ patient.fullName}}</td>
@@ -396,9 +387,25 @@
   <section [style.display]="selectedSection === 'listPatients' ? 'block' : 'none'">
     <h2>List/Search Patient Profiles</h2>
     <p>Here you can list or search for patient profiles.</p>
+    <form>
+      <div class="inputPatientFilterClass">
+        <input
+          class="inputPatientFilter"
+          type="text"
+          placeholder="Search Patient"
+          [(ngModel)]="patientSearchQuery"
+          name="searchQuery"
+        />
+        <button
+          class="patientSearchBtn"
+          type="button"
+          (click)="filterPatientResults(patientSearchQuery)">
+          Search
+        </button>
+      </div>
+    </form>
     <table class="table-display">
       <tr>
-        <th>Patient ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Full Name</th>
@@ -409,8 +416,7 @@
         <th>Emergency Contact</th>
       </tr>
 
-      <tr *ngFor="let patient of patientList">
-        <td>{{ patient.id }}</td>
+      <tr *ngFor="let patient of patientListToBeDisplayed">
         <td>{{ patient.firstName }}</td>
         <td>{{ patient.lastName }}</td>
         <td>{{ patient.fullName}}</td>
