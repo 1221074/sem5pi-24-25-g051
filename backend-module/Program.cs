@@ -64,6 +64,9 @@ builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
 builder.Services.AddScoped<FileService>();
+BackupService backupService = new BackupService(builder.Configuration.GetConnectionString("DefaultConnection"));
+        backupService.RunBackup();
+
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
