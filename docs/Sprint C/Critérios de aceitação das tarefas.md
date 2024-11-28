@@ -192,4 +192,7 @@
   -> Patient name
 - Any relevant change must updated in the room status must be reflected immediately in the overlay
 
+## 7.5.4 As a healthcare staff member, whenever I select a different room, I want the camera (and the spotlight, if applicable) to move smoothly instead of instantly. The animation can either be created or defined using some API, such as tween.js
+### Acceptance Criteria
 
+- The camera animation must be created or defined using an API such as tween.js
