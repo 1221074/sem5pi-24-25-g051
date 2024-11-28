@@ -142,4 +142,54 @@
 - Immediate Availability: The newly added specialization should be available for use in staff profiles and operation types immediately after creation.
 - Consistency Across Modules: The system should ensure that the new specialization is consistent across all relevant modules, such as operation types. This consistency prevents data discrepancies and ensures accurate information representation.
 
-## 
+## 7.3.2 As an Admin, I want to be able to schedule surgeries to several operations rooms using Genetic Algorithms (Genetic Algorithm parameters need to be tuned according to conditions like number of genes, desired time for solution, etc.)
+### Acceptance Criteria
+
+- The system must be capable of scheduling surgeries in various operation rooms simultaniously.
+- The system must use genetic algorithms to find scheduling solutions. This means you have to implement:
+        1.  Genetic representention of the solutions
+        2.  Generation of an initial population of solutions
+        3.  Evalution function to rate solutions
+        4.  Genetic Operators
+        5.  Parameters of the genetic algorithm
+- The system must incorporate changes to the genetic algorithm like:
+        1. Ensure that the best individual passes on to the next generation 
+        2. Avoid crossovers between patients
+
+
+## 7.3.3 As an Hospital Manager I want a study of state of the art of application of Robots and Computer Vision in Hospitals, namely in the context of surgeries. The combination of human-based study and Generative AI is adequate. However, it must be clear what was done by each part.
+### Acceptance Criteria
+
+- Search and analyse the necessary information about the manner.
+- The results of the research should be synthesized and structured into a clear and concise report
+- The study should focus specially on the application of these tecnologies in the hospital context (theme addressed in the project)
+
+## 7.3.1 As an Admin, I want an automatic method to assign a set of operations (surgeries) to several operation rooms (assign is just to decide in which operation room the surgery will be done)
+### Acceptance Criteria
+
+- The system must be able to automatically assign surgeries to operating rooms, without manual intervention by the administrator
+- The system must be able to handle the assignment of surgeries to multiple operating rooms simultaneously.
+- The system must take into account the relevant constrains when assigning surgeries such as:
+  -> Type of Surgery
+  -> Team Availability 
+
+## 7.5.1 As a healthcare staff member, I want to select a room by left clicking on the corresponding surgical table (object picking). The camera should instantly move horizontally so that it targets the room center point.
+### Acceptance Criteria
+
+-When you left-click on an operating table. the corresponding room must be selected. This means that the system must recognize which operating table has been clicked and associate it with the correct room. The raycastnig technique can be used to determine which three-dimensional object has been clicked on the screen
+-The camera should move horizontally instantaneously to center at the center point of the selected room.
+-The interface should provide some sort of visual feedback to indicate which room has been selected (extra).
+
+
+## 7.5.2 As a healthcare staff member, whenever I press the “i” key, I want to display/hide an overlay containing updated information about the selected room.
+### Acceptance Criteria
+
+- The overlay must be clearly visible and posicioned in a way that doens't obstruct the vision of the 3D scene.
+- The overlay must display the following information about the selected room:
+  -> Room number
+  -> Room status 
+  -> Type of surgery 
+  -> Patient name
+- Any relevant change must updated in the room status must be reflected immediately in the overlay
+
+
