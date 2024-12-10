@@ -92,4 +92,8 @@ export class DoctorService {
       throw error;
     }
   }
+
+  createSurgeryAppointment(appointmentData: { patientId: string; doctorId: string; operationTypeId: string; appointmentDate: string; }) {
+    throw new Error('Method not implemented.');
+  }
 }

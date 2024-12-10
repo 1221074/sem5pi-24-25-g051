@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Patient } from '../interface/patient';
 import { environment } from '../../environments/environment';
+import { MedicalCondition } from '../interface/medical-condition';
+import { Allergy } from '../interface/allergy';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,24 @@ export class PatientService {
     const data = await fetch(this.url + '/email/' + email);
     return await data.json() ?? [];
   }
+
+  async getPatientById(id: string): Promise<Patient> {
+    const data = await fetch(`${this.url}/${id}`);
+    return await data.json() ?? [];
+  }
+
+  async getPatientByName(name: string): Promise<Patient> {
+    const data = await fetch(this.url + '/name/' + name);
+    return await data.json() ?? [];
+  }
+
+  async getDefaultAllergies(): Promise<Allergy[]> {
+    throw new Error('Method not implemented.');
+  }
+  async getPatientAllergies(selectedPatientId: string): Promise<Allergy[]> {
+    throw new Error('Method not implemented.');
+  }
+
 
   async updatePatient(id: string, patientData: any) {
     try {

@@ -20,6 +20,11 @@ export class OperationTypeService {
         return await data.json() ?? [];
   }
 
+  async getOperationTypeByName(name: string): Promise<OperationType | undefined> {
+    const data = await fetch(`${this.url}/name/${name}`);
+    return await data.json() ?? [];
+  }
+
   async postOperationType(operationData: any) {
     try {
       const response = await fetch(this.url, {

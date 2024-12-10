@@ -8,11 +8,10 @@ import { AuthenticationService } from '../../service/authentication.service';
 import { OperationDisplay } from '../../interface/operation-display';
 import { OperationTypeService } from '../../service/operation-type.service';
 import { PatientService } from '../../service/patient.service';
-import { Patient } from '../../interface/patient'; // Make sure this import exists
-import { OperationType } from '../../interface/operationtype'; // Make sure this import exists
-
-declare var google: any;
-
+import { Patient } from '../../interface/patient';
+import { OperationType } from '../../interface/operationtype';
+import { Allergy } from 'src/app/interface/allergy';
+import { MedicalCondition } from 'src/app/interface/medical-condition';
 @Component({
   selector: 'app-doctor',
   standalone: true,
@@ -29,31 +28,39 @@ export class DoctorComponent implements OnInit {
   operationTypeService: OperationTypeService = inject(OperationTypeService);
 
   // VARIABLES
-     //list
-    filteredOperationList: Operationrequest[] = [];
-    operationList: Operationrequest[] = [];
-    operationListToBeDisplayed: OperationDisplay[] = [];
-    fullOperationListToBeDisplayed: OperationDisplay[] = [];
-    selectedOperation: Operationrequest | null = null;
+  filteredOperationList: Operationrequest[] = [];
+  operationList: Operationrequest[] = [];
+  operationListToBeDisplayed: OperationDisplay[] = [];
+  fullOperationListToBeDisplayed: OperationDisplay[] = [];
+  selectedOperation: Operationrequest | null = null;
 
     //data
   operationTypes: OperationType[] = [];
+  allergyListResults: Allergy[] = [];
   patients: Patient[] = [];
   errorMessage: string = '';
   successMessage: string = '';
   selectedSection = '';
 
+  // New variables for additional functionalities
+  selectedPatientId: string = '';
+  selectedPatient: Patient | null = null;
+  patientMedicalConditions: MedicalCondition[] = [];
+  patientAllergies: Allergy[] = [];
 
   constructor(private router: Router) {}
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loadOperationTypes();
     this.loadPatients();
-
+    this.loadAllergies();
     this.updateList();
   }
 
   // UI METHODS
+
+//Data Loaders===================================
+
   async loadPatients() {
     try {
       this.patients = await this.patientService.getAllPatients();
@@ -70,6 +77,15 @@ export class DoctorComponent implements OnInit {
     }
   }
 
+async loadAllergies() {
+  try {
+    this.allergyListResults = await this.patientService.getDefaultAllergies();
+  } catch (error) {
+    this.errorMessage = 'Failed to load allergies. Please try again.';
+  }
+}
+
+//=================================================
   updateList() {
   this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
     const loggedInDoctorId = this.authService.getUserId() as string;
@@ -110,7 +126,7 @@ export class DoctorComponent implements OnInit {
     this.authService.logout();
   }
 
-  // REGISTER METHODS
+// REGISTER METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
   async registerOperation(
     patientName: string,
@@ -133,8 +149,8 @@ export class DoctorComponent implements OnInit {
       return;
     }
 
-    const patientId = this.getPatientId(patientName);
-    const operationTypeId = this.getOperationTypeId(operationTypeName);
+    const patientId = this.patientService.getPatientByName(patientName);
+    const operationTypeId = this.operationTypeService.getOperationTypeByName(operationTypeName);
 
 
     if (!patientId || !operationTypeId) {
@@ -165,7 +181,60 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-  // UPDATE METHODS
+  async registerMedicalCondition(condition: string) {}
+
+  async registerAllergy(allergyName: string) {
+    if (!allergyName) {
+      this.errorMessage = 'Please enter an allergy name.';
+      return;
+    }
+
+    try {
+
+    } catch (error) {
+      this.errorMessage = 'Failed to add allergy. Please try again.';
+    }
+  }
+
+
+  async registerSurgeryAppointment(
+    patientId: string,
+    operationTypeId: string,
+    appointmentDate: string
+  ) {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!patientId || !operationTypeId || !appointmentDate) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
+    if (new Date(appointmentDate) <= new Date()) {
+      this.errorMessage = 'Appointment date must be in the future.';
+      return;
+    }
+
+    const doctorId = this.authService.getUserId() as string;
+
+    const appointmentData = {
+      patientId,
+      doctorId,
+      operationTypeId,
+      appointmentDate
+    };
+
+    try {
+     await this.doctorService.createSurgeryAppointment(appointmentData);
+      this.successMessage = 'Surgery appointment created successfully.';
+    } catch (error) {
+      this.errorMessage =
+        'An error occurred while creating the surgery appointment. Please try again.';
+    }
+  }
+
+
+// UPDATE METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
   cancelUpdate() {
     this.selectedOperation = null;
@@ -206,30 +275,33 @@ export class DoctorComponent implements OnInit {
   selectOperationForUpdate(operation: OperationDisplay) {
     this.errorMessage = '';
     this.successMessage = '';
-    // Procurar pela operação correspondente no array `operationList`
+    // Find the corresponding operation in the operationList
     const selectedOp = this.operationList.find(op => op.id === operation.id);
     if (selectedOp) {
-      this.selectedOperation = { ...selectedOp }; // Copiar os dados para edição
+      this.selectedOperation = { ...selectedOp }; // Copy data for editing
     } else {
       this.errorMessage = 'Operation not found for editing.';
     }
   }
 
-  // REMOVE METHODS
+  savePatientMedicalRecord() {}
+
+  // REMOVE METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
   submitRemoval(operationId: number) {
     if (confirm('Are you sure you want to remove this operation?')) {
-      this.doctorService.deleteOperationRequest(operationId.toString()).then(() => {
-        this.successMessage = 'Operation removed successfully.';
-        this.updateList();
-      }).catch(error => {
-        this.errorMessage = 'An error occurred while removing the operation. Please try again.';
-      });
+      this.doctorService
+        .deleteOperationRequest(operationId.toString())
+        .then(() => {
+          this.successMessage = 'Operation removed successfully.';
+          this.updateList();
+        }).catch(error => {
+          this.errorMessage = 'An error occurred while removing the operation. Please try again.';
+        });
     }
   }
 
-  // SEARCH METHODS
-
+  // SEARCH METHODS ______________________________________________________________________________________________________________________________________________________________________________
   filterResults(query: string) {
     const lowerQuery = query.toLowerCase();
 
@@ -261,7 +333,7 @@ export class DoctorComponent implements OnInit {
   }
 
 
-  // HELPER METHODS
+  // HELPER METHODS ______________________________________________________________________________________________________________________________________________________________________________
 
   getNameOfpatient(patientId: string): string {
     const patient = this.patients.find(p => p.id.toString() === patientId);
@@ -273,18 +345,30 @@ export class DoctorComponent implements OnInit {
     return operationType ? operationType.name : 'Unknown Operation Type';
   }
 
-
-  getOperationTypeId(operationTypeName: string) : string {
-    const operationType = this.operationTypes.find(o => o.name === operationTypeName);
-    return operationType ? operationType.id.toString() : 'Unknown Operation Type Id';
+  // PATIENT MEDICAL RECORD METHODS
+  onPatientSelectChange() {
+    this.loadSelectedPatient();
   }
 
-  getPatientId(patientName: string) {
-    const patient = this.patients.find(p => p.fullName === patientName);
-    return patient ? patient.id : 'Unknown Patient Id';
+  async loadSelectedPatient() {
+    if (!this.selectedPatientId) {
+      this.selectedPatient = null;
+      this.patientMedicalConditions = [];
+      this.patientAllergies = [];
+      return;
+    }
+
+    try {
+      this.selectedPatient = await this.patientService.getPatientById(this.selectedPatientId);
+
+      // Load patient's medical conditions and allergies
+      /*this.patientMedicalConditions = await this.patientService.getPatientMedicalConditions(
+        this.selectedPatientId
+      );*/
+
+      this.patientAllergies = await this.patientService.getPatientAllergies(this.selectedPatientId);
+    } catch (error) {
+      this.errorMessage = 'Failed to load patient data. Please try again.';
+    }
   }
-
-
 }
-
-
