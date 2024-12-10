@@ -79,6 +79,8 @@
 - The system validates that the medical condition name is unique.
 - Newly added medical conditions are immediately available for doctors to use when updating patient records.
 - The system securely stores medical condition data in the database.
+- Designation, Max: 100 caracteres
+- Description, Max: 2048 caracteres
 
 ## 7.2.5 As a Doctor, I want to search for Medical Conditions, so that I can use it to update the Patient's Medical Record.
 ### Acceptance criteria
@@ -132,6 +134,8 @@
 - Type of room Attributes: Name and description are the attributes required for a new Room Type. These attributes provide essential information about the room's purpose and functionality, aiding in resource allocation and scheduling decisions.
 - Relationship to Procedures: The system should allow admins to associate new Room Types with specific medical procedures or Operation Types. This linkage enables the planning module to consider room suitability when scheduling surgeries. For example, a "Cardiac Catheterization Lab" would be linked to cardiology procedures, while a "General Operating Room" might be suitable for a broader range of surgical specialties.
 - Impact on Scheduling: Adding new Room Types should trigger an update to the planning module, enabling it to incorporate these new rooms into the scheduling process. This ensures the system can leverage the expanded pool of resources effectively.
+- It must be 8 characters long, no spaces, only letters, numbers, and dashes ("-") are allowed. It must be unique. designation, free text, alphanumeric, 100 characters max.
+
 
 
 ## 7.2.11 As an Admin, I want to add new Specializations, so that I can update or correct information about the staff and operation type (procedure).
