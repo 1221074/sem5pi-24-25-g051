@@ -25,13 +25,14 @@ app.get('/', (req, res) => {
     res.send('Backend API is working!');
 });
 
-const patientRoutes = require('./routes/patients');
-app.use('/api', patientRoutes);
+const patientRoutes = require('./src/Routes/patients');
+const allergyRoutes = require('./src/Routes/allergies');
 
+app.use('/api/allergies', allergyRoutes);
+app.use('/api', patientRoutes);
 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-console.log('MONGO_URI:', process.env.MONGO_URI);
