@@ -32,11 +32,14 @@ export class PatientService {
     return await data.json() ?? [];
   }
 
-  async getDefaultAllergies(): Promise<Allergy[]> {
-    throw new Error('Method not implemented.');
+  async getPatientMedicalRecord(id: string): Promise<MedicalCondition[]> {
+    const data = await fetch(`${this.url}/${id}`);
+    return await data.json() ?? [];
   }
-  async getPatientAllergies(selectedPatientId: string): Promise<Allergy[]> {
-    throw new Error('Method not implemented.');
+
+  async getSystemAllergies(): Promise<Allergy[]> {
+    const data = await fetch(environment.apiURL2 + '/allergy');
+    return await data.json() ?? [];
   }
 
 

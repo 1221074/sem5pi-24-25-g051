@@ -4,7 +4,7 @@ const Allergy = require('../Models/Allergy');
 const router = express.Router();
 
 // Create a new allergy
-router.post('/allergy/', async (req, res) => {
+router.post('/allergy', async (req, res) => {
   try {
     const allergy = new Allergy(req.body);
     await allergy.save();
@@ -15,7 +15,7 @@ router.post('/allergy/', async (req, res) => {
 });
 
 // Get all allergies
-router.get('/allergy/', async (req, res) => {
+router.get('/allergy', async (req, res) => {
   try {
     const allergies = await Allergy.find();
     res.status(200).json(allergies);

@@ -6,8 +6,19 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+// CORS Configuration
+const corsOptions = {
+    origin: 'http://localhost:4000', // Allow requests only from this origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed request methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    credentials: true, // Allow cookies if needed
+  };
+
+
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 

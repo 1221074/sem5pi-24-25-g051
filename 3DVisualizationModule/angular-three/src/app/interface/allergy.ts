@@ -1,4 +1,4 @@
 export interface Allergy {
+  _id: string;
   name: string;
-  description: string;  
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Operationrequest } from '../../interface/operationrequest';
 import { DoctorService } from '../../service/doctor.service';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,7 @@ import { Patient } from '../../interface/patient';
 import { OperationType } from '../../interface/operationtype';
 import { Allergy } from 'src/app/interface/allergy';
 import { MedicalCondition } from 'src/app/interface/medical-condition';
+import { MedicalRecord } from 'src/app/interface/medical-record';
 @Component({
   selector: 'app-doctor',
   standalone: true,
@@ -45,8 +46,12 @@ export class DoctorComponent implements OnInit {
   // New variables for additional functionalities
   selectedPatientId: string = '';
   selectedPatient: Patient | null = null;
+  patientMedicalRecord: MedicalRecord | null = null;
   patientMedicalConditions: MedicalCondition[] = [];
   patientAllergies: Allergy[] = [];
+  editingAllergies = true;
+  newAllergyName = '';
+  newAllergyDescription = '';
 
   constructor(private router: Router) {}
 
@@ -79,14 +84,15 @@ export class DoctorComponent implements OnInit {
 
 async loadAllergies() {
   try {
-    this.allergyListResults = await this.patientService.getDefaultAllergies();
+    this.allergyListResults = await this.patientService.getSystemAllergies();
   } catch (error) {
     this.errorMessage = 'Failed to load allergies. Please try again.';
   }
 }
 
 //=================================================
-  updateList() {
+
+updateList() {
   this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
     const loggedInDoctorId = this.authService.getUserId() as string;
     this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
@@ -181,18 +187,35 @@ async loadAllergies() {
     }
   }
 
-  async registerMedicalCondition(condition: string) {}
+  async registerMedicalCondition(condition: string) {
+    throw new Error('Method not implemented.');
+  }
 
-  async registerAllergy(allergyName: string) {
-    if (!allergyName) {
-      this.errorMessage = 'Please enter an allergy name.';
+  async registerAllergy() {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!this.newAllergyName) {
+      this.errorMessage = 'Please fill the required field.';
       return;
     }
 
-    try {
+    //verify the allergy is not already in the list
+    if (this.allergyListResults.find(a => a.name === this.newAllergyName)) {
+      this.errorMessage = 'Allergy already in the list.';
+      return;
+    }
 
+    const allergyData = {
+      name: this.newAllergyName,
+    };
+
+    try {
+      await this.doctorService.createAllergy(allergyData);
+      this.successMessage = 'Allergy registered successfully.';
+      this.loadAllergies();
     } catch (error) {
-      this.errorMessage = 'Failed to add allergy. Please try again.';
+      this.errorMessage = 'An error occurred while registering the allergy. Please try again.';
     }
   }
 
@@ -332,6 +355,10 @@ async loadAllergies() {
     }
   }
 
+  removeAllergy(index: number) {
+    this.allergyListResults.splice(index, 1);
+  }
+
 
   // HELPER METHODS ______________________________________________________________________________________________________________________________________________________________________________
 
@@ -366,7 +393,7 @@ async loadAllergies() {
         this.selectedPatientId
       );*/
 
-      this.patientAllergies = await this.patientService.getPatientAllergies(this.selectedPatientId);
+      //this.patientAllergies = await this.patientService.getPatientAllergies(this.selectedPatientId);
     } catch (error) {
       this.errorMessage = 'Failed to load patient data. Please try again.';
     }
