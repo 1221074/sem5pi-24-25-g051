@@ -11,8 +11,9 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error('MongoDB connection error:', err));
 
 
-  // Correct path to the Patient model in /src/models
+  // Correct path to the Models in /src/models
 const Patient = require('./src/Models/Patient');
+const Allergy = require('./src/Models/Allergy');
 
 // Default Allergies List
 const defaultAllergies = [
@@ -39,7 +40,7 @@ const defaultAllergies = [
 ];
 
 // Generate 5 Fake Patients
-const patients = Array.from({ length: 5 }, () => ({
+const defaultpatients = Array.from({ length: 5 }, () => ({
   firstName: faker.person.firstName(), // Updated from faker.name.firstName
   lastName: faker.person.lastName(), // Updated from faker.name.lastName
   dateOfBirth: faker.date.birthdate({ min: 1940, max: 2010, mode: 'year' }),
@@ -74,10 +75,15 @@ const patients = Array.from({ length: 5 }, () => ({
 // Insert Patients into the Database
 const bootstrap = async () => {
   try {
+    const allergyObjects = defaultAllergies.map(allergy => ({ name: allergy }));
+
     await Patient.deleteMany(); // Clear existing data
-    await Patient.insertMany(patients);
+
+    await Patient.insertMany(defaultpatients);
+    await Allergy.insertMany(allergyObjects);
     console.log('Database bootstrapped with fake data:');
-    console.log(patients);
+    console.log(defaultpatients);
+    console.log(defaultAllergies);
     mongoose.connection.close();
   } catch (err) {
     console.error('Error during bootstrap:', err);
