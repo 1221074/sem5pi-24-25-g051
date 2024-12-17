@@ -1,4 +1,5 @@
 export interface MedicalCondition {
-  name: string;
-  description: string;
+    _id: string;
+    name: string;
+    __v: number;
 }

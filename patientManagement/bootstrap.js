@@ -81,6 +81,11 @@ const defaultMedicalConditions = [
   "FB70.0: Low back pain"
 ];
 
+const patient = {
+  id: "3db99a54-5df4-4a21-b3ce-d593192d90ee",
+  fullName: "1220612",
+  email: "1220612@isep.ipp.pt",
+};
 
 // Insert Patients into the Database
 const bootstrap = async () => {
@@ -95,11 +100,31 @@ const bootstrap = async () => {
     logSuccess('Previous data cleared.');
 
     // Insert first the default data that isn't dependent on other data 
-    await Allergy.insertMany(allergyObjects);
+    const insertedAllergies = await Allergy.insertMany(allergyObjects);
     logSuccess('Allergies inserted successfully.');
 
-    await MedicalCondition.insertMany(medicalConditionObjects);
+    const insertedMedicalConditions = await MedicalCondition.insertMany(medicalConditionObjects);
     logSuccess('Medical conditions inserted successfully.');
+
+    const randomAllergies = insertedAllergies
+      .sort(() => 0.5 - Math.random()) // Shuffle
+      .slice(0, 3) // Pick 3 random allergies
+      .map((allergy) => allergy._id);
+
+    const randomMedicalConditions = insertedMedicalConditions
+      .sort(() => 0.5 - Math.random()) // Shuffle
+      .slice(0, 2) // Pick 2 random medical conditions
+      .map((condition) => condition._id);
+
+    const newMedicalRecord = new MedicalRecord({
+      patientId: patient.id,
+      allergies: randomAllergies,
+      medicalConditions: randomMedicalConditions,
+      freeText: ``,
+    });
+
+    await newMedicalRecord.save();
+    logSuccess(`Medical record created successfully for patient: ${patient.fullName}`);
 
     logSuccess('Database bootstrapped successfully.');
 

@@ -96,6 +96,29 @@ export class DoctorService {
   createSurgeryAppointment(appointmentData: { patientId: string; doctorId: string; operationTypeId: string; appointmentDate: string; }) {
     throw new Error('Method not implemented.');
   }
+  async createMedicalCondition(conditionData: { name: string; }) {
+    try {
+      const response = await fetch(environment.apiURL2 + '/medicalcondition', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(conditionData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error posting operation request');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 
   async createAllergy(allergyData: any) {
     try {

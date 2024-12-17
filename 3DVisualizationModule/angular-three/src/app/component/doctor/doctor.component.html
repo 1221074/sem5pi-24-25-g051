@@ -228,26 +228,30 @@
 <section [style.display]="selectedSection === 'searchAllergies' ? 'block' : 'none'">
   <p>Search for allergies to update patient medical records.</p>
   <p>Here's a list with all the default allergies that could be added</p>
-  <p>if you want to modify the list, click the button</p>
 
+  <label for="allergySearch">Search Allergy:</label>
+  <input
+    id="allergySearch"
 
-   <!--Display Search Results-->
-  <div *ngIf="allergyListResults.length > 0">
-    <ul>
-    <li *ngFor="let allergy of allergyListResults">
-        {{ allergy.name }}
+    #allergySearch
+    placeholder="Type to search allergies..."
+  />
+
+  <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+
+  <!-- List Existing Allergies with Remove Button -->
+  <ul>
+    <li *ngFor="let allergy of filteredAllergyList; let i = index">
+      {{ allergy.name }}
     </li>
+  </ul>
 
-    <button type="text">Edit List</button>
+  <!-- Add New Allergy -->
+  <label for="newAllergyName">New Allergy Name:</label>
+  <input id="newAllergyName" #newAllergyName placeholder="Name"/>
+  <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
 
-    </ul>
-  </div>
-
-  <div *ngIf="allergyListResults.length === 0">
-    <p>No allergies found.</p>
-  </div>
-
-  <button (click)="showSection('')">Back to Main Menu</button>
+  <br><button (click)="showSection('')">Back to Main Menu</button>
 </section>
 
 <!-- Update Patient Medical Record Section-->
@@ -257,48 +261,49 @@
 
   <div class="form-field">
     <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" [(ngModel)]="selectedPatientId" name="patientId" required>
+    <select id="patientSelect" #selected [(ngModel)]="selectedPatientId" name="patientId" required>
       <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
     </select>
+    <button type="operationBtn" (click)="showPatientMedicalRecord(selected.value)">Show</button>
   </div>
 
-  <div>
+  <div *ngIf="patientMedicalRecord">
+    <!-- Medical Conditions -->
     <h3>Medical Conditions</h3>
-    <div *ngIf="patientMedicalConditions.length > 0">
+    <div *ngIf="patientMedicalConditions.length > 0; else noConditions">
       <ul>
         <li *ngFor="let condition of patientMedicalConditions">
           {{ condition.name }}
         </li>
       </ul>
+    </div>
+    <ng-template #noConditions>
+      <p>No medical conditions found.</p>
+    </ng-template>
 
-      <div class="form-field">
-        <label for="addCondition">Add Condition:</label>
-        <input type="text" id="addCondition" #newConditionInput />
-        <button type="button" (click)="registerMedicalCondition(newConditionInput.value)">Add</button>
-      </div>
+    <div class="form-field">
+      <label for="addCondition">Add Medical Condition:</label>
+      <input type="text" id="addCondition" #newConditionInput />
+      <button type="button" (click)="registerMedicalCondition(newConditionInput.value)">Add</button>
     </div>
 
-    <div *ngIf="patientMedicalConditions.length === 0">
-      <p>No medical conditions found.</p>
-  </div>
-
+    <!-- Allergies -->
     <h3>Allergies</h3>
-    <div *ngIf="patientAllergies.length > 0">
+    <div *ngIf="patientAllergies.length > 0; else noAllergies">
       <ul>
         <li *ngFor="let allergy of patientAllergies">
           {{ allergy.name }}
         </li>
       </ul>
-
-      <div class="form-field">
-        <label for="addAllergy">Add Allergy:</label>
-        <input type="text" id="addAllergy" #newAllergyInput />
-        <button type="button" (click)="registerAllergy(newAllergyInput.value)">Add</button>
-      </div>
     </div>
-
-    <div *ngIf="patientAllergies.length === 0">
+    <ng-template #noAllergies>
       <p>No allergies found.</p>
+    </ng-template>
+
+    <div class="form-field">
+      <label for="addAllergy">Add Allergy:</label>
+      <input type="text" id="addAllergy" #newAllergyInput />
+      <button type="button" (click)="registerAllergy(newAllergyInput.value)">Add</button>
     </div>
   </div>
 

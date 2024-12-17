@@ -3,6 +3,7 @@ import { Patient } from '../interface/patient';
 import { environment } from '../../environments/environment';
 import { MedicalCondition } from '../interface/medical-condition';
 import { Allergy } from '../interface/allergy';
+import { MedicalRecord } from '../interface/medical-record';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,8 @@ export class PatientService {
     return await data.json() ?? [];
   }
 
-  async getPatientMedicalRecord(id: string): Promise<MedicalCondition[]> {
-    const data = await fetch(`${this.url}/${id}`);
+  async getPatientMedicalRecord(id: string): Promise<MedicalRecord> {
+    const data = await fetch(environment.apiURL2 + '/medicalrecord/' + id);
     return await data.json() ?? [];
   }
 

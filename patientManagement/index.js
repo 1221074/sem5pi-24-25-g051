@@ -36,12 +36,13 @@ app.get('/', (req, res) => {
     res.send('Backend API is working!');
 });
 
-const patientRoutes = require('./src/Routes/patients');
+
 const allergyRoutes = require('./src/Routes/allergies');
 const medicalRecordRoutes = require('./src/Routes/medicalrecords');
+const medicalConditionRoutes = require('./src/Routes/medicalconditions');
 
 app.use('/api', allergyRoutes);
-app.use('/api', patientRoutes);
+app.use('/api', medicalConditionRoutes);
 app.use('/api', medicalRecordRoutes);
 
 // Start the server

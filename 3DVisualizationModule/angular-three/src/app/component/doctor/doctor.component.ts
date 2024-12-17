@@ -30,12 +30,13 @@ export class DoctorComponent implements OnInit {
 
   // VARIABLES
   filteredOperationList: Operationrequest[] = [];
+  filteredAllergyList: any[] = [];
   operationList: Operationrequest[] = [];
   operationListToBeDisplayed: OperationDisplay[] = [];
   fullOperationListToBeDisplayed: OperationDisplay[] = [];
   selectedOperation: Operationrequest | null = null;
 
-    //data
+  //data
   operationTypes: OperationType[] = [];
   allergyListResults: Allergy[] = [];
   patients: Patient[] = [];
@@ -46,25 +47,24 @@ export class DoctorComponent implements OnInit {
   // New variables for additional functionalities
   selectedPatientId: string = '';
   selectedPatient: Patient | null = null;
-  patientMedicalRecord: MedicalRecord | null = null;
+  patientMedicalRecord: MedicalRecord | undefined;
   patientMedicalConditions: MedicalCondition[] = [];
   patientAllergies: Allergy[] = [];
   editingAllergies = true;
-  newAllergyName = '';
-  newAllergyDescription = '';
 
-  constructor(private router: Router) {}
+  constructor() { }
 
   ngOnInit() {
     this.loadOperationTypes();
     this.loadPatients();
     this.loadAllergies();
     this.updateList();
+    this.filteredAllergyList = this.allergyListResults;
   }
 
   // UI METHODS
 
-//Data Loaders===================================
+  //Data Loaders===================================
 
   async loadPatients() {
     try {
@@ -82,38 +82,40 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-async loadAllergies() {
-  try {
-    this.allergyListResults = await this.patientService.getSystemAllergies();
-  } catch (error) {
-    this.errorMessage = 'Failed to load allergies. Please try again.';
+  async loadAllergies() {
+    try {
+      this.allergyListResults = await this.patientService.getSystemAllergies();
+      this.filteredAllergyList = this.allergyListResults;
+
+    } catch (error) {
+      this.errorMessage = 'Failed to load allergies. Please try again.';
+    }
   }
-}
 
-//=================================================
+  //=================================================
 
-updateList() {
-  this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
-    const loggedInDoctorId = this.authService.getUserId() as string;
-    this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
+  updateList() {
+    this.doctorService.getAllDoctorOperations().then((operationList: Operationrequest[]) => {
+      const loggedInDoctorId = this.authService.getUserId() as string;
+      this.operationList = operationList.filter(op => op.doctorId === loggedInDoctorId);
 
-    this.operationListToBeDisplayed = this.operationList.map(op => {
-      return {
-        id: op.id,
-        patientName: this.getNameOfpatient(op.patientId),
-        doctorId: op.doctorId,
-        operationTypeName: this.getOperationTypeName(op.operationTypeId),
-        deadlineDate: op.deadlineDate,
-        priorityState: op.priorityState
-      };
+      this.operationListToBeDisplayed = this.operationList.map(op => {
+        return {
+          id: op.id,
+          patientName: this.getNameOfpatient(op.patientId),
+          doctorId: op.doctorId,
+          operationTypeName: this.getOperationTypeName(op.operationTypeId),
+          deadlineDate: op.deadlineDate,
+          priorityState: op.priorityState
+        };
+      });
+
+      // Initialize the master list
+      this.fullOperationListToBeDisplayed = [...this.operationListToBeDisplayed];
+    }).catch(error => {
+      this.errorMessage = 'Failed to load operations. Please try again.';
     });
-
-    // Initialize the master list
-    this.fullOperationListToBeDisplayed = [...this.operationListToBeDisplayed];
-  }).catch(error => {
-    this.errorMessage = 'Failed to load operations. Please try again.';
-  });
-}
+  }
 
 
   updateListSearch(operationToBeDisplayed: OperationDisplay[]) {
@@ -132,7 +134,7 @@ updateList() {
     this.authService.logout();
   }
 
-// REGISTER METHODS _______________________________________________________________________________________________________________________________________________________________________________
+  // REGISTER METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
   async registerOperation(
     patientName: string,
@@ -187,27 +189,53 @@ updateList() {
     }
   }
 
-  async registerMedicalCondition(condition: string) {
-    throw new Error('Method not implemented.');
-  }
-
-  async registerAllergy() {
+  async registerMedicalCondition(newConditionName: string) {
     this.errorMessage = '';
     this.successMessage = '';
 
-    if (!this.newAllergyName) {
+    if (!newConditionName) {
+      this.errorMessage = 'Please fill the required field.';
+      return;
+    }
+
+    // Verify the medical condition is not already in the list
+    if (this.patientMedicalConditions.find(c => c.name === newConditionName)) {
+      this.errorMessage = 'Medical condition already in the list.';
+      return;
+    }
+
+    const conditionData = { name: newConditionName };
+
+    try {
+      // Call service to create the medical condition
+      await this.doctorService.createMedicalCondition(conditionData);
+      this.successMessage = 'Medical condition registered successfully.';
+
+      // Reload the patient's medical record to reflect the update
+      this.showPatientMedicalRecord(this.selectedPatientId);
+    } catch (error) {
+      this.errorMessage = 'An error occurred while registering the medical condition. Please try again.';
+    }
+  }
+
+
+  async registerAllergy(newAllergyName: string) {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!newAllergyName) {
       this.errorMessage = 'Please fill the required field.';
       return;
     }
 
     //verify the allergy is not already in the list
-    if (this.allergyListResults.find(a => a.name === this.newAllergyName)) {
+    if (this.allergyListResults.find(a => a.name === newAllergyName)) {
       this.errorMessage = 'Allergy already in the list.';
       return;
     }
 
     const allergyData = {
-      name: this.newAllergyName,
+      name: newAllergyName,
     };
 
     try {
@@ -248,7 +276,7 @@ updateList() {
     };
 
     try {
-     await this.doctorService.createSurgeryAppointment(appointmentData);
+      await this.doctorService.createSurgeryAppointment(appointmentData);
       this.successMessage = 'Surgery appointment created successfully.';
     } catch (error) {
       this.errorMessage =
@@ -257,7 +285,7 @@ updateList() {
   }
 
 
-// UPDATE METHODS _______________________________________________________________________________________________________________________________________________________________________________
+  // UPDATE METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
   cancelUpdate() {
     this.selectedOperation = null;
@@ -307,7 +335,7 @@ updateList() {
     }
   }
 
-  savePatientMedicalRecord() {}
+  savePatientMedicalRecord() { }
 
   // REMOVE METHODS _______________________________________________________________________________________________________________________________________________________________________________
 
@@ -322,6 +350,10 @@ updateList() {
           this.errorMessage = 'An error occurred while removing the operation. Please try again.';
         });
     }
+  }
+
+  removeAllergy(index: number) {
+    this.allergyListResults.splice(index, 1);
   }
 
   // SEARCH METHODS ______________________________________________________________________________________________________________________________________________________________________________
@@ -355,12 +387,48 @@ updateList() {
     }
   }
 
-  removeAllergy(index: number) {
-    this.allergyListResults.splice(index, 1);
+  searchAllergies(query: string) {
+
+      const lowerQuery = query?.toLowerCase() ?? '';
+
+    // If search input is empty, reset the list
+    if (!lowerQuery) {
+      this.filteredAllergyList = this.allergyListResults ?? [];
+      return;
+    }
+
+    if (!this.allergyListResults) {
+      // If the allergy list isn't loaded yet, return an empty array or handle as needed
+      this.filteredAllergyList = [];
+      return;
+    }
+
+    // Filter allergy list
+    this.filteredAllergyList = this.allergyListResults
+      .filter(allergy => allergy?.name?.toLowerCase().includes(lowerQuery));
   }
 
 
+
+
   // HELPER METHODS ______________________________________________________________________________________________________________________________________________________________________________
+
+  async showPatientMedicalRecord(patientId: string) {
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.patientMedicalRecord = undefined;
+    this.patientAllergies = [];
+    this.patientMedicalConditions = [];
+
+    try {
+      const record = await this.patientService.getPatientMedicalRecord(patientId);
+      this.patientMedicalRecord = record;
+      this.patientMedicalConditions = record.medicalConditions as MedicalCondition[] || [];
+      this.patientAllergies = record.allergies as Allergy[] || [];
+    } catch (error) {
+      this.errorMessage = 'Unable to fetch patient medical record.';
+    }
+  }
 
   getNameOfpatient(patientId: string): string {
     const patient = this.patients.find(p => p.id.toString() === patientId);
