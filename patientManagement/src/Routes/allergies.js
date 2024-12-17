@@ -4,7 +4,7 @@ const Allergy = require('../Models/Allergy');
 const router = express.Router();
 
 // Create a new allergy
-router.post('/', async (req, res) => {
+router.post('/allergy/', async (req, res) => {
   try {
     const allergy = new Allergy(req.body);
     await allergy.save();
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get all allergies
-router.get('/', async (req, res) => {
+router.get('/allergy/', async (req, res) => {
   try {
     const allergies = await Allergy.find();
     res.status(200).json(allergies);
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a single allergy by ID
-router.get('/:id', async (req, res) => {
+router.get('/allergy/:id', async (req, res) => {
   try {
     const allergy = await Allergy.findById(req.params.id);
     if (!allergy) {
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update an allergy
-router.put('/:id', async (req, res) => {
+router.put('/allergy/:id', async (req, res) => {
   try {
     const allergy = await Allergy.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!allergy) {
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete an allergy
-router.delete('/:id', async (req, res) => {
+router.delete('/allergy/:id', async (req, res) => {
   try {
     const allergy = await Allergy.findByIdAndDelete(req.params.id);
     if (!allergy) {

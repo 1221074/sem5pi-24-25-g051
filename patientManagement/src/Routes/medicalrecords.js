@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 // Get a specific medical record by Patient ID
-router.get('/records/:patientId', async (req, res) => {
+router.get('/medicalrecord/:patientId', async (req, res) => {
     try {
         const record = await MedicalRecord.findOne({ patientId: req.params.patientId })
             .populate('allergies'); // Populating allergies reference
@@ -17,7 +17,7 @@ router.get('/records/:patientId', async (req, res) => {
 });
 
 // Get all medical records (Optional)
-router.get('/records', async (req, res) => {
+router.get('/medicalrecord', async (req, res) => {
     try {
         const records = await MedicalRecord.find();
         res.json(records);
@@ -28,7 +28,7 @@ router.get('/records', async (req, res) => {
 
 
 // Update a medical record
-router.put('/records/:patientId', async (req, res) => {
+router.put('/medicalrecord/:patientId', async (req, res) => {
     try {
         const record = await MedicalRecord.findOneAndUpdate(
             { patientId: req.params.patientId },

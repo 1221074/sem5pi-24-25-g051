@@ -27,10 +27,11 @@ app.get('/', (req, res) => {
 
 const patientRoutes = require('./src/Routes/patients');
 const allergyRoutes = require('./src/Routes/allergies');
+const medicalRecordRoutes = require('./src/Routes/medicalrecords');
 
-app.use('/api/allergies', allergyRoutes);
+app.use('/api', allergyRoutes);
 app.use('/api', patientRoutes);
-app.use('/api/medicalrecords', medicalRecordRoutes);
+app.use('/api', medicalRecordRoutes);
 
 // Start the server
 app.listen(PORT, () => {

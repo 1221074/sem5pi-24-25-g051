@@ -5,7 +5,7 @@ const MedicalRecord= require('../Models/MedicalRecord');
 const router = express.Router();
 
 // Create a patient
-router.post('/patients', async (req, res) => {
+router.post('/patient', async (req, res) => {
     try {
         const patient = new Patient(req.body);
         await patient.save();
@@ -20,7 +20,7 @@ router.post('/patients', async (req, res) => {
 });
 
 // Get all patients
-router.get('/patients', async (req, res) => {
+router.get('/patient', async (req, res) => {
     try {
         const patients = await Patient.find();
         res.send(patients);
@@ -30,7 +30,7 @@ router.get('/patients', async (req, res) => {
 });
 
 // Update a patient
-router.put('/patients/:id', async (req, res) => {
+router.put('/patient/:id', async (req, res) => {
     try {
         const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.send(patient);
