@@ -30,6 +30,7 @@ const allergyRoutes = require('./src/Routes/allergies');
 
 app.use('/api/allergies', allergyRoutes);
 app.use('/api', patientRoutes);
+app.use('/api/medicalrecords', medicalRecordRoutes);
 
 // Start the server
 app.listen(PORT, () => {

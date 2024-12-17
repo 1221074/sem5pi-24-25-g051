@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const Allergy = require('./src/Models/Allergy');const Patient = require('./src/Models/Patient');
+const Allergy = require('./src/Models/Allergy');
+const Patient = require('./src/Models/Patient');
+const MedicalRecord = require('./src/Models/MedicalRecord');
 require('dotenv').config();
 
 async function cleanDatabase() {
@@ -17,7 +19,7 @@ async function cleanDatabase() {
         // Delete all documents in the Allergy collection
         await Allergy.deleteMany();
         await Patient.deleteMany();
-        console.log(`Deleted ${result.deletedCount} allergies from the database.`);
+        await MedicalRecord.deleteMany();
     } catch (error) {
         console.error('Error during database cleaning:', error);
     } finally {

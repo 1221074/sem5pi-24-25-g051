@@ -1,5 +1,6 @@
 const express = require('express');
 const Patient = require('../Models/Patient');
+const MedicalRecord= require('../Models/MedicalRecord');
 
 const router = express.Router();
 
@@ -8,6 +9,10 @@ router.post('/patients', async (req, res) => {
     try {
         const patient = new Patient(req.body);
         await patient.save();
+        //create an empty medical record for the patient
+        const medicalRecord = new MedicalRecord({patient: patient._id});
+        await medicalRecord.save();
+
         res.status(201).send(patient);
     } catch (error) {
         res.status(400).send(error);

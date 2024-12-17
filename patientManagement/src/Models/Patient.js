@@ -9,6 +9,7 @@ const appointmentSchema = new mongoose.Schema({
 const patientSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
+    fullName: { type: String, get: function() { return `${this.firstName} ${this.lastName}`; } },
     dateOfBirth: Date,
     gender: String,
     medicalRecordNumber: { type: String, unique: true },
@@ -16,7 +17,7 @@ const patientSchema = new mongoose.Schema({
         email: String,
         phone: String,
     },
-    allergies: [String],
+    allergies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Allergy', required: true }],
     medicalConditions: [String],
     emergencyContact: {
         name: String,

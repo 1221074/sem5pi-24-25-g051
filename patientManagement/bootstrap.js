@@ -14,6 +14,25 @@ mongoose.connect(process.env.MONGO_URI, {
   // Correct path to the Models in /src/models
 const Patient = require('./src/Models/Patient');
 const Allergy = require('./src/Models/Allergy');
+const MedicalRecord = require('./src/Models/MedicalRecord');
+
+// ANSI escape codes for colors
+const COLORS = {
+  RESET: '\x1b[0m',
+  GREEN: '\x1b[32m',
+  RED: '\x1b[31m',
+};
+
+// Function to log success in green
+const logSuccess = (message) => {
+  console.log(`${COLORS.GREEN}${message}${COLORS.RESET}`);
+};
+
+// Function to log error in red
+const logError = (message) => {
+  console.error(`${COLORS.RED}${message}${COLORS.RESET}`);
+};
+
 
 // Default Allergies List
 const defaultAllergies = [
@@ -39,54 +58,79 @@ const defaultAllergies = [
   "Perfume Allergy (fragrance sensitivity)"
 ];
 
-// Generate 5 Fake Patients
-const defaultpatients = Array.from({ length: 5 }, () => ({
-  firstName: faker.person.firstName(), // Updated from faker.name.firstName
-  lastName: faker.person.lastName(), // Updated from faker.name.lastName
-  dateOfBirth: faker.date.birthdate({ min: 1940, max: 2010, mode: 'year' }),
-  gender: faker.helpers.arrayElement(['Male', 'Female', 'Other']),
-  medicalRecordNumber: faker.string.uuid(), // Updated from faker.datatype.uuid
-  contactInfo: {
-    email: faker.internet.email(),
-    phone: faker.phone.number('##########'),
-  },
-  allergies: faker.helpers.arrayElements(defaultAllergies, faker.number.int({ min: 1, max: 5 })), // Updated to faker.number.int
-  medicalConditions: faker.helpers.arrayElements([
-    "Hypertension",
-    "Diabetes",
-    "Asthma",
-    "Arthritis",
-    "Chronic Pain",
-    "Heart Disease"
-  ], faker.number.int({ min: 1, max: 3 })), // Updated to faker.number.int
-  emergencyContact: {
-    name: faker.person.fullName(), // Updated from faker.name.findName
-    phone: faker.phone.number('##########'),
-  },
-  appointmentHistory: [
-    {
-      date: faker.date.soon(30),
-      type: faker.helpers.arrayElement(['Checkup', 'Surgery', 'Consultation']),
-      status: faker.helpers.arrayElement(['Scheduled', 'Completed', 'Cancelled']),
-    }
-  ],
-}));
-
 // Insert Patients into the Database
 const bootstrap = async () => {
   try {
     const allergyObjects = defaultAllergies.map(allergy => ({ name: allergy }));
 
-    await Patient.deleteMany(); // Clear existing data
+    // Clear the database before inserting new data
+    await Allergy.deleteMany();
+    await Patient.deleteMany();
+    await MedicalRecord.deleteMany();
+    logSuccess('Previous data cleared.');
 
-    await Patient.insertMany(defaultpatients);
-    await Allergy.insertMany(allergyObjects);
-    console.log('Database bootstrapped with fake data:');
-    console.log(defaultpatients);
-    console.log(defaultAllergies);
-    mongoose.connection.close();
+    // Insert first the default data that isn't dependent on other data 
+    const insertedAllergies = await Allergy.insertMany(allergyObjects);
+    logSuccess('Allergies inserted successfully.');
+
+    const patients = [];
+//Create the patient and the respective empty medical record
+  for (let i = 0; i < 5; i++) {
+    const patient = new Patient({
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      dateOfBirth: faker.date.birthdate({ min: 1940, max: 2010, mode: 'year' }),
+      gender: faker.helpers.arrayElement(['Male', 'Female', 'Other']),
+      medicalRecordNumber: faker.string.uuid(),
+      contactInfo: {
+        email: faker.internet.email(),
+        phone: faker.phone.number('##########'),
+      },
+      allergies: faker.helpers.arrayElements(
+        insertedAllergies.map(allergy => allergy._id),
+        faker.number.int({ min: 1, max: 5 })
+      ),
+      emergencyContact: {
+        name: faker.person.fullName(),
+        phone: faker.phone.number('##########'),
+      },
+      appointmentHistory: [
+        {
+          date: faker.date.soon(30),
+          type: faker.helpers.arrayElement(['Checkup', 'Surgery', 'Consultation']),
+          status: faker.helpers.arrayElement(['Scheduled', 'Completed', 'Cancelled']),
+        },
+      ],
+    });
+
+    await patient.save();
+
+    // Step 4: Create an empty medical record for the new patient
+    const medicalRecord = new MedicalRecord({
+      patientId: patient._id, // Link to the Patient document
+      allergies: [], // Initially empty
+      chronicConditions: [],
+      previousSurgeries: [],
+      familyHistory: { father: '', mother: '' },
+      smokingStatus: '',
+      currentMedications: [],
+      recentVisits: [],
+      labResults: [],
+      immunizations: [],
+      planRecommendations: ''
+    });
+
+    await medicalRecord.save();
+    patients.push(patient);
+  }
+
+  logSuccess('Patients and their medical records inserted successfully.');
+  logSuccess('Database bootstrapped successfully.');
+
+  // Close the connection after bootstrapping
+  mongoose.connection.close();
   } catch (err) {
-    console.error('Error during bootstrap:', err);
+    logError(`Error during bootstrap: ${err.message}`);
     mongoose.connection.close();
   }
 };
