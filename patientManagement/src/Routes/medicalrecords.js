@@ -26,6 +26,16 @@ router.get('/medicalrecord', async (req, res) => {
     }
 });
 
+// Create a new medical record
+router.post('/medicalrecord', async (req, res) => {
+    try {
+        const record = new MedicalRecord(req.body);
+        await record.save();
+        res.status(201).json(record);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
 
 // Update a medical record
 router.put('/medicalrecord/:patientId', async (req, res) => {

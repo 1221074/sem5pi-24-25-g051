@@ -11,10 +11,10 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error('MongoDB connection error:', err));
 
 
-  // Correct path to the Models in /src/models
-const Patient = require('./src/Models/Patient');
+// Correct path to the Models in /src/models
 const Allergy = require('./src/Models/Allergy');
 const MedicalRecord = require('./src/Models/MedicalRecord');
+const MedicalCondition = require('./src/Models/MedicalCondition');
 
 // ANSI escape codes for colors
 const COLORS = {
@@ -58,77 +58,53 @@ const defaultAllergies = [
   "Perfume Allergy (fragrance sensitivity)"
 ];
 
+const defaultMedicalConditions = [
+  "A04.0 Cholera",
+  "A08.0: Rotavirus enteritis",
+  "B20: Human Immunodeficiency Virus (HIV) disease",
+  "B50: Plasmodium falciparum malaria",
+  "2A20.0: Malignant neoplasm of lung",
+  "2F44.0: Malignant neoplasm of the breast",
+  "3A01.1: Iron deficiency anemia",
+  "4A44: Hereditary hemochromatosis",
+  "5A11: Type 1 diabetes mellitus",
+  "5B55: Obesity",
+  "6A80: Major depressive disorder",
+  "6C40: Generalized anxiety disorder",
+  "FB20.1: Osteoporosis with pathological fracture",
+  "FB81.1: Osteoarthritis of the knee",
+  "FB81.2: Osteoarthritis of the hip",
+  "FB80.1: Rheumatoid arthritis",
+  "FA24.0: Fracture of femur",
+  "FA22.0: Fracture of radius and ulna",
+  "FA21.0: Dislocation of shoulder",
+  "FB70.0: Low back pain"
+];
+
+
 // Insert Patients into the Database
 const bootstrap = async () => {
   try {
     const allergyObjects = defaultAllergies.map(allergy => ({ name: allergy }));
+    const medicalConditionObjects = defaultMedicalConditions.map(condition => ({ name: condition }));
 
     // Clear the database before inserting new data
     await Allergy.deleteMany();
-    await Patient.deleteMany();
+    await MedicalCondition.deleteMany();
     await MedicalRecord.deleteMany();
     logSuccess('Previous data cleared.');
 
     // Insert first the default data that isn't dependent on other data 
-    const insertedAllergies = await Allergy.insertMany(allergyObjects);
+    await Allergy.insertMany(allergyObjects);
     logSuccess('Allergies inserted successfully.');
 
-    const patients = [];
-//Create the patient and the respective empty medical record
-  for (let i = 0; i < 5; i++) {
-    const patient = new Patient({
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      dateOfBirth: faker.date.birthdate({ min: 1940, max: 2010, mode: 'year' }),
-      gender: faker.helpers.arrayElement(['Male', 'Female', 'Other']),
-      medicalRecordNumber: faker.string.uuid(),
-      contactInfo: {
-        email: faker.internet.email(),
-        phone: faker.phone.number('##########'),
-      },
-      allergies: faker.helpers.arrayElements(
-        insertedAllergies.map(allergy => allergy._id),
-        faker.number.int({ min: 1, max: 5 })
-      ),
-      emergencyContact: {
-        name: faker.person.fullName(),
-        phone: faker.phone.number('##########'),
-      },
-      appointmentHistory: [
-        {
-          date: faker.date.soon(30),
-          type: faker.helpers.arrayElement(['Checkup', 'Surgery', 'Consultation']),
-          status: faker.helpers.arrayElement(['Scheduled', 'Completed', 'Cancelled']),
-        },
-      ],
-    });
+    await MedicalCondition.insertMany(medicalConditionObjects);
+    logSuccess('Medical conditions inserted successfully.');
 
-    await patient.save();
+    logSuccess('Database bootstrapped successfully.');
 
-    // Step 4: Create an empty medical record for the new patient
-    const medicalRecord = new MedicalRecord({
-      patientId: patient._id, // Link to the Patient document
-      allergies: [], // Initially empty
-      chronicConditions: [],
-      previousSurgeries: [],
-      familyHistory: { father: '', mother: '' },
-      smokingStatus: '',
-      currentMedications: [],
-      recentVisits: [],
-      labResults: [],
-      immunizations: [],
-      planRecommendations: ''
-    });
-
-    await medicalRecord.save();
-    patients.push(patient);
-  }
-
-  logSuccess('Patients and their medical records inserted successfully.');
-  logSuccess('Database bootstrapped successfully.');
-
-  // Close the connection after bootstrapping
-  mongoose.connection.close();
+    // Close the connection after bootstrapping
+    mongoose.connection.close();
   } catch (err) {
     logError(`Error during bootstrap: ${err.message}`);
     mongoose.connection.close();
