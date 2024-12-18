@@ -8,7 +8,8 @@ const router = express.Router();
 router.get('/medicalrecord/:patientId', async (req, res) => {
     try {
         const record = await MedicalRecord.findOne({ patientId: req.params.patientId })
-            .populate('allergies'); // Populating allergies reference
+            .populate('allergies')
+            .populate('medicalConditions'); 
         if (!record) return res.status(404).json({ error: 'Record not found' });
         res.json(record);
     } catch (err) {

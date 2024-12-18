@@ -37,6 +37,19 @@ router.get('/allergy/:id', async (req, res) => {
   }
 });
 
+// Get a single allergy by name 
+router.get('/allergy/:name', async (req, res) => {
+  try {
+    const allergy = await Allergy.find({name: req.params.name});
+    if (!allergy) {
+      return res.status(404).json({ error: 'Allergy not found' });
+    }
+    res.status(200).json(allergy);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Update an allergy
 router.put('/allergy/:id', async (req, res) => {
   try {

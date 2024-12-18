@@ -264,7 +264,7 @@
     <select id="patientSelect" #selected [(ngModel)]="selectedPatientId" name="patientId" required>
       <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
     </select>
-    <button type="operationBtn" (click)="showPatientMedicalRecord(selected.value)">Show</button>
+    <button class="allergyBtn" (click)="showPatientMedicalRecord(selected.value)">Show</button>
   </div>
 
   <div *ngIf="patientMedicalRecord">

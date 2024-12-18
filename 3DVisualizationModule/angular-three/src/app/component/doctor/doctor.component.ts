@@ -529,9 +529,14 @@ export class DoctorComponent implements OnInit {
     this.patientAllergies = [];
     this.patientMedicalConditions = [];
 
+    if (!patientId) {
+      return;
+    }
+
     try {
       const record = await this.patientService.getPatientMedicalRecord(patientId);
       this.patientMedicalRecord = record;
+      console.log(record);
       this.patientMedicalConditions = record.medicalConditions as MedicalCondition[] || [];
       this.patientAllergies = record.allergies as Allergy[] || [];
     } catch (error) {
