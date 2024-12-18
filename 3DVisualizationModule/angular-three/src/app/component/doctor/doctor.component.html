@@ -147,8 +147,8 @@
       </select>
     </div>
 
-    <button type="button" (click)="submitUpdate()">Update</button>
-    <button type="button" (click)="cancelUpdate()">Cancel</button>
+    <button type="button" (click)="submitOperationUpdate()">Update</button>
+    <button type="button" (click)="cancelOperationUpdate()">Cancel</button>
   </form>
 </div>
 
@@ -179,7 +179,7 @@
       <td>{{operation.deadlineDate}}</td>
       <td>{{operation.priorityState}}</td>
       <td>
-        <button class="table-button" (click)="submitRemoval(operation.id)">Remove</button>
+        <button class="table-button" (click)="submitOperationRemoval(operation.id)">Remove</button>
       </td>
     </tr>
  </table>
@@ -194,8 +194,8 @@
   <h2>List/Search Operation</h2>
   <p>Here you can list/search your operation(s) by the desired parameter.</p>
   <form>
-    <input type="text" placeholder="Search Operations" #filter (input)="filterResults(filter.value)" />
-    <button class="operationBtn" type="button" (click)="filterResults(filter.value)">Search</button>
+    <input type="text" placeholder="Search Operations" #filter (input)="filterOperationResults(filter.value)" />
+    <button class="operationBtn" type="button" (click)="filterOperationResults(filter.value)">Search</button>
   </form>
   <!-- Table for Operations -->
   <table class="table-display">
@@ -360,30 +360,51 @@
 
   <div class="form-field">
     <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" [(ngModel)]="selectedPatientId" name="patientId" required>
+    <select id="patientSelect" [(ngModel)]="selectedPatientId" (click)="onPatientSelectChange()"  name="patientId" required>
     <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
     </select>
+    <button class="allergyBtn"(click)="clearPatientValue()">Clear</button>
   </div>
 
 
   <div *ngIf="selectedPatientId">
     <h3>Patient Details</h3>
-
-
+<!-- Display Patient Details -->
+    <div *ngIf="selectedPatient">
+      <p>Full Name: {{ selectedPatient.fullName }}</p>
+      <p>Birth Date: {{ selectedPatient.birthDate }}</p>
+      <p>Email: {{ selectedPatient.email }}</p>
+      <p>Sex: {{ selectedPatient.sex }}</p>
+      <p>Phone Number: {{ selectedPatient.phone }}</p>
+    </div>
 
     <h3>Medical Record</h3>
     <div>
       <h4>Medical Conditions</h4>
+      <div *ngIf="patientMedicalConditions.length > 0; else noConditions">
       <ul>
-       <li *ngFor="let condition of patientMedicalConditions">{{ condition.name }}</li>
+        <li *ngFor="let condition of patientMedicalConditions">
+          {{ condition.name }}
+        </li>
       </ul>
+    </div>
+    <ng-template #noConditions>
+      <p>No medical conditions found.</p>
+    </ng-template>
     </div>
 
     <div>
       <h4>Allergies</h4>
-      <ul>
-      <li *ngFor="let allergy of patientAllergies">{{ allergy.name }}</li>
-      </ul>
+      <div *ngIf="patientAllergies.length > 0; else noAllergies">
+        <ul>
+          <li *ngFor="let allergy of patientAllergies">
+            {{ allergy.name }}
+          </li>
+        </ul>
+      </div>
+      <ng-template #noAllergies>
+        <p>No allergies found.</p>
+      </ng-template>
     </div>
 
     <button (click)="showSection('updatePatientRecord')">Manage Medical Record</button>
