@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import { Operationrequest } from '../interface/operationrequest';
 import { environment } from '../../environments/environment';
+import { Allergy } from '../interface/allergy';
+import { MedicalCondition } from '../interface/medical-condition';
+import { MedicalRecord } from '../interface/medical-record';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +21,16 @@ export class DoctorService {
   async getOperationOfDoctorById(id: string): Promise<Operationrequest | undefined> {
     const data = await fetch(`${this.url}/${id}`);
         return await data.json() ?? [];
+  }
+
+  async getSystemAllergies(): Promise<Allergy[]> {
+    const data = await fetch(environment.apiURL2 + '/allergy');
+    return await data.json() ?? [];
+  }
+
+  async getSystemMedicalConditions(): Promise<MedicalCondition[]> {
+    const data = await fetch(environment.apiURL2 + '/medicalcondition');
+    return await data.json() ?? [];
   }
 
   async postOperationRequest(operationData: any) {
@@ -96,7 +109,7 @@ export class DoctorService {
   createSurgeryAppointment(appointmentData: { patientId: string; doctorId: string; operationTypeId: string; appointmentDate: string; }) {
     throw new Error('Method not implemented.');
   }
-  async createMedicalCondition(conditionData: { name: string; }) {
+  async createMedicalCondition(conditionData: MedicalRecord) {
     try {
       const response = await fetch(environment.apiURL2 + '/medicalcondition', {
         method: 'POST',
@@ -144,4 +157,27 @@ export class DoctorService {
     }
   }
 
+  async updatePatientMedicalRecord(id: string, patientData: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + '/medicalrecord/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patientData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating operation request');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 }

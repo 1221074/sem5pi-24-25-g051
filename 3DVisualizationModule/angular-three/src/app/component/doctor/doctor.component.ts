@@ -48,7 +48,8 @@ export class DoctorComponent implements OnInit {
   fullOperationListToBeDisplayed: OperationDisplay[] = [];
 
   // Allergy Lists
-  allergyListResults: Allergy[] = [];
+  availableAllergies: Allergy[] = [];
+  availableMedicalConditions: MedicalCondition[] = [];
   filteredAllergyList: Allergy[] = [];
 
   // Patient Data
@@ -56,8 +57,11 @@ export class DoctorComponent implements OnInit {
   selectedPatientId: string = '';
   selectedPatient: Patient | null = null;
   patientMedicalRecord: MedicalRecord | undefined;
+  selectedConditionId: string = '';
   patientMedicalConditions: MedicalCondition[] = [];
   patientAllergies: Allergy[] = [];
+  selectedAllergyId: string = '';
+  patientFreeText: string = '';
 
   // Operation Types
   operationTypes: OperationType[] = [];
@@ -68,6 +72,14 @@ export class DoctorComponent implements OnInit {
   selectedSection: string = '';
   editingAllergies: boolean = true;
 
+  filters = {
+    showDetails: true,
+    showMedicalConditions: true,
+    showAllergies: true,
+    showFreeText: true,
+  };
+
+
   constructor() { }
 
   ngOnInit() {
@@ -75,8 +87,9 @@ export class DoctorComponent implements OnInit {
     this.loadOperationTypes();
     this.loadPatients();
     this.loadAllergies();
+    this.loadMedicalConditions();
     this.updateList();
-    this.filteredAllergyList = this.allergyListResults;
+    this.filteredAllergyList = this.availableAllergies;
   }
 
   // =========================
@@ -110,12 +123,22 @@ export class DoctorComponent implements OnInit {
    */
   async loadAllergies() {
     try {
-      this.allergyListResults = await this.patientService.getSystemAllergies();
-      this.filteredAllergyList = this.allergyListResults;
+      this.availableAllergies = await this.doctorService.getSystemAllergies();
+      this.filteredAllergyList = this.availableAllergies;
     } catch (error) {
       this.errorMessage = 'Failed to load allergies. Please try again.';
     }
   }
+
+
+  async loadMedicalConditions() {
+    try {
+      this.availableMedicalConditions = await this.doctorService.getSystemMedicalConditions();
+    } catch (error) {
+      this.errorMessage = 'Failed to load medical conditions. Please try again.';
+    }
+  }
+
 
   // ===========================================================================================================
   // === UI Methods ===
@@ -242,40 +265,6 @@ export class DoctorComponent implements OnInit {
   }
 
   /**
-   * Registers a new medical condition for the selected patient.
-   * @param newConditionName - The name of the new medical condition.
-   */
-  async registerMedicalCondition(newConditionName: string) {
-    // Reset messages
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // Validate input
-    if (!newConditionName) {
-      this.errorMessage = 'Please fill the required field.';
-      return;
-    }
-
-    // Check for duplicate medical condition
-    if (this.patientMedicalConditions.find(c => c.name === newConditionName)) {
-      this.errorMessage = 'Medical condition already in the list.';
-      return;
-    }
-
-    const conditionData = { name: newConditionName };
-
-    try {
-      // Create the medical condition via service
-      await this.doctorService.createMedicalCondition(conditionData);
-      this.successMessage = 'Medical condition registered successfully.';
-      // Reload the patient's medical record to reflect updates
-      this.showPatientMedicalRecord(this.selectedPatientId);
-    } catch (error) {
-      this.errorMessage = 'An error occurred while registering the medical condition. Please try again.';
-    }
-  }
-
-  /**
    * Registers a new allergy in the system.
    * @param newAllergyName - The name of the new allergy.
    */
@@ -291,7 +280,7 @@ export class DoctorComponent implements OnInit {
     }
 
     // Check for duplicate allergy
-    if (this.allergyListResults.find(a => a.name === newAllergyName)) {
+    if (this.availableAllergies.find(a => a.name === newAllergyName)) {
       this.errorMessage = 'Allergy already in the list.';
       return;
     }
@@ -351,9 +340,34 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-  // =========================
+  /**
+   * Registers the new free text for the patient.
+   * @param freeText - The information to be updated.
+   */
+  async registerFreeTextInput(freeText: string) {
+    // Reset messages
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Validate required fields
+    if (!this.selectedPatientId || !freeText) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
+    try{
+      this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
+      this.patientMedicalRecord.freeText += freeText;
+      console.log(this.patientMedicalRecord.freeText);
+      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+    }catch (error) {
+      this.errorMessage = 'An error occurred while updating the free text. Please try again.';
+    }
+  }
+
+  // ===========================================================================================================
   // === Update Methods ===
-  // =========================
+  // ===========================================================================================================
 
   /**
    * Cancels the current update operation.
@@ -414,12 +428,64 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-  /**
-   * Placeholder for saving the patient's medical record.
+   /**
+   * Updates Patient Medical Conditions for the selected patient.
+   * @param medicalConditionId - The name of the new medical condition.
    */
-  savePatientMedicalRecord() {
-    // Implementation needed
+   async updatePatientMedicalConditions(medicalConditionId: string) {
+    // Reset messages
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Validate required fields
+    if (!this.selectedPatientId || !medicalConditionId) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
+
+
+
+    try{
+      this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
+      //update medical conditions array with the new condition
+      this.patientMedicalRecord.medicalConditions.push(medicalConditionId as unknown as MedicalCondition);
+      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+      this.selectedConditionId = '';
+    }catch (error) {
+      this.errorMessage = 'An error occurred while updating the free text. Please try again.';
+    }
   }
+
+
+    /**
+   * Updates Patient Allergies for the selected patient.
+   * @param allergyId - The name of the new medical condition.
+   */
+    async updatePatientAllergy(allergyId: string) {
+      // Reset messages
+      this.errorMessage = '';
+      this.successMessage = '';
+
+      // Validate required fields
+      if (!this.selectedPatientId || !allergyId) {
+        this.errorMessage = 'Please fill in all required fields.';
+        return;
+      }
+
+      try{
+        this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
+        //update allergies array with the new allergy (verify it isn't already in the patientAllergies)
+        if(!this.patientMedicalRecord.allergies.includes(allergyId as unknown as Allergy))
+          this.patientMedicalRecord.allergies.push(allergyId as unknown as Allergy);
+
+        await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+
+        this.selectedAllergyId = '';
+
+      }catch (error) {
+        this.errorMessage = 'An error occurred while updating the free text. Please try again.';
+      }
+    }
 
   // ===========================================================================================================
   // === Remove Methods ===
@@ -447,7 +513,7 @@ export class DoctorComponent implements OnInit {
    * @param index - The index of the allergy to remove.
    */
   removeAllergy(index: number) {
-    this.allergyListResults.splice(index, 1);
+    this.availableAllergies.splice(index, 1);
   }
 
   // ===========================================================================================================
@@ -497,18 +563,18 @@ export class DoctorComponent implements OnInit {
 
     if (!lowerQuery) {
       // Reset the list if the query is empty
-      this.filteredAllergyList = this.allergyListResults ?? [];
+      this.filteredAllergyList = this.availableAllergies ?? [];
       return;
     }
 
-    if (!this.allergyListResults) {
+    if (!this.availableAllergies) {
       // If the allergy list isn't loaded yet, set to empty array
       this.filteredAllergyList = [];
       return;
     }
 
     // Filter allergy list based on query
-    this.filteredAllergyList = this.allergyListResults.filter(allergy =>
+    this.filteredAllergyList = this.availableAllergies.filter(allergy =>
       allergy?.name?.toLowerCase().includes(lowerQuery)
     );
   }
@@ -539,6 +605,7 @@ export class DoctorComponent implements OnInit {
       console.log(record);
       this.patientMedicalConditions = record.medicalConditions as MedicalCondition[] || [];
       this.patientAllergies = record.allergies as Allergy[] || [];
+      this.patientFreeText = record.freeText || '';
     } catch (error) {
       this.errorMessage = 'Unable to fetch patient medical record.';
     }

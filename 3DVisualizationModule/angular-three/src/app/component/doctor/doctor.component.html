@@ -261,10 +261,10 @@
 
   <div class="form-field">
     <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" #selected [(ngModel)]="selectedPatientId" name="patientId" required>
+    <select id="patientSelect" [(ngModel)]="selectedPatientId" name="patientId" required>
       <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
     </select>
-    <button class="allergyBtn" (click)="showPatientMedicalRecord(selected.value)">Show</button>
+    <button class="allergyBtn" (click)="showPatientMedicalRecord(selectedPatientId)">Show</button>
   </div>
 
   <div *ngIf="patientMedicalRecord">
@@ -283,8 +283,10 @@
 
     <div class="form-field">
       <label for="addCondition">Add Medical Condition:</label>
-      <input type="text" id="addCondition" #newConditionInput />
-      <button type="button" (click)="registerMedicalCondition(newConditionInput.value)">Add</button>
+      <select id="addCondition" [(ngModel)]="selectedConditionId">
+        <option *ngFor="let condition of availableMedicalConditions" [value]="condition._id">{{ condition.name }}</option>
+      </select>
+      <button class="allergyBtn" type="button" (click)="updatePatientMedicalConditions(selectedConditionId)">Add</button>
     </div>
 
     <!-- Allergies -->
@@ -302,13 +304,36 @@
 
     <div class="form-field">
       <label for="addAllergy">Add Allergy:</label>
-      <input type="text" id="addAllergy" #newAllergyInput />
-      <button type="button" (click)="registerAllergy(newAllergyInput.value)">Add</button>
+      <select id="addAllergy" [(ngModel)]="selectedAllergyId">
+        <option *ngFor="let allergy of availableAllergies" [value]="allergy._id">{{ allergy.name }}</option>
+      </select>
+      <button class="allergyBtn" type="button" (click)="updatePatientAllergy(selectedAllergyId)">Add</button>
+    </div>
+
+    <!--Free Text-->
+    <h3>Free Text</h3>
+    <div *ngIf="patientFreeText.length > 0; else noFreeText">
+      <!--Display string free text-->
+      <ul>
+        {{patientFreeText}}
+      </ul>
+    </div>
+
+    <ng-template #noFreeText>
+      <p>No Additional Details found.</p>
+    </ng-template>
+
+      <label for="addFreeText">Add Text:</label>
+      <input type="text" id="addFreeText" #newFreeTextInput />
+      <button class="allergyBtn" type="button" (click)="registerFreeTextInput(newFreeTextInput.value)">Add</button>
+
+
+    <div class="form-field">
+      <button (click)="showSection('')">Back to Main Menu</button>
     </div>
   </div>
-
-  <button (click)="showSection('')">Back to Main Menu</button>
 </section>
+
 
 
 <!-- Create Surgery Appointment Section-->
@@ -339,7 +364,7 @@
     </div>
 
     <button
-      type="button"
+      type="button" class="allergyBtn"
       (click)="registerSurgeryAppointment(
         patientIdRef.value,
         operationTypeIdRef.value,
@@ -357,54 +382,67 @@
   <h2>Patient Profile Management</h2>
   <p>View and manage patient profiles, including access to their medical records.</p>
 
-
   <div class="form-field">
     <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" [(ngModel)]="selectedPatientId" (click)="onPatientSelectChange()"  name="patientId" required>
-    <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+    <select id="patientSelect" [(ngModel)]="selectedPatientId" (change)="onPatientSelectChange()" name="patientId" required>
+      <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
     </select>
-    <button class="allergyBtn"(click)="clearPatientValue()">Clear</button>
+    <button class="allergyBtn" (click)="clearPatientValue()">Clear</button>
   </div>
 
-
   <div *ngIf="selectedPatientId">
-    <h3>Patient Details</h3>
-<!-- Display Patient Details -->
-    <div *ngIf="selectedPatient">
-      <p>Full Name: {{ selectedPatient.fullName }}</p>
-      <p>Birth Date: {{ selectedPatient.birthDate }}</p>
-      <p>Email: {{ selectedPatient.email }}</p>
-      <p>Sex: {{ selectedPatient.sex }}</p>
-      <p>Phone Number: {{ selectedPatient.phone }}</p>
+    <h3>Filter Patient Details</h3>
+    <div class="filters">
+      <label>
+        <input type="checkbox" [(ngModel)]="filters.showDetails" />
+        Show Patient Details
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filters.showMedicalConditions" />
+        Show Medical Conditions
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filters.showAllergies" />
+        Show Allergies
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filters.showFreeText" />
+        Show Free Text
+      </label>
     </div>
 
-    <h3>Medical Record</h3>
-    <div>
-      <h4>Medical Conditions</h4>
-      <div *ngIf="patientMedicalConditions.length > 0; else noConditions">
+    <div *ngIf="filters.showDetails">
+      <h3>Patient Details</h3>
+      <div *ngIf="selectedPatient">
+        <p>Full Name: {{ selectedPatient.fullName }}</p>
+        <p>Birth Date: {{ selectedPatient.birthDate }}</p>
+        <p>Email: {{ selectedPatient.email }}</p>
+        <p>Sex: {{ selectedPatient.sex }}</p>
+        <p>Phone Number: {{ selectedPatient.phone }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="filters.showMedicalConditions && patientMedicalConditions.length > 0">
+      <h3>Medical Conditions</h3>
       <ul>
         <li *ngFor="let condition of patientMedicalConditions">
           {{ condition.name }}
         </li>
       </ul>
     </div>
-    <ng-template #noConditions>
-      <p>No medical conditions found.</p>
-    </ng-template>
+
+    <div *ngIf="filters.showAllergies && patientAllergies.length > 0">
+      <h3>Allergies</h3>
+      <ul>
+        <li *ngFor="let allergy of patientAllergies">
+          {{ allergy.name }}
+        </li>
+      </ul>
     </div>
 
-    <div>
-      <h4>Allergies</h4>
-      <div *ngIf="patientAllergies.length > 0; else noAllergies">
-        <ul>
-          <li *ngFor="let allergy of patientAllergies">
-            {{ allergy.name }}
-          </li>
-        </ul>
-      </div>
-      <ng-template #noAllergies>
-        <p>No allergies found.</p>
-      </ng-template>
+    <div *ngIf="filters.showFreeText && patientFreeText.length > 0">
+      <h3>Free Text</h3>
+      <p>{{ patientFreeText }}</p>
     </div>
 
     <button (click)="showSection('updatePatientRecord')">Manage Medical Record</button>

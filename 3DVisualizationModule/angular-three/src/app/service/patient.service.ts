@@ -38,10 +38,7 @@ export class PatientService {
     return await data.json() ?? [];
   }
 
-  async getSystemAllergies(): Promise<Allergy[]> {
-    const data = await fetch(environment.apiURL2 + '/allergy');
-    return await data.json() ?? [];
-  }
+
 
 
   async updatePatient(id: string, patientData: any) {
