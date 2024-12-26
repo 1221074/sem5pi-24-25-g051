@@ -305,35 +305,46 @@ export class DoctorComponent implements OnInit {
   async registerSurgeryAppointment(
     patientId: string,
     operationTypeId: string,
-    appointmentDate: string
+    deadlineDate: string,
+    priorityState: string
   ) {
     // Reset messages
     this.errorMessage = '';
     this.successMessage = '';
 
     // Validate required fields
-    if (!patientId || !operationTypeId || !appointmentDate) {
+    if (!patientId || !operationTypeId || !deadlineDate) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }
 
     // Validate appointment date is in the future
-    if (new Date(appointmentDate) <= new Date()) {
+    if (new Date(deadlineDate) <= new Date()) {
       this.errorMessage = 'Appointment date must be in the future.';
       return;
     }
 
     const doctorId = this.authService.getUserId() as string;
 
+    //Operation Request Data
     const appointmentData = {
       patientId,
       doctorId,
       operationTypeId,
-      appointmentDate
+      deadlineDate,
+      priorityState
     };
 
+    console.log(appointmentData);
+
+    const patientData = this.patientService.getPatientById(patientId);
+    (await patientData).appointmentList.push(deadlineDate);
+
+    console.log(patientData);
+
     try {
-      await this.doctorService.createSurgeryAppointment(appointmentData);
+      await this.doctorService.postOperationRequest(appointmentData);
+      await this.patientService.updatePatient((await patientData).id.toString(), patientData);
       this.successMessage = 'Surgery appointment created successfully.';
     } catch (error) {
       this.errorMessage = 'An error occurred while creating the surgery appointment. Please try again.';

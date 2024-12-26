@@ -106,9 +106,7 @@ export class DoctorService {
     }
   }
 
-  createSurgeryAppointment(appointmentData: { patientId: string; doctorId: string; operationTypeId: string; appointmentDate: string; }) {
-    throw new Error('Method not implemented.');
-  }
+ 
   async createMedicalCondition(conditionData: MedicalRecord) {
     try {
       const response = await fetch(environment.apiURL2 + '/medicalcondition', {

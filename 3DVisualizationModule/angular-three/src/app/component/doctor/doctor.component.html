@@ -16,440 +16,436 @@
     <button (click)="showSection('updatePatientRecord')">Update Patient Medical Record</button>
     <button (click)="showSection('registerSurgeryAppointment')">Create Surgery Appointment</button>
     <button (click)="showSection('patientProfileManagement')">Patient Profile Management</button>
-   </section>
+  </section>
 
-   <!-- Operation Request Section -->
-<section class="registerOperation" [style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
-  <h2>Registration</h2>
-  <p>
-    Fill in the information according to system requirements.
-    The Patient ID, Doctor ID, and Operation Type ID must be registered in the system.
-  </p>
+  <!-- Operation Request Section -->
+  <section class="registerOperation" [style.display]="selectedSection === 'registerOperation' ? 'block' : 'none'">
+    <h2>Registration</h2>
+    <p>
+      Fill in the information according to system requirements.
+      The Patient ID, Doctor ID, and Operation Type ID must be registered in the system.
+    </p>
 
-  <!-- Display success or error messages -->
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-  <form>
-    <div class="form-field">
-      <label for="patientId">Patient:</label>
-      <select id="patientId" #patientIdRef required>
-        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
-      </select>
-    </div>
+    <form>
+      <div class="form-field">
+        <label for="patientId">Patient:</label>
+        <select id="patientId" #patientIdRef required>
+          <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+        </select>
+      </div>
 
-    <div class="form-field">
-      <label for="operationTypeId">Operation Type ID:</label>
-      <select id="operationTypeId" #operationTypeIdRef required>
-        <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}</option>
-      </select>
-    </div>
+      <div class="form-field">
+        <label for="operationTypeId">Operation Type ID:</label>
+        <select id="operationTypeId" #operationTypeIdRef required>
+          <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="form-field">
-      <label for="deadlineDate">Deadline Date:</label>
-      <input type="datetime-local" id="deadlineDate" #deadlineDateRef required />
-    </div>
+      <div class="form-field">
+        <label for="deadlineDate">Deadline Date:</label>
+        <input type="datetime-local" id="deadlineDate" #deadlineDateRef required />
+      </div>
 
-    <div class="form-field">
-      <label for="priorityState">Priority State:</label>
-      <select id="priorityState" #priorityStateRef required>
-        <option value="Urgent">Urgent</option>
-        <option value="Elective">Elective</option>
-        <option value="Emergency">Emergency</option>
-      </select>
-    </div>
+      <div class="form-field">
+        <label for="priorityState">Priority State:</label>
+        <select id="priorityState" #priorityStateRef required>
+          <option value="Urgent">Urgent</option>
+          <option value="Elective">Elective</option>
+          <option value="Emergency">Emergency</option>
+        </select>
+      </div>
 
-    <button
-      class="operationBtn"
-      type="button"
-      (click)="registerOperation(
+      <button class="operationBtn" type="button" (click)="registerOperation(
         patientIdRef.value,
         operationTypeIdRef.value,
         deadlineDateRef.value,
         priorityStateRef.value
-      )"
-    >
-      Register Operation
-    </button>
-  </form>
+      )">
+        Register Operation
+      </button>
+    </form>
 
-  <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
-</section>
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
-<!-- Operation Update Section -->
-<section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
-  <h2>Update Operation</h2>
-  <p>Here you can update your existing operation(s).</p>
+  <!-- Operation Update Section -->
+  <section [style.display]="selectedSection === 'updateOperation' ? 'block' : 'none'">
+    <h2>Update Operation</h2>
+    <p>Here you can update your existing operation(s).</p>
 
-  <!-- Display success or error messages -->
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-  <!-- Table for Operations -->
-  <table class="table-display">
+    <!-- Table for Operations -->
+    <table class="table-display">
 
-    <tr>
-      <th>Patient Name</th>
-      <th>Doctor ID</th>
-      <th>Operation Type</th>
-      <th>Deadline Date</th>
-      <th>Priority State</th>
-      <th>Action</th>
-    </tr>
+      <tr>
+        <th>Patient Name</th>
+        <th>Doctor ID</th>
+        <th>Operation Type</th>
+        <th>Deadline Date</th>
+        <th>Priority State</th>
+        <th>Action</th>
+      </tr>
 
-    <tr *ngFor="let operation of operationListToBeDisplayed">
-      <td>{{ operation.patientName }}</td>
-      <td>{{ operation.doctorId }}</td>
-      <td>{{ operation.operationTypeName }}</td>
-      <td>{{ operation.deadlineDate | date: 'yyyy-MM-dd HH:mm' }}</td>
-      <td>{{ operation.priorityState }}</td>
-      <td>
-        <button class="edtButton"(click)="selectOperationForUpdate(operation)">Edit</button>
-      </td>
-    </tr>
-  </table>
+      <tr *ngFor="let operation of operationListToBeDisplayed">
+        <td>{{ operation.patientName }}</td>
+        <td>{{ operation.doctorId }}</td>
+        <td>{{ operation.operationTypeName }}</td>
+        <td>{{ operation.deadlineDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ operation.priorityState }}</td>
+        <td>
+          <button class="edtButton" (click)="selectOperationForUpdate(operation)">Edit</button>
+        </td>
+      </tr>
+    </table>
 
-  <!-- Update Form -->
-<div *ngIf="selectedOperation">
-  <h3>Update Operation ID: {{ selectedOperation.id }}</h3>
-  <form>
+    <!-- Update Form -->
+    <div *ngIf="selectedOperation">
+      <h3>Update Operation ID: {{ selectedOperation.id }}</h3>
+      <form>
+        <div class="form-field">
+          <label for="patientId">Patient:</label>
+          <select id="patientId" [(ngModel)]="selectedOperation.patientId" name="patientId" required>
+            <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="operationTypeId">Operation Type:</label>
+          <select id="operationTypeId" [(ngModel)]="selectedOperation.operationTypeId" name="operationTypeId" required>
+            <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="updateDeadlineDate">Deadline Date:</label>
+          <input type="datetime-local" id="updateDeadlineDate" [(ngModel)]="selectedOperation.deadlineDate"
+            name="deadlineDate" required />
+        </div>
+
+        <div class="form-field">
+          <label for="updatePriorityState">Priority State:</label>
+          <select [(ngModel)]="selectedOperation.priorityState" id="updatePriorityState" name="priorityState" required>
+            <option value="Urgent">Urgent</option>
+            <option value="Elective">Elective</option>
+            <option value="Emergency">Emergency</option>
+          </select>
+        </div>
+
+        <button type="button" (click)="submitOperationUpdate()">Update</button>
+        <button type="button" (click)="cancelOperationUpdate()">Cancel</button>
+      </form>
+    </div>
+
+    <Br>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Operation Remove Section -->
+  <section [style.display]="selectedSection === 'removeOperation' ? 'block' : 'none'">
+    <h2>Remove Operation</h2>
+    <p>Here you can remove your existing operation(s).</p>
+
+    <!-- Table for Operations -->
+    <table class="table-display">
+      <tr>
+        <th>Patient Name</th>
+        <th>Doctor ID</th>
+        <th>Operation Type</th>
+        <th>Deadline Date</th>
+        <th>Priority State</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
+        <td>{{operation.patientName}}</td>
+        <td>{{operation.doctorId}}</td>
+        <td>{{operation.operationTypeName}}</td>
+        <td>{{operation.deadlineDate}}</td>
+        <td>{{operation.priorityState}}</td>
+        <td>
+          <button class="table-button" (click)="submitOperationRemoval(operation.id)">Remove</button>
+        </td>
+      </tr>
+    </table>
+
+
+    <Br>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Operation List/Search Section -->
+  <section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
+    <h2>List/Search Operation</h2>
+    <p>Here you can list/search your operation(s) by the desired parameter.</p>
+    <form>
+      <input type="text" placeholder="Search Operations" #filter (input)="filterOperationResults(filter.value)" />
+      <button class="operationBtn" type="button" (click)="filterOperationResults(filter.value)">Search</button>
+    </form>
+    <!-- Table for Operations -->
+    <table class="table-display">
+      <tr>
+        <th>Patient Name</th>
+        <th>Doctor ID</th>
+        <th>Operation Type</th>
+        <th>Deadline Date</th>
+        <th>Priority State</th>
+      </tr>
+
+      <!--DISPLAY IN THE FILTERED LIST-->
+      <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
+        <td>{{operation.patientName}}</td>
+        <td>{{operation.doctorId}}</td>
+        <td>{{operation.operationTypeName}}</td>
+        <td>{{operation.deadlineDate}}</td>
+        <td>{{operation.priorityState}}</td>
+      </tr>
+
+    </table>
+
+    <Br>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!--Patient Management-->
+
+  <!-- Search Allergies Section -->
+  <section [style.display]="selectedSection === 'searchAllergies' ? 'block' : 'none'">
+    <p>Search for allergies to update patient medical records.</p>
+    <p>Here's a list with all the default allergies that could be added</p>
+
+    <label for="allergySearch">Search Allergy:</label>
+    <input id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
+
+    <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+
+    <!-- List Existing Allergies with Remove Button -->
+    <ul>
+      <li *ngFor="let allergy of filteredAllergyList; let i = index">
+        {{ allergy.name }}
+      </li>
+    </ul>
+
+    <!-- Add New Allergy -->
+    <label for="newAllergyName">New Allergy Name:</label>
+    <input id="newAllergyName" #newAllergyName placeholder="Name" />
+    <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
+
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Update Patient Medical Record Section-->
+  <section [style.display]="selectedSection === 'updatePatientRecord' ? 'block' : 'none'">
+    <h2>Update Patient Medical Record</h2>
+    <p>Update medical conditions and allergies for a patient.</p>
+
     <div class="form-field">
-      <label for="patientId">Patient:</label>
-      <select id="patientId" [(ngModel)]="selectedOperation.patientId" name="patientId" required>
+      <label for="patientSelect">Select Patient:</label>
+      <select id="patientSelect" [(ngModel)]="selectedPatientId" name="patientId" required>
         <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
       </select>
+      <button class="allergyBtn" (click)="showPatientMedicalRecord(selectedPatientId)">Show</button>
     </div>
 
-    <div class="form-field">
-      <label for="operationTypeId">Operation Type:</label>
-      <select id="operationTypeId" [(ngModel)]="selectedOperation.operationTypeId" name="operationTypeId" required>
-        <option *ngFor="let operationType of operationTypes" [value]="operationType.id">{{ operationType.name }}</option>
-      </select>
-    </div>
+    <div *ngIf="patientMedicalRecord">
+      <!-- Medical Conditions -->
+      <h3>Medical Conditions</h3>
+      <div *ngIf="patientMedicalConditions.length > 0; else noConditions">
+        <ul>
+          <li *ngFor="let condition of patientMedicalConditions">
+            {{ condition.name }}
+          </li>
+        </ul>
+      </div>
+      <ng-template #noConditions>
+        <p>No medical conditions found.</p>
+      </ng-template>
 
-    <div class="form-field">
-      <label for="updateDeadlineDate">Deadline Date:</label>
-      <input
-        type="datetime-local"
-        id="updateDeadlineDate"
-        [(ngModel)]="selectedOperation.deadlineDate"
-        name="deadlineDate"
-        required
-      />
-    </div>
+      <div class="form-field">
+        <label for="addCondition">Add Medical Condition:</label>
+        <select id="addCondition" [(ngModel)]="selectedConditionId">
+          <option *ngFor="let condition of availableMedicalConditions" [value]="condition._id">{{ condition.name }}
+          </option>
+        </select>
+        <button class="allergyBtn" type="button"
+          (click)="updatePatientMedicalConditions(selectedConditionId)">Add</button>
+      </div>
 
-    <div class="form-field">
-      <label for="updatePriorityState">Priority State:</label>
-      <select [(ngModel)]="selectedOperation.priorityState" id="updatePriorityState" name="priorityState" required>
-        <option value="Urgent">Urgent</option>
-        <option value="Elective">Elective</option>
-        <option value="Emergency">Emergency</option>
-      </select>
-    </div>
+      <!-- Allergies -->
+      <h3>Allergies</h3>
+      <div *ngIf="patientAllergies.length > 0; else noAllergies">
+        <ul>
+          <li *ngFor="let allergy of patientAllergies">
+            {{ allergy.name }}
+          </li>
+        </ul>
+      </div>
+      <ng-template #noAllergies>
+        <p>No allergies found.</p>
+      </ng-template>
 
-    <button type="button" (click)="submitOperationUpdate()">Update</button>
-    <button type="button" (click)="cancelOperationUpdate()">Cancel</button>
-  </form>
-</div>
+      <div class="form-field">
+        <label for="addAllergy">Add Allergy:</label>
+        <select id="addAllergy" [(ngModel)]="selectedAllergyId">
+          <option *ngFor="let allergy of availableAllergies" [value]="allergy._id">{{ allergy.name }}</option>
+        </select>
+        <button class="allergyBtn" type="button" (click)="updatePatientAllergy(selectedAllergyId)">Add</button>
+      </div>
 
-  <Br>
-  <button (click)="showSection('')">Back to Main Menu</button>
-</section>
+      <!--Free Text-->
+      <h3>Free Text</h3>
+      <div *ngIf="patientFreeText.length > 0; else noFreeText">
+        <!--Display string free text-->
+        <ul>
+          {{patientFreeText}}
+        </ul>
+      </div>
 
-<!-- Operation Remove Section -->
-<section [style.display]="selectedSection === 'removeOperation' ? 'block' : 'none'">
-  <h2>Remove Operation</h2>
-  <p>Here you can remove your existing operation(s).</p>
-
-  <!-- Table for Operations -->
-  <table class="table-display">
-    <tr>
-      <th>Patient Name</th>
-      <th>Doctor ID</th>
-      <th>Operation Type</th>
-      <th>Deadline Date</th>
-      <th>Priority State</th>
-      <th>Action</th>
-    </tr>
-
-    <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
-      <td>{{operation.patientName}}</td>
-      <td>{{operation.doctorId}}</td>
-      <td>{{operation.operationTypeName}}</td>
-      <td>{{operation.deadlineDate}}</td>
-      <td>{{operation.priorityState}}</td>
-      <td>
-        <button class="table-button" (click)="submitOperationRemoval(operation.id)">Remove</button>
-      </td>
-    </tr>
- </table>
-
-
-  <Br>
-  <button (click)="showSection('')">Back to Main Menu</button>
-</section>
-
-<!-- Operation List/Search Section -->
-<section [style.display]="selectedSection === 'listOperation' ? 'block' : 'none'">
-  <h2>List/Search Operation</h2>
-  <p>Here you can list/search your operation(s) by the desired parameter.</p>
-  <form>
-    <input type="text" placeholder="Search Operations" #filter (input)="filterOperationResults(filter.value)" />
-    <button class="operationBtn" type="button" (click)="filterOperationResults(filter.value)">Search</button>
-  </form>
-  <!-- Table for Operations -->
-  <table class="table-display">
-    <tr>
-      <th>Patient Name</th>
-      <th>Doctor ID</th>
-      <th>Operation Type</th>
-      <th>Deadline Date</th>
-      <th>Priority State</th>
-    </tr>
-
-    <!--DISPLAY IN THE FILTERED LIST-->
-    <tr *ngFor="let operation of operationListToBeDisplayed; let i = index">
-      <td>{{operation.patientName}}</td>
-      <td>{{operation.doctorId}}</td>
-      <td>{{operation.operationTypeName}}</td>
-      <td>{{operation.deadlineDate}}</td>
-      <td>{{operation.priorityState}}</td>
-    </tr>
-
-  </table>
-
-  <Br>
-  <button (click)="showSection('')">Back to Main Menu</button>
-</section>
-
-<!--Patient Management-->
-
-<!-- Search Allergies Section -->
-<section [style.display]="selectedSection === 'searchAllergies' ? 'block' : 'none'">
-  <p>Search for allergies to update patient medical records.</p>
-  <p>Here's a list with all the default allergies that could be added</p>
-
-  <label for="allergySearch">Search Allergy:</label>
-  <input
-    id="allergySearch"
-
-    #allergySearch
-    placeholder="Type to search allergies..."
-  />
-
-  <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
-
-  <!-- List Existing Allergies with Remove Button -->
-  <ul>
-    <li *ngFor="let allergy of filteredAllergyList; let i = index">
-      {{ allergy.name }}
-    </li>
-  </ul>
-
-  <!-- Add New Allergy -->
-  <label for="newAllergyName">New Allergy Name:</label>
-  <input id="newAllergyName" #newAllergyName placeholder="Name"/>
-  <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
-
-  <br><button (click)="showSection('')">Back to Main Menu</button>
-</section>
-
-<!-- Update Patient Medical Record Section-->
-<section [style.display]="selectedSection === 'updatePatientRecord' ? 'block' : 'none'">
-  <h2>Update Patient Medical Record</h2>
-  <p>Update medical conditions and allergies for a patient.</p>
-
-  <div class="form-field">
-    <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" [(ngModel)]="selectedPatientId" name="patientId" required>
-      <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
-    </select>
-    <button class="allergyBtn" (click)="showPatientMedicalRecord(selectedPatientId)">Show</button>
-  </div>
-
-  <div *ngIf="patientMedicalRecord">
-    <!-- Medical Conditions -->
-    <h3>Medical Conditions</h3>
-    <div *ngIf="patientMedicalConditions.length > 0; else noConditions">
-      <ul>
-        <li *ngFor="let condition of patientMedicalConditions">
-          {{ condition.name }}
-        </li>
-      </ul>
-    </div>
-    <ng-template #noConditions>
-      <p>No medical conditions found.</p>
-    </ng-template>
-
-    <div class="form-field">
-      <label for="addCondition">Add Medical Condition:</label>
-      <select id="addCondition" [(ngModel)]="selectedConditionId">
-        <option *ngFor="let condition of availableMedicalConditions" [value]="condition._id">{{ condition.name }}</option>
-      </select>
-      <button class="allergyBtn" type="button" (click)="updatePatientMedicalConditions(selectedConditionId)">Add</button>
-    </div>
-
-    <!-- Allergies -->
-    <h3>Allergies</h3>
-    <div *ngIf="patientAllergies.length > 0; else noAllergies">
-      <ul>
-        <li *ngFor="let allergy of patientAllergies">
-          {{ allergy.name }}
-        </li>
-      </ul>
-    </div>
-    <ng-template #noAllergies>
-      <p>No allergies found.</p>
-    </ng-template>
-
-    <div class="form-field">
-      <label for="addAllergy">Add Allergy:</label>
-      <select id="addAllergy" [(ngModel)]="selectedAllergyId">
-        <option *ngFor="let allergy of availableAllergies" [value]="allergy._id">{{ allergy.name }}</option>
-      </select>
-      <button class="allergyBtn" type="button" (click)="updatePatientAllergy(selectedAllergyId)">Add</button>
-    </div>
-
-    <!--Free Text-->
-    <h3>Free Text</h3>
-    <div *ngIf="patientFreeText.length > 0; else noFreeText">
-      <!--Display string free text-->
-      <ul>
-        {{patientFreeText}}
-      </ul>
-    </div>
-
-    <ng-template #noFreeText>
-      <p>No Additional Details found.</p>
-    </ng-template>
+      <ng-template #noFreeText>
+        <p>No Additional Details found.</p>
+      </ng-template>
 
       <label for="addFreeText">Add Text:</label>
       <input type="text" id="addFreeText" #newFreeTextInput />
       <button class="allergyBtn" type="button" (click)="registerFreeTextInput(newFreeTextInput.value)">Add</button>
-
-
+    </div>
     <div class="form-field">
       <button (click)="showSection('')">Back to Main Menu</button>
     </div>
-  </div>
-</section>
+  </section>
 
 
 
-<!-- Create Surgery Appointment Section-->
-<section [style.display]="selectedSection === 'registerSurgeryAppointment' ? 'block' : 'none'">
-  <h2>Create Surgery Appointment</h2>
-  <p>Create a surgery appointment for a patient, bypassing automatic planning.</p>
+  <!-- Create Surgery Appointment Section-->
+  <section [style.display]="selectedSection === 'registerSurgeryAppointment' ? 'block' : 'none'">
+    <h2>Create Surgery Appointment</h2>
+    <p>Create a surgery appointment for a patient, bypassing automatic planning.</p>
 
-  <form>
-    <div class="form-field">
-      <label for="patientId">Patient:</label>
-      <select id="patientId" #patientIdRef required>
-        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
-      </select>
-    </div>
+    <form>
+      <div class="form-field">
+        <label for="patientId">Patient:</label>
+        <select id="patientId" #patientIdRef required>
+          <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+        </select>
+      </div>
 
-    <div class="form-field">
-      <label for="operationTypeId">Operation Type:</label>
-      <select id="operationTypeId" #operationTypeIdRef required>
-        <option *ngFor="let operationType of operationTypes" [value]="operationType.id">
-          {{ operationType.name }}
-        </option>
-      </select>
-    </div>
+      <div class="form-field">
+        <label for="operationTypeId">Operation Type:</label>
+        <select id="operationTypeId" #operationTypeIdRef required>
+          <option *ngFor="let operationType of operationTypes" [value]="operationType.id">
+            {{ operationType.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="form-field">
-      <label for="appointmentDate">Appointment Date:</label>
-      <input type="datetime-local" id="appointmentDate" #appointmentDateRef required />
-    </div>
+      <div class="form-field">
+        <label for="appointmentDate">Appointment Date:</label>
+        <input type="datetime-local" id="appointmentDate" #appointmentDateRef required />
+      </div>
 
-    <button
-      type="button" class="allergyBtn"
-      (click)="registerSurgeryAppointment(
+      <div class="form-field">
+        <label for="priorityState">Priority State:</label>
+        <select id="priorityState" #priorityStateRef required>
+          <option value="Urgent">Urgent</option>
+          <option value="Elective">Elective</option>
+          <option value="Emergency">Emergency</option>
+        </select>
+      </div>
+
+      <button type="button" class="allergyBtn" (click)="registerSurgeryAppointment(
         patientIdRef.value,
         operationTypeIdRef.value,
-        appointmentDateRef.value
+        appointmentDateRef.value, priorityStateRef.value
       )">Create Appointment
-    </button>
-  </form>
+      </button>
+    </form>
 
-  <button (click)="showSection('')">Back to Main Menu</button>
-</section>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
-<!-- Patient Profile Update Section-->
+  <!-- Patient Profile Update Section-->
 
-<section [style.display]="selectedSection === 'patientProfileManagement' ? 'block' : 'none'">
-  <h2>Patient Profile Management</h2>
-  <p>View and manage patient profiles, including access to their medical records.</p>
+  <section [style.display]="selectedSection === 'patientProfileManagement' ? 'block' : 'none'">
+    <h2>Patient Profile Management</h2>
+    <p>View and manage patient profiles, including access to their medical records.</p>
 
-  <div class="form-field">
-    <label for="patientSelect">Select Patient:</label>
-    <select id="patientSelect" [(ngModel)]="selectedPatientId" (change)="onPatientSelectChange()" name="patientId" required>
-      <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
-    </select>
-    <button class="allergyBtn" (click)="clearPatientValue()">Clear</button>
-  </div>
-
-  <div *ngIf="selectedPatientId">
-    <h3>Filter Patient Details</h3>
-    <div class="filters">
-      <label>
-        <input type="checkbox" [(ngModel)]="filters.showDetails" />
-        Show Patient Details
-      </label>
-      <label>
-        <input type="checkbox" [(ngModel)]="filters.showMedicalConditions" />
-        Show Medical Conditions
-      </label>
-      <label>
-        <input type="checkbox" [(ngModel)]="filters.showAllergies" />
-        Show Allergies
-      </label>
-      <label>
-        <input type="checkbox" [(ngModel)]="filters.showFreeText" />
-        Show Free Text
-      </label>
+    <div class="form-field">
+      <label for="patientSelect">Select Patient:</label>
+      <select id="patientSelect" [(ngModel)]="selectedPatientId" (change)="onPatientSelectChange()" name="patientId"
+        required>
+        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+      </select>
+      <button class="allergyBtn" (click)="clearPatientValue()">Clear</button>
     </div>
 
-    <div *ngIf="filters.showDetails">
-      <h3>Patient Details</h3>
-      <div *ngIf="selectedPatient">
-        <p>Full Name: {{ selectedPatient.fullName }}</p>
-        <p>Birth Date: {{ selectedPatient.birthDate }}</p>
-        <p>Email: {{ selectedPatient.email }}</p>
-        <p>Sex: {{ selectedPatient.sex }}</p>
-        <p>Phone Number: {{ selectedPatient.phone }}</p>
+    <div *ngIf="selectedPatientId">
+      <h3>Filter Patient Details</h3>
+      <div class="filters">
+        <label>
+          <input type="checkbox" [(ngModel)]="filters.showDetails" />
+          Show Patient Details
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="filters.showMedicalConditions" />
+          Show Medical Conditions
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="filters.showAllergies" />
+          Show Allergies
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="filters.showFreeText" />
+          Show Free Text
+        </label>
       </div>
+
+      <div *ngIf="filters.showDetails">
+        <h3>Patient Details</h3>
+        <div *ngIf="selectedPatient">
+          <p>Full Name: {{ selectedPatient.fullName }}</p>
+          <p>Birth Date: {{ selectedPatient.birthDate }}</p>
+          <p>Email: {{ selectedPatient.email }}</p>
+          <p>Sex: {{ selectedPatient.sex }}</p>
+          <p>Phone Number: {{ selectedPatient.phone }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="filters.showMedicalConditions && patientMedicalConditions.length > 0">
+        <h3>Medical Conditions</h3>
+        <ul>
+          <li *ngFor="let condition of patientMedicalConditions">
+            {{ condition.name }}
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="filters.showAllergies && patientAllergies.length > 0">
+        <h3>Allergies</h3>
+        <ul>
+          <li *ngFor="let allergy of patientAllergies">
+            {{ allergy.name }}
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="filters.showFreeText && patientFreeText.length > 0">
+        <h3>Free Text</h3>
+        <p>{{ patientFreeText }}</p>
+      </div>
+
+      <button (click)="showSection('updatePatientRecord')">Manage Medical Record</button>
     </div>
 
-    <div *ngIf="filters.showMedicalConditions && patientMedicalConditions.length > 0">
-      <h3>Medical Conditions</h3>
-      <ul>
-        <li *ngFor="let condition of patientMedicalConditions">
-          {{ condition.name }}
-        </li>
-      </ul>
-    </div>
-
-    <div *ngIf="filters.showAllergies && patientAllergies.length > 0">
-      <h3>Allergies</h3>
-      <ul>
-        <li *ngFor="let allergy of patientAllergies">
-          {{ allergy.name }}
-        </li>
-      </ul>
-    </div>
-
-    <div *ngIf="filters.showFreeText && patientFreeText.length > 0">
-      <h3>Free Text</h3>
-      <p>{{ patientFreeText }}</p>
-    </div>
-
-    <button (click)="showSection('updatePatientRecord')">Manage Medical Record</button>
-  </div>
-
-  <button (click)="showSection('')">Back to Main Menu</button>
-</section>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
 </div>
 
 <p>Current Section: {{ selectedSection }}</p>
