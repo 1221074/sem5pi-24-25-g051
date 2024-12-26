@@ -44,4 +44,29 @@ export class SpecializationService {
       throw error;
     }
   }
+
+  async updateSpecialization(id:string, specialization: any) {
+    try {
+      const response = await fetch(`${this.url}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(specialization),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        // Handle non-200 responses
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating specialization');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 }

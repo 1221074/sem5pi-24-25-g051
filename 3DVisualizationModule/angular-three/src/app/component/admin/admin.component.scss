@@ -490,7 +490,7 @@ button:active {
   border-radius: 8px;
 }
 
-.editStaffBtn {
+.editStaffBtn, .editSpecBtn {
   width: auto;
 }
 
@@ -533,6 +533,18 @@ button:active {
   }
 }
 
+.spec-edit-name-update {
+  display: flex;
+  gap: 5px;
+  width: max;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
+}
+
 .staff-edit-spec-update {
   display: flex;
   gap: 5px;
@@ -560,9 +572,20 @@ button:active {
   margin-right: 5px;
 }
 
-.cancel-update-staff-btn {
+.cancel-update-staff-btn{
   gap: 5px;
   width: 17.5%;
+}
+
+.update-spec-btn {
+  gap: 5px;
+  width: 210px;
+  margin-right: 5px;
+}
+
+.cancel-update-spec-btn {
+  gap: 5px;
+  width: 210px;
 }
 
 .staff-create input[type="text"],

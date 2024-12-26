@@ -104,6 +104,7 @@ export class AdminComponent {
     this.getSpecs();
     this.updatePatientList();
     this.updateStaffList();
+    this.updateSpecializationList();
     this.updateOperationTypeList();
     this.getRooms();
     this.getSpecs();
@@ -268,10 +269,10 @@ async registerSpecialization(specializationName: string) {
     return;
   }
 
-  /*if (this.checkIfStaffEmailExists(specializationName)) {
-    this.errorMessage = 'This email is already associated to a staff member.';
+  if (this.checkIfSpecializationExists(specializationName)) {
+    this.errorMessage = 'This specialization already exists.';
     return;
-  }*/
+  }
 
   const newSpec = { specializationName };
 
@@ -478,6 +479,24 @@ async registerOperationType(name: string, duration: string) {
 
   }
 
+  updateSpecializationList() {
+    this.specializationService.getAllSpecilizations().then((specializationList: Specialization[]) => {
+      this.specializationList = specializationList;
+      this.filteredSpecializationList = specializationList;
+
+      this.specializationListToBeDisplayed = this.specializationList.map(specialization => {
+        return {
+          id: specialization.id,
+          specializationName: specialization.specializationName
+        };
+      });
+
+      this.fullSpecializationListToBeDisplayed = [...this.specializationListToBeDisplayed];
+    }).catch(error => {
+      this.errorMessage = 'Failed to load specializations. Please try again.';
+    });
+  }
+
   getStaffSpecializationName(specializationId: number): string {
     const specialization = this.specList.find(spec => spec.id === specializationId);
     return specialization ? specialization.specializationName : '';
@@ -491,6 +510,12 @@ async registerOperationType(name: string, duration: string) {
   this.selectedStaff = null;
   this.successMessage = '';
   this.errorMessage = '';
+  }
+
+  cancelSpecializationUpdate(): void {
+    this.selectedSpecialization = null;
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 /*
   async updateStaff(id: number, firstName: string,lastName: string,fullName: string,specializationId: string,email: string,phone: string) {
@@ -541,6 +566,31 @@ async updateStaff() {
   }
 }
 
+async updateSpecialization() {
+  if (!this.selectedSpecialization) {
+    this.errorMessage = 'No specialization selected for update.';
+    return;
+  }
+
+  try {
+    // Proceed to update the Specialization
+    await this.specializationService.updateSpecialization(this.selectedSpecialization.id.toString(), this.selectedSpecialization);
+    this.successMessage = 'Specialization updated successfully.';
+    this.selectedSpecialization = null;
+    this.updateSpecializationList();
+    this.getSpecs();
+  } catch (error: any) {
+    // Handle error based on error response
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else if (error.status === 404) {
+      this.errorMessage = 'Specialization not found.';
+    } else {
+      this.errorMessage = 'An error occurred while updating the specialization. Please try again.';
+    }
+  }
+}
+
   selectStaffForUpdate(staff: StaffDisplay) {
     this.errorMessage = '';
     this.successMessage = '';
@@ -550,6 +600,18 @@ async updateStaff() {
       this.selectedStaff = { ...selectedSt }; // Copiar os dados para edição
     } else {
       this.errorMessage = 'Staff not found for editing.';
+    }
+  }
+
+  selectSpecializationForUpdate(specialization: SpecializationDisplay) {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const selectedSpec = this.specializationList.find(op => op.id === specialization.id);
+    if (selectedSpec) {
+      this.selectedSpecialization = { ...selectedSpec }; // Copiar os dados para edição
+    } else {
+      this.errorMessage = 'Specialization not found for editing.';
     }
   }
 
@@ -778,6 +840,15 @@ checkIfStaffPhoneNumberExists(phoneNumber: string): boolean {
   const staffExists = this.staffList.some(staff => staff.phone.toLowerCase() === lowerPhoneNumber);
 
   return staffExists;
+}
+
+checkIfSpecializationExists(specializationName: string): boolean {
+  const lowerSpecializationName = specializationName.toLowerCase();
+
+  // Check if the specialization exists in the specialization list
+  const specializationExists = this.specList.some(spec => spec.specializationName.toLowerCase() === lowerSpecializationName);
+
+  return specializationExists;
 }
 
 checkIfStaffEmailExists(email: string): boolean {

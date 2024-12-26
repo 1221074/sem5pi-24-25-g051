@@ -29,16 +29,7 @@
 
     </div>
   </section>
-  <section class="admin-specialization-management" [style.display]="selectedSection ? 'none' : 'block'">
-    <div class="admin-specialization-management1">
-      <h3>Specialization Management:</h3>
-      <button (click)="showSection('createSpecialization')">Create Specialization</button>
-      <button (click)="showSection('editSpecialization')">Edit Specialization</button>
-      <button (click)="showSection('deleteSpecialization')">Delete Specialization</button>
-      <button (click)="showSection('listSpecialization')">List/Search Specialization</button>
-
-    </div>
-  </section>
+  
   <section class="admin-staff-management" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="admin-staff-management1">
       <h3>Staff Management:</h3>
@@ -55,6 +46,17 @@
       <button (click)="showSection('editOperationType')">Edit Operation Type</button>
       <button (click)="showSection('removeOperationType')">Remove Operation Type</button>
       <button (click)="showSection('listOperationTypes')">List/Search Operation Types</button>
+    </div>
+  </section>
+
+  <section class="admin-specialization-management" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-specialization-management1">
+      <h3>Specialization Management:</h3>
+      <button (click)="showSection('createSpecialization')">Create Specialization</button>
+      <button (click)="showSection('editSpecialization')">Edit Specialization</button>
+      <button (click)="showSection('deleteSpecialization')">Delete Specialization</button>
+      <button (click)="showSection('listSpecialization')">List/Search Specialization</button>
+
     </div>
   </section>
 
@@ -473,6 +475,8 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <!-- Specialization Sections-->
+
   <section class="specialization-create" [style.display]="selectedSection === 'createSpecialization' ? 'block' : 'none'">
     <head>
       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -501,6 +505,63 @@
         <button type="button" (click)="showSection('')">Back to Main Menu</button>
       </div>
       </form>
+  </section>
+
+  <section [style.display]="selectedSection === 'editSpecialization' ? 'block' : 'none'">
+    <h2>Edit Specialization</h2>
+    <p>Here you can edit an existing specialization.</p>
+  
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <!-- Table for Specializations -->
+    <table class="table-display">
+      <tr>
+        <th>Specialization Name</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let spec of specializationListToBeDisplayed">
+        <td>{{ spec.specializationName }}</td>
+        <td>
+          <button class="editSpecBtn" (click)="selectSpecializationForUpdate(spec)">Edit</button>
+        </td>
+      </tr>
+    </table>
+    <br>
+  
+    <!-- Update Form -->
+    <div *ngIf="selectedSpecialization">
+      <form>
+  
+      <div class="spec-edit-name-update">
+          <label for="updatedSpecializationName">Specialization Name:</label><br>
+          <input
+            type="text"
+            id="updatedSpecializationName"
+            [(ngModel)]="selectedSpecialization.specializationName"
+            name="specializationName"
+            placeholder="Specialization Name"
+            #updatedSpecializationNameRef
+            required
+            [value]="selectedSpecialization.specializationName"
+          />
+      </div>
+      <br />
+      <button
+        class="update-spec-btn"
+        type="button"
+        (click)="updateSpecialization()"
+      >
+        Update Specialization
+      </button>
+      <button class="cancel-update-spec-btn" type="button" (click)="cancelSpecializationUpdate()">Cancel</button>
+    </form>
+    </div>
+  
+    <br>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
 
