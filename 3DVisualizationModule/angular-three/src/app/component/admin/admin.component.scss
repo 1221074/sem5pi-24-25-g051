@@ -52,7 +52,7 @@
   font-weight: 700;
   box-sizing: border-box;
 }*/
-.admin-section, .admin-panel, .admin-patient-management, .admin-staff-management,
+.admin-section, .admin-panel, .admin-patient-management, .admin-specialization-management, .admin-staff-management,
 .admin-operation-type-management, .admin-3d-visualization {
   display: flex;
   flex-direction: column;
@@ -437,7 +437,7 @@ button:active {
 
 // Staff Create Component Styles ============================================================================================
 
-.staff-create {
+.staff-create, .specialization-create {
 
   h1, h2, h3 {
     font-family: 'Roboto', sans-serif;
@@ -475,10 +475,19 @@ button:active {
   margin: 0 auto; /* Centraliza o formulário horizontalmente */
 }
 
-.button-staff-submit {
+.button-staff-submit, .button-specialization-submit {
   display: flex;
   gap: 5px;
   width: 100%;
+}
+
+.specialization-name input[type="text"] {
+  display: flex;
+  align-items: left;
+  gap: 10px;
+  width: 70%;
+  padding: 15px;
+  border-radius: 8px;
 }
 
 .editStaffBtn {

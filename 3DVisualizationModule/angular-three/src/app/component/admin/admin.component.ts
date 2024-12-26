@@ -20,6 +20,8 @@ import { SurgeryRoom } from 'src/app/interface/surgeryroom';
 import { PatientDisplay } from 'src/app/interface/patient-display';
 import { Allergy } from 'src/app/interface/allergy';
 import { DoctorService } from 'src/app/service/doctor.service';
+import { Specialization } from 'src/app/interface/specialization';
+import { SpecializationDisplay } from 'src/app/interface/specialization-display';
 
 @Component({
   selector: 'app-admin',
@@ -60,6 +62,13 @@ export class AdminComponent {
 
   //Specializations
   specList: SpecializationSub [] = [];
+
+  specializationSearchQuery: string = '';
+  filteredSpecializationList: Specialization[] = [];
+  specializationList: Specialization[] = [];
+  specializationListToBeDisplayed: SpecializationDisplay[] = [];
+  fullSpecializationListToBeDisplayed: SpecializationDisplay[] = [];
+  selectedSpecialization: Specialization | null = null;
 
   //Operation Types
   operationTypeSearchQuery: string = '';
@@ -246,6 +255,35 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
       this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
     } else {
       this.errorMessage = 'An error occurred while registering the staff. Please try again.';
+    }
+  }
+}
+
+async registerSpecialization(specializationName: string) {
+  this.errorMessage = '';
+  this.successMessage = '';
+
+  if (!specializationName) {
+    this.errorMessage = 'Please fill in all required fields.';
+    return;
+  }
+
+  /*if (this.checkIfStaffEmailExists(specializationName)) {
+    this.errorMessage = 'This email is already associated to a staff member.';
+    return;
+  }*/
+
+  const newSpec = { specializationName };
+
+  try {
+    await this.specializationService.postSpecialization(newSpec);
+    this.successMessage = 'Specialization registered successfully.';
+    this.getSpecs();
+  }catch(error: any) {
+    if (error.status === 400) {
+      this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+    } else {
+      this.errorMessage = 'An error occurred while creating the specialization. Please try again.';
     }
   }
 }

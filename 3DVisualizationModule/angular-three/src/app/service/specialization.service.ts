@@ -20,4 +20,28 @@ export class SpecializationService {
     const data = await fetch(`${this.url}/${id}`);
         return await data.json() ?? [];
   }
+
+  async postSpecialization(spec: any) {
+    try {
+      const response = await fetch(this.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(spec),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        // Include the status in the error
+        throw { status: response.status, message: errorData.message || 'Error posting specialization' };
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
 }
