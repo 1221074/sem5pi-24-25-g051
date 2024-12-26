@@ -29,18 +29,6 @@ namespace backend_module.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Maintenance",
-                columns: table => new
-                {
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OperationRequest",
                 columns: table => new
                 {
@@ -128,16 +116,17 @@ namespace backend_module.Migrations
                 name: "SurgeryRoom",
                 columns: table => new
                 {
-                    RoomNumber = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     AssignedEquipment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrentStatus = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    MaintenanceSlots = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SurgeryRoom", x => x.RoomNumber);
+                    table.PrimaryKey("PK_SurgeryRoom", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,9 +174,6 @@ namespace backend_module.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Appointment");
-
-            migrationBuilder.DropTable(
-                name: "Maintenance");
 
             migrationBuilder.DropTable(
                 name: "OperationRequest");

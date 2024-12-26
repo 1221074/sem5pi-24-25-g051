@@ -47,7 +47,7 @@ namespace backend_module.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSurgeryRoom(int id, SurgeryRoom surgeryRoom)
         {
-            if (id != surgeryRoom.RoomNumber)
+            if (id.ToString() != surgeryRoom.Id.Value)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace backend_module.Controllers
             _context.SurgeryRoom.Add(surgeryRoom);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSurgeryRoom", new { id = surgeryRoom.RoomNumber }, surgeryRoom);
+            return CreatedAtAction("GetSurgeryRoom", new { id = surgeryRoom.Id }, surgeryRoom);
         }
 
         // DELETE: api/SurgeryRoom/5
@@ -102,7 +102,7 @@ namespace backend_module.Controllers
 
         private bool SurgeryRoomExists(int id)
         {
-            return _context.SurgeryRoom.Any(e => e.RoomNumber == id);
+            return _context.SurgeryRoom.Any(e => e.Id.Value == id.ToString());
         }
     }
 }

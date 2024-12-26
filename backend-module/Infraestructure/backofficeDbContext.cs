@@ -15,7 +15,8 @@ using backend_module.Infraestructure.OperationRequests;
 using backend_module.Models.Patient;
 using backend_module.Infraestructure.Patients;
 using Microsoft.Extensions.Configuration;
-
+using backend_module.Models.SurgeryRoom;
+using backend_module.Infraestructure.SurgeryRooms;
 
 namespace backend_module.Infraestructure
 {
@@ -41,13 +42,14 @@ namespace backend_module.Infraestructure
         {
             //have a keyless entity named Availability Slot
             //modelBuilder.Entity<AvailabilitySlot>().HasNoKey();
-            modelBuilder.Entity<Maintenance>().HasNoKey();
+           // modelBuilder.Entity<Maintenance>().HasNoKey();
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
 
             modelBuilder.Entity<User>()
             .Property(u => u.Id)
@@ -63,6 +65,11 @@ namespace backend_module.Infraestructure
                 v => new OperationRequestId(v) 
             );
 
+            modelBuilder.Entity<SurgeryRoom>()
+                .Property(e => e.Id)
+                .HasConversion(new SurgeryRoomIdConverter());
+        
+
             
 
             modelBuilder.Entity<OperationType>().ToTable("OperationType");
@@ -71,6 +78,7 @@ namespace backend_module.Infraestructure
             modelBuilder.Entity<OperationRequest>().ToTable("OperationRequest");
             modelBuilder.Entity<Specialization>().ToTable("Specialization");
             modelBuilder.Entity<Patient>().ToTable("Patient");
+            modelBuilder.Entity<SurgeryRoom>().ToTable("SurgeryRoom");
 }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -12,7 +12,7 @@ using backend_module.Infraestructure;
 namespace backend_module.Migrations
 {
     [DbContext(typeof(backofficeDbContext))]
-    [Migration("20241114091806_InitialCreate")]
+    [Migration("20241226095750_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -212,28 +212,13 @@ namespace backend_module.Migrations
                     b.ToTable("Staff", (string)null);
                 });
 
-            modelBuilder.Entity("backend_module.Models.SurgeryRoom.Maintenance", b =>
-                {
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.ToTable("Maintenance");
-                });
-
             modelBuilder.Entity("backend_module.Models.SurgeryRoom.SurgeryRoom", b =>
                 {
-                    b.Property<int>("RoomNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomNumber"));
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.PrimitiveCollection<string>("AssignedEquipment")
                         .IsRequired()
@@ -242,15 +227,19 @@ namespace backend_module.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentStatus")
+                    b.PrimitiveCollection<string>("MaintenanceSlots")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("RoomNumber");
+                    b.HasKey("Id");
 
-                    b.ToTable("SurgeryRoom");
+                    b.ToTable("SurgeryRoom", (string)null);
                 });
 
             modelBuilder.Entity("backend_module.Models.User.User", b =>
