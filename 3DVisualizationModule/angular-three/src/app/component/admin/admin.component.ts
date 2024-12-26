@@ -18,6 +18,8 @@ import { StaffDisplay } from '../../interface/staff-display';
 import { OperationTypeDisplay } from 'src/app/interface/operationtype-display';
 import { SurgeryRoom } from 'src/app/interface/surgeryroom';
 import { PatientDisplay } from 'src/app/interface/patient-display';
+import { Allergy } from 'src/app/interface/allergy';
+import { DoctorService } from 'src/app/service/doctor.service';
 
 @Component({
   selector: 'app-admin',
@@ -31,6 +33,7 @@ export class AdminComponent {
 //SERVICE ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
   adminService: AdminService = inject(AdminService);
   userService: UserService = inject(UserService);
+  doctorService: DoctorService = inject(DoctorService);
   authService: AuthenticationService = inject(AuthenticationService);
   staffService: StaffService = inject(StaffService);
   specializationService: SpecializationService= inject(SpecializationService);
@@ -76,6 +79,10 @@ export class AdminComponent {
   loading: boolean = false;
   planningResultComplexity: Array<{ execution_time: number; number_of_surgeries: number }> = [];
 
+  // Allergy Lists
+  availableAllergies: Allergy[] = [];
+  filteredAllergyList: Allergy[] = [];
+
 
   selectedSection = '';
   errorMessage: string = '';
@@ -91,6 +98,7 @@ export class AdminComponent {
     this.updateOperationTypeList();
     this.getRooms();
     this.getSpecs();
+    this.getAllergies();
   }
 
   showSection(section: string) {
@@ -241,6 +249,38 @@ async registerStaff(firstName: string, lastName: string, fullName: string, speci
     }
   }
 }
+
+  /**
+   * Registers a new allergy in the system.
+   * @param newAllergyName - The name of the new allergy.
+   */
+  async registerAllergy(newAllergyName: string) {
+    // Reset messages
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Validate input
+    if (!newAllergyName) {
+      this.errorMessage = 'Please fill the required field.';
+      return;
+    }
+
+    // Check for duplicate allergy
+    if (this.availableAllergies.find(a => a.name === newAllergyName)) {
+      this.errorMessage = 'Allergy already in the list.';
+      return;
+    }
+
+    const allergyData = { name: newAllergyName };
+
+    try {
+      await this.doctorService.createAllergy(allergyData);
+      this.successMessage = 'Allergy registered successfully.';
+      this.getAllergies();
+    } catch (error) {
+      this.errorMessage = 'An error occurred while registering the allergy. Please try again.';
+    }
+  }
 
 selectedSpecializations: SpecializationSub[] = [];
 
@@ -488,6 +528,18 @@ async updateStaff() {
 
   }
 
+    /**
+   * Loads all system allergies from the PatientService.
+   */
+    async getAllergies() {
+      try {
+        this.availableAllergies = await this.doctorService.getSystemAllergies();
+        this.filteredAllergyList = this.availableAllergies;
+      } catch (error) {
+        this.errorMessage = 'Failed to load allergies. Please try again.';
+      }
+    }
+
   //Operation Type =========================================================================================================================================================================================================================================================
 
   async updateOperationType(): Promise<void> {
@@ -721,6 +773,31 @@ filterOperationTypeResults(operationTypeParameter: string): void {
 updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[]) {
   this.operationTypeListToBeDisplayed = filteredOperationTypeList;
 }
+
+  /**
+   * Searches and filters allergies based on the query.
+   * @param query - The search query string.
+   */
+  searchAllergies(query: string) {
+    const lowerQuery = query?.toLowerCase() ?? '';
+
+    if (!lowerQuery) {
+      // Reset the list if the query is empty
+      this.filteredAllergyList = this.availableAllergies ?? [];
+      return;
+    }
+
+    if (!this.availableAllergies) {
+      // If the allergy list isn't loaded yet, set to empty array
+      this.filteredAllergyList = [];
+      return;
+    }
+
+    // Filter allergy list based on query
+    this.filteredAllergyList = this.availableAllergies.filter(allergy =>
+      allergy?.name?.toLowerCase().includes(lowerQuery)
+    );
+  }
 
 
 

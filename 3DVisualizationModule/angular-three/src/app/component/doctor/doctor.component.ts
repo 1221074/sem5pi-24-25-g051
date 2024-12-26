@@ -265,38 +265,6 @@ export class DoctorComponent implements OnInit {
   }
 
   /**
-   * Registers a new allergy in the system.
-   * @param newAllergyName - The name of the new allergy.
-   */
-  async registerAllergy(newAllergyName: string) {
-    // Reset messages
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // Validate input
-    if (!newAllergyName) {
-      this.errorMessage = 'Please fill the required field.';
-      return;
-    }
-
-    // Check for duplicate allergy
-    if (this.availableAllergies.find(a => a.name === newAllergyName)) {
-      this.errorMessage = 'Allergy already in the list.';
-      return;
-    }
-
-    const allergyData = { name: newAllergyName };
-
-    try {
-      await this.doctorService.createAllergy(allergyData);
-      this.successMessage = 'Allergy registered successfully.';
-      this.loadAllergies();
-    } catch (error) {
-      this.errorMessage = 'An error occurred while registering the allergy. Please try again.';
-    }
-  }
-
-  /**
    * Registers a new surgery appointment.
    * @param patientId - The ID of the patient.
    * @param operationTypeId - The ID of the operation type.

@@ -234,11 +234,6 @@
       </li>
     </ul>
 
-    <!-- Add New Allergy -->
-    <label for="newAllergyName">New Allergy Name:</label>
-    <input id="newAllergyName" #newAllergyName placeholder="Name" />
-    <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
-
     <br><button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
@@ -246,6 +241,11 @@
   <section [style.display]="selectedSection === 'updatePatientRecord' ? 'block' : 'none'">
     <h2>Update Patient Medical Record</h2>
     <p>Update medical conditions and allergies for a patient.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
 
     <div class="form-field">
       <label for="patientSelect">Select Patient:</label>
@@ -328,6 +328,10 @@
   <section [style.display]="selectedSection === 'registerSurgeryAppointment' ? 'block' : 'none'">
     <h2>Create Surgery Appointment</h2>
     <p>Create a surgery appointment for a patient, bypassing automatic planning.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
     <form>
       <div class="form-field">

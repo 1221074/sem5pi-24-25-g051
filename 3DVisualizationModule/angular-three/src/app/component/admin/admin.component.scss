@@ -235,6 +235,21 @@ button:active {
   background-color: #f2f2f2;
 }
 
+.allergyBtn {
+  width: 20%;
+  padding: 4px 10px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  margin: 0 5px 15px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-left: 5px;
+}
+
+
 // Staff Create Component Styles ============================================================================================
 
 .patient-create {

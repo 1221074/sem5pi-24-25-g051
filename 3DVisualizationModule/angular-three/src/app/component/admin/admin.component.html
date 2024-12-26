@@ -12,6 +12,7 @@
     <div class="admin-panel1">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
+      <button (click)="showSection('addAllergy')">Add Allergies</button>
     </div>
     <div>
       <h3>3D Visualization Module:</h3>
@@ -25,6 +26,7 @@
       <button (click)="showSection('editPatient')">Edit Patient Profile</button>
       <button (click)="showSection('deletePatient')">Delete Patient Profile</button>
       <button (click)="showSection('listPatients')">List/Search Patient Profiles</button>
+
     </div>
     </section>
     <section class="admin-staff-management" [style.display]="selectedSection ? 'none' : 'block'">
@@ -116,6 +118,37 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+
+  <!-- Add Allergy Section -->
+   <section [style.display]="selectedSection === 'addAllergy' ? 'block' : 'none'">
+    <h2>Add Allergy</h2>
+    <p>Here you can add a new allergy to the system .</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <label for="allergySearch">Search Allergy:</label>
+    <input id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
+
+    <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+
+    <!-- List Existing Allergies with Remove Button -->
+    <ul>
+      <li *ngFor="let allergy of filteredAllergyList; let i = index">
+        {{ allergy.name }}
+      </li>
+    </ul>
+
+    <!-- Add New Allergy -->
+    <label for="newAllergyName">New Allergy Name:</label>
+    <input id="newAllergyName" #newAllergyName placeholder="Name" />
+    <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
+
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+
+
+   </section>
 
 
   <!-- Patient Sections -->
