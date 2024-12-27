@@ -12,13 +12,42 @@
     <div class="admin-panel1">
       <h3>Admin Panel:</h3>
       <button (click)="showSection('registerUser')">Register User</button>
-      <button (click)="showSection('addAllergy')">Add Allergies</button>
     </div>
     <div>
       <h3>3D Visualization Module:</h3>
       <button (click)="showSection('3dVisualization')">3D Visualization</button>
     </div>
   </section>
+  
+
+  <section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
+
+      <h3>Planning Module:</h3>
+      <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
+      <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
+      <button (click)="showSection('dimensionPlanning')">Complexity Analysis</button>
+  </section>
+
+  <section class="admin-allergy-management" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-allergy-management1">
+      <h3>Allergy Management:</h3>
+      <button (click)="showSection('addAllergy')">Add Allergy</button>
+      <button (click)="showSection('editAllergy')">Edit Allergy</button>
+      <button (click)="showSection('listAllergy')">List/Search Allergy</button>
+
+    </div>
+  </section>
+
+  <section class="admin-medical-condition-management" [style.display]="selectedSection ? 'none' : 'block'">
+    <div class="admin-medical-condition-management1">
+      <h3>Medical Condition Management:</h3>
+      <button (click)="showSection('addMedicalCondition')">Add Medical Condition</button>
+      <button (click)="showSection('editMedicalCondition')">Edit Medical Condition</button>
+      <button (click)="showSection('listMedicalCondition')">List/Search Medical Condition</button>
+
+    </div>
+  </section>
+
   <section class="admin-patient-management" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="admin-patient-management1">
       <h3>Patient Management:</h3>
@@ -59,14 +88,6 @@
 
     </div>
   </section>
-
-<section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
-
-      <h3>Planning Module:</h3>
-      <button (click)="showSection('optimizedPlanning')">Optimized Planning</button>
-      <button (click)="showSection('preferedPlanning')">Prefered Schedule</button>
-      <button (click)="showSection('dimensionPlanning')">Complexity Analysis</button>
-    </section>
 
 
   <!-- Register User Section -->
@@ -157,6 +178,29 @@
     <input id="newAllergyName" #newAllergyName placeholder="Name" />
     <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
 
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+
+
+   </section>
+
+   <section [style.display]="selectedSection === 'listAllergy' ? 'block' : 'none'">
+    <h2>List/Search Allergy</h2>
+    <p>Here you can list or search for allergies.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <input id="allergySearchInput2" #allergySearch2 placeholder="Type to search allergies..." />
+
+    <button class="allergyBtn2" (click)="searchAllergies(allergySearch2.value)">Search</button>
+
+    <!-- List Existing Allergies with Remove Button -->
+    <ul>
+      <li *ngFor="let allergy of filteredAllergyList; let i = index">
+        {{ allergy.name }}
+      </li>
+    </ul>
     <br><button (click)="showSection('')">Back to Main Menu</button>
 
 
