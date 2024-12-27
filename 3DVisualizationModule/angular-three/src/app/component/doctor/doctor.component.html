@@ -336,14 +336,16 @@
     <form>
       <div class="form-field">
         <label for="patientId">Patient:</label>
-        <select id="patientId" #patientIdRef required>
-          <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.fullName }}</option>
+        <select id="patientId" [(ngModel)]="selectedPatientId" name="patientId" required>
+          <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.fullName }}
+          </option>
         </select>
       </div>
 
       <div class="form-field">
         <label for="operationTypeId">Operation Type:</label>
-        <select id="operationTypeId" #operationTypeIdRef required>
+        <select id="operationTypeId" [(ngModel)]="selectedOperationTypeId" name="operationTypeId" required>
           <option *ngFor="let operationType of operationTypes" [value]="operationType.id">
             {{ operationType.name }}
           </option>
@@ -357,7 +359,7 @@
 
       <div class="form-field">
         <label for="priorityState">Priority State:</label>
-        <select id="priorityState" #priorityStateRef required>
+        <select id="priorityState" [(ngModel)]="selectedPriorityState" name="priorityState" required>
           <option value="Urgent">Urgent</option>
           <option value="Elective">Elective</option>
           <option value="Emergency">Emergency</option>
@@ -365,9 +367,9 @@
       </div>
 
       <button type="button" class="allergyBtn" (click)="registerSurgeryAppointment(
-        patientIdRef.value,
-        operationTypeIdRef.value,
-        appointmentDateRef.value, priorityStateRef.value
+        selectedPatientId,
+        selectedOperationTypeId,
+        appointmentDateRef.value, selectedPriorityState
       )">Create Appointment
       </button>
     </form>

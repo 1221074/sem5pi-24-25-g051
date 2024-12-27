@@ -21,6 +21,10 @@ export class AuthenticationService {
     return this.userId;
   }
 
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
 
   getMailSession() {return this.mail;}
 
@@ -60,4 +64,48 @@ export class AuthenticationService {
     const data = await fetch(`${this.url1}/${mail}`);
         return await data.json() ?? [];
   }
+
+  /* LOGIN WITH NODE JS ??? TAVA NOS SLIDES
+  private userSubject: BehaviorSubject<User | null>;
+    public user: Observable<User | null>;
+    constructor(private http: HttpClient) {
+      this.userSubject = new BehaviorSubject<User | null>(
+        JSON.parse(localStorage.getItem('user')!)
+      );
+      this.user = this.userSubject.asObservable();
+ }
+
+ login(email:string, password:string ) {
+ return this.http.post<any>(this.theUrl, {email, password})
+ .pipe(
+ map(user => localStorage.setItem('user', JSON.stringify(user))),
+catchError(this.handleError<User>("login"))
+ );
+}
+ logout() { localStorage.removeItem('user'); }
+ getToken(): string | null  {
+ return localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!).token :null;
+ }
+
+
+ private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+         this.logout();
+         console.error(error);
+         console.log(`${operation} failed: ${error.message}`);
+         return of(result as T);
+      };
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.authSrv.getToken()
+    if (token) {
+      const cloned = req.clone({headers: req.headers.set("Authorization", "Bearer " + token)});
+      return next.handle(cloned);
+    }
+    else {
+      return next.handle(req);
+    }
+  }
+*/
 }

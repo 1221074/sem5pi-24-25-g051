@@ -40,27 +40,32 @@ export class DoctorComponent implements OnInit {
   // === Component Variables ===
   // =========================
 
+  //Selected Variables
+  selectedOperation: Operationrequest | null = null;
+  selectedPatientId: string = '';
+  selectedPatient: Patient | null = null;
+  selectedOperationTypeId: string = '';
+  selectedAllergyId: string = '';
+  selectedSection: string = '';
+  selectedConditionId: string = '';
+  selectedPriorityState: string = '';
+
   // Operation Lists
   filteredOperationList: Operationrequest[] = [];
   operationList: Operationrequest[] = [];
-  selectedOperation: Operationrequest | null = null;
   operationListToBeDisplayed: OperationDisplay[] = [];
   fullOperationListToBeDisplayed: OperationDisplay[] = [];
 
-  // Allergy Lists
+  // Lists
   availableAllergies: Allergy[] = [];
-  availableMedicalConditions: MedicalCondition[] = [];
   filteredAllergyList: Allergy[] = [];
+  availableMedicalConditions: MedicalCondition[] = [];
+  patients: Patient[] = [];
 
   // Patient Data
-  patients: Patient[] = [];
-  selectedPatientId: string = '';
-  selectedPatient: Patient | null = null;
   patientMedicalRecord: MedicalRecord | undefined;
-  selectedConditionId: string = '';
   patientMedicalConditions: MedicalCondition[] = [];
   patientAllergies: Allergy[] = [];
-  selectedAllergyId: string = '';
   patientFreeText: string = '';
 
   // Operation Types
@@ -69,7 +74,6 @@ export class DoctorComponent implements OnInit {
   // UI State Variables
   errorMessage: string = '';
   successMessage: string = '';
-  selectedSection: string = '';
   editingAllergies: boolean = true;
 
   filters = {
@@ -281,7 +285,7 @@ export class DoctorComponent implements OnInit {
     this.successMessage = '';
 
     // Validate required fields
-    if (!patientId || !operationTypeId || !deadlineDate) {
+    if (!patientId || !operationTypeId || !deadlineDate || !priorityState) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }
@@ -305,14 +309,13 @@ export class DoctorComponent implements OnInit {
 
     console.log(appointmentData);
 
-    const patientData = this.patientService.getPatientById(patientId);
-    (await patientData).appointmentList.push(deadlineDate);
-
-    console.log(patientData);
+    this.selectedPatient = await this.patientService.getPatientById(patientId);
+    this.selectedPatient.appointmentList.push(deadlineDate);
 
     try {
       await this.doctorService.postOperationRequest(appointmentData);
-      await this.patientService.updatePatient((await patientData).id.toString(), patientData);
+      await this.patientService.updatePatient(appointmentData.patientId, this.selectedPatient);
+      this.clearAppointmentValue();
       this.successMessage = 'Surgery appointment created successfully.';
     } catch (error) {
       this.errorMessage = 'An error occurred while creating the surgery appointment. Please try again.';
@@ -334,12 +337,12 @@ export class DoctorComponent implements OnInit {
       return;
     }
 
-    try{
+    try {
       this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
       this.patientMedicalRecord.freeText += freeText;
       console.log(this.patientMedicalRecord.freeText);
       await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
-    }catch (error) {
+    } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
     }
   }
@@ -407,11 +410,11 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-   /**
-   * Updates Patient Medical Conditions for the selected patient.
-   * @param medicalConditionId - The name of the new medical condition.
-   */
-   async updatePatientMedicalConditions(medicalConditionId: string) {
+  /**
+  * Updates Patient Medical Conditions for the selected patient.
+  * @param medicalConditionId - The name of the new medical condition.
+  */
+  async updatePatientMedicalConditions(medicalConditionId: string) {
     // Reset messages
     this.errorMessage = '';
     this.successMessage = '';
@@ -424,47 +427,48 @@ export class DoctorComponent implements OnInit {
 
 
 
-    try{
+    try {
       this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
       //update medical conditions array with the new condition
       this.patientMedicalRecord.medicalConditions.push(medicalConditionId as unknown as MedicalCondition);
       await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
       this.selectedConditionId = '';
-    }catch (error) {
+    } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
     }
   }
 
 
-    /**
-   * Updates Patient Allergies for the selected patient.
-   * @param allergyId - The name of the new medical condition.
-   */
-    async updatePatientAllergy(allergyId: string) {
-      // Reset messages
-      this.errorMessage = '';
-      this.successMessage = '';
+  /**
+ * Updates Patient Allergies for the selected patient.
+ * @param allergyId - The name of the new medical condition.
+ */
+  async updatePatientAllergy(allergyId: string) {
+    // Reset messages
+    this.errorMessage = '';
+    this.successMessage = '';
 
-      // Validate required fields
-      if (!this.selectedPatientId || !allergyId) {
-        this.errorMessage = 'Please fill in all required fields.';
-        return;
-      }
-
-      try{
-        this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
-        //update allergies array with the new allergy (verify it isn't already in the patientAllergies)
-        if(!this.patientMedicalRecord.allergies.includes(allergyId as unknown as Allergy))
-          this.patientMedicalRecord.allergies.push(allergyId as unknown as Allergy);
-
-        await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
-
-        this.selectedAllergyId = '';
-
-      }catch (error) {
-        this.errorMessage = 'An error occurred while updating the free text. Please try again.';
-      }
+    // Validate required fields
+    if (!this.selectedPatientId || !allergyId) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
     }
+
+    try {
+      this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
+      //update allergies array with the new allergy (verify it isn't already in the patientAllergies)
+      if (!this.patientMedicalRecord.allergies.includes(allergyId as unknown as Allergy))
+        this.patientMedicalRecord.allergies.push(allergyId as unknown as Allergy);
+
+      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+
+      this.selectedAllergyId = '';
+      this.clearPatientValue();
+
+    } catch (error) {
+      this.errorMessage = 'An error occurred while updating the free text. Please try again.';
+    }
+  }
 
   // ===========================================================================================================
   // === Remove Methods ===
@@ -622,6 +626,12 @@ export class DoctorComponent implements OnInit {
     this.selectedPatient = null;
     this.selectedPatientId = '';
 
+  }
+
+  clearAppointmentValue() {
+    this.selectedPatientId = '';
+    this.selectedPriorityState = '';
+    this.selectedOperationTypeId = '';
   }
 
   /**

@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 })
 export class AdminService {
   patient_url = environment.apiURL + '/patient';
+  medicalRecordUrl = environment.apiURL2 + '/medicalrecord';
 
   constructor() {}
 
@@ -32,19 +33,45 @@ export class AdminService {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        // Include the status in the error
-        throw { status: response.status, message: errorData.message || 'Error posting patient' };
+        throw new Error('Failed to create patient');
       }
 
-      return await response.json();
+      const createdPatient = await response.json();
+      const patientId = createdPatient.id;
+
+      console.log(patientId);
+
+      // Create an empty medical record
+      const medicalRecord = {
+        patientId: patientId,
+        allergies: [],
+        medicalConditions: [],
+        freeText: '',
+        createdAt: new Date().toISOString(),
+        updatedAt: '',
+      };
+
+      const medicalRecordResponse = await fetch(`${environment.apiURL2}/medicalrecord`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(medicalRecord),
+        credentials: 'include',
+      });
+
+      if (!medicalRecordResponse.ok) {
+        throw new Error('Failed to create medical record');
+      }
+
+      console.log('Medical record created successfully');
+
+      return createdPatient;
     } catch (error) {
       console.error('Error:', error);
       // Handle or rethrow the error as appropriate
       throw error;
     }
-
-    //http.post(this.patient_url, operationData).subscribe((data) => {
   }
 
   async updatePatient( patientData: any) {
