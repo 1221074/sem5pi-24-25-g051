@@ -218,9 +218,11 @@
 
     <!-- Add New medicalCondition -->
     <label for="newMedicalConditionName">New Medical Condition Name:</label>
-    <input id="newMedicalConditionName" #newMedicalConditionName placeholder="Name" />
-    <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value)">Add</button><br><br>
-
+    <br>
+    <div class="newMedicalCondition">
+      <input class="newMedicalConditionName" #newMedicalConditionName placeholder="Name" />
+      <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value)">Add</button><br><br>
+    </div>
     <br><button (click)="showSection('')">Back to Main Menu</button>
    </section>
 
@@ -233,11 +235,10 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-    <label for="medicalConditionSearch">Search Medical Condition:</label>
-    <input id="medicalConditionSearch" #medicalConditionSearch placeholder="Type to search medical conditions..." />
-
-    <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
-
+    <div class = "medicalConditionSearch">
+      <input class="medicalConditionSearch" #medicalConditionSearch placeholder="Type to search medical conditions..." />
+      <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
+    </div>
     <!-- List Existing Allergies with Remove Button -->
     <ul>
       <li *ngFor="let medicalCondition of filteredMedicalConditionList; let i = index">
