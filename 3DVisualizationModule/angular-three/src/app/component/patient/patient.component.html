@@ -29,42 +29,42 @@
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" [(ngModel)]="patient.firstName" required />
       </div>
-    
+
       <div class="form-field">
         <label for="lastName">Last Name:</label>
         <input type="text" id="lastName" name="lastName" [(ngModel)]="patient.lastName" required />
       </div>
-    
+
       <div class="form-field">
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" [(ngModel)]="patient.fullName" required />
       </div>
-    
+
       <div class="form-field">
         <label for="sex">Sex:</label>
         <input type="text" id="sex" name="sex" [(ngModel)]="patient.sex" required />
       </div>
-    
+
       <div class="form-field">
         <label for="email">Email: </label>
         <input type="email" id="email" name="email" [(ngModel)]="patient.email" required />
       </div>
-    
+
       <div class="form-field">
         <label for="phone">Phone:</label>
         <input type="text" id="phone" name="phone" [(ngModel)]="patient.phone" required />
       </div>
-    
+
       <div class="form-field">
         <label for="emergencyContact">Emergency Contact:</label>
         <input type="text" id="emergencyContact" name="emergencyContact" [(ngModel)]="patient.emergencyContact" required />
       </div>
-    
+
       <button class="updateBtn" type="button" (click)="submitUpdate()">Update</button>
     </form>
-    
+
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
-    
+
   </section>
 
   <!-- Deactivate Account Section -->
@@ -145,8 +145,21 @@
         <label>Emergency Contact: </label>
         <span>{{ patient.emergencyContact }}</span>
       </div>
+
+     <div>
+      <!-- Button that first confirms user wants to download -->
+      <button class="downloadbtn" (click)="confirmDataDownload()">
+        Download Personal Data
+      </button>
     </div>
+  </div>
+
+  <!-- Simple notification area -->
+  <div *ngIf="notificationMessage" class="notification">
+    {{ notificationMessage }}
+  </div>
 
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 </div>
+

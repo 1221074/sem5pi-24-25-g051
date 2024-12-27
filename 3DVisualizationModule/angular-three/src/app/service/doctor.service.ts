@@ -106,7 +106,7 @@ export class DoctorService {
     }
   }
 
- 
+
   async createMedicalCondition(conditionData: MedicalRecord) {
     try {
       const response = await fetch(environment.apiURL2 + '/medicalcondition', {

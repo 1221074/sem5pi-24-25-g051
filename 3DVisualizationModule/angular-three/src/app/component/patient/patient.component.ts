@@ -21,6 +21,7 @@ export class PatientComponent implements OnInit {
   selectedSection = '';
   errorMessage: string = '';
   successMessage: string = '';
+  notificationMessage: string = '';
 
   patient!: Patient;
 
@@ -86,9 +87,34 @@ export class PatientComponent implements OnInit {
       });
       this.authService.logout();
     }
-  }  
+  }
 
   // DATA METHODS
+
+  confirmDataDownload(): void {
+    const userConfirmed = confirm(
+      'Are you sure you want to download your personal data? ' +
+      'We will send you an encrypted ZIP via email.'
+    );
+
+    if (userConfirmed) {
+      // If user clicked "OK", proceed with sending the data
+      this.downloadData();
+    } else {
+      // If user clicked "Cancel", notify them or just do nothing
+      this.notificationMessage = 'Data download canceled.';
+    }
+  }
+
+  async downloadData() {
+    await this.patientService.downloadPersonalData(this.patient.id.toString()).then(() => {
+      this.successMessage = 'Your data is being prepared. Check your email soon.';
+    }).catch(error => {
+      this.errorMessage = 'There was an error sending your data. Please try again later.';
+    });
+
+    //await this.patientService.downloadMedicalRecordData(this.patient.id.toString()).then(() => {
+  }
 
   // NAVIGATION METHODS
 
