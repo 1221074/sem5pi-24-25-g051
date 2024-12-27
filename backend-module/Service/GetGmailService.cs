@@ -11,9 +11,6 @@ using System.Text;
 using System.Threading;
 
 namespace backend_module.Services{
-
-
-
     public class GetGmailService {
 
 
@@ -68,5 +65,50 @@ namespace backend_module.Services{
             }
 
         }
-    }
+    
+
+
+    public static async Task SendEmailWithAttachmentUsingGmailApi(string toEmail, string subject, string htmlBody,byte[] attachmentBytes, string attachmentFileName)
+        {
+            var service = GetMailService();
+
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("lapr5", "sem5pi2425-g051@gmail.com"));
+            emailMessage.To.Add(new MailboxAddress("Recipient", toEmail));
+            emailMessage.Subject = subject;
+
+            // Build a multi-part message with body + attachment
+            var bodyBuilder = new BodyBuilder
+            {
+                HtmlBody = htmlBody
+            };
+
+            // Attach the file (e.g., your encrypted ZIP)
+            // Adjust content type as needed
+            bodyBuilder.Attachments.Add(attachmentFileName, attachmentBytes, new ContentType("application", "zip"));
+
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+
+            using (var stream = new MemoryStream())
+            {
+                emailMessage.WriteTo(stream);
+
+                // Convert to Base64 for Gmail
+                var rawMessage = Convert.ToBase64String(stream.ToArray())
+                    .Replace('+', '-')
+                    .Replace('/', '_')
+                    .Replace("=", "");
+
+                var message = new Message
+                {
+                    Raw = rawMessage
+                };
+
+                // Send via Gmail API
+                await service.Users.Messages.Send(message, "me").ExecuteAsync();
+            }
+        }
+    } 
+
+
 }

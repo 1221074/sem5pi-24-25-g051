@@ -4,11 +4,13 @@ import { environment } from '../../environments/environment';
 import { MedicalCondition } from '../interface/medical-condition';
 import { Allergy } from '../interface/allergy';
 import { MedicalRecord } from '../interface/medical-record';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
+
   url = environment.apiURL + '/patient';
 
   constructor() {}
@@ -104,6 +106,31 @@ export class PatientService {
         // Handle non-200 responses
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error deleting your profile');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
+
+  async downloadPersonalData(patientId: string):  Promise<Observable<any>> {
+    try {
+      const response = await fetch(this.url + `/${patientId}/sendEncryptedData`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //body: JSON.stringify(patientId),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        // Handle non-200 responses
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error sending your data');
       }
 
       return await response.json();

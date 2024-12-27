@@ -1,16 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Azure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
 using backend_module.Models.Patient;
-
 using backend_module.Models.Shared;
 using backend_module.Services;
 
@@ -49,6 +39,50 @@ namespace backend_module.Controllers
           
 
             return P;
+        }
+
+
+        [HttpGet("{id}/sendEncryptedData")]
+        public async Task<IActionResult> SendEncryptedDataToEmail(string id)
+        {
+            try
+            {
+                // 1. Retrieve patient data (including any cross-service calls to Node.js if needed)
+                var patientData = await _service.GetByIdAsync(new PatientId(id));
+                System.Diagnostics.Debug.WriteLine(patientData);
+
+                if (patientData == null)
+                    return NotFound("Patient not found");
+
+                // 2. Convert patient data to JSON
+                string jsonData = System.Text.Json.JsonSerializer.Serialize(patientData);
+                System.Diagnostics.Debug.WriteLine(jsonData);
+                
+                // 3. Generate an encrypted ZIP file from the JSON
+                byte[] zipBytes = ZipEncryptionHelper.CreateEncryptedZip(jsonData, id);
+
+                // 4. Assign email parameters
+                string toEmail = patientData.Email;
+                string subject = "Your Encrypted Personal Data";
+                string body = "In the encrypted zip you have the files that belong to you." +
+                              "The Password is your nif number.";
+
+
+                // 5. Send the ZIP via email
+                await GetGmailService.SendEmailWithAttachmentUsingGmailApi(
+                    toEmail: toEmail,
+                    subject: subject,
+                    htmlBody: body,
+                    attachmentBytes: zipBytes,
+                    attachmentFileName: "PersonalData.zip"
+                );
+
+                return Ok(new { message = "Encrypted data sent to your email successfully." });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, "An error occurred while sending your data.");
+            }
         }
 
         [HttpGet("/api/patient/firstname/{name}")]
