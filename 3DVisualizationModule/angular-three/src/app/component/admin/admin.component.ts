@@ -771,6 +771,17 @@ submitOperationTypeDeactivation(operationTypeId: number) {
   }
 }
 
+submitSpecRemoval(spec: number) {
+  if (confirm('Are you sure you want to delete this Specialization?')) {
+    this.specializationService.deleteSpecialization(spec.toString()).then(() => {
+      this.successMessage = 'Specialization removed successfully.';
+      this.updateSpecializationList();
+      this.getSpecs();
+    }).catch(error => {
+      this.errorMessage = 'An error occurred while removing the operation. Please try again.';
+    });
+  }
+}
 
 
 
@@ -797,6 +808,24 @@ filterStaffResults(staffParameter: string): void {
     );
 
     this.updateStaffListSearch(staffListToBeDisplayed);
+  }
+}
+
+filterSpecializationResults(specParameter: string): void {
+
+    if (!specParameter) {
+      // If the query is empty, reset to show all operations
+      this.specializationListToBeDisplayed = [...this.fullSpecializationListToBeDisplayed];
+      this.errorMessage = '';
+      return;
+    }
+
+  if (specParameter) {
+    const specializationListToBeDisplayed = this.fullSpecializationListToBeDisplayed.filter(spec =>
+      spec.specializationName.toLowerCase().includes(specParameter.toLowerCase())
+    );
+
+    this.updateSpecializationListSearch(specializationListToBeDisplayed);
   }
 }
 
@@ -831,6 +860,10 @@ updatePatientListSearch(filteredPatientList: PatientDisplay[]) {
 
 updateStaffListSearch(filteredStaffList: StaffDisplay[]) {
   this.staffListToBeDisplayed = filteredStaffList;
+}
+
+updateSpecializationListSearch(filteredSpecializationList: SpecializationDisplay[]) {
+  this.specializationListToBeDisplayed = filteredSpecializationList;
 }
 
 checkIfStaffPhoneNumberExists(phoneNumber: string): boolean {

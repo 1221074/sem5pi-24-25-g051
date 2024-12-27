@@ -564,6 +564,108 @@
     <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 
+  <section [style.display]="selectedSection === 'deleteSpecialization' ? 'block' : 'none'">
+    <h2>Delete Specialization</h2>
+    <p>Here you can delete a specialization.</p>
+
+     <!-- Table for Specializations -->
+    <table class="table-display">
+      <tr>
+        <th>Specialization Name</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let spec of specializationListToBeDisplayed">
+        <td>{{ spec.specializationName }}</td>      
+      <td>
+        <button class="spec-delete-button" (click)="submitSpecRemoval(spec.id)">Delete</button>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <section [style.display]="selectedSection === 'listPatients' ? 'block' : 'none'">
+    <h2>List/Search Patient Profiles</h2>
+    <p>Here you can list or search for patient profiles.</p>
+    <form>
+      <div class="inputPatientFilterClass">
+        <input
+          class="inputPatientFilter"
+          type="text"
+          placeholder="Search Patient"
+          [(ngModel)]="patientSearchQuery"
+          name="searchQuery"
+        />
+        <button
+          class="patientSearchBtn"
+          type="button"
+          (click)="filterPatientResults(patientSearchQuery)">
+          Search
+        </button>
+      </div>
+    </form>
+    <table class="table-display">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Full Name</th>
+        <th>Birth Date</th>
+        <th>Sex</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Emergency Contact</th>
+      </tr>
+
+      <tr *ngFor="let patient of patientListToBeDisplayed">
+        <td>{{ patient.firstName }}</td>
+        <td>{{ patient.lastName }}</td>
+        <td>{{ patient.fullName}}</td>
+        <td>{{ patient.birthDate | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td>{{ patient.sex }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.emergencyContact }}</td>
+      </tr>
+    </table>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- List/Search Spec Section -->
+  <section [style.display]="selectedSection === 'listSpecialization' ? 'block' : 'none'">
+    <h2>List/Search Specializations</h2>
+    <p>Here you can list or search for specializations.</p>
+      <form>
+        <div class="inputSpecializationFilterClass">
+          <input
+            class="inputSpecializationFilter"
+            type="text"
+            placeholder="Search Specialization"
+            [(ngModel)]="specializationSearchQuery"
+            name="searchQuery"
+          />
+          <button
+            class="specializationSearchBtn"
+            type="button"
+            (click)="filterSpecializationResults(specializationSearchQuery)">
+            Search
+          </button>
+        </div>
+      </form>
+    <table class="table-display">
+    <tr>
+      <th>Specialization Name</th>
+    </tr>
+
+    <tr *ngFor="let spec of specializationListToBeDisplayed">
+      <td>{{ spec.specializationName }}</td>
+    </tr>
+    </table>
+    <br>
+    <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
   <!-- Staff Sections -->
   <section class="staff-create" [style.display]="selectedSection === 'createStaff' ? 'block' : 'none'">
