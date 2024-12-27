@@ -207,6 +207,48 @@
    </section>
 
 
+   <!-- Add Medical Condition Section -->
+   <section [style.display]="selectedSection === 'addMedicalCondition' ? 'block' : 'none'">
+    <h2>Add Medical Condition</h2>
+    <p>Here you can add a new medical condition to the system .</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <!-- Add New medicalCondition -->
+    <label for="newMedicalConditionName">New Medical Condition Name:</label>
+    <input id="newMedicalConditionName" #newMedicalConditionName placeholder="Name" />
+    <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value)">Add</button><br><br>
+
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+   </section>
+
+
+   <section [style.display]="selectedSection === 'listMedicalCondition' ? 'block' : 'none'">
+    <h2>List/Search Medical Conditions</h2>
+    <p>Here you can list or search for medical conditions.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <label for="medicalConditionSearch">Search Medical Condition:</label>
+    <input id="medicalConditionSearch" #medicalConditionSearch placeholder="Type to search medical conditions..." />
+
+    <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
+
+    <!-- List Existing Allergies with Remove Button -->
+    <ul>
+      <li *ngFor="let medicalCondition of filteredMedicalConditionList; let i = index">
+        {{ medicalCondition.name }}
+      </li>
+    </ul>
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+
+
+    </section>
+
   <!-- Patient Sections -->
   <section class="patient-create" [style.display]="selectedSection === 'createPatient' ? 'block' : 'none'">
     <head>

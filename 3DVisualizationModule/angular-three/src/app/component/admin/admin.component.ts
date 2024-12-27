@@ -22,6 +22,7 @@ import { Allergy } from 'src/app/interface/allergy';
 import { DoctorService } from 'src/app/service/doctor.service';
 import { Specialization } from 'src/app/interface/specialization';
 import { SpecializationDisplay } from 'src/app/interface/specialization-display';
+import { MedicalCondition } from 'src/app/interface/medical-condition';
 
 @Component({
   selector: 'app-admin',
@@ -92,6 +93,10 @@ export class AdminComponent {
   availableAllergies: Allergy[] = [];
   filteredAllergyList: Allergy[] = [];
 
+  // Medical Conditions
+  availableMedicalConditions: MedicalCondition[] = [];
+  filteredMedicalConditionList: MedicalCondition[] = [];
+
 
   selectedSection = '';
   errorMessage: string = '';
@@ -109,6 +114,7 @@ export class AdminComponent {
     this.getRooms();
     this.getSpecs();
     this.getAllergies();
+    this.getMedicalConditions();
   }
 
   showSection(section: string) {
@@ -320,6 +326,40 @@ async registerSpecialization(specializationName: string) {
       this.errorMessage = 'An error occurred while registering the allergy. Please try again.';
     }
   }
+
+  /**
+   * Registers a new medical condition in the system.
+   * @param newMedicalConditionName - The name of the new Medical Condition.
+   */
+  async registerMedicalCondition(newMedicalConditionName: string) {
+    // Reset messages
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Validate input
+    if (!newMedicalConditionName) {
+      this.errorMessage = 'Please fill the required field.';
+      return;
+    }
+
+    // Check for duplicate Medical Conditions
+    if (this.availableMedicalConditions.find(a => a.name === newMedicalConditionName)) {
+      this.errorMessage = 'Medical Condition already in the list.';
+      return;
+    }
+
+    const medicalConditionData = { name: newMedicalConditionName };
+
+    try {
+      await this.doctorService.createMedicalCondition(medicalConditionData);
+      this.successMessage = 'Medical Condition registered successfully.';
+      this.getMedicalConditions();
+    } catch (error) {
+      this.errorMessage = 'An error occurred while registering the medical condition. Please try again.';
+    }
+  }
+
+
 
 selectedSpecializations: SpecializationSub[] = [];
 
@@ -640,6 +680,15 @@ async updateSpecialization() {
       }
     }
 
+    async getMedicalConditions() {
+      try {
+        this.availableMedicalConditions = await this.doctorService.getSystemMedicalConditions();
+        this.filteredMedicalConditionList = this.availableMedicalConditions;
+      } catch (error) {
+        this.errorMessage = 'Failed to load medical conditions. Please try again.';
+      }
+    }
+
   //Operation Type =========================================================================================================================================================================================================================================================
 
   async updateOperationType(): Promise<void> {
@@ -941,6 +990,31 @@ updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[])
     );
   }
 
+
+  /**
+   * Searches and filters Medical Conditions based on the query.
+   * @param query - The search query string.
+   */
+  searchMedicalConditions(query: string) {
+    const lowerQuery = query?.toLowerCase() ?? '';
+
+    if (!lowerQuery) {
+      // Reset the list if the query is empty
+      this.filteredMedicalConditionList = this.availableMedicalConditions ?? [];
+      return;
+    }
+
+    if (!this.availableMedicalConditions) {
+      // If the Medical conditions list isn't loaded yet, set to empty array
+      this.filteredMedicalConditionList = [];
+      return;
+    }
+
+    // Filter Medical Conditions list based on query
+    this.filteredMedicalConditionList = this.availableMedicalConditions.filter(medicalCondition =>
+      medicalCondition?.name?.toLowerCase().includes(lowerQuery)
+    );
+  }
 
 
 // ALGAV USER STORIES ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
