@@ -210,6 +210,10 @@
     <h2>Edit Allergy</h2>
     <p>Here you can edit an existing allergy.</p>
 
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
     <table class="table-display">
       <tr>
         <th>Name</th>
@@ -218,7 +222,7 @@
       <tr *ngFor="let allergy of filteredAllergyList">
         <td>{{ allergy.name }}</td>
         <td>
-          <button class="editAllergy" (click)="editAllergy(allergy)">Edit</button>
+          <button class="editAllergyBtn" (click)="editAllergy(allergy)">Edit</button>
         </td>
       </tr>
     </table>
@@ -229,6 +233,7 @@
         <div>
           <label for="updatedName">Name:</label><br>
           <input
+            class="update-allergy-input"
             type="text"
             id="updatedName"
             [(ngModel)]="selectedAllergy.name"
@@ -241,14 +246,14 @@
         </div>
         <br />
         <button
-          class="update-operation-type-btn"
+          class="update-allergy-btn"
           type="button"
           (click)="updateAllergy(selectedAllergy)"
         >
           Update Allergy
         </button>
         <button
-          class="cancel-update-operation-type-btn"
+          class="cancel-update-allergy-btn"
           type="button"
           (click)="cancelAllergyUpdate()"
         >
@@ -302,7 +307,66 @@
     </ul>
     <br><button (click)="showSection('')">Back to Main Menu</button>
 
+    </section>
 
+    <section [style.display]="selectedSection === 'editMedicalCondition' ? 'block' : 'none'">
+      <h2>Edit Medical Condition</h2>
+      <p>Here you can edit an existing medical condition.</p>
+
+      <!-- Display success or error messages -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  
+      <table class="table-display">
+        <tr>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor="let medicalCondition of filteredMedicalConditionList">
+          <td>{{ medicalCondition.name }}</td>
+          <td>
+            <button class="editMedicalConditionBtn" (click)="editMedicalCondition(medicalCondition)">Edit</button>
+          </td>
+        </tr>
+      </table>
+  
+      <!-- Update Form -->
+      <div *ngIf="selectedMedicalCondition">
+        <form>
+          <div>
+            <label for="updatedName">Name:</label><br>
+            <input
+              class="update-medical-condition-input"
+              type="text"
+              id="updatedName"
+              [(ngModel)]="selectedMedicalCondition.name"
+              name="Name"
+              placeholder="Name"
+              #updatedNameRef
+              required
+              [value]="selectedMedicalCondition.name"
+            />
+          </div>
+          <br />
+          <button
+            class="update-medical-condition-btn"
+            type="button"
+            (click)="updateMedicalCondition(selectedMedicalCondition)"
+          >
+            Update Medical Condition
+          </button>
+          <button
+            class="cancel-update-medical-condition-btn"
+            type="button"
+            (click)="cancelMedicalConditionUpdate()"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+  
+      <br/>
+      <button (click)="showSection('')">Back to Main Menu</button>
     </section>
 
   <!-- Patient Sections -->

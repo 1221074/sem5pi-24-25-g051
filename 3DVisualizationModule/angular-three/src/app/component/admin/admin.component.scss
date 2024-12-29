@@ -544,8 +544,33 @@ button:active {
   width: 100%; /* Garante que o contêiner use toda a largura necessária */
 }
 
-.editStaffBtn, .editSpecBtn {
+.editStaffBtn, .editSpecBtn, .editMedicalConditionBtn, .editAllergyBtn {
   width: auto;
+}
+
+.cancel-update-allergy-btn, .update-allergy-btn {
+  gap: 5px;
+  margin-right: 5px;
+  width: 35%;
+}
+
+.cancel-update-medical-condition-btn, .update-medical-condition-btn {
+  gap: 5px;
+  margin-right: 5px;
+  width: 48%;
+}
+
+.update-allergy-input, .update-medical-condition-input {
+  display: flex;
+  gap: 5px;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px;
+
+  input{
+    display: flex;
+    width: 100%;
+  }
 }
 
 .staff-edit-name-update{
