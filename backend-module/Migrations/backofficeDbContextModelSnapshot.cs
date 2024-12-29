@@ -217,14 +217,14 @@ namespace backend_module.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.PrimitiveCollection<string>("AssignedEquipment")
+                    b.Property<string>("AssignedEquipment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("MaintenanceSlots")
+                    b.Property<string>("MaintenanceSlots")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -22,7 +22,7 @@ namespace backend_module.Models.SurgeryRoom
             var list = await this._repo.GetAllAsync();
             List<SurgeryRoomDto> listDto = list.ConvertAll(s => new SurgeryRoomDto
             {
-                RoomNumber = s.Id.Value.ToString(),
+                RoomNumber = s.Id.Value,
                 Type = s.Type,
                 Capacity = s.Capacity,
                 AssignedEquipment = s.AssignedEquipment,

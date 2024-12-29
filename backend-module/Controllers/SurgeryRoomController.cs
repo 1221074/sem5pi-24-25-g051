@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend_module.Infraestructure;
 using backend_module.Models.SurgeryRoom;
 
 namespace backend_module.Controllers
@@ -14,95 +7,120 @@ namespace backend_module.Controllers
     [ApiController]
     public class SurgeryRoomController : ControllerBase
     {
-        private readonly backofficeDbContext _context;
+        private readonly SurgeryRoomService _service;
 
-        public SurgeryRoomController(backofficeDbContext context)
+        public SurgeryRoomController(SurgeryRoomService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/SurgeryRoom
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SurgeryRoom>>> GetSurgeryRoom()
+        public async Task<ActionResult<List<SurgeryRoomDto>>> GetAllAsync()
         {
-            return await _context.SurgeryRoom.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
-        // GET: api/SurgeryRoom/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SurgeryRoom>> GetSurgeryRoom(int id)
+        public async Task<ActionResult<SurgeryRoomDto>> GetByIdAsync(Guid id)
         {
-            var surgeryRoom = await _context.SurgeryRoom.FindAsync(id);
+            var surgeryRoom = await _service.GetByIdAsync(new SurgeryRoomId(id));
 
             if (surgeryRoom == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Surgery room not found" });
             }
 
             return surgeryRoom;
         }
 
-        // PUT: api/SurgeryRoom/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSurgeryRoom(int id, SurgeryRoom surgeryRoom)
+        [HttpPost]
+        public async Task<ActionResult<SurgeryRoomDto>> Create(CreatingSurgeryRoomDto surgeryRoomDto)
         {
-            if (id.ToString() != surgeryRoom.Id.Value)
+            try
             {
-                return BadRequest();
-            }
+                var existingRooms = await _service.GetAllAsync();
+                foreach (var room in existingRooms)
+                {
+                    if (room.RoomNumber == surgeryRoomDto.RoomNumber)
+                    {
+                        return BadRequest(new { message = "This room number is already associated with a surgery room." });
+                    }
+                }
 
-            _context.Entry(surgeryRoom).State = EntityState.Modified;
+                var createdRoom = await _service.AddAsync(surgeryRoomDto);
+                if (createdRoom == null)
+                {
+                    return BadRequest(new { message = "Unable to create surgery room." });
+                }
+
+                return CreatedAtAction(nameof(GetByIdAsync), new { id = createdRoom.RoomNumber }, createdRoom);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, SurgeryRoomDto surgeryRoomDto)
+        {
+            if (id.ToString() != surgeryRoomDto.RoomNumber)
+            {
+                return BadRequest(new { message = "Id in the URL does not match the Id in the body" });
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+                var updatedRoom = await _service.UpdateAsync(surgeryRoomDto);
+                if (updatedRoom == null)
+                {
+                    return NotFound(new { message = "Surgery room not found" });
+                }
+
+                return Ok(updatedRoom);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!SurgeryRoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(new { message = ex.Message });
             }
-
-            return NoContent();
         }
 
-        // POST: api/SurgeryRoom
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<SurgeryRoom>> PostSurgeryRoom(SurgeryRoom surgeryRoom)
-        {
-            _context.SurgeryRoom.Add(surgeryRoom);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSurgeryRoom", new { id = surgeryRoom.Id }, surgeryRoom);
-        }
-
-        // DELETE: api/SurgeryRoom/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSurgeryRoom(int id)
+        public async Task<IActionResult> SoftDelete(Guid id)
         {
-            var surgeryRoom = await _context.SurgeryRoom.FindAsync(id);
+            var surgeryRoom = await _service.InactivateAsync(new SurgeryRoomId(id));
+
             if (surgeryRoom == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Surgery room not found" });
             }
 
-            _context.SurgeryRoom.Remove(surgeryRoom);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(surgeryRoom);
         }
 
-        private bool SurgeryRoomExists(int id)
+        [HttpDelete("{id}/hard")]
+        public async Task<IActionResult> HardDelete(Guid id)
         {
-            return _context.SurgeryRoom.Any(e => e.Id.Value == id.ToString());
+            try
+            {
+                var surgeryRoom = await _service.DeleteAsync(new SurgeryRoomId(id));
+                if (surgeryRoom == null)
+                {
+                    return NotFound(new { message = "Surgery room not found" });
+                }
+
+                return Ok(surgeryRoom);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("active")]
+        public async Task<ActionResult<List<SurgeryRoomDto>>> GetActiveAsync()
+        {
+            return await _service.GetAllAsync();
         }
     }
 }

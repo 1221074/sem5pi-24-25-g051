@@ -12,7 +12,7 @@ using backend_module.Infraestructure;
 namespace backend_module.Migrations
 {
     [DbContext(typeof(backofficeDbContext))]
-    [Migration("20241226095750_InitialCreate")]
+    [Migration("20241229105605_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -220,14 +220,14 @@ namespace backend_module.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.PrimitiveCollection<string>("AssignedEquipment")
+                    b.Property<string>("AssignedEquipment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("MaintenanceSlots")
+                    b.Property<string>("MaintenanceSlots")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

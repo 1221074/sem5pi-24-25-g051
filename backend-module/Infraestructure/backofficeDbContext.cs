@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using backend_module.Models;
 using backend_module.Models.Appointment;
 using backend_module.Models.Staff;
 using backend_module.Models.SurgeryRoom;
@@ -14,9 +13,9 @@ using backend_module.Models.Specialization;
 using backend_module.Infraestructure.OperationRequests;
 using backend_module.Models.Patient;
 using backend_module.Infraestructure.Patients;
-using Microsoft.Extensions.Configuration;
-using backend_module.Models.SurgeryRoom;
 using backend_module.Infraestructure.SurgeryRooms;
+using System.Text.Json;
+
 
 namespace backend_module.Infraestructure
 {
@@ -57,7 +56,6 @@ namespace backend_module.Infraestructure
                 v => v.AsString(), 
                 v => new UserNif(v) 
             );
-
             modelBuilder.Entity<OperationRequest>()
             .Property(u => u.Id)
             .HasConversion(
@@ -65,13 +63,20 @@ namespace backend_module.Infraestructure
                 v => new OperationRequestId(v) 
             );
 
-            modelBuilder.Entity<SurgeryRoom>()
-                .Property(e => e.Id)
+            modelBuilder.Entity<SurgeryRoom>(builder => {
+                builder.Property(e => e.AssignedEquipment)
+                    .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()));
+
+            builder.Property(e => e.MaintenanceSlots)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()));
+
+            builder.Property(e => e.Id)
                 .HasConversion(new SurgeryRoomIdConverter());
-        
-
-            
-
+            });           
             modelBuilder.Entity<OperationType>().ToTable("OperationType");
             modelBuilder.Entity<Staff>().ToTable("Staff");
             modelBuilder.Entity<User>().ToTable("User");

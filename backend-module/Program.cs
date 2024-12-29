@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using backend_module.Infraestructure;
 using backend_module.Infraestructure.OperationTypes;
@@ -17,13 +16,9 @@ using backend_module.Infraestructure.OperationRequests;
 using System.Security.Claims;
 using backend_module.Models.Patient;
 using backend_module.Infrastructure.Patients;
-using backend_module.Models;
-using Azure.Core;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using backend_module.Services;
-using Microsoft.Extensions.Configuration;
 using backend_module.Models.File;
+using MongoDB.Driver;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +42,13 @@ builder.Configuration
 // Add DBcontext to the container 
 builder.Services.AddDbContext<backofficeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+  // Configuração do MongoDB
+    var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("MongoDB"));
+    var mongoDatabase = mongoClient.GetDatabase("mongoadmin");
+
+builder.Services.AddSingleton<IMongoDatabase>(mongoDatabase);
+
 
 builder.Services.AddScoped<IOperationRequestRepository, OperationRequestRepository>();
 builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
@@ -107,7 +109,7 @@ builder.Services.AddAuthentication(option =>
         var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
         UserService _service = new UserService(unitOfWork, userRepository);
         var PatientRepository = context.HttpContext.RequestServices.GetRequiredService<IPatientRepository>();
-        PatientService _servicePatient = new PatientService(PatientRepository, unitOfWork);
+        PatientService _servicePatient = new PatientService(PatientRepository, unitOfWork,  context.HttpContext.RequestServices.GetRequiredService<IMongoDatabase>());
 
         var email = context.Principal.FindFirst(ClaimTypes.Email)?.Value;
         UserDto user = await _service.GetByEmailAsync(email);

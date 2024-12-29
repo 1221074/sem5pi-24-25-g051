@@ -49,14 +49,24 @@ namespace backend_module.Controllers
             {
                 // 1. Retrieve patient data (including any cross-service calls to Node.js if needed)
                 var patientData = await _service.GetByIdAsync(new PatientId(id));
-                System.Diagnostics.Debug.WriteLine(patientData);
+                var patientMedicalRecordData = await _service.GetMedicalRecordByPatientIdAsync(id);
+                System.Diagnostics.Debug.WriteLine(patientMedicalRecordData);
 
                 if (patientData == null)
                     return NotFound("Patient not found");
 
-                // 2. Convert patient data to JSON
-                string jsonData = System.Text.Json.JsonSerializer.Serialize(patientData);
-                System.Diagnostics.Debug.WriteLine(jsonData);
+                if (patientMedicalRecordData == null)
+                    return NotFound("Medical record not found");
+
+                    // 3. Combine both into a single object
+                var combinedData = new {
+                    Patient = patientData,
+                    MedicalRecord = patientMedicalRecordData
+                };
+
+                // 4. Convert combined data to JSON
+                string jsonData = System.Text.Json.JsonSerializer.Serialize(combinedData);
+
                 
                 // 3. Generate an encrypted ZIP file from the JSON
                 byte[] zipBytes = ZipEncryptionHelper.CreateEncryptedZip(jsonData, id);

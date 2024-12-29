@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using backend_module.Models.Shared;
+using backend_module.Models.MedicalRecords;
+using MongoDB.Driver;
 
 namespace backend_module.Models.Patient {
     public class PatientService {
@@ -8,9 +10,12 @@ namespace backend_module.Models.Patient {
         private readonly IPatientRepository _Prepo;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PatientService (IPatientRepository Prepo, IUnitOfWork unitOfWork) {
+        readonly IMongoCollection<MedicalRecord> _recordsCollection;
+
+        public PatientService (IPatientRepository Prepo, IUnitOfWork unitOfWork, IMongoDatabase mongoDatabase) {
             _Prepo = Prepo;
             _unitOfWork = unitOfWork;
+            _recordsCollection = mongoDatabase.GetCollection<MedicalRecord>("medicalrecords");
         }
 
         public async Task<List<PatientDTO>> GetAllAsync() {
@@ -319,6 +324,16 @@ namespace backend_module.Models.Patient {
             return PatientMapper.toDTO(P);
 
         }
+
+    public async Task<MedicalRecord> GetMedicalRecordByPatientIdAsync(string patientId) {
+        var filter = Builders<MedicalRecord>.Filter.Eq(mr => mr.patientId, patientId);
+        var record = await _recordsCollection
+            .Find(filter)
+            .FirstOrDefaultAsync();
+
+            return record;
+        }
+
     }
 
 }
