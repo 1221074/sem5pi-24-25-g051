@@ -2,6 +2,7 @@
 .admin-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: flex-start;
   width: 100%;
   gap: 20px; /* Space between sections */
@@ -52,8 +53,8 @@
   font-weight: 700;
   box-sizing: border-box;
 }*/
-.admin-section, .admin-panel, .admin-patient-management, .admin-specialization-management, .admin-staff-management,
-.admin-operation-type-management, .admin-3d-visualization {
+ .admin-patient-management, .admin-specialization-management, .admin-staff-management,
+.admin-operation-type-management {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +64,30 @@
   border-radius: 8px;
   //box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1; /* Ensures all columns have the same width */
+  flex-basis: 15%;
 
+  h1, h2, h3 {
+    border-radius: 50px;
+    text-align: center;
+    //box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+}
+
+.admin-section, .admin-panel, .admin-3d-visualization, .admin-allergy-management, .admin-medical-condition-management {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  flex-basis: 20%; /* Full width */
   h1, h2, h3 {
     border-radius: 50px;
     text-align: center;
@@ -235,7 +259,12 @@ button:active {
   background-color: #f2f2f2;
 }
 
-.allergyBtn {
+.allergySearchInput2 {
+  display: flex;
+  width:auto;
+}
+
+.allergyBtn, .allergyBtn2 {
   width: 20%;
   padding: 4px 10px;
   color: #ffffff;
@@ -488,6 +517,31 @@ button:active {
   width: 70%;
   padding: 15px;
   border-radius: 8px;
+}
+
+.newMedicalConditionContainer {
+  display: flex;
+  align-items: center; /* Alinha verticalmente o input e o botão */
+  gap: 10px; /* Espaçamento horizontal entre o input e o botão */
+  width: 300%; /* Garante que o contêiner use toda a largura necessária */
+}
+
+.newMedicalConditionName, .medicalConditionSearch {
+  width: 70%; /* Faz com que o input ocupe o espaço disponível */
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 5px;
+}
+
+.medicalConditionBtn {
+  width: auto; /* Ajusta o botão para ocupar apenas o espaço necessário */
+  padding: 10px 20px; /* Adiciona algum padding para melhorar a aparência */
+}
+
+.medicalConditionSearch {
+  display: flex;
+  align-items: center; /* Alinha verticalmente o input e o botão */
+  width: 100%; /* Garante que o contêiner use toda a largura necessária */
 }
 
 .editStaffBtn, .editSpecBtn {
