@@ -92,6 +92,7 @@ export class AdminComponent {
   // Allergy Lists
   availableAllergies: Allergy[] = [];
   filteredAllergyList: Allergy[] = [];
+  selectedAllergy: Allergy | null = null;
 
   // Medical Conditions
   availableMedicalConditions: MedicalCondition[] = [];
@@ -319,7 +320,7 @@ async registerSpecialization(specializationName: string) {
     const allergyData = { name: newAllergyName };
 
     try {
-      await this.doctorService.createAllergy(allergyData);
+      await this.adminService.createAllergy(allergyData);
       this.successMessage = 'Allergy registered successfully.';
       this.getAllergies();
     } catch (error) {
@@ -416,6 +417,32 @@ async registerOperationType(name: string, duration: string) {
 
 
 //UPDATE CLASSES ______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+//Allergy =========================================================================================================================================================================================================================================================
+
+editAllergy(allergy: Allergy) {
+  this.selectedAllergy = allergy;
+}
+
+updateAllergy(updatedAllergy: Allergy) {
+  console.log('Updated Allergy:', updatedAllergy);
+  this.adminService.updateAllergy(updatedAllergy).then(
+    response => {
+      this.successMessage = 'Allergy updated successfully.';
+      this.getAllergies();
+    },
+    error => {
+      this.errorMessage = 'Failed to update allergy. Please try again.';
+    }
+  );
+}
+
+cancelAllergyUpdate() {
+  this.selectedAllergy = null;
+  this.errorMessage = '';
+  this.successMessage = '';
+}
 
 //Patient =========================================================================================================================================================================================================================================================
   async updatePatient(id: number, firstName: string,
@@ -605,6 +632,9 @@ async updateStaff() {
     }
   }
 }
+
+
+//Specialization =========================================================================================================================================================================================================================================================
 
 async updateSpecialization() {
   if (!this.selectedSpecialization) {

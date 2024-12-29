@@ -18,7 +18,7 @@
       <button (click)="showSection('3dVisualization')">3D Visualization</button>
     </div>
   </section>
-  
+
 
   <section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
 
@@ -58,7 +58,7 @@
 
     </div>
   </section>
-  
+
   <section class="admin-staff-management" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="admin-staff-management1">
       <h3>Staff Management:</h3>
@@ -85,7 +85,6 @@
       <button (click)="showSection('editSpecialization')">Edit Specialization</button>
       <button (click)="showSection('deleteSpecialization')">Delete Specialization</button>
       <button (click)="showSection('listSpecialization')">List/Search Specialization</button>
-
     </div>
   </section>
 
@@ -205,6 +204,62 @@
 
 
    </section>
+
+
+   <section [style.display]="selectedSection === 'editAllergy' ? 'block' : 'none'">
+    <h2>Edit Allergy</h2>
+    <p>Here you can edit an existing allergy.</p>
+
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let allergy of filteredAllergyList">
+        <td>{{ allergy.name }}</td>
+        <td>
+          <button class="editAllergy" (click)="editAllergy(allergy)">Edit</button>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Update Form -->
+    <div *ngIf="selectedAllergy">
+      <form>
+        <div>
+          <label for="updatedName">Name:</label><br>
+          <input
+            type="text"
+            id="updatedName"
+            [(ngModel)]="selectedAllergy.name"
+            name="Name"
+            placeholder="Name"
+            #updatedNameRef
+            required
+            [value]="selectedAllergy.name"
+          />
+        </div>
+        <br />
+        <button
+          class="update-operation-type-btn"
+          type="button"
+          (click)="updateAllergy(selectedAllergy)"
+        >
+          Update Allergy
+        </button>
+        <button
+          class="cancel-update-operation-type-btn"
+          type="button"
+          (click)="cancelAllergyUpdate()"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+
+    <br/>
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
 
 
    <!-- Add Medical Condition Section -->
@@ -573,7 +628,7 @@
           }
       </style>
     </head>
-    
+
     <h2>Create Specialization</h2>
     <p>Here you can create a new specialization.</p>
     <P>Please enter the following data about the new specialization.</P>
@@ -597,7 +652,7 @@
   <section [style.display]="selectedSection === 'editSpecialization' ? 'block' : 'none'">
     <h2>Edit Specialization</h2>
     <p>Here you can edit an existing specialization.</p>
-  
+
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
@@ -617,11 +672,11 @@
       </tr>
     </table>
     <br>
-  
+
     <!-- Update Form -->
     <div *ngIf="selectedSpecialization">
       <form>
-  
+
       <div class="spec-edit-name-update">
           <label for="updatedSpecializationName">Specialization Name:</label><br>
           <input
@@ -646,7 +701,7 @@
       <button class="cancel-update-spec-btn" type="button" (click)="cancelSpecializationUpdate()">Cancel</button>
     </form>
     </div>
-  
+
     <br>
     <button class="back-menu-btn" (click)="showSection('')">Back to Main Menu</button>
   </section>
@@ -663,7 +718,7 @@
       </tr>
 
       <tr *ngFor="let spec of specializationListToBeDisplayed">
-        <td>{{ spec.specializationName }}</td>      
+        <td>{{ spec.specializationName }}</td>
       <td>
         <button class="spec-delete-button" (click)="submitSpecRemoval(spec.id)">Delete</button>
       </td>
@@ -1189,10 +1244,6 @@
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-
-
-
-
   <section [style.display]="selectedSection === 'removeOperationType' ? 'block' : 'none'">
     <h2>Remove Operation Type</h2>
     <p>Here you can remove an obsolete operation type.</p>
@@ -1224,10 +1275,6 @@
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
-
-
-
-
 
   <section [style.display]="selectedSection === 'listOperationTypes' ? 'block' : 'none'">
     <h2>List/Search Operation Types</h2>

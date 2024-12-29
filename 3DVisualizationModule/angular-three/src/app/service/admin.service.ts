@@ -119,4 +119,56 @@ export class AdminService {
       throw error;
     }
   }
+
+  async createAllergy(allergyData: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + '/allergy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(allergyData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error posting operation request');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
+
+
+  async updateAllergy(allergyData: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + `/allergy/${allergyData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(allergyData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating allergy');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+
+
+
+  }
 }
