@@ -46,6 +46,7 @@ export class DoctorComponent implements OnInit {
   selectedPatient: Patient | null = null;
   selectedOperationTypeId: string = '';
   selectedAllergyId: string = '';
+  selectedMedicalConditionId: string = '';
   selectedSection: string = '';
   selectedConditionId: string = '';
   selectedPriorityState: string = '';
@@ -60,6 +61,7 @@ export class DoctorComponent implements OnInit {
   availableAllergies: Allergy[] = [];
   filteredAllergyList: Allergy[] = [];
   availableMedicalConditions: MedicalCondition[] = [];
+  filteredMedicalConditionList: MedicalCondition[] = [];
   patients: Patient[] = [];
 
   // Patient Data
@@ -94,6 +96,7 @@ export class DoctorComponent implements OnInit {
     this.loadMedicalConditions();
     this.updateList();
     this.filteredAllergyList = this.availableAllergies;
+    this.filteredMedicalConditionList = this.availableMedicalConditions;
   }
 
   // =========================
@@ -138,6 +141,7 @@ export class DoctorComponent implements OnInit {
   async loadMedicalConditions() {
     try {
       this.availableMedicalConditions = await this.doctorService.getSystemMedicalConditions();
+      this.filteredMedicalConditionList = this.availableMedicalConditions;
     } catch (error) {
       this.errorMessage = 'Failed to load medical conditions. Please try again.';
     }
@@ -559,6 +563,31 @@ export class DoctorComponent implements OnInit {
     // Filter allergy list based on query
     this.filteredAllergyList = this.availableAllergies.filter(allergy =>
       allergy?.name?.toLowerCase().includes(lowerQuery)
+    );
+  }
+
+  /**
+   * Searches and filters Medical Conditions based on the query.
+   * @param query - The search query string.
+   */
+  searchMedicalConditions(query: string) {
+    const lowerQuery = query?.toLowerCase() ?? '';
+
+    if (!lowerQuery) {
+      // Reset the list if the query is empty
+      this.filteredMedicalConditionList = this.availableMedicalConditions ?? [];
+      return;
+    }
+
+    if (!this.availableMedicalConditions) {
+      // If the Medical conditions list isn't loaded yet, set to empty array
+      this.filteredMedicalConditionList = [];
+      return;
+    }
+
+    // Filter Medical Conditions list based on query
+    this.filteredMedicalConditionList = this.availableMedicalConditions.filter(medicalCondition =>
+      medicalCondition?.name?.toLowerCase().includes(lowerQuery)
     );
   }
 

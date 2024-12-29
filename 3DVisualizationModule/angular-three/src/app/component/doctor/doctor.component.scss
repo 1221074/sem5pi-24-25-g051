@@ -59,6 +59,24 @@ button:active {
   margin-left: 5px;
 }
 
+.medicalConditionSearch {
+  width: 70%; /* Faz com que o input ocupe o espaço disponível */
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 5px;
+}
+
+.medicalConditionBtn {
+  width: auto; /* Ajusta o botão para ocupar apenas o espaço necessário */
+  padding: 10px 20px; /* Adiciona algum padding para melhorar a aparência */
+}
+
+.medicalConditionSearch {
+  display: flex;
+  align-items: center; /* Alinha verticalmente o input e o botão */
+  width: 60%; /* Garante que o contêiner use toda a largura necessária */
+}
+
 
 
 .registerOperation {

@@ -8,14 +8,16 @@
 
     </div>
 
+    <button (click)="showSection('patientProfileManagement')">Patient Profile Management</button>
     <button (click)="showSection('registerOperation')">Request Operations</button>
     <button (click)="showSection('updateOperation')">Update Operations</button>
     <button (click)="showSection('removeOperation')">Remove Operations</button>
-    <button (click)="showSection('listOperation')">List/Search Operations</button>
-    <button (click)="showSection('searchAllergies')">Search Allergies</button>
-    <button (click)="showSection('updatePatientRecord')">Update Patient Medical Record</button>
     <button (click)="showSection('registerSurgeryAppointment')">Create Surgery Appointment</button>
-    <button (click)="showSection('patientProfileManagement')">Patient Profile Management</button>
+    <button (click)="showSection('listOperation')">Search Operations</button>
+    <button (click)="showSection('searchAllergies')">Search Allergies</button>
+    <button (click)="showSection('searchMedicalConditions')">Search Medical Conditions</button>
+    <button (click)="showSection('updatePatientRecord')">Update Patient Medical Record</button>
+    
   </section>
 
   <!-- Operation Request Section -->
@@ -220,7 +222,7 @@
   <!-- Search Allergies Section -->
   <section [style.display]="selectedSection === 'searchAllergies' ? 'block' : 'none'">
     <p>Search for allergies to update patient medical records.</p>
-    <p>Here's a list with all the default allergies that could be added</p>
+    <p>Here's a list with all the registered allergies.</p>
 
     <label for="allergySearch">Search Allergy:</label>
     <input id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
@@ -231,6 +233,25 @@
     <ul>
       <li *ngFor="let allergy of filteredAllergyList; let i = index">
         {{ allergy.name }}
+      </li>
+    </ul>
+
+    <br><button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Search Medical Conditions Section -->
+  <section [style.display]="selectedSection === 'searchMedicalConditions' ? 'block' : 'none'">
+    <p>Search for medical conditions to update patient medical records.</p>
+    <p>Here's a list with all the registered medical conditions.</p>
+
+    <div class = "medicalConditionSearch">
+      <input class="medicalConditionSearch" #medicalConditionSearch placeholder="Type to search medical conditions..." />
+      <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
+    </div>
+    <!-- List Existing Medical Conditions with Remove Button -->
+    <ul>
+      <li *ngFor="let medicalCondition of filteredMedicalConditionList; let i = index">
+        {{ medicalCondition.name }}
       </li>
     </ul>
 
