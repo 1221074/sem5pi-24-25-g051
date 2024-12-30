@@ -104,8 +104,7 @@ export class AdminService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(allergyData),
-        credentials: 'include',
+        body: JSON.stringify(allergyData)
       });
 
       if (!response.ok) {
@@ -129,8 +128,7 @@ export class AdminService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(allergyData),
-        credentials: 'include',
+        body: JSON.stringify(allergyData)
       });
 
       if (!response.ok) {
@@ -158,8 +156,7 @@ async createMedicalCondition(conditionData: any) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(conditionData),
-      credentials: 'include',
+      body: JSON.stringify(conditionData)
     });
 
     if (!response.ok) {
@@ -181,8 +178,7 @@ async createMedicalCondition(conditionData: any) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(medicalConditionData),
-        credentials: 'include',
+        body: JSON.stringify(medicalConditionData)
       });
 
       if (!response.ok) {

@@ -7,16 +7,22 @@ import Logger from './loaders/logger';
 async function startServer() {
     const app = express();
 
-    app.use((req, res, next) => {
-        res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
-        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.header('Access-Control-Allow-Credentials', 'true');
-        next();
-    });
+    // CORS Configuration
+    const corsOptions: cors.CorsOptions = {
+        origin: 'http://localhost:4000', // Allow requests only from this origin
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed request methods
+        allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+        credentials: false, // Allow cookies if needed
+    };
 
-    app.use(cors());
-    
+
+    // Middleware
+    app.use(cors(corsOptions));
+
+     // Opcional: Para permitir pré-verificações CORS (preflight requests)
+     app.options('*', cors(corsOptions));
+
+
     await require('./loaders').default({ expressApp: app });
 
     app.listen(config.port, () => {

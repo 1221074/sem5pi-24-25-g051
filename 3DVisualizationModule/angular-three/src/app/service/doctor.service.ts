@@ -125,8 +125,7 @@ export class DoctorService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(patientData),
-        credentials: 'include',
+        body: JSON.stringify(patientData)
       });
 
       if (!response.ok) {
@@ -149,8 +148,7 @@ export class DoctorService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
-        credentials: 'include',
+        body: JSON.stringify(data)
       });
       if (!response.ok) {
         const errorData = await response.json();
