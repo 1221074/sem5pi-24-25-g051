@@ -5,5 +5,6 @@ export default interface IMedicalRecordService  {
   createMedicalRecord(medicalrecordDTO: IMedicalRecordDTO): Promise<Result<IMedicalRecordDTO>>;
   updateMedicalRecord(id: string, medicalrecordDTO: Partial<IMedicalRecordDTO>): Promise<Result<IMedicalRecordDTO>>;
   getMedicalRecord(medicalrecordId: string): Promise<Result<IMedicalRecordDTO>>;
+  getMedicalRecordByPatientId(patientId: string): Promise<Result<IMedicalRecordDTO>>;
   getAllMedicalRecords(): Promise<IMedicalRecordDTO[]>;
 }

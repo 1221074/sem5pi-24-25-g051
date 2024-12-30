@@ -28,6 +28,7 @@ export class MedicalRecordMap extends Mapper<MedicalRecord> {
   }
 
   public static toPersistence (medicalRecord: MedicalRecord): any {
+
     return {
         domainId: medicalRecord.id.toString(),
         patientId: medicalRecord.patientId,

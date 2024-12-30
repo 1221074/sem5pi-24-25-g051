@@ -15,6 +15,7 @@ export default class MedicalRecordRepo implements IMedicalRecordRepo {
     @Inject('MedicalRecordSchema') private medicalrecordSchema: Model<IMedicalRecordPersistence & Document>,
     @Inject('logger') private logger
   ) {}
+
   
  
   private createBaseQuery(): any {
@@ -39,12 +40,11 @@ export default class MedicalRecordRepo implements IMedicalRecordRepo {
 
     const medicalrecordDocument = await this.medicalrecordSchema.findOne(query);
 
-    console.log('medicalRecordDocument', medicalrecordDocument);
     try {
       if (medicalrecordDocument === null) {
         const rawMedicalRecord: any = MedicalRecordMap.toPersistence(medicalrecord);
 
-        console.log('rawMedicalRecord', rawMedicalRecord);
+      
 
         const medicalRecordCreated = await this.medicalrecordSchema.create(rawMedicalRecord);
 
@@ -65,7 +65,18 @@ export default class MedicalRecordRepo implements IMedicalRecordRepo {
 
   public async findByDomainId(medicalRecordId: MedicalRecordId | string): Promise<MedicalRecord> {
     const query = { domainId: medicalRecordId };
-    const medicalrecordRecord = (await this.medicalrecordSchema.findOne(query as FilterQuery<IMedicalRecordPersistence & Document>)).populated('allergies').populated('medicalConditions');
+    const medicalrecordRecord = (await this.medicalrecordSchema.findOne(query as FilterQuery<IMedicalRecordPersistence & Document>));
+
+    if (medicalrecordRecord != null) {
+      return MedicalRecordMap.toDomain(medicalrecordRecord);
+    } else {
+      return null;
+    }
+  }
+
+  public async findByPatientId(patientId: string): Promise<MedicalRecord> {
+    const query = { patientId: patientId };
+    const medicalrecordRecord = (await this.medicalrecordSchema.findOne(query as FilterQuery<IMedicalRecordPersistence & Document>));
 
     if (medicalrecordRecord != null) {
       return MedicalRecordMap.toDomain(medicalrecordRecord);

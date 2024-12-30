@@ -3,14 +3,15 @@ import { Inject, Service } from 'typedi';
 import { Result } from "../core/logic/Result";
 import config from "../../config";
 import IMedicalRecordService from '../Services/IServices/IMedicalRecordService';
-import  { IMedicalRecordDTO } from '../dto/IMedicalRecordDTO';
+import { IMedicalRecordDTO } from '../dto/IMedicalRecordDTO';
 import IMedicalRecordController from './IControllers/IMedicalRecordController';
 
 @Service()
 export default class MedicalRecordController implements IMedicalRecordController {
   constructor(
-      @Inject(config.services.medicalRecord.name) private medicalRecordServiceInstance : IMedicalRecordService
-  ) {}
+    @Inject(config.services.medicalRecord.name) private medicalRecordServiceInstance: IMedicalRecordService
+  ) { }
+
 
   public async createMedicalRecord(req: Request, res: Response, next: NextFunction) {
     try {
@@ -21,7 +22,7 @@ export default class MedicalRecordController implements IMedicalRecordController
       }
 
       const medicalRecordDTO = medicalRecordOrError.getValue();
-      return res.json( medicalRecordDTO ).status(201);
+      return res.json(medicalRecordDTO).status(201);
     }
     catch (e) {
       return next(e);
@@ -37,7 +38,7 @@ export default class MedicalRecordController implements IMedicalRecordController
       }
 
       const medicalRecordDTO = medicalRecordOrError.getValue();
-      return res.status(201).json( medicalRecordDTO );
+      return res.status(201).json(medicalRecordDTO);
     }
     catch (e) {
       return next(e);
@@ -69,4 +70,21 @@ export default class MedicalRecordController implements IMedicalRecordController
       return next(e);
     }
   };
+
+  public async getMedicalRecordByPatientId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const patientId = req.params.patientId;
+      const medicalRecord = await this.medicalRecordServiceInstance.getMedicalRecordByPatientId(patientId);
+      
+      if (!medicalRecord) {
+        res.status(404).json({ message: 'Medical Record not found' });
+        return;
+      }
+
+      res.status(200).json(medicalRecord);
+    } catch (error: any) {
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+  };
+
 }

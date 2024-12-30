@@ -1,8 +1,8 @@
 export interface IMedicalRecordDTO {
     id: string;
     patientId: string;
-    allergies: object[];
-    medicalConditions: object[];
+    allergies: string[];
+    medicalConditions: string[];
     freeText: string
   }
   

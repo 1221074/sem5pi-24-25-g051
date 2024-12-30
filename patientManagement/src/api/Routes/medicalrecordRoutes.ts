@@ -24,9 +24,9 @@ export default (app: Router) => {
   route.patch('/:id',
     celebrate({
       body: Joi.object({
-        allergies: Joi.array().required(),
-        medicalConditions: Joi.array().required(),
-        freeText: Joi.string().required()
+        allergies: Joi.array().optional(),
+        medicalConditions: Joi.array().optional(),
+        freeText: Joi.string().optional()
       }),
       params: Joi.object({
         id: Joi.string().required()

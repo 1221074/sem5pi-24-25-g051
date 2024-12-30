@@ -303,7 +303,7 @@
       <div class="form-field">
         <label for="addCondition">Add Medical Condition:</label>
         <select id="addCondition" [(ngModel)]="selectedConditionId">
-          <option *ngFor="let condition of availableMedicalConditions" [value]="condition._id">{{ condition.name }}
+          <option *ngFor="let condition of availableMedicalConditions" [value]="condition.id">{{ condition.name }}
           </option>
         </select>
         <button class="allergyBtn" type="button"
@@ -326,7 +326,7 @@
       <div class="form-field">
         <label for="addAllergy">Add Allergy:</label>
         <select id="addAllergy" [(ngModel)]="selectedAllergyId">
-          <option *ngFor="let allergy of availableAllergies" [value]="allergy._id">{{ allergy.name }}</option>
+          <option *ngFor="let allergy of availableAllergies" [value]="allergy.id">{{ allergy.name }}</option>
         </select>
         <button class="allergyBtn" type="button" (click)="updatePatientAllergy(selectedAllergyId)">Add</button>
       </div>

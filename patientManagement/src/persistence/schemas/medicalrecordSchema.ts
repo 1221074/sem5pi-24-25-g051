@@ -15,12 +15,12 @@ const MedicalRecordSchema = new mongoose.Schema(
       maxlength: [100, 'name can not be more than 100 characters']
     }, 
     allergies: [{
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.String,
       ref: 'Allergy',
       required: true
     }],
     medicalConditions: [{
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.String,
       ref: 'MedicalCondition',
       required: true
     }],

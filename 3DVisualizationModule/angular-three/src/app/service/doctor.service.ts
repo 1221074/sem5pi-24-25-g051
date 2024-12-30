@@ -134,7 +134,7 @@ export class DoctorService {
   async updatePatientMedicalRecord(id: string, patientData: any) {
     try {
       const response = await fetch(environment.apiURL2 + '/medicalrecord/' + id, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },

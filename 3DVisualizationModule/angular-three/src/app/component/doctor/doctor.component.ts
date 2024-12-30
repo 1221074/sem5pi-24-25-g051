@@ -131,6 +131,7 @@ export class DoctorComponent implements OnInit {
   async loadAllergies() {
     try {
       this.availableAllergies = await this.doctorService.getSystemAllergies();
+      console.log(this.availableAllergies);
       this.filteredAllergyList = this.availableAllergies;
     } catch (error) {
       this.errorMessage = 'Failed to load allergies. Please try again.';
@@ -141,6 +142,7 @@ export class DoctorComponent implements OnInit {
   async loadMedicalConditions() {
     try {
       this.availableMedicalConditions = await this.doctorService.getSystemMedicalConditions();
+      console.log(this.availableMedicalConditions);
       this.filteredMedicalConditionList = this.availableMedicalConditions;
     } catch (error) {
       this.errorMessage = 'Failed to load medical conditions. Please try again.';
@@ -429,13 +431,20 @@ export class DoctorComponent implements OnInit {
       return;
     }
 
-
-
     try {
       this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
       //update medical conditions array with the new condition
-      this.patientMedicalRecord.medicalConditions.push(medicalConditionId as unknown as MedicalCondition);
-      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+      if (!this.patientMedicalRecord.medicalConditions.includes(medicalConditionId)) {
+        this.patientMedicalRecord.allergies.push(medicalConditionId);
+      }
+
+      const dataToBeAltered = {
+        allergies: this.patientMedicalRecord.allergies,
+        medicalConditions: this.patientMedicalRecord.medicalConditions,
+        freeText: this.patientMedicalRecord.freeText
+      }
+
+      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, dataToBeAltered);
       this.selectedConditionId = '';
     } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
@@ -461,11 +470,16 @@ export class DoctorComponent implements OnInit {
     try {
       this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
       //update allergies array with the new allergy (verify it isn't already in the patientAllergies)
-      if (!this.patientMedicalRecord.allergies.includes(allergyId as unknown as Allergy))
-        this.patientMedicalRecord.allergies.push(allergyId as unknown as Allergy);
+     if (!this.patientMedicalRecord.allergies.includes(allergyId))
+      this.patientMedicalRecord.allergies.push(allergyId);
 
-      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
+     const dataToBeAltered = {
+        allergies: this.patientMedicalRecord.allergies,
+        medicalConditions: this.patientMedicalRecord.medicalConditions,
+        freeText: this.patientMedicalRecord.freeText
+     }
 
+      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, dataToBeAltered);
       this.selectedAllergyId = '';
       this.clearPatientValue();
 
@@ -611,14 +625,20 @@ export class DoctorComponent implements OnInit {
       return;
     }
 
-    try {
+  try {
       const record = await this.patientService.getPatientMedicalRecord(patientId);
       this.patientMedicalRecord = record;
       console.log(record);
-      this.patientMedicalConditions = record.medicalConditions as MedicalCondition[] || [];
-      this.patientAllergies = record.allergies as Allergy[] || [];
-      this.patientFreeText = record.freeText || '';
-    } catch (error) {
+
+      // Filtrar corretamente as alergias com base no domainId
+      this.patientAllergies = this.availableAllergies.filter(allergy => record.allergies.includes(allergy.id.toString()));
+
+    // Filtrar corretamente as condições médicas com base no domainId
+    this.patientMedicalConditions = this.availableMedicalConditions.filter(medicalCondition => record.medicalConditions.includes(medicalCondition.id));
+
+
+    this.patientFreeText = record.freeText || '';
+  } catch (error) {
       this.errorMessage = 'Unable to fetch patient medical record.';
     }
   }
@@ -674,8 +694,7 @@ export class DoctorComponent implements OnInit {
       this.patientAllergies = [];
       return;
     }
-    console.log(this.selectedPatientId);
-    console.log(this.selectedPatient);
+
 
     try {
       this.selectedPatient = await this.patientService.getPatientById(this.selectedPatientId);

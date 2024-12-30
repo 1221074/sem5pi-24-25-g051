@@ -13,8 +13,8 @@ export default class MedicalRecordService implements IMedicalRecordService {
   constructor(
     @Inject(config.repos.medicalRecord.name) private medicalRecordRepo: IMedicalRecordRepo,
     @Inject('logger') private logger
-  ) {}
-   
+  ) { }
+
   /**
    * Creates and saves a new medical record.
    * @param medicalRecordDTO IMedicalRecordDTO
@@ -47,7 +47,7 @@ export default class MedicalRecordService implements IMedicalRecordService {
    */
   public async getMedicalRecord(id: string): Promise<Result<IMedicalRecordDTO>> {
     try {
-      const medicalRecord = await this.medicalRecordRepo.findByDomainId(id);
+      const medicalRecord = await this.medicalRecordRepo.findByPatientId(id);
 
       if (medicalRecord === null) {
         return Result.fail<IMedicalRecordDTO>('Medical record not found');
@@ -98,13 +98,34 @@ export default class MedicalRecordService implements IMedicalRecordService {
   public async getAllMedicalRecords(): Promise<IMedicalRecordDTO[]> {
     try {
       const medicalRecords = await this.medicalRecordRepo.getAllMedicalRecords();
-     
+
       return medicalRecords.map((medicalRecord) => {
         return MedicalRecordMap.toDTO(medicalRecord) as IMedicalRecordDTO;
       });
     } catch (error) {
       this.logger.error(`Error fetching medical records: ${error.message}`);
       throw new Error(`Error fetching medical records: ${error.message}`);
+    }
+  }
+
+  /**
+   * Fetches a medical record by patient ID.
+   * @param patientId string
+   * @returns Promise<IMedicalRecordDTO>
+   */
+  public async getMedicalRecordByPatientId(patientId: string):  Promise<Result<IMedicalRecordDTO>> {
+    try {
+      const medicalRecord = await this.medicalRecordRepo.findByPatientId(patientId);
+
+      if (!medicalRecord) {
+        return Result.fail<IMedicalRecordDTO>('Medical Record not found for the patient id given.');
+      }
+
+      const medicalRecordDTO = MedicalRecordMap.toDTO(medicalRecord) as IMedicalRecordDTO;
+      return Result.ok<IMedicalRecordDTO>(medicalRecordDTO);
+    } catch (error: any) {
+      this.logger.error(`Error in obtaining the medical record of the patient: ${error.message}`);
+      return Result.fail<IMedicalRecordDTO>('Internal error in retriving the medical record.');
     }
   }
 }

@@ -6,8 +6,8 @@ import { Designation } from "../shared/designation";
 
 interface MedicalRecordProps {
   patientId: string;
-  allergies: object[];
-  medicalConditions: object[];
+  allergies: string[];
+  medicalConditions: string[];
   freeText: string;
 }
 
@@ -24,19 +24,19 @@ export class MedicalRecord extends AggregateRoot<MedicalRecordProps> {
     this.props.patientId = value;
 };
 
-  get allergies(): object[] {
+  get allergies(): string[] {
     return this.props.allergies;
   }
 
-  set allergies(value: object[]) {
+  set allergies(value: string[]) {
     this.props.allergies = value;
   }
 
-  get medicalConditions(): object[] {
+  get medicalConditions(): string[] {
     return this.props.medicalConditions;
   }
 
-  set medicalConditions(value: object[]) {
+  set medicalConditions(value: string[]) {
     this.props.medicalConditions = value;
   }
 
