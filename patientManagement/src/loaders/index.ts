@@ -19,6 +19,11 @@ export default async ({ expressApp }) => {
     schema: "../persistence/schemas/medicalconditionSchema"
   } 
 
+  const medicalRecordSchema = {
+    name: "MedicalRecordSchema",
+    schema: "../persistence/schemas/medicalrecordSchema"
+  }
+
 
   const allergiesController = {
     name: config.controllers.allergy.name,
@@ -28,7 +33,12 @@ export default async ({ expressApp }) => {
   const medicalConditionController = {
     name: config.controllers.medicalCondition.name,
     path: config.controllers.medicalCondition.path
-    }
+  }
+
+  const medicalRecordController = {
+    name: config.controllers.medicaRecord.name,
+    path: config.controllers.medicaRecord.path
+  }
 
   const allergiesRepo = {
     name: config.repos.allergy.name,
@@ -38,6 +48,11 @@ export default async ({ expressApp }) => {
   const medicalConditionRepo = {
     name: config.repos.medicalCondition.name, 
     path: config.repos.medicalCondition.path
+  }
+
+  const medicalRecordRepo = {
+    name: config.repos.medicalRecord.name,
+    path: config.repos.medicalRecord.path
   }
 
   const allergiesService = {
@@ -50,24 +65,33 @@ export default async ({ expressApp }) => {
     path: config.services.medicalCondition.path
   }
 
+  const medicalRecordService = {
+    name: config.services.medicalRecord.name,
+    path: config.services.medicalRecord.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       allergiesSchema,
-      medicalConditionSchema
+      medicalConditionSchema,
+      medicalRecordSchema
     ],
     controllers: [
       allergiesController,
-      medicalConditionController
+      medicalConditionController,
+      medicalRecordController
     ],
     repos: [
       allergiesRepo,
-      medicalConditionRepo
+      medicalConditionRepo,
+      medicalRecordRepo
       
     ],
     services: [
       allergiesService,
-      medicalConditionService
+      medicalConditionService,
+      medicalRecordService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
