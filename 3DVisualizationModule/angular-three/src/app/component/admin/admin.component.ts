@@ -301,13 +301,17 @@ async registerSpecialization(specializationName: string) {
    * Registers a new allergy in the system.
    * @param newAllergyName - The name of the new allergy.
    */
-  async registerAllergy(newAllergyName: string) {
+  async registerAllergy(newAllergyName: string, newAllergyDescription: string) {
     // Reset messages
     this.errorMessage = '';
     this.successMessage = '';
 
     // Validate input
     if (!newAllergyName) {
+      this.errorMessage = 'Please fill the required field.';
+      return;
+    }
+    if (!newAllergyDescription) {
       this.errorMessage = 'Please fill the required field.';
       return;
     }
@@ -318,7 +322,7 @@ async registerSpecialization(specializationName: string) {
       return;
     }
 
-    const allergyData = { name: newAllergyName };
+    const allergyData = { name: newAllergyName, description: newAllergyDescription };
 
     try {
       await this.adminService.createAllergy(allergyData);
@@ -333,13 +337,17 @@ async registerSpecialization(specializationName: string) {
    * Registers a new medical condition in the system.
    * @param newMedicalConditionName - The name of the new Medical Condition.
    */
-  async registerMedicalCondition(newMedicalConditionName: string) {
+  async registerMedicalCondition(newMedicalConditionName: string, newMedicalConditionDescription: string) {
     // Reset messages
     this.errorMessage = '';
     this.successMessage = '';
 
     // Validate input
     if (!newMedicalConditionName) {
+      this.errorMessage = 'Please fill the required field.';
+      return;
+    }
+    if (!newMedicalConditionDescription) {
       this.errorMessage = 'Please fill the required field.';
       return;
     }
@@ -350,7 +358,7 @@ async registerSpecialization(specializationName: string) {
       return;
     }
 
-    const medicalConditionData = { name: newMedicalConditionName };
+    const medicalConditionData = { name: newMedicalConditionName, description: newMedicalConditionDescription };
 
     try {
       await this.doctorService.createMedicalCondition(medicalConditionData);
@@ -1041,7 +1049,7 @@ updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[])
 
     // Filter allergy list based on query
     this.filteredAllergyList = this.availableAllergies.filter(allergy =>
-      allergy?.name?.toLowerCase().includes(lowerQuery)
+      allergy?.name?.toLowerCase().includes(lowerQuery) || allergy?.description?.toLowerCase().includes(lowerQuery)
     );
   }
 
@@ -1067,7 +1075,7 @@ updateOperationTypeListSearch(filteredOperationTypeList: OperationTypeDisplay[])
 
     // Filter Medical Conditions list based on query
     this.filteredMedicalConditionList = this.availableMedicalConditions.filter(medicalCondition =>
-      medicalCondition?.name?.toLowerCase().includes(lowerQuery)
+      medicalCondition?.name?.toLowerCase().includes(lowerQuery) || medicalCondition?.description?.toLowerCase().includes(lowerQuery)
     );
   }
 

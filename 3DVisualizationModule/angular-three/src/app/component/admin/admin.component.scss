@@ -541,6 +541,13 @@ button:active {
   margin-top: 2px;
 }
 
+.medicalConditionExtraButtons {
+  display: flex;
+  align-items: left; /* Alinha verticalmente os botões */
+  gap: 5px; /* Espaçamento horizontal entre os botões */
+  width: 500px; /* Garante que o contêiner use toda a largura necessária */
+}
+
 .medicalConditionBtn, .allergyBtn, .allergyBtn2 {
   width: auto; /* Ajusta o botão para ocupar apenas o espaço necessário */
   padding: 10px 20px; /* Adiciona algum padding para melhorar a aparência */
