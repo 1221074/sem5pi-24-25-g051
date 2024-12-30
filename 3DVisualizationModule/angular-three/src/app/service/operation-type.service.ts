@@ -15,12 +15,12 @@ export class OperationTypeService {
     return await data.json() ?? [];
   }
 
-  async getOperationTypeById(id: string): Promise<OperationType | undefined> {
+  async getOperationTypeById(id: string): Promise<OperationType> {
     const data = await fetch(`${this.url}/${id}`);
         return await data.json() ?? [];
   }
 
-  async getOperationTypeByName(name: string): Promise<OperationType | undefined> {
+  async getOperationTypeByName(name: string): Promise<OperationType> {
     const data = await fetch(`${this.url}/name/${name}`);
     return await data.json() ?? [];
   }

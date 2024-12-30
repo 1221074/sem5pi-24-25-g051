@@ -23,6 +23,8 @@ export class DoctorService {
         return await data.json() ?? [];
   }
 
+// SYSTEM DATA =================================================================================================
+
   async getSystemAllergies(): Promise<Allergy[]> {
     const data = await fetch(environment.apiURL2 + '/allergy');
     return await data.json() ?? [];
@@ -32,6 +34,13 @@ export class DoctorService {
     const data = await fetch(environment.apiURL2 + '/medicalcondition');
     return await data.json() ?? [];
   }
+
+  async getSystemMedicalRecords(): Promise<MedicalRecord[]> {
+    const data = await fetch(environment.apiURL2 + '/medicalrecord');
+    return await data.json() ?? [];
+  }
+
+//OPERATION REQUEST =================================================================================================
 
   async postOperationRequest(operationData: any) {
     try {
@@ -107,29 +116,7 @@ export class DoctorService {
   }
 
 
-  async createMedicalCondition(conditionData: any) {
-    try {
-      const response = await fetch(environment.apiURL2 + '/medicalcondition', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(conditionData),
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error posting operation request');
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle or rethrow the error as appropriate
-      throw error;
-    }
-  }
+  //MEDICAL RECORD =================================================================================================
 
   async updatePatientMedicalRecord(id: string, patientData: any) {
     try {
@@ -151,6 +138,27 @@ export class DoctorService {
     } catch (error) {
       console.error('Error:', error);
       // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
+
+  async createMedicalRecord(data: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + '/medicalrecord', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error creating medical record');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
       throw error;
     }
   }

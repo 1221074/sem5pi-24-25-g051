@@ -63,6 +63,7 @@ export class DoctorComponent implements OnInit {
   availableMedicalConditions: MedicalCondition[] = [];
   filteredMedicalConditionList: MedicalCondition[] = [];
   patients: Patient[] = [];
+  patientsWithoutMedicalRecord: Patient[] = [];
 
   // Patient Data
   patientMedicalRecord: MedicalRecord | undefined;
@@ -109,6 +110,9 @@ export class DoctorComponent implements OnInit {
   async loadPatients() {
     try {
       this.patients = await this.patientService.getAllPatients();
+      const medicalRecords = await this.doctorService.getSystemMedicalRecords();
+      this.patientsWithoutMedicalRecord = this.patients.filter(patient => !medicalRecords.find(record => record.patientId === patient.id.toString()));
+
     } catch (error) {
       this.errorMessage = 'Failed to load patients. Please try again.';
     }
@@ -219,8 +223,8 @@ export class DoctorComponent implements OnInit {
    * @param priorityState - The priority state of the operation.
    */
   async registerOperation(
-    patientName: string,
-    operationTypeName: string,
+    patientId: string,
+    operationTypeId: string,
     deadlineDate: string,
     priorityState: string
   ) {
@@ -230,7 +234,7 @@ export class DoctorComponent implements OnInit {
     const doctorId = this.authService.getUserId() as string;
 
     // Validate required fields
-    if (!patientName || !operationTypeName || !deadlineDate || !priorityState) {
+    if (!patientId || !operationTypeId || !deadlineDate || !priorityState) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }
@@ -238,15 +242,6 @@ export class DoctorComponent implements OnInit {
     // Validate deadline date is in the future
     if (new Date(deadlineDate) <= new Date()) {
       this.errorMessage = 'Deadline date must be in the future.';
-      return;
-    }
-
-    // Retrieve patient and operation type IDs based on names
-    const patientId = this.patientService.getPatientByName(patientName);
-    const operationTypeId = this.operationTypeService.getOperationTypeByName(operationTypeName);
-
-    if (!patientId || !operationTypeId) {
-      this.errorMessage = 'Patient or operation type not found. Insert valid data.';
       return;
     }
 
@@ -260,6 +255,26 @@ export class DoctorComponent implements OnInit {
 
     try {
       await this.doctorService.postOperationRequest(operationData);
+
+      // Add the date to the appointmentList in the patient
+      const patient = await this.patientService.getPatientById(patientId);
+      patient.appointmentList.push(deadlineDate);
+
+      const updatedPatientData = {
+        id: patient.id,
+        firstName: patient.firstName,
+        lastName: patient.lastName,
+        fullName: patient.fullName,
+        birthDate: patient.birthDate,
+        sex: patient.sex,
+        email: patient.email,
+        phone: patient.phone,
+        emergencyContact: patient.emergencyContact,
+        appointmentList: patient.appointmentList,
+        allergyList: patient.allergyList
+      };
+
+      await this.patientService.updatePatient(patientId, updatedPatientData);
       this.successMessage = 'Operation registered successfully.';
       this.updateList();
     } catch (error: any) {
@@ -351,6 +366,31 @@ export class DoctorComponent implements OnInit {
     } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
     }
+  }
+
+  async registerPatientMedicalRecord(patientId: string) {
+        // Reset messages
+        this.errorMessage = '';
+        this.successMessage = '';
+
+        // Validate required fields
+        if (!this.selectedPatientId || !patientId) {
+          this.errorMessage = 'Please fill in all required fields.';
+          return;
+        }
+
+        try {
+          const dataToBeInserted = {
+            patientId: this.selectedPatientId,
+            allergies: [],
+            medicalConditions: [],
+            freeText: ''
+          };
+          await this.doctorService.createMedicalRecord(dataToBeInserted);
+
+        } catch (error) {
+          this.errorMessage = 'An error occurred while creating the patient medical record. Please try again.';
+        }
   }
 
   // ===========================================================================================================

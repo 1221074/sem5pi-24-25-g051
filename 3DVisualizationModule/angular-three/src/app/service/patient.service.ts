@@ -15,6 +15,8 @@ export class PatientService {
 
   constructor() {}
 
+// PATIENT/MEDICALRECORD (GET) =================================================================================================
+
   async getAllPatients(): Promise<Patient[]> {
     const data = await fetch(this.url);
     return await data.json() ?? [];
@@ -41,9 +43,10 @@ export class PatientService {
   }
 
 
-
+// PATIENT (PUT, DELETE) =================================================================================================
 
   async updatePatient(id: string, patientData: any) {
+    console.log(patientData);
     try {
       const response = await fetch(`${this.url}/${id}`, {
         method: 'PUT',

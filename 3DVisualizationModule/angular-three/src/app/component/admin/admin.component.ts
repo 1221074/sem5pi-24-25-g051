@@ -361,7 +361,7 @@ async registerSpecialization(specializationName: string) {
     const medicalConditionData = { name: newMedicalConditionName, description: newMedicalConditionDescription };
 
     try {
-      await this.doctorService.createMedicalCondition(medicalConditionData);
+      await this.adminService.createMedicalCondition(medicalConditionData);
       this.successMessage = 'Medical Condition registered successfully.';
       this.getMedicalConditions();
     } catch (error) {
