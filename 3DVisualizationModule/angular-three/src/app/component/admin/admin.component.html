@@ -160,26 +160,13 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-    <label for="allergySearch">Search Allergy:</label>
-    <br>
-    <input class="allergySearch" #allergySearch placeholder="Type to search allergies..." />
-
-    <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
-
-    <!-- List Existing Allergies with Remove Button -->
-    <ul>
-      <li *ngFor="let allergy of filteredAllergyList; let i = index">
-        {{ allergy.name }}
-      </li>
-    </ul>
-
     <!-- Add New Allergy -->
     <label for="newAllergyName">New Allergy:</label>
     <br>
     <br>
     <input class="newAllergyName" #newAllergyName placeholder="Name" />
     <input class="newAllergyDescription" #newAllergyDescription placeholder="Description" />
-    <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
+    <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value, newAllergyDescription.value)">Add</button><br><br>
 
     <br><button (click)="showSection('')">Back to Main Menu</button>
 
@@ -194,16 +181,22 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-    <input class="allergySearchInput2" #allergySearch2 placeholder="Type to search allergies..." />
-
-    <button class="allergyBtn2" (click)="searchAllergies(allergySearch2.value)">Search</button>
+    <div class = "medicalConditionSearch">
+      <input class="medicalConditionSearch" #allergySearch2 placeholder="Type to search allergies..." />
+      <button class="medicalConditionBtn" (click)="searchAllergies(allergySearch2.value)">Search</button>
+    </div>
 
     <!-- List Existing Allergies with Remove Button -->
-    <ul>
-      <li *ngFor="let allergy of filteredAllergyList; let i = index">
-        {{ allergy.name }}
-      </li>
-    </ul>
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      <tr *ngFor="let allergy of filteredAllergyList">
+        <td>{{ allergy.name }}</td>
+        <td>{{ allergy.description }}</td>
+      </tr>
+    </table>
     <br><button (click)="showSection('')">Back to Main Menu</button>
 
 
@@ -221,10 +214,12 @@
     <table class="table-display">
       <tr>
         <th>Name</th>
+        <th>Description</th>
         <th>Action</th>
       </tr>
       <tr *ngFor="let allergy of filteredAllergyList">
         <td>{{ allergy.name }}</td>
+        <td>{{ allergy.description }}</td>
         <td>
           <button class="editAllergyBtn" (click)="editAllergy(allergy)">Edit</button>
         </td>
@@ -247,8 +242,21 @@
             required
             [value]="selectedAllergy.name"
           />
+          <label for="updatedDescription">Description:</label><br>
+            <input
+              class="update-allergy-input"
+              type="text"
+              id="updatedDescription"
+              [(ngModel)]="selectedAllergy.description"
+              name="Description"
+              placeholder="Description"
+              #updatedNameRef
+              required
+              [value]="selectedAllergy.description"
+            />
         </div>
         <br />
+        <div class = "medicalConditionExtraButtons">
         <button
           class="update-allergy-btn"
           type="button"
@@ -263,6 +271,7 @@
         >
           Cancel
         </button>
+      </div>
       </form>
     </div>
 
@@ -287,12 +296,12 @@
     <div class="newMedicalCondition">
       <input class="newMedicalConditionName" #newMedicalConditionName placeholder="Name" />
       <input class="newMedicalConditionDescription" #newMedicalConditionDescription placeholder="Description" />
-      <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value)">Add</button><br><br>
+      <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value, newMedicalConditionDescription.value)">Add</button><br><br>
     </div>
     <br><button (click)="showSection('')">Back to Main Menu</button>
    </section>
 
-
+<!-- List Medical Conditions -->
    <section [style.display]="selectedSection === 'listMedicalCondition' ? 'block' : 'none'">
     <h2>List/Search Medical Conditions</h2>
     <p>Here you can list or search for medical conditions.</p>
@@ -305,12 +314,17 @@
       <input class="medicalConditionSearch" #medicalConditionSearch placeholder="Type to search medical conditions..." />
       <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
     </div>
-    <!-- List Existing Allergies with Remove Button -->
-    <ul>
-      <li *ngFor="let medicalCondition of filteredMedicalConditionList; let i = index">
-        {{ medicalCondition.name }}
-      </li>
-    </ul>
+    <!-- List Existing Medical Conditions with Remove Button -->
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      <tr *ngFor="let medicalCondition of filteredMedicalConditionList">
+        <td>{{ medicalCondition.name }}</td>
+        <td>{{ medicalCondition.description }}</td>
+      </tr>
+    </table>
     <br><button (click)="showSection('')">Back to Main Menu</button>
 
     </section>
@@ -322,7 +336,7 @@
       <!-- Display success or error messages -->
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-  
+
       <table class="table-display">
         <tr>
           <th>Name</th>
@@ -337,7 +351,7 @@
           </td>
         </tr>
       </table>
-  
+
       <!-- Update Form -->
       <div *ngIf="selectedMedicalCondition">
         <form>
@@ -354,6 +368,7 @@
               required
               [value]="selectedMedicalCondition.name"
             />
+            <label for="updatedDescription">Description:</label><br>
             <input
               class="update-medical-condition-input"
               type="text"
@@ -367,6 +382,7 @@
             />
           </div>
           <br />
+          <div class = "medicalConditionExtraButtons">
           <button
             class="update-medical-condition-btn"
             type="button"
@@ -381,9 +397,10 @@
           >
             Cancel
           </button>
+        </div>
         </form>
       </div>
-  
+
       <br/>
       <button (click)="showSection('')">Back to Main Menu</button>
     </section>
