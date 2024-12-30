@@ -17,7 +17,7 @@
     <button (click)="showSection('searchAllergies')">Search Allergies</button>
     <button (click)="showSection('searchMedicalConditions')">Search Medical Conditions</button>
     <button (click)="showSection('updatePatientRecord')">Update Patient Medical Record</button>
-    
+
   </section>
 
   <!-- Operation Request Section -->
@@ -225,16 +225,21 @@
     <p>Here's a list with all the registered allergies.</p>
 
     <label for="allergySearch">Search Allergy:</label>
-    <input id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
+    <input class="medicalConditionSearch" id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
 
-    <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+    <button class="medicalConditionBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
 
     <!-- List Existing Allergies with Remove Button -->
-    <ul>
-      <li *ngFor="let allergy of filteredAllergyList; let i = index">
-        {{ allergy.name }}
-      </li>
-    </ul>
+    <table class="table-display">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      <tr *ngFor="let allergy of filteredAllergyList">
+        <td>{{ allergy.name }}</td>
+        <td>{{ allergy.description }}</td>
+      </tr>
+    </table>
 
     <br><button (click)="showSection('')">Back to Main Menu</button>
   </section>
@@ -249,11 +254,16 @@
       <button class="medicalConditionBtn" (click)="searchMedicalConditions(medicalConditionSearch.value)">Search</button>
     </div>
     <!-- List Existing Medical Conditions with Remove Button -->
-    <ul>
-      <li *ngFor="let medicalCondition of filteredMedicalConditionList; let i = index">
-        {{ medicalCondition.name }}
-      </li>
-    </ul>
+    <table class="table-display">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr *ngFor="let medicalCondition of filteredMedicalConditionList">
+          <td>{{ medicalCondition.name }}</td>
+          <td>{{ medicalCondition.description }}</td>
+        </tr>
+      </table>
 
     <br><button (click)="showSection('')">Back to Main Menu</button>
   </section>

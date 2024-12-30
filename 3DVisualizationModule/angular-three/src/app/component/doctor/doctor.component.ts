@@ -562,7 +562,7 @@ export class DoctorComponent implements OnInit {
 
     // Filter allergy list based on query
     this.filteredAllergyList = this.availableAllergies.filter(allergy =>
-      allergy?.name?.toLowerCase().includes(lowerQuery)
+      allergy?.name?.toLowerCase().includes(lowerQuery) || allergy?.description?.toLowerCase().includes(lowerQuery)
     );
   }
 
@@ -587,7 +587,7 @@ export class DoctorComponent implements OnInit {
 
     // Filter Medical Conditions list based on query
     this.filteredMedicalConditionList = this.availableMedicalConditions.filter(medicalCondition =>
-      medicalCondition?.name?.toLowerCase().includes(lowerQuery)
+      medicalCondition?.name?.toLowerCase().includes(lowerQuery) || medicalCondition?.description?.toLowerCase().includes(lowerQuery)
     );
   }
 

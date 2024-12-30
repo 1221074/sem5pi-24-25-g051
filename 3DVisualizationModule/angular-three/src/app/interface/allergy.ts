@@ -1,6 +1,7 @@
 export interface Allergy {
   _id: string;
-  domain: string;
+  domainId: string;
   name: string;
+  description: string;
   __v: number;
 }
