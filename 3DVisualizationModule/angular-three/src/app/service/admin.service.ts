@@ -148,7 +148,7 @@ export class AdminService {
   async updateAllergy(allergyData: any) {
     try {
       const response = await fetch(environment.apiURL2 + `/allergy/${allergyData._id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
