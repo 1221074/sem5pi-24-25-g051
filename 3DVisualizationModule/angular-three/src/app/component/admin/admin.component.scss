@@ -526,14 +526,22 @@ button:active {
   width: 300%; /* Garante que o contêiner use toda a largura necessária */
 }
 
-.newMedicalConditionName, .medicalConditionSearch {
+.newMedicalConditionName, .medicalConditionSearch, .newAllergyName {
   width: 70%; /* Faz com que o input ocupe o espaço disponível */
   padding: 10px;
   border-radius: 8px;
   margin-right: 5px;
 }
 
-.medicalConditionBtn {
+.newMedicalConditionDescription, .newAllergyDescription, .allergySearch, .allergySearchInput2 {
+  width: 70%; /* Faz com que o input ocupe o espaço disponível */
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.medicalConditionBtn, .allergyBtn, .allergyBtn2 {
   width: auto; /* Ajusta o botão para ocupar apenas o espaço necessário */
   padding: 10px 20px; /* Adiciona algum padding para melhorar a aparência */
 }

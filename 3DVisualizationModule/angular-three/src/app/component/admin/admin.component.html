@@ -161,7 +161,8 @@
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
     <label for="allergySearch">Search Allergy:</label>
-    <input id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
+    <br>
+    <input class="allergySearch" #allergySearch placeholder="Type to search allergies..." />
 
     <button class="allergyBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
 
@@ -173,8 +174,11 @@
     </ul>
 
     <!-- Add New Allergy -->
-    <label for="newAllergyName">New Allergy Name:</label>
-    <input id="newAllergyName" #newAllergyName placeholder="Name" />
+    <label for="newAllergyName">New Allergy:</label>
+    <br>
+    <br>
+    <input class="newAllergyName" #newAllergyName placeholder="Name" />
+    <input class="newAllergyDescription" #newAllergyDescription placeholder="Description" />
     <button class="allergyBtn" (click)="registerAllergy(newAllergyName.value)">Add</button><br><br>
 
     <br><button (click)="showSection('')">Back to Main Menu</button>
@@ -190,7 +194,7 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-    <input id="allergySearchInput2" #allergySearch2 placeholder="Type to search allergies..." />
+    <input class="allergySearchInput2" #allergySearch2 placeholder="Type to search allergies..." />
 
     <button class="allergyBtn2" (click)="searchAllergies(allergySearch2.value)">Search</button>
 
@@ -277,10 +281,12 @@
     <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
     <!-- Add New medicalCondition -->
-    <label for="newMedicalConditionName">New Medical Condition Name:</label>
+    <label for="newMedicalConditionName">New Medical Condition:</label>
+    <br>
     <br>
     <div class="newMedicalCondition">
       <input class="newMedicalConditionName" #newMedicalConditionName placeholder="Name" />
+      <input class="newMedicalConditionDescription" #newMedicalConditionDescription placeholder="Description" />
       <button class="medicalConditionBtn" (click)="registerMedicalCondition(newMedicalConditionName.value)">Add</button><br><br>
     </div>
     <br><button (click)="showSection('')">Back to Main Menu</button>
@@ -320,10 +326,12 @@
       <table class="table-display">
         <tr>
           <th>Name</th>
+          <th>Description</th>
           <th>Action</th>
         </tr>
         <tr *ngFor="let medicalCondition of filteredMedicalConditionList">
           <td>{{ medicalCondition.name }}</td>
+          <td>{{ medicalCondition.description }}</td>
           <td>
             <button class="editMedicalConditionBtn" (click)="editMedicalCondition(medicalCondition)">Edit</button>
           </td>
@@ -345,6 +353,17 @@
               #updatedNameRef
               required
               [value]="selectedMedicalCondition.name"
+            />
+            <input
+              class="update-medical-condition-input"
+              type="text"
+              id="updatedDescription"
+              [(ngModel)]="selectedMedicalCondition.description"
+              name="Description"
+              placeholder="Description"
+              #updatedNameRef
+              required
+              [value]="selectedMedicalCondition.description"
             />
           </div>
           <br />
