@@ -431,15 +431,25 @@ async registerOperationType(name: string, duration: string) {
 //Allergy =========================================================================================================================================================================================================================================================
 
 editAllergy(allergy: Allergy) {
-  this.selectedAllergy = allergy;
+  // Cópia profunda para evitar a ligação direta
+  this.selectedAllergy = JSON.parse(JSON.stringify(allergy));
 }
+
 
 updateAllergy(updatedAllergy: Allergy) {
   console.log('Updated Allergy:', updatedAllergy);
-  this.adminService.updateAllergy(updatedAllergy).then(
+
+  const allergyData = { name: updatedAllergy.name, description: updatedAllergy.description };
+
+  this.adminService.updateAllergy(allergyData, updatedAllergy.id).then(
     response => {
+      // Atualiza o item original na lista
+      const index = this.filteredAllergyList.findIndex(allergy => allergy.id === updatedAllergy.id);
+      if (index !== -1) {
+        this.filteredAllergyList[index] = updatedAllergy; // Atualiza o objeto na lista
+      }
       this.successMessage = 'Allergy updated successfully.';
-      this.getAllergies();
+      this.selectedAllergy = null; // Reseta o formulário
     },
     error => {
       this.errorMessage = 'Failed to update allergy. Please try again.';
@@ -455,18 +465,27 @@ cancelAllergyUpdate() {
 
 //Medical Condition =========================================================================================================================================================================================================================================================
 editMedicalCondition(medicalCondition: MedicalCondition) {
-  this.selectedMedicalCondition = medicalCondition;
+  // Deep copy to avoid direct binding
+  this.selectedMedicalCondition = JSON.parse(JSON.stringify(medicalCondition));
 }
 
 updateMedicalCondition(updatedMedicalCondition: MedicalCondition) {
   console.log('Updated Medical Condition:', updatedMedicalCondition);
-  this.adminService.updateMedicalCondition(updatedMedicalCondition).then(
+
+  const medicalConditionData = { name: updatedMedicalCondition.name, description: updatedMedicalCondition.description };
+
+  this.adminService.updateMedicalCondition(medicalConditionData, updatedMedicalCondition.id).then(
     response => {
-      this.successMessage = 'Medical Condition updated successfully.';
-      this.getMedicalConditions();
+      // Update the original item in the list
+      const index = this.filteredMedicalConditionList.findIndex(medicalCondition => medicalCondition.id === updatedMedicalCondition.id);
+      if (index !== -1) {
+        this.filteredMedicalConditionList[index] = updatedMedicalCondition; // Update the object in the list
+      }
+      this.successMessage = 'Medical condition updated successfully.';
+      this.selectedMedicalCondition = null; // Reset the form
     },
     error => {
-      this.errorMessage = 'Failed to update Medical Condition. Please try again.';
+      this.errorMessage = 'Failed to update medical condition. Please try again.';
     }
   );
 }

@@ -121,9 +121,9 @@ export class AdminService {
   }
 
 
-  async updateAllergy(allergyData: any) {
+  async updateAllergy(allergyData: any, id: string) {
     try {
-      const response = await fetch(environment.apiURL2 + `/allergy/${allergyData._id}`, {
+      const response = await fetch(environment.apiURL2 + `/allergy/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -135,16 +135,12 @@ export class AdminService {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error updating allergy');
       }
-
       return await response.json();
     } catch (error) {
       console.error('Error:', error);
       // Handle or rethrow the error as appropriate
       throw error;
     }
-
-
-
   }
 
 // MEDICAL CONDITION =================================================================================================
@@ -171,10 +167,10 @@ async createMedicalCondition(conditionData: any) {
     throw error;
   }
 }
-  async updateMedicalCondition(medicalConditionData: any) {
+  async updateMedicalCondition(medicalConditionData: any, id: string) {
     try {
-      const response = await fetch(environment.apiURL2 + `/medicalcondition/${medicalConditionData._id}`, {
-        method: 'PUT',
+      const response = await fetch(environment.apiURL2 + `/medicalcondition/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -185,7 +181,6 @@ async createMedicalCondition(conditionData: any) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error updating medical condition');
       }
-
       return await response.json();
     } catch (error) {
       console.error('Error:', error);
