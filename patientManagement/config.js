@@ -50,6 +50,11 @@ export default {
       name: "MedicalConditionController",
       path: "../controllers/medicalConditionController"
     },
+
+    medicaRecord: {
+      name: "MedicalRecordController",
+      path: "../controllers/medicalRecordController"
+    },
     
 
   },
@@ -65,6 +70,11 @@ export default {
       path: "../Repo/medicalconditionRepository"
     },
 
+    medicalRecord: {
+      name: "MedicalRecordRepo",
+      path: "../Repo/medicalrecordRepository"
+    },
+
   },
 
   services: {
@@ -76,6 +86,11 @@ export default {
     medicalCondition: {
       name: "MedicalConditionService",
       path: "../Services/medicalconditionService"
+    },
+
+    medicalRecord: {
+      name: "MedicalRecordService",
+      path: "../Services/medicalrecordService"
     },
   },
 };
