@@ -69,7 +69,7 @@ export default class MedicalRecordService implements IMedicalRecordService {
    */
   public async updateMedicalRecord(id: string, medicalRecordDTO: Partial<IMedicalRecordDTO>): Promise<Result<IMedicalRecordDTO>> {
     try {
-      const medicalRecord = await this.medicalRecordRepo.findByDomainId(id);
+      const medicalRecord = await this.medicalRecordRepo.findByPatientId(id);
 
       if (!medicalRecord) {
         return Result.fail<IMedicalRecordDTO>('Medical record not found');

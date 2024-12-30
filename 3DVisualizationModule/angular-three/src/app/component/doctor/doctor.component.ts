@@ -343,31 +343,6 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-  /**
-   * Registers the new free text for the patient.
-   * @param freeText - The information to be updated.
-   */
-  async registerFreeTextInput(freeText: string) {
-    // Reset messages
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // Validate required fields
-    if (!this.selectedPatientId || !freeText) {
-      this.errorMessage = 'Please fill in all required fields.';
-      return;
-    }
-
-    try {
-      this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
-      this.patientMedicalRecord.freeText += freeText;
-      console.log(this.patientMedicalRecord.freeText);
-      await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, this.patientMedicalRecord);
-    } catch (error) {
-      this.errorMessage = 'An error occurred while updating the free text. Please try again.';
-    }
-  }
-
   async registerPatientMedicalRecord(patientId: string) {
         // Reset messages
         this.errorMessage = '';
@@ -379,14 +354,21 @@ export class DoctorComponent implements OnInit {
           return;
         }
 
+        console.log(this.selectedPatientId);
         try {
           const dataToBeInserted = {
             patientId: this.selectedPatientId,
             allergies: [],
             medicalConditions: [],
-            freeText: ''
+            freeText: '*insert free text here*'
           };
           await this.doctorService.createMedicalRecord(dataToBeInserted);
+          this.successMessage = 'Patient medical record created successfully.';
+
+          // Clear the selected patient ID
+          this.selectedPatientId = '';
+          //remove the patient from the list of patients without medical records
+          this.patientsWithoutMedicalRecord = this.patientsWithoutMedicalRecord.filter(patient => patient.id.toString() !== this.selectedPatientId);
 
         } catch (error) {
           this.errorMessage = 'An error occurred while creating the patient medical record. Please try again.';
@@ -475,17 +457,17 @@ export class DoctorComponent implements OnInit {
       this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
       //update medical conditions array with the new condition
       if (!this.patientMedicalRecord.medicalConditions.includes(medicalConditionId)) {
-        this.patientMedicalRecord.allergies.push(medicalConditionId);
+        this.patientMedicalRecord.medicalConditions.push(medicalConditionId);
       }
 
       const dataToBeAltered = {
-        allergies: this.patientMedicalRecord.allergies,
         medicalConditions: this.patientMedicalRecord.medicalConditions,
-        freeText: this.patientMedicalRecord.freeText
       }
 
       await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, dataToBeAltered);
       this.selectedConditionId = '';
+      this.showPatientMedicalRecord(this.selectedPatientId);
+
     } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
     }
@@ -515,18 +497,46 @@ export class DoctorComponent implements OnInit {
 
      const dataToBeAltered = {
         allergies: this.patientMedicalRecord.allergies,
-        medicalConditions: this.patientMedicalRecord.medicalConditions,
-        freeText: this.patientMedicalRecord.freeText
      }
 
       await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, dataToBeAltered);
       this.selectedAllergyId = '';
-      this.clearPatientValue();
+      this.showPatientMedicalRecord(this.selectedPatientId);
 
     } catch (error) {
       this.errorMessage = 'An error occurred while updating the free text. Please try again.';
     }
   }
+
+
+    /**
+   * Registers the new free text for the patient.
+   * @param freeText - The information to be updated.
+   */
+    async updateFreeTextInput(freeText: string) {
+      // Reset messages
+      this.errorMessage = '';
+      this.successMessage = '';
+
+      // Validate required fields
+      if (!this.selectedPatientId || !freeText) {
+        this.errorMessage = 'Please fill in all required fields.';
+        return;
+      }
+
+      try {
+        this.patientMedicalRecord = await this.patientService.getPatientMedicalRecord(this.selectedPatientId);
+
+        const dataToBeAltered = {
+          freeText: this.patientMedicalRecord.freeText += freeText,
+        }
+
+        console.log(this.patientMedicalRecord.freeText);
+        await this.doctorService.updatePatientMedicalRecord(this.patientMedicalRecord.patientId, dataToBeAltered);
+      } catch (error) {
+        this.errorMessage = 'An error occurred while updating the free text. Please try again.';
+      }
+    }
 
   // ===========================================================================================================
   // === Remove Methods ===

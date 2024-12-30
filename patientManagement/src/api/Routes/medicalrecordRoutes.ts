@@ -16,7 +16,7 @@ export default (app: Router) => {
         patientId: Joi.string().required(),
         allergies: Joi.array().required(),
         medicalConditions: Joi.array().required(),
-        freeText: Joi.string().required()
+        freeText: Joi.string().optional()
       })
     }),
     (req, res, next) => ctrl.createMedicalRecord(req, res, next) );
