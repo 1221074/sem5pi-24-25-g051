@@ -97,6 +97,7 @@ export class AdminComponent {
   // Medical Conditions
   availableMedicalConditions: MedicalCondition[] = [];
   filteredMedicalConditionList: MedicalCondition[] = [];
+  selectedMedicalCondition: MedicalCondition | null = null;
 
 
   selectedSection = '';
@@ -440,6 +441,30 @@ updateAllergy(updatedAllergy: Allergy) {
 
 cancelAllergyUpdate() {
   this.selectedAllergy = null;
+  this.errorMessage = '';
+  this.successMessage = '';
+}
+
+//Medical Condition =========================================================================================================================================================================================================================================================
+editMedicalCondition(medicalCondition: MedicalCondition) {
+  this.selectedMedicalCondition = medicalCondition;
+}
+
+updateMedicalCondition(updatedMedicalCondition: MedicalCondition) {
+  console.log('Updated Medical Condition:', updatedMedicalCondition);
+  this.adminService.updateMedicalCondition(updatedMedicalCondition).then(
+    response => {
+      this.successMessage = 'Medical Condition updated successfully.';
+      this.getMedicalConditions();
+    },
+    error => {
+      this.errorMessage = 'Failed to update Medical Condition. Please try again.';
+    }
+  );
+}
+
+cancelMedicalConditionUpdate() {
+  this.selectedMedicalCondition = null;
   this.errorMessage = '';
   this.successMessage = '';
 }

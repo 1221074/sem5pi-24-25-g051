@@ -171,4 +171,28 @@ export class AdminService {
 
 
   }
+
+  async updateMedicalCondition(medicalConditionData: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + `/medicalcondition/${medicalConditionData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(medicalConditionData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating medical condition');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 }
