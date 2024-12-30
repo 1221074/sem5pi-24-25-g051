@@ -1,0 +1,116 @@
+@startuml
+left to right direction
+
+:Admin: as admin
+:Doctor: as doctor
+:Patient: as patient
+:Staff: as staff
+:User: as user
+:Hospital Manager: as HM
+:Backoffice User: as BU
+:System: as System
+
+package  {
+
+usecase "UC5.1.1: Register Backoffice Users" as UC51_1
+usecase "UC5.1.2: Reset Password" as UC51_2
+usecase "UC5.1.3: Patient Registration" as UC51_3
+usecase "UC5.1.4: Patient Profile Update" as UC51_4
+usecase "UC5.1.5: Patient Account Deletion" as UC51_5
+usecase "UC5.1.6: Backoffice Login" as UC51_6
+usecase "UC5.1.7: Patient Login" as UC51_7
+usecase "UC5.1.8: Create Patient Profile" as UC51_8
+usecase "UC5.1.9: Edit Patient Profile" as UC51_9
+usecase "UC5.1.10: Delete Patient Profile" as UC51_10
+usecase "UC5.1.11: Search Patient Profiles" as UC51_11
+usecase "UC5.1.12: Create Staff Profile" as UC51_12
+usecase "UC5.1.13: Edit Staff Profile" as UC51_13
+usecase "UC5.1.14: Deactivate Staff Profile" as UC51_14
+usecase "UC5.1.15: Search Staff Profiles" as UC51_15
+usecase "UC5.1.16: Request Operation" as UC51_16
+usecase "UC5.1.17: Update Operation Request" as UC51_17
+usecase "UC5.1.18: Remove Operation Request" as UC51_18
+usecase "UC5.1.19: Search Operation Requests" as UC51_19
+usecase "UC5.1.20: Add Operation Type" as UC51_20
+usecase "UC5.1.21: Edit Operation Type" as UC51_21
+usecase "UC5.1.22: Remove Operation Type" as UC51_22
+usecase "UC5.1.23: Search Operation Types" as UC51_23
+
+usecase "UC6.1.1: Integrated UI for All Modules" as UC61_1
+usecase "UC6.1.2: Role-Based Menu" as UC61_2
+usecase "UC6.1.3: Sync 3D with Planning" as UC61_3
+usecase "UC6.1.4: Sync Backoffice with Planning" as UC61_4
+usecase "UC6.1.5: Sync Staff Availability" as UC61_5
+
+usecase "UC6.3.1: Best Surgery Schedule" as UC63_1
+usecase "UC6.3.2: Complexity Analysis" as UC63_2
+usecase "UC6.3.3: Heuristic-Based Schedule" as UC63_3
+
+usecase "UC6.5.1: 3D Representation" as UC65_1
+usecase "UC6.5.2: Apply Textures" as UC65_2
+usecase "UC6.5.3: Add Lighting" as UC65_3
+usecase "UC6.5.4: Camera Control" as UC65_4
+
+usecase "UC6.6.2: Notify Data Breach" as UC66_2
+
+usecase "UC7.3.1: Assign Operations to Rooms" as UC73_1
+usecase "UC7.3.2: Genetic Algorithm Scheduling" as UC73_2
+usecase "UC7.3.3: Robotics Study" as UC73_3
+
+usecase "UC7.6.1: Download Medical History" as UC76_1
+usecase "UC7.6.2: Data Deletion Request" as UC76_2
+usecase "UC7.6.3: View Data Policy" as UC76_3
+usecase "UC7.6.4: View Retention Policy" as UC76_4
+
+user -- UC61_1
+user -- UC61_2
+admin -- UC61_4
+admin -- UC61_5
+admin -- UC51_1
+admin -- UC51_2
+admin -- UC51_8
+admin -- UC51_9
+admin -- UC51_10
+admin -- UC51_11
+admin -- UC51_12
+admin -- UC51_13
+admin -- UC51_14
+admin -- UC51_15
+admin -- UC51_20
+admin -- UC51_21
+admin -- UC51_22
+admin -- UC51_23
+admin -- UC63_1
+admin -- UC63_2
+admin -- UC63_3
+admin -- UC73_1
+admin -- UC73_2
+
+BU -- UC51_6
+
+patient -- UC51_7
+patient -- UC51_3
+patient -- UC51_4
+patient -- UC51_5
+patient -- UC76_1
+patient -- UC76_2
+patient -- UC76_3
+patient -- UC76_4
+
+doctor -- UC51_16
+doctor -- UC51_17
+doctor -- UC51_18
+doctor -- UC51_19
+
+System -- UC66_2
+
+staff -- UC65_1
+staff -- UC65_2
+staff -- UC65_3
+staff -- UC65_4
+staff -- UC61_3
+
+HM -- UC73_3
+
+}
+@enduml
