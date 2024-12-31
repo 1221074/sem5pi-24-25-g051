@@ -225,10 +225,10 @@
     <p>Search for allergies to update patient medical records.</p>
     <p>Here's a list with all the registered allergies.</p>
 
-    <label for="allergySearch">Search Allergy:</label>
-    <input class="medicalConditionSearch" id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
-
-    <button class="medicalConditionBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+    <div class="medicalConditionSearch">
+      <input class="medicalConditionSearch" id="allergySearch" #allergySearch placeholder="Type to search allergies..." />
+      <button class="medicalConditionBtn" (click)="searchAllergies(allergySearch.value)">Search</button>
+    </div>
 
     <!-- List Existing Allergies with Remove Button -->
     <table class="table-display">
