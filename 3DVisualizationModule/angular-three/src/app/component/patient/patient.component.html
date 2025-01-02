@@ -2,7 +2,10 @@
   <section class="patient-section" [style.display]="selectedSection ? 'none' : 'block'">
     <div class="header-container">
       <h2>Welcome, {{ patient.firstName }} {{ patient.lastName }}.</h2>
-      <h3>This is your panel</h3>
+
+      <button class="logout-button" (click)="logout()">
+        <span class="material-icons">logout</span>
+      </button>
     </div>
 
     <button class="main-menu-btn" (click)="showSection('updateProfile')">Update Profile</button>
@@ -10,9 +13,6 @@
     <button class="main-menu-delete-btn" (click)="showSection('deactivateAcc')">Deactivate Account</button>
     <button class="main-menu-delete-btn" (click)="showSection('eliminateData')">Delete Account</button>
 
-    <button class="logout-button" (click)="logout()">
-      <span class="material-icons">logout</span>
-    </button>
   </section>
 
   <!-- Update Profile Section -->
@@ -147,7 +147,7 @@
       </div>
 
       <br>
-     
+
       <div class="buttons-container">
       <!-- Button that first confirms user wants to download -->
       <button class="downloadbtn" (click)="confirmDataDownload()">
@@ -171,14 +171,14 @@
 
 
   <section [style.display]="selectedSection === 'UserDataUsage' ? 'block' : 'none'">
-    
+
     <h2>User Data Usage</h2>
     <p>
-      We value your privacy and are commited to providing clear information about how your personal data is handled 
-      in compliance with the General Data Protection Regulation (GDPR). Below, we explain what data is processed, 
+      We value your privacy and are commited to providing clear information about how your personal data is handled
+      in compliance with the General Data Protection Regulation (GDPR). Below, we explain what data is processed,
       how it is processed, your rights under the GDPR and how long we will keep your data.
     </p>
-    
+
     <h2>What data is processed?</h2>
     <p>We process the following data:</p>
     <ul>
@@ -225,7 +225,7 @@
 
     <h2>How long will we keep your data?</h2>
     <p>
-      While you are a registered user, we will keep your data for as long as necessary to provide you with medical care and treatment, 
+      While you are a registered user, we will keep your data for as long as necessary to provide you with medical care and treatment,
       as well as to comply with legal and regulatory requirements, or for 5 years after the last patient interaction. After this period, your data will be securely deleted.
       If you deactivate your account, your data will be kept for a period of 30 days. After this period, your data will be securely deleted.
     </p>
@@ -233,10 +233,10 @@
     <br>
 
     <p>
-      If you have any questions or concerns about how your data is processed, please contact our staff team. 
+      If you have any questions or concerns about how your data is processed, please contact our staff team.
       We are here to help and ensure that your data is handled securely and confidentially.
     </p>
-    
+
     <br>
     <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
