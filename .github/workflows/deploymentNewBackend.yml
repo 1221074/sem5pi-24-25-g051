@@ -32,6 +32,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd sem5pi-24-25-g051
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_PROJECT }}@github.com/GuilhermeNevesPinto/sem5pi-24-25-g051.git
           git pull origin main
           cd patientManagement
           pm2 restart 0
