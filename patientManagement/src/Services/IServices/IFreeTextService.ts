@@ -5,4 +5,5 @@ export default interface IFreeTextService  {
   createFreeText(freeText: IfreeTextDTO): Promise<Result<IfreeTextDTO>>;
   updateFreeText(id: string, freeTextDTO: Partial<IfreeTextDTO>): Promise<Result<IfreeTextDTO>>;
   getFreeTextsFromMedicalRecord(medicalRecordID: string): Promise<IfreeTextDTO[]>;
+  getAllFreeTexts(): Promise<IfreeTextDTO[]>;
 }

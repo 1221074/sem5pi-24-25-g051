@@ -63,4 +63,13 @@ export default class FreeTextController implements IFreeTextController {
     }
   };
 
+  public async getAllFreeTexts(req: Request, res: Response, next: NextFunction) {
+    try {
+      console.log('getAllFreeTexts');
+      const freeTexts = await this.freeTextServiceInstance.getAllFreeTexts();
+      res.status(200).json(freeTexts);
+    } catch (e) {
+      return next(e);
+  }
+}
 }

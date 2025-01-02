@@ -32,6 +32,7 @@ export default (app: Router) => {
   );
 
   route.get('/:id', (req, res, next) => ctrl.getFreeTextsFromMedicalRecord(req, res, next) );
+  route.get('',(req, res, next) => ctrl.getAllFreeTexts(req, res, next) );
 
   // Error handling middleware
   app.use(errors());
