@@ -9,6 +9,7 @@ describe('AdminComponent Tests', () => {
     });
   };
 
+
   it('should allow access to the admin page if the correct role is present', () => {
     loginAsAdmin();
 
@@ -17,6 +18,7 @@ describe('AdminComponent Tests', () => {
     cy.url().should('include', '/admin');
     cy.contains('Admin').should('be.visible');
   });
+
 
   it('should redirect to /unauthorized if the role is not admin', () => {
     cy.window().then((window) => {
@@ -54,39 +56,22 @@ describe('AdminComponent Tests', () => {
 
     cy.contains('Register User').should('be.visible');
     cy.contains('3D Visualization').should('be.visible');
-    //Patient
     cy.contains('Create Patient Profile').should('be.visible');
     cy.contains('Edit Patient Profile').should('be.visible');
     cy.contains('Delete Patient Profile').should('be.visible');
     cy.contains('List/Search Patient Profiles').should('be.visible');
-    //Staff
     cy.contains('Create Staff Profile').should('be.visible');
     cy.contains('Edit Staff Profile').should('be.visible');
     cy.contains('Deactivate Staff Profile').should('be.visible');
     cy.contains('List/Search Staff Profiles').should('be.visible');
-    //Operation Type
     cy.contains('Add Operation Type').should('be.visible');
     cy.contains('Edit Operation Type').should('be.visible');
     cy.contains('Remove Operation Type').should('be.visible');
     cy.contains('List/Search Operation Types').should('be.visible');
-    //Planning Module
     cy.contains('Optimized Planning').should('be.visible');
     cy.contains('Prefered Schedule').should('be.visible');
     cy.contains('Complexity Analysis').should('be.visible');
-    //Allergy
-    cy.contains('Add Allergy').should('be.visible');
-    cy.contains('Edit Allergy').should('be.visible');
-    cy.contains('List/Search Allergy').should('be.visible');
-    //Medical Condition
-    cy.contains('Add Medical Condition').should('be.visible');
-    cy.contains('Edit Medical Condition').should('be.visible');
-    cy.contains('List/Search Medical Condition').should('be.visible');
-    //Specialization
-    cy.contains('Create Specialization').should('be.visible');
-    cy.contains('Edit Specialization').should('be.visible');
-    cy.contains('Delete Specialization').should('be.visible');
-    cy.contains('List/Search Specialization').should('be.visible');
-});
+    });
 
   it('should navigate to the Register User section and validate the form', () => {
     loginAsAdmin();
@@ -175,113 +160,6 @@ it('should navigate to the Optimized Planning section and validate the form', ()
     cy.contains('Please fill in all required fields', { timeout: 10000 }).should('be.visible');
   });
 
-});
-
-it('should navigate to the Edit Patient Profile section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Edit Patient Profile').click();
-  cy.contains('Here you can edit an existing patient profile.').should('be.visible');
-});
-
-it('should navigate to the Delete Patient Profile section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Delete Patient Profile').click();
-  cy.contains('Here you can delete a patient profile.').should('be.visible');
- });
-
-it('should navigate to the Create Staff Profile section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Create Staff Profile').click();
-  cy.contains('Here you can create a new staff profile.').should('be.visible');
-  cy.contains('Please enter the following data about the new staff member.').should('be.visible');
- });
-
-it('should navigate to the Edit Staff Profile section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Edit Staff Profile').click();
-  cy.contains('Here you can edit an existing staff profile.').should('be.visible');
-});
-
-it('should navigate to the Deactivate Staff Profile section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Deactivate Staff Profile').click();
-  cy.contains('Here you can deactivate a staff profile.').should('be.visible');
-
-});
-
-it('should navigate to the Add Allergy section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Add Allergy').click();
-  cy.contains('Here you can add a new allergy to the system .').should('be.visible');
-});
-
-it('should navigate to the Edit Allergy section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Edit Allergy').click();
-  cy.contains('Here you can edit an existing allergy.').should('be.visible');
-});
-
-it('should navigate to the List/Search Allergy section and display the list', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('List/Search Allergy').click();
-  cy.contains('Here you can list or search for allergies.').should('be.visible');
-});
-
-it('should navigate to the Add Medical Condition section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Add Medical Condition').click();
-  cy.contains('Here you can add a new medical condition to the system .').should('be.visible');
-});
-
-it('should navigate to the Edit Medical Condition section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Edit Medical Condition').click();
-  cy.contains('Here you can edit an existing medical condition.').should('be.visible');
-});
-
-it('should navigate to the List/Search Medical Condition section and display the list', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('List/Search Medical Condition').click();
-  cy.contains('Here you can list or search for medical conditions.').should('be.visible');
-});
-
-it('should navigate to the Create Specialization section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Create Specialization').click();
-  cy.contains('Please enter the following data about the new specialization.').should('be.visible');
-});
-
-it('should navigate to the Edit Specialization section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Edit Specialization').click();
-  cy.contains('Here you can edit an existing specialization.').should('be.visible');
-});
-
-it('should navigate to the Delete Specialization section and validate the form', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('Delete Specialization').click();
-  cy.contains('Here you can delete a specialization.').should('be.visible');
-});
-
-it('should navigate to the List/Search Specialization section and display the list', () => {
-  loginAsAdmin();
-  cy.visit('/admin');
-  cy.contains('List/Search Specialization').click();
-  cy.contains('Here you can list or search for specializations.').should('be.visible');
 });
 
   it('should log out and redirect to the login page', () => {

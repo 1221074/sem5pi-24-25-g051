@@ -494,8 +494,7 @@
   <!-- Register Patient Medical Record Section-->
   <section [style.display]="selectedSection === 'registerPatientMedicalRecord' ? 'block' : 'none'">
     <h2>Register Patient Medical Record</h2>
-    <p>Create a Patient Medical Record for a patient with no history.</p>
-    <p>If there's no patient to add, it means all users who have the role PATIENT have a medical record associated with it</p>
+    <p>Register medical conditions and allergies for a patient.</p>
 
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>

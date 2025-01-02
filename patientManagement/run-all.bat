@@ -9,9 +9,9 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-REM Execute project setup
-echo Running 'npm run start'...
-npm run start
+REM Execute index.js
+echo Running index.js...
+node index.js
 if %errorlevel% neq 0 (
     echo Error running index.js.
     pause

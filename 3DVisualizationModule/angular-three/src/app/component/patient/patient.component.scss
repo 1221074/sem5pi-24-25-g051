@@ -26,38 +26,26 @@
     background-color: #911209; /* Darker blue on hover */
     transform: translateY(-3px); /* Higher lift on hover */
 }
-
+  
 .main-menu-btn:active {
     background-color: #004494; /* Even darker blue on click */
     transform: translateY(1px); /* Button moves slightly down */
 }
-.header-container {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between ;
-  padding: 10px;
-  background-color: #ffffff; 
-}
+
 .logout-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-  size: 2px;
-  width: 3%;
-}
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    size: 2px;
+    width: auto;
+    margin-left: 3px;
+    margin-top: 10px;
+  }
 
-.logout-button .material-icons {
-  font-size: 24px;
-  color: #333; /* Customize as needed */
-}
-
-.logout-button:hover .material-icons {
-  color: #555; /* Darker color on hover */
-}
-
+.logout-button:hover {
+    background-color: #7e7e7e; /* Darker blue on hover */
+    transform: translateY(-3px); /* Higher lift on hover */
+  }
 
 // EDIT PROFILE __________________________________________________________________________________________________
 
@@ -66,23 +54,23 @@
     flex-direction: column;
     margin-bottom: 15px;
   }
-
+  
   .form-field label {
     margin-bottom: 5px;
   }
-
+  
   .form-field input {
     padding: 10px;
     width: 35%;
     border-radius: 5px;
     border: 1px solid #ccc;
   }
-
+  
   .form-field input:focus {
     outline: none;
     border-color: #007bff;
   }
-
+  
   .form-field button {
     padding: 10px;
     border: none;
@@ -93,12 +81,12 @@
     border-radius: 5px;
     transition: 0.3s;
   }
-
+  
   .form-field button:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
   }
-
+  
   .form-field button:active {
     background-color: #004494;
     transform: translateY(1px);
@@ -132,7 +120,7 @@
     background-color: #0056b3; /* Darker blue on hover */
     transform: translateY(-3px); /* Higher lift on hover */
   }
-
+  
   .updateBtn:active {
     background-color: #004494; /* Even darker blue on click */
     transform: translateY(1px); /* Button moves slightly down */
@@ -170,7 +158,7 @@
     background-color: #911209; /* Darker red on hover */
     transform: translateY(-3px); /* Higher lift on hover */
   }
-
+  
   .delete-account-btn:active {
     background-color: #350303; /* Even darker red on click */
     transform: translateY(1px); /* Button moves slightly down */
@@ -205,7 +193,7 @@
     background-color: #0056b3; /* Darker blue on hover */
     transform: translateY(-3px); /* Higher lift on hover */
   }
-
+  
   .backBtn:active {
     background-color: #004494; /* Even darker blue on click */
     transform: translateY(1px); /* Button moves slightly down */
@@ -215,7 +203,7 @@
     color: red;
     margin-top: 10px;
   }
-
+  
   .success-message {
     color: green;
     margin-top: 10px;
@@ -246,7 +234,7 @@
     background-color: #0056b3; /* Darker blue on hover */
     transform: translateY(-3px); /* Higher lift on hover */
   }
-
+  
   .downloadbtn:active {
     background-color: #004494; /* Even darker blue on click */
     transform: translateY(1px); /* Button moves slightly down */

@@ -22,9 +22,6 @@
       "noEmit": false,
       "esModuleInterop": true,
       "skipLibCheck": true,
-      "types" : ["node", "jest","mocha"],
-      "typeRoots": ["./node_modules/@types"],
-      
     },
     "include": [
       "./src/**/*", "index.js"

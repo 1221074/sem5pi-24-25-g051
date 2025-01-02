@@ -6,7 +6,7 @@ describe('Patient Tests', () => {
     // Set token and role in localStorage
     cy.window().then((window) => {
       window.localStorage.setItem('token', patientToken);
-      window.localStorage.setItem('role', '4'); // Role 4 represents the patient's role
+      window.localStorage.setItem('role', '4'); // Role 2 represents the patient's role
     });
 
     // Visit the /patient route
@@ -85,6 +85,7 @@ describe('Patient Tests', () => {
 
     // Submit without filling required fields
     cy.get('button.updateBtn').click();
+    cy.contains('Please try again.').should('be.visible');
   });
 
   it('should validate the check information section', () => {
