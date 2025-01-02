@@ -59,7 +59,7 @@ export default class AllergyController implements IAllergyController {
   public async getAllAllergies(req: Request, res: Response, next: NextFunction) {
     try {
       const allergies = await this.allergyServiceInstance.getAllAllergies();
-      return res.json(allergies).status(200);
+      return res.status(200).json(allergies);
     } catch (e) {
       return next(e);
     }

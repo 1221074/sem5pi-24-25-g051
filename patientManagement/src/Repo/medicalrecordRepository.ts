@@ -63,8 +63,8 @@ export default class MedicalRecordRepo implements IMedicalRecordRepo {
     }
   }
 
-  public async findByDomainId(medicalRecordID: MedicalRecordId | string): Promise<MedicalRecord> {
-    const query = { domainId: medicalRecordID };
+  public async findByDomainId(medicalRecordId: MedicalRecordId | string): Promise<MedicalRecord> {
+    const query = { domainId: medicalRecordId };
     const medicalrecordRecord = (await this.medicalrecordSchema.findOne(query as FilterQuery<IMedicalRecordPersistence & Document>));
 
     if (medicalrecordRecord != null) {

@@ -58,6 +58,7 @@ describe('Doctor Tests', () => {
     cy.url().should('include', '/doctor');
     cy.contains('Doctor, welcome').should('be.visible'); // Adjust based on your app's UI
     // Check if the menu is visible
+      //Operations
     cy.contains('Request Operations').should('be.visible');
     cy.contains('Update Operations').should('be.visible');
     cy.contains('Remove Operations').should('be.visible');

@@ -17,8 +17,6 @@ import { DoctorService } from '../../service/doctor.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { OperationTypeService } from '../../service/operation-type.service';
 import { PatientService } from '../../service/patient.service';
-import { FreeTextDisplay } from 'src/app/interface/freetext-display';
-import { FreeText } from 'src/app/interface/freetext';
 
 @Component({
   selector: 'app-doctor',
@@ -72,8 +70,6 @@ export class DoctorComponent implements OnInit {
   patientMedicalConditions: MedicalCondition[] = [];
   patientAllergies: Allergy[] = [];
   patientFreeText: string = '';
-  freeTextList: FreeText[] = [];
-  patientMedicalRecordId: string = '';
 
   // Operation Types
   operationTypes: OperationType[] = [];
@@ -542,57 +538,6 @@ export class DoctorComponent implements OnInit {
       }
     }
 
-    editFreeText(updatedFreeText: FreeText, newText: string) {
-      const freeTextData = { freeText: newText, medicalRecordID: updatedFreeText.medicalRecordID };
-
-      this.doctorService.editFreeText(freeTextData, updatedFreeText.id).then(
-        response => {
-          // Atualiza o item original na lista
-          const index = this.freeTextList.findIndex(freetext => freetext.id === updatedFreeText.id);
-          if (index !== -1) {
-            this.freeTextList[index] = updatedFreeText; // Atualiza o objeto na lista
-          }
-          this.successMessage = 'Free Text Entry updated successfully.';
-        },
-        error => {
-          this.errorMessage = 'Failed to update free text entry. Please try again.';
-        }
-      );
-    }
-    
-  
-
-    async addNewFreeText(freeText: string) {
-   // Reset messages
-   this.errorMessage = '';
-   this.successMessage = '';
-
-   // Validate input
-   if (!freeText) {
-     this.errorMessage = 'Please fill the required field.';
-     return;
-   }
-
-   const freeTextData = { freeText: freeText, medicalRecordID: this.patientMedicalRecord?.id };
-
-   try {
-     await this.doctorService.postFreeText(freeTextData);
-     this.successMessage = 'Free text entry registered successfully.';
-     this.getFreeTexts();
-   } catch (error) {
-     this.errorMessage = 'An error occurred while registering the free text entry. Please try again.';
-   }
-    }
-
-    async getFreeTexts() {
-      try {
-        this.availableAllergies = await this.doctorService.getSystemAllergies();
-        this.filteredAllergyList = this.availableAllergies;
-      } catch (error) {
-        this.errorMessage = 'Failed to load allergies. Please try again.';
-      }
-    }
-
   // ===========================================================================================================
   // === Remove Methods ===
   // ===========================================================================================================
@@ -743,8 +688,6 @@ export class DoctorComponent implements OnInit {
 
 
     this.patientFreeText = record.freeText || '';
-    const freeTextRecord = await this.patientService.getFreeTextsByMedicalRecord(record.id);
-    this.freeTextList = freeTextRecord;
   } catch (error) {
       this.errorMessage = 'Unable to fetch patient medical record.';
     }

@@ -387,28 +387,20 @@
 
       <!--Free Text-->
       <h3>Free Text</h3>
-      <!-- Table for Free Text Entries -->
-    <table class="table-display">
-      <tr>
-        <th>Free Text</th>
-        <th>Action</th>
-      </tr>
-
-      <tr *ngFor="let freeText of freeTextList">
-        <td>{{ freeText.freeText }}</td>
-        <td>
-          <button class="table-button" (click)="editFreeText(freeText, newFreeTextInput.value)">Edit</button>
-        </td>
-      </tr>
-    </table>
+      <div *ngIf="patientFreeText.length > 0; else noFreeText">
+        <!--Display string free text-->
+        <ul>
+          {{patientFreeText}}
+        </ul>
+      </div>
 
       <ng-template #noFreeText>
         <p>No Additional Details found.</p>
       </ng-template>
 
-      <label for="addFreeText">Text (Click add to add new entry or edit to edit an existing one):</label>
+      <label for="addFreeText">Add Text:</label>
       <input type="text" id="addFreeText" #newFreeTextInput />
-      <button class="allergyBtn" type="button" (click)="addNewFreeText(newFreeTextInput.value)">Add</button>
+      <button class="allergyBtn" type="button" (click)="updateFreeTextInput(newFreeTextInput.value)">Add</button>
     </div>
     <div class="form-field">
       <button (click)="showSection('')">Back to Main Menu</button>
@@ -494,7 +486,8 @@
   <!-- Register Patient Medical Record Section-->
   <section [style.display]="selectedSection === 'registerPatientMedicalRecord' ? 'block' : 'none'">
     <h2>Register Patient Medical Record</h2>
-    <p>Register medical conditions and allergies for a patient.</p>
+    <p>Create a Patient Medical Record for a patient with no history.</p>
+    <p>If there's no patient to add, it means all users who have the role PATIENT have a medical record associated with it</p>
 
     <!-- Display success or error messages -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
