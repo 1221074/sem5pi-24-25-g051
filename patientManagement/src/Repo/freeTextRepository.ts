@@ -71,7 +71,6 @@ export default class FreeTextRepo implements IFreeTextRepo {
   }
 
   public async findByMedicalRecordID(medicalRecordID: string): Promise<FreeText[]> {
-    console.log(medicalRecordID);
     try{
       const query = { medicalRecordID: medicalRecordID };
       const freeTextDocuments = (await this.freeTextSchema.find(query as FilterQuery<IFreeTextPersistence & Document>).exec());

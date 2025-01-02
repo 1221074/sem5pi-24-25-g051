@@ -181,4 +181,26 @@ export class DoctorService {
       throw error;
     }
   }
+
+  async editFreeText(freeTextData: any, id: string) {
+    try {
+      const response = await fetch(environment.apiURL2 + `/freetext/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(freeTextData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating free text entry');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 }

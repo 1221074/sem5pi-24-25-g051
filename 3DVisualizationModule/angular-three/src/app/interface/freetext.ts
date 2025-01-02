@@ -1,5 +1,5 @@
 export interface FreeText {
-  _id: string;
+  id: string;
   domainId: string;
   medicalRecordID: string;
   freeText: string;

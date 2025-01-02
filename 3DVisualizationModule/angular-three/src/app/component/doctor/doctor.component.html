@@ -397,7 +397,7 @@
       <tr *ngFor="let freeText of freeTextList">
         <td>{{ freeText.freeText }}</td>
         <td>
-          <button class="table-button" (click)="selectFreeTextForUpdate(freeText)">Edit</button>
+          <button class="table-button" (click)="editFreeText(freeText, newFreeTextInput.value)">Edit</button>
         </td>
       </tr>
     </table>
@@ -406,7 +406,7 @@
         <p>No Additional Details found.</p>
       </ng-template>
 
-      <label for="addFreeText">Add Text:</label>
+      <label for="addFreeText">Text (Click add to add new entry or edit to edit an existing one):</label>
       <input type="text" id="addFreeText" #newFreeTextInput />
       <button class="allergyBtn" type="button" (click)="addNewFreeText(newFreeTextInput.value)">Add</button>
     </div>

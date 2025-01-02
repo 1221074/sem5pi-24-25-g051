@@ -542,9 +542,25 @@ export class DoctorComponent implements OnInit {
       }
     }
 
-    async selectFreeTextForUpdate(freeText: FreeText) {
-      
+    editFreeText(updatedFreeText: FreeText, newText: string) {
+      const freeTextData = { freeText: newText, medicalRecordID: updatedFreeText.medicalRecordID };
+
+      this.doctorService.editFreeText(freeTextData, updatedFreeText.id).then(
+        response => {
+          // Atualiza o item original na lista
+          const index = this.freeTextList.findIndex(freetext => freetext.id === updatedFreeText.id);
+          if (index !== -1) {
+            this.freeTextList[index] = updatedFreeText; // Atualiza o objeto na lista
+          }
+          this.successMessage = 'Free Text Entry updated successfully.';
+        },
+        error => {
+          this.errorMessage = 'Failed to update free text entry. Please try again.';
+        }
+      );
     }
+    
+  
 
     async addNewFreeText(freeText: string) {
    // Reset messages

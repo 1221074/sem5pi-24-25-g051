@@ -57,9 +57,6 @@ export default class FreeTextService implements IFreeTextService {
           freeText[key] = freeTextDTO[key];
         }
       });
-
-      this.logger.silly('saving', freeText.toString());
-
       await this.freeTextRepo.save(freeText);
 
       const freeTextDTOResult = FreeTextMap.toDTO(freeText) as IfreeTextDTO;
