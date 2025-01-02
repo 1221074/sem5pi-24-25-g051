@@ -1,6 +1,6 @@
 import { Repo } from "../../core/infra/Repo";
-import { FreeTextID } from "../../Domain/freeTextEntry/FreeTextID";
-import { FreeText } from "../../Domain/freeTextEntry/FreeText";
+import { FreeTextID } from "../../Domain/freetext/FreeTextID";
+import { FreeText } from "../../Domain/freetext/FreeText";
 
 export default interface IFreeTextRepo extends Repo<FreeText> {
   save(freeText: FreeText): Promise<FreeText>;

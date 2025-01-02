@@ -9,6 +9,7 @@ import { MedicalRecord } from '../interface/medical-record';
   providedIn: 'root',
 })
 export class DoctorService {
+  
   url = environment.apiURL + '/operationrequest';
 
   constructor() {}
@@ -153,6 +154,26 @@ export class DoctorService {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error creating medical record');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  async postFreeText(data: any) {
+    try {
+      const response = await fetch(environment.apiURL2 + '/freetext', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error creating free text');
       }
       return await response.json();
     } catch (error) {

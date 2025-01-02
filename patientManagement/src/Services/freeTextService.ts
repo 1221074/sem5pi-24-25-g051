@@ -6,7 +6,8 @@ import { FreeTextMap } from "../mappers/freeTextMapper";
 import { IfreeTextDTO } from '../dto/IFreeTextDTO';
 import IFreeTextService from './IServices/IFreeTextService';
 import IFreeTextRepo from './IRepos/IFreeTextRepo';
-import { FreeText } from '../Domain/freeTextEntry/FreeText';
+import { FreeText } from '../Domain/freetext/FreeText';
+import { Console } from 'console';
 
 @Service()
 export default class FreeTextService implements IFreeTextService {
@@ -23,15 +24,12 @@ export default class FreeTextService implements IFreeTextService {
   public async createFreeText(freeTextDTO: IfreeTextDTO): Promise<Result<IfreeTextDTO>> {
     try {
       const FreeTextOrError = await FreeText.create(freeTextDTO);
-
       if (FreeTextOrError.isFailure) {
         return Result.fail<IfreeTextDTO>(FreeTextOrError.errorValue());
       }
-
       const freeTextResult = FreeTextOrError.getValue();
-
       await this.freeTextRepo.save(freeTextResult);
-
+      
       const freeTextDTOResult = FreeTextMap.toDTO(freeTextResult) as IfreeTextDTO;
       return Result.ok<IfreeTextDTO>(freeTextDTOResult);
     } catch (e) {
@@ -59,6 +57,8 @@ export default class FreeTextService implements IFreeTextService {
           freeText[key] = freeTextDTO[key];
         }
       });
+
+      this.logger.silly('saving', freeText.toString());
 
       await this.freeTextRepo.save(freeText);
 

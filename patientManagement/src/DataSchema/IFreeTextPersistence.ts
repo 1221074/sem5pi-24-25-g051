@@ -1,5 +1,5 @@
 export interface IFreeTextPersistence {
     domainId: string;
+    freeText: string;
     medicalRecordID: string;
-    text: string;
 }

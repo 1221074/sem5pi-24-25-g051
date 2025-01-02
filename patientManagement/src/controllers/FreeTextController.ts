@@ -49,7 +49,7 @@ export default class FreeTextController implements IFreeTextController {
 
   public async getFreeTextsFromMedicalRecord(req: Request, res: Response, next: NextFunction) {
     try {
-      const medicalRecordID = req.params.medicalRecordID;
+      const medicalRecordID = req.params.id;
       const freeTexts = await this.freeTextServiceInstance.getFreeTextsFromMedicalRecord(medicalRecordID);
       
       if (!freeTexts) {

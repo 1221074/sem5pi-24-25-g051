@@ -3,7 +3,7 @@ import { Document, Model } from 'mongoose';
 import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 import { IFreeTextPersistence } from '../DataSchema/IFreeTextPersistence';
 import { IfreeTextDTO } from "../dto/IFreeTextDTO";
-import { FreeText } from "../Domain/freeTextEntry/FreeText";
+import { FreeText } from "../Domain/freetext/FreeText";
 import { identity } from "lodash";
 import { text } from "body-parser";
 
@@ -12,7 +12,7 @@ export class FreeTextMap extends Mapper<FreeText> {
   public static toDTO(freeText: FreeText): IfreeTextDTO {
     return {
         id: freeText.id.toString(),
-        text: freeText.text,
+        freeText: freeText.freeText,
         medicalRecordID: freeText.medicalRecordID,
     } as IfreeTextDTO;
   }
@@ -30,8 +30,8 @@ export class FreeTextMap extends Mapper<FreeText> {
 
     return {
         domainId: freeText.id.toString(),
-        medicalRecordId: freeText.medicalRecordID,
-        text: freeText.text,
+        medicalRecordID: freeText.medicalRecordID,
+        freeText: freeText.freeText,
     };
   }
 }

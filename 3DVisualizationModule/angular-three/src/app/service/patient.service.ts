@@ -5,6 +5,7 @@ import { MedicalCondition } from '../interface/medical-condition';
 import { Allergy } from '../interface/allergy';
 import { MedicalRecord } from '../interface/medical-record';
 import { from, Observable } from 'rxjs';
+import { FreeText } from '../interface/freetext';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,11 @@ export class PatientService {
 
   async getPatientMedicalRecord(id: string): Promise<MedicalRecord> {
     const data = await fetch(environment.apiURL2 + '/medicalrecord/' + id);
+    return await data.json() ?? [];
+  }
+
+  async getFreeTextsByMedicalRecord(medicalRecordID: string): Promise<FreeText[]> {
+    const data = await fetch(environment.apiURL2 + '/freetext/' + medicalRecordID);
     return await data.json() ?? [];
   }
 

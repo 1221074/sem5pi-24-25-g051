@@ -2,8 +2,8 @@ import { Service, Inject } from 'typedi';
 
 import { Document, FilterQuery, IfAny, Model } from 'mongoose';
 import { IFreeTextPersistence } from '../DataSchema/IFreeTextPersistence';
-import { FreeText } from "../Domain/freeTextEntry/FreeText";
-import { FreeTextID } from "../Domain/freeTextEntry/FreeTextID";
+import { FreeText } from "../Domain/freetext/FreeText";
+import { FreeTextID } from "../Domain/freetext/FreeTextID";
 import { FreeTextMap } from "../mappers/freeTextMapper";
 import IFreeTextRepo from '../Services/IRepos/IFreeTextRepo';
 
@@ -37,9 +37,7 @@ export default class FreeTextRepo implements IFreeTextRepo {
 
   public async save(freeText: FreeText): Promise<FreeText> {
     const query = { domainId: freeText.id.toString() };
-
     const freeTextDocument = await this.freeTextSchema.findOne(query);
-
     try {
       if (freeTextDocument === null) {
         const rawFreeText: any = FreeTextMap.toPersistence(freeText);
@@ -50,7 +48,7 @@ export default class FreeTextRepo implements IFreeTextRepo {
 
         return FreeTextMap.toDomain(freeTextCreated);
       } else {
-        freeTextDocument.text = freeText.text;
+        freeTextDocument.freeText = freeText.freeText;
         freeTextDocument.medicalRecordID = freeText.medicalRecordID;
         await freeTextDocument.save();
 
@@ -73,6 +71,7 @@ export default class FreeTextRepo implements IFreeTextRepo {
   }
 
   public async findByMedicalRecordID(medicalRecordID: string): Promise<FreeText[]> {
+    console.log(medicalRecordID);
     try{
       const query = { medicalRecordID: medicalRecordID };
       const freeTextDocuments = (await this.freeTextSchema.find(query as FilterQuery<IFreeTextPersistence & Document>).exec());

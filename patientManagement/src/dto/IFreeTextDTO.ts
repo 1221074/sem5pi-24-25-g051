@@ -1,5 +1,5 @@
 export interface IfreeTextDTO {
     id: string;
-    text: string;
+    freeText: string;
     medicalRecordID: string;
 }

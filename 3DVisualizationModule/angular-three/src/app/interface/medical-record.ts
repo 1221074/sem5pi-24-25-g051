@@ -1,5 +1,5 @@
 export interface MedicalRecord {
-  _id: string;
+  id: string;
   domainId: string;
   patientId: string;
   allergies: string[];

@@ -4,7 +4,7 @@ import { MedicalRecord } from "../../Domain/medicalrecord/medicalrecord";
 
 export default interface IMedicalRecordRepo extends Repo<MedicalRecord> {
   save(medicalRecord: MedicalRecord): Promise<MedicalRecord>;
-  findByDomainId (medicalRecordId: MedicalRecordId | string): Promise<MedicalRecord>;
+  findByDomainId (medicalRecordID: MedicalRecordId | string): Promise<MedicalRecord>;
   findByPatientId (patientId: string): Promise<MedicalRecord>;
 
   getAllMedicalRecords(): Promise<MedicalRecord[]>;

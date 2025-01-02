@@ -13,7 +13,7 @@ const FreeTextSchema = new mongoose.Schema(
       required: [true, 'Please enter name'],
       maxlength: [100, 'name can not be more than 100 characters']
     },
-    text: {
+    freeText: {
       type: String,
     }
   },

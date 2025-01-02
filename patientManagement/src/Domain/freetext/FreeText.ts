@@ -2,21 +2,24 @@ import { AggregateRoot } from "../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { Result } from "../../core/logic/Result";
 import { IfreeTextDTO } from "../../dto/IFreeTextDTO";
+import { Description } from "../shared/description";
+import { Designation } from "../shared/designation";
+
 
 interface FreeTextProps {
-    text: string;
+    freeText: string;
     medicalRecordID: string;
 }
 export class FreeText extends AggregateRoot<FreeTextProps> {
     get id(): UniqueEntityID {
-        return this.id;
+        return this._id;
     }
 
-    get text(): string {
-        return this.props.text;
+    get freeText(): string {
+        return this.props.freeText;
     }
-    set text(value: string) {
-        this.props.text = value;
+    set freeText(value: string) {
+        this.props.freeText = value;
     }
 
     get medicalRecordID(): string {
@@ -28,15 +31,18 @@ export class FreeText extends AggregateRoot<FreeTextProps> {
     }
 
     public static create(freeTextDTO: IfreeTextDTO, id?: UniqueEntityID): Result<FreeText>  {
-        if (!freeTextDTO.text) {
+        const text = freeTextDTO.freeText;
+        const medicalRecordID = Designation.create(freeTextDTO.medicalRecordID);
+        const freeTextValidation = Description.create(text);
+        if (freeTextValidation.isFailure) {
             return Result.fail<FreeText>("Text is required");
-        } else if (!freeTextDTO.medicalRecordID) {
+        } else if (medicalRecordID.isFailure) {
             return Result.fail<FreeText>("Medical Record is required");
         } else {
             const freeText = new FreeText(
                 {
-                    text: freeTextDTO.text,
-                    medicalRecordID: freeTextDTO.medicalRecordID
+                    freeText: freeTextValidation.getValue().description,
+                    medicalRecordID: medicalRecordID.getValue().designation
                 },
                 id
             );
