@@ -12,8 +12,8 @@ using backend_module.Infraestructure;
 namespace backend_module.Migrations
 {
     [DbContext(typeof(backofficeDbContext))]
-    [Migration("20241229105605_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250103090158_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
