@@ -5,4 +5,5 @@ export default interface IFreeTextController  {
   updateFreeText(req: Request, res: Response, next: NextFunction);
   createFreeText(req: Request, res: Response, next: NextFunction);
   getAllFreeTexts(req: Request, res: Response, next: NextFunction);
+  getFreeText(req: Request, res: Response, next: NextFunction);
 }

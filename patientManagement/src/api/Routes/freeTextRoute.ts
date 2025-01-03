@@ -31,7 +31,8 @@ export default (app: Router) => {
     (req, res, next) => ctrl.updateFreeText(req, res, next)
   );
 
-  route.get('/:id', (req, res, next) => ctrl.getFreeTextsFromMedicalRecord(req, res, next) );
+  route.get('/medicalrecord/:id', (req, res, next) => ctrl.getFreeTextsFromMedicalRecord(req, res, next) );
+  route.get('/:id', (req, res, next) => ctrl.getFreeText(req, res, next) );
   route.get('',(req, res, next) => ctrl.getAllFreeTexts(req, res, next) );
 
   // Error handling middleware

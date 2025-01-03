@@ -22,7 +22,7 @@ export default class FreeTextController implements IFreeTextController {
       }
 
       const freeTextDTO = FreeTextOrError.getValue();
-      return res.json(freeTextDTO).status(201);
+      return res.status(201).json(freeTextDTO);
     }
     catch (e) {
       return next(e);
@@ -69,6 +69,21 @@ export default class FreeTextController implements IFreeTextController {
       const freeTexts = await this.freeTextServiceInstance.getAllFreeTexts();
       res.status(200).json(freeTexts);
     } catch (e) {
+      return next(e);
+    }
+  }
+
+  public async getFreeText(req: Request, res: Response, next: NextFunction) {
+    try {
+      const freeTextID = req.params.id;
+      const freeText = await this.freeTextServiceInstance.getFreeText(freeTextID);
+      
+      if (freeText.isFailure) {
+        return res.status(500).json({ message: 'Free Text not found' });
+      }
+
+      return res.status(200).json(freeText.getValue());
+    }  catch (e) {
       return next(e);
   }
 }
