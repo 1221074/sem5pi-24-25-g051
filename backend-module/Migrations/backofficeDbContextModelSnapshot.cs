@@ -211,8 +211,8 @@ namespace backend_module.Migrations
 
             modelBuilder.Entity("backend_module.Models.SurgeryRoom.SurgeryRoom", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -229,7 +229,8 @@ namespace backend_module.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentStatus");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

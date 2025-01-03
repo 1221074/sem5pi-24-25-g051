@@ -10,11 +10,8 @@ namespace backend_module.Infraestructure.SurgeryRooms
     {
         public void Configure(EntityTypeBuilder<SurgeryRoom> builder)
         {
-            builder.Property(e => e.Id).HasColumnName("RoomNumber").HasConversion<int>();
+            builder.HasKey(b => b.Id);
             builder.Property(e => e.Status).HasColumnName("CurrentStatus");
-            builder.Ignore(e => e.Active); // If this field is not needed
-            builder.Ignore(e => e.MaintenanceSlots); // If this field is not needed
-
         }
     }
 }

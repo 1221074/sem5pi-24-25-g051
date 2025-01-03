@@ -2,7 +2,7 @@ namespace backend_module.Models.SurgeryRoom
 {
     public class SurgeryRoomDto
     {
-        public string? RoomNumber { get; set; }
+        public string RoomNumber { get; set; }
         public RoomType Type { get; set; }
         public int Capacity { get; set; }
         public List<string>? AssignedEquipment { get; set; }
@@ -19,7 +19,7 @@ namespace backend_module.Models.SurgeryRoom
             MaintenanceSlots = maintenanceSlots;
         }
 
-        public SurgeryRoomDto( RoomType type, int capacity, List<string>? assignedEquipment, RoomStatus currentStatus, List<string> maintenanceSlots)
+        public SurgeryRoomDto(RoomType type, int capacity, List<string>? assignedEquipment, RoomStatus currentStatus, List<string> maintenanceSlots)
         {
             Type = type;
             Capacity = capacity;
