@@ -39,9 +39,6 @@ namespace backend_module.Infraestructure
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //have a keyless entity named Availability Slot
-            //modelBuilder.Entity<AvailabilitySlot>().HasNoKey();
-           // modelBuilder.Entity<Maintenance>().HasNoKey();
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserTypeEntityTypeConfiguration());
@@ -63,6 +60,13 @@ namespace backend_module.Infraestructure
                 v => new OperationRequestId(v) 
             );
 
+            modelBuilder.Entity<SurgeryRoom>()
+            .Property(u => u.Id)
+            .HasConversion(
+                v => v.AsString(), 
+                v => new SurgeryRoomId(v) 
+            );
+
             modelBuilder.Entity<SurgeryRoom>(builder => {
                 builder.Property(e => e.AssignedEquipment)
                     .HasConversion(
@@ -73,10 +77,10 @@ namespace backend_module.Infraestructure
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
                     v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()));
-
             builder.Property(e => e.Id)
-                .HasConversion(new SurgeryRoomIdConverter());
-            });           
+                .HasColumnType("nvarchar(450)") // Or the appropriate length
+                .IsRequired();
+            });
             modelBuilder.Entity<OperationType>().ToTable("OperationType");
             modelBuilder.Entity<Staff>().ToTable("Staff");
             modelBuilder.Entity<User>().ToTable("User");

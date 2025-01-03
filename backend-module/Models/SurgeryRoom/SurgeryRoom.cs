@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using backend_module.Models.Shared;
-using backend_module.Models.Staff;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend_module.Models.SurgeryRoom
 {
@@ -25,11 +19,11 @@ namespace backend_module.Models.SurgeryRoom
             AssignedEquipment = assignedEquipment;
             Status =  status;
             MaintenanceSlots = maintenanceSlots;
-            Active = false;
+            Active = true;
         }
 
          private SurgeryRoom() {
-            this.Active = false;
+            this.Active = true;
         }
 
         

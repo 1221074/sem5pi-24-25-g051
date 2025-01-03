@@ -21,7 +21,7 @@ export default class MedicalConditionController implements IMedicalConditionCont
       }
 
       const medicalConditionDTO = medicalConditionOrError.getValue();
-      return res.json( medicalConditionDTO ).status(201);
+      return res.status(201).json( medicalConditionDTO );
     }
     catch (e) {
       return next(e);
@@ -53,7 +53,7 @@ export default class MedicalConditionController implements IMedicalConditionCont
         return res.status(500).json('Medical Condition not found: ' + medicalCondition.error);
       }
 
-      return res.json(medicalCondition.getValue()).status(200);
+      return res.status(200).json(medicalCondition.getValue());
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -63,7 +63,7 @@ export default class MedicalConditionController implements IMedicalConditionCont
   public async getAllMedicalConditions(req: Request, res: Response, next: NextFunction) {
     try {
       const medicalConditions = await this.medicalConditionServiceInstance.getAllMedicalConditions();
-      return res.json(medicalConditions).status(200);
+      return res.status(200).json(medicalConditions);
     } catch (e) {
       return next(e);
     }

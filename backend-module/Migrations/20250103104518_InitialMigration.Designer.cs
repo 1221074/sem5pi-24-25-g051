@@ -12,8 +12,8 @@ using backend_module.Infraestructure;
 namespace backend_module.Migrations
 {
     [DbContext(typeof(backofficeDbContext))]
-    [Migration("20241229105605_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250103104518_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,8 +214,8 @@ namespace backend_module.Migrations
 
             modelBuilder.Entity("backend_module.Models.SurgeryRoom.SurgeryRoom", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -232,7 +232,8 @@ namespace backend_module.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CurrentStatus");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

@@ -22,7 +22,7 @@ export default class MedicalRecordController implements IMedicalRecordController
       }
 
       const medicalRecordDTO = medicalRecordOrError.getValue();
-      return res.json(medicalRecordDTO).status(201);
+      return res.status(201).json(medicalRecordDTO);
     }
     catch (e) {
       return next(e);
@@ -54,7 +54,7 @@ export default class MedicalRecordController implements IMedicalRecordController
         return res.status(500).json('Medical Record not found: ' + medicalRecord.error);
       }
 
-      return res.json(medicalRecord.getValue()).status(200);
+      return res.status(200).json(medicalRecord.getValue());
     } catch (e) {
       return res.status(500).json(e.message);
     }
@@ -65,7 +65,7 @@ export default class MedicalRecordController implements IMedicalRecordController
     try {
       console.log('getAllMedicalRecords');
       const medicalRecords = await this.medicalRecordServiceInstance.getAllMedicalRecords();
-      return res.json(medicalRecords).status(200);
+      return res.status(200).json(medicalRecords);
     } catch (e) {
       return next(e);
     }

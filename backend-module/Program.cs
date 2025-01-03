@@ -6,18 +6,20 @@ using backend_module.Infrastructure.Specializations;
 using backend_module.Models.OperationType;
 using backend_module.Models.Staff;
 using backend_module.Models.Specialization;
+using backend_module.Models.SurgeryRoom;
 using backend_module.Models.Shared;
 using backend_module.Models.User;
+using backend_module.Models.Patient;
+using backend_module.Models.File;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using backend_module.Models.OperationRequest;
 using backend_module.Infraestructure.Users;
 using backend_module.Infraestructure.OperationRequests;
-using System.Security.Claims;
-using backend_module.Models.Patient;
+using backend_module.Infraestructure.SurgeryRooms;
 using backend_module.Infrastructure.Patients;
+using System.Security.Claims;
 using backend_module.Services;
-using backend_module.Models.File;
 using MongoDB.Driver;
 
 
@@ -55,7 +57,7 @@ builder.Services.AddScoped<IOperationTypeRepository, OperationTypeRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-
+builder.Services.AddScoped<ISurgeryRoomRepository, SurgeryRoomRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -66,6 +68,7 @@ builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<OperationRequestService>();
 builder.Services.AddScoped<SpecializationService>();
 builder.Services.AddScoped<FileService>();
+builder.Services.AddScoped<SurgeryRoomService>();
 BackupService backupService = new BackupService(builder.Configuration.GetConnectionString("DefaultConnection"));
         backupService.RunBackup();
 
@@ -89,6 +92,8 @@ builder.Services.AddCors(options =>
     .AllowAnyMethod()
     .AllowCredentials());
 });
+
+
 
 builder.Services.AddAuthentication(option =>
 {

@@ -21,7 +21,7 @@ namespace backend_module.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SurgeryRoomDto>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<SurgeryRoomDto>> GetByIdAsync(string id)
         {
             var surgeryRoom = await _service.GetByIdAsync(new SurgeryRoomId(id));
 
@@ -30,7 +30,7 @@ namespace backend_module.Controllers
                 return NotFound(new { message = "Surgery room not found" });
             }
 
-            return surgeryRoom;
+            return Ok(surgeryRoom);
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace backend_module.Controllers
                     return BadRequest(new { message = "Unable to create surgery room." });
                 }
 
-                return CreatedAtAction(nameof(GetByIdAsync), new { id = createdRoom.RoomNumber }, createdRoom);
+                return Ok(createdRoom);
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace backend_module.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, SurgeryRoomDto surgeryRoomDto)
+        public async Task<IActionResult> Update(string id, SurgeryRoomDto surgeryRoomDto)
         {
             if (id.ToString() != surgeryRoomDto.RoomNumber)
             {
@@ -86,7 +86,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> SoftDelete(Guid id)
+        public async Task<IActionResult> SoftDelete(string id)
         {
             var surgeryRoom = await _service.InactivateAsync(new SurgeryRoomId(id));
 
@@ -99,7 +99,7 @@ namespace backend_module.Controllers
         }
 
         [HttpDelete("{id}/hard")]
-        public async Task<IActionResult> HardDelete(Guid id)
+        public async Task<IActionResult> HardDelete(string id)
         {
             try
             {

@@ -11,6 +11,7 @@ namespace backend_module.Infraestructure.SurgeryRooms
         public void Configure(EntityTypeBuilder<SurgeryRoom> builder)
         {
             builder.HasKey(b => b.Id);
+            builder.Property(e => e.Status).HasColumnName("CurrentStatus");
         }
     }
 }

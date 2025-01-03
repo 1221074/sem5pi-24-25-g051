@@ -8,10 +8,11 @@
     "heroku-postbuild": "npm run build",
     "start": "nodemon",
     "inspect": "nodemon --inspect src/app.ts",
-    "test:unit": "mocha -r ts-node/register test/unit/**/*.test.ts --timeout 10000",
-    "test:integration": "mocha -r ts-node/register test/integration/**/*.test.ts --timeout 15000",
-    "test:container": "mocha -r ts-node/register test/container/**/*.test.ts --timeout 20000",
-    "test:e2e": "mocha -r ts-node/register test/e2e/**/*.test.ts --timeout 30000",
+    "test": "mocha -r ts-node/register 'tests/**/*.spec.ts' 'tests/**/*.test.ts' --timeout 10000",
+    "test:unit": "mocha -r ts-node/register tests/unitTests/*.test.ts --timeout 10000",
+    "test:integration": "mocha -r ts-node/register tests/integration/**/*.test.ts --timeout 15000",
+    "test:container": "mocha -r ts-node/register tests/container/**/*.test.ts --timeout 20000",
+    "test:e2e": "mocha -r ts-node/register tests/e2e/**/*.test.ts --timeout 30000",
     "test:all": "npm run test:unit && npm run test:integration && npm run test:container && npm run test:e2e",
     "lint": "npm run lint:js ",
     "lint:eslint": "eslint . --ignore-pattern .gitignore",
@@ -72,6 +73,7 @@
     "@types/node": "^22.10.3",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
+    "chai-as-promised": "^8.0.1",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -84,5 +86,4 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2"
   }
-  
 }

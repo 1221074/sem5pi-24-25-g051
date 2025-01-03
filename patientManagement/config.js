@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import path from 'path';
 
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -30,7 +31,7 @@ export default {
    * Used by winston logger
    */
   logs: {
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL || 'silly',
   },
 
   /**
@@ -55,8 +56,11 @@ export default {
       name: "MedicalRecordController",
       path: "../controllers/medicalRecordController"
     },
-    
 
+    freeText: {
+      name: "FreeTextController",
+      path: "../controllers/FreeTextController"
+    },
   },
 
   repos: {
@@ -75,6 +79,11 @@ export default {
       path: "../Repo/medicalrecordRepository"
     },
 
+    freeText: {
+      name: "FreeTextRepo",
+      path: "../Repo/freeTextRepository"
+    },
+
   },
 
   services: {
@@ -91,6 +100,11 @@ export default {
     medicalRecord: {
       name: "MedicalRecordService",
       path: "../Services/medicalrecordService"
+    },
+
+    freeText: {
+      name: "FreeTextService",
+      path: "../Services/freeTextService"
     },
   },
 };

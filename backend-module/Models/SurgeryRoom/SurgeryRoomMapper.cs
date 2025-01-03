@@ -7,7 +7,6 @@ namespace backend_module.Models.SurgeryRoom
         public static SurgeryRoomDto toEntity(CreatingSurgeryRoomDto surgeryRoom)
         {
             return new SurgeryRoomDto(
-                surgeryRoom.RoomNumber,
                 surgeryRoom.Type,
                 surgeryRoom.Capacity,
                 surgeryRoom.AssignedEquipment,

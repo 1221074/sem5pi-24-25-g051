@@ -3,7 +3,7 @@ using backend_module.Infraestructure.Shared;
 using backend_module.Infraestructure;
 using backend_module.Models.SurgeryRoom;
 
-namespace backend_module.Infrastructure.Rooms
+namespace backend_module.Infraestructure.SurgeryRooms
 {
     public class SurgeryRoomRepository : BaseRepository<SurgeryRoom, SurgeryRoomId>, ISurgeryRoomRepository
     {

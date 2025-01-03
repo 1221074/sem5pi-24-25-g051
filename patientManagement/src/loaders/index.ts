@@ -24,6 +24,11 @@ export default async ({ expressApp }) => {
     schema: "../persistence/schemas/medicalrecordSchema"
   }
 
+  const freeTextSchema = {
+    name: "FreeTextSchema",
+    schema: "../persistence/schemas/freeTextSchema"
+  }
+
 
   const allergiesController = {
     name: config.controllers.allergy.name,
@@ -38,6 +43,11 @@ export default async ({ expressApp }) => {
   const medicalRecordController = {
     name: config.controllers.medicaRecord.name,
     path: config.controllers.medicaRecord.path
+  }
+
+  const freeTextController = {
+    name: config.controllers.freeText.name,
+    path: config.controllers.freeText.path
   }
 
   const allergiesRepo = {
@@ -55,6 +65,11 @@ export default async ({ expressApp }) => {
     path: config.repos.medicalRecord.path
   }
 
+  const freeTextRepo = {
+    name: config.repos.freeText.name,
+    path: config.repos.freeText.path
+  }
+
   const allergiesService = {
     name: config.services.allergy.name,
     path: config.services.allergy.path
@@ -70,28 +85,36 @@ export default async ({ expressApp }) => {
     path: config.services.medicalRecord.path
   }
 
+  const freeTextService = {
+    name: config.services.freeText.name,
+    path: config.services.freeText.path
+  }
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
       allergiesSchema,
       medicalConditionSchema,
-      medicalRecordSchema
+      medicalRecordSchema,
+      freeTextSchema
     ],
     controllers: [
       allergiesController,
       medicalConditionController,
-      medicalRecordController
+      medicalRecordController,
+      freeTextController
     ],
     repos: [
       allergiesRepo,
       medicalConditionRepo,
-      medicalRecordRepo
-      
+      medicalRecordRepo,
+      freeTextRepo
     ],
     services: [
       allergiesService,
       medicalConditionService,
-      medicalRecordService
+      medicalRecordService,
+      freeTextService
     ]
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

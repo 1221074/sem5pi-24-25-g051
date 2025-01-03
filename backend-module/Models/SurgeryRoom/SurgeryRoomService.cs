@@ -28,6 +28,7 @@ namespace backend_module.Models.SurgeryRoom
                 AssignedEquipment = s.AssignedEquipment,
                 CurrentStatus = s.Status,
                 MaintenanceSlots = s.MaintenanceSlots
+                
             });
 
             return listDto;
@@ -48,7 +49,7 @@ namespace backend_module.Models.SurgeryRoom
            var existingSurgeryRooms = await this._repo.GetAllAsync();
             foreach (var existingSurgeryRoom in existingSurgeryRooms) {
                 if (existingSurgeryRoom.Id.Value == dto.RoomNumber)
-                    return null;
+                    throw new Exception("SurgeryRoom with this value already exists");
             }
 
             var surgeryRoom = new SurgeryRoom(dto.RoomNumber, dto.Type, dto.Capacity, dto.AssignedEquipment, dto.Status, dto.MaintenanceSlots); 
@@ -68,7 +69,7 @@ namespace backend_module.Models.SurgeryRoom
                 return null;
             }
 
-            surgeryRoom.Change( dto.Type, dto.Capacity, dto.AssignedEquipment, dto.CurrentStatus, dto.MaintenanceSlots);
+            surgeryRoom.Change(dto.Type, dto.Capacity, dto.AssignedEquipment, dto.CurrentStatus, dto.MaintenanceSlots);
 
             await this._unitOfWork.CommitAsync();
 
