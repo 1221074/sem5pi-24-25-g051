@@ -161,6 +161,8 @@ export default class ThumbRaiser {
         this.thirdPersonViewCameraParameters = merge({}, cameraData, thirdPersonViewCameraParameters);
         this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
         this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
+        this.roomInfoPanel = document.getElementById("room-info-panel");
+        this.roomInfoPanel.style.visibility = "hidden";
 
         // Create a 2D scene (the viewports frames)
         this.scene2D = new THREE.Scene();
@@ -219,6 +221,8 @@ export default class ThumbRaiser {
         this.dragMiniMap = false;
         this.changeCameraDistance = false;
         this.changeCameraOrientation = false;
+        this.raycasterPosition = new THREE.Vector2();
+        this.raycaster = new THREE.Raycaster();
 
         // Set the game state
         this.gameRunning = false;
@@ -325,7 +329,7 @@ export default class ThumbRaiser {
     }
 
     // Set active view camera
-    setActiveViewCamera(camera) {
+    setActiveViewCamera(camera) {//
         this.activeViewCamera = camera;
         this.horizontal.min = this.activeViewCamera.orientationMin.h.toFixed(0);
         this.horizontal.max = this.activeViewCamera.orientationMax.h.toFixed(0);
@@ -415,6 +419,15 @@ export default class ThumbRaiser {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
+    showRoomInfo() {
+        this.roomInfoPanel.style.visibility = "visible";
+        // Adicione aqui o código para preencher o painel com informações sobre a sala
+    }
+
+    hideRoomInfo() {
+        this.roomInfoPanel.style.visibility = "hidden";
+    }
+
     keyChange(event, state) {
         // Allow digit and arrow keys to be used when entering numbers
         if (["horizontal", "vertical", "distance", "zoom"].indexOf(event.target.id) < 0) {
@@ -485,6 +498,13 @@ export default class ThumbRaiser {
             else if (event.code == this.player.keyCodes.thumbsUp) {
                 this.player.keyStates.thumbsUp = state;
             }
+            /*else if (event.code == this.player.keyCodes.roomInfo && state) { // Mostrar painel de informações da sala
+                if (this.roomInfoPanel.style.visibility === "hidden") {
+                    this.showRoomInfo();
+                } else {
+                    this.hideRoomInfo();
+                }
+            }*/
         }
     }
 
@@ -513,35 +533,39 @@ export default class ThumbRaiser {
                 }
             }
         }
+        if(event.buttons == 1) {
+            // Normalizar as coordenadas do rato para poder usar no raycaster
+            const normalizedMouse = new THREE.Vector2(
+                (this.mousePosition.x / window.innerWidth) * 2 - 1,
+                (this.mousePosition.y / window.innerHeight) * 2 - 1
+              );
+            
+            console.log("Clique");
+            console.log(this.mousePosition);
+            this.raycaster.setFromCamera(normalizedMouse, this.activeViewCamera.perspective);
+            this.primaryButtonBedClick();
+        }
     }
 
     mouseMove(event) {
         if (event.buttons == 1 || event.buttons == 2) { // Primary or secondary button down
+            //this.raycasterPosition = {x: (event.clientX / window.innerWidth) * 2 - 1, y: -(event.clientY / window.innerHeight) * 2 + 1, };
+    
             if (this.changeCameraDistance || this.changeCameraOrientation || this.dragMiniMap) { // Mouse action in progress
                 // Compute mouse movement and update mouse position
                 const newMousePosition = new THREE.Vector2(event.clientX, window.innerHeight - event.clientY - 1);
                 const mouseIncrement = newMousePosition.clone().sub(this.mousePosition);
                 this.mousePosition = newMousePosition;
-                /*if (event.buttons == 1) { // Primary button down
-                    if (this.changeCameraDistance) {
-                        this.activeViewCamera.updateDistance(-0.05 * (mouseIncrement.x + mouseIncrement.y));
-                        this.displayPanel();
-                    }
-                    else if (this.dragMiniMap) {
+                if (event.buttons == 1) { // Primary button down
+                    //console.log(this.mousePosition)
+                    /*if (this.dragMiniMap) {
                         const windowMinSize = Math.min(window.innerWidth, window.innerHeight);
                         const width = this.miniMapCamera.viewport.width * windowMinSize;
                         const height = this.miniMapCamera.viewport.height * windowMinSize;
                         this.miniMapCamera.viewport.x += mouseIncrement.x / (window.innerWidth - width);
                         this.miniMapCamera.viewport.y += mouseIncrement.y / (window.innerHeight - height);
-                    }
-                }
-                else { // Secondary button down
-                    if (this.changeCameraOrientation) {
-                        this.activeViewCamera.updateOrientation(mouseIncrement.multiply(new THREE.Vector2(-0.5, 0.5)));
-                        this.displayPanel();
-                    }
-                }*/
-                if (event.buttons == 2) { // Secondary button down
+                    }*/
+                } else { // Secondary button down
                     if (this.changeCameraOrientation) {
                         this.activeViewCamera.updateOrientation(mouseIncrement.multiply(new THREE.Vector2(-0.5, 0.5)));
                         this.displayPanel();
@@ -798,6 +822,21 @@ export default class ThumbRaiser {
                 this.renderer.render(this.scene3D, this.miniMapCamera.object);
                 this.renderer.render(this.scene2D, this.camera2D);
             }
+        }
+    }
+
+    primaryButtonBedClick() {
+        let bed = null;
+        console.log("--------------------");
+        bed = this.maze.raycasterInterception(this.raycaster);
+
+        if (bed) {
+            const targetPosition = bed.clone();
+            targetPosition.position.y += 4;
+            this.activeViewCamera.moveCamera(targetPosition);
+            this.activeViewCamera.updateOrientation(new Orientation(-1000, -90));
+            this.activeViewCamera.setDistance(10);
+            this.activeViewCamera.setZoom(1);
         }
     }
 }

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Orientation from "./orientation.js";
+import { gsap } from "gsap";
 
 /*
  * parameters = {
@@ -246,4 +247,21 @@ export default class Camera {
     updateZoom(zoomIncrement) {
         this.setZoom(this.zoom + zoomIncrement);
     }
+
+    moveCamera(targetPosition) {
+        const duration = 2.5; // Duração da animação
+    
+        // Usar GSAP para animar a posição da câmera
+        gsap.to(this.object.position, {
+            x: targetPosition.position.x,
+            y: targetPosition.position.y,
+            z: targetPosition.position.z, // Ajustar distância, se necessário
+            duration: duration,
+            ease: "power2.out", // Suavização da animação
+            onUpdate: () => {
+                
+            },
+        });
+    }
+    
 }
