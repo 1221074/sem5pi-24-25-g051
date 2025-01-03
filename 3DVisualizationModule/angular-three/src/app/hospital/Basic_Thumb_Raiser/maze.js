@@ -1203,8 +1203,8 @@ export default class Maze {
                 this.surgeryRoomModels.push(bedClone); // Add the cloned bed to the surgery room models array
 
                 bedRaycaster = this.raycaster.clone();
-                bedRaycaster.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.1 });
-                bedRaycaster.position.set(bedData.position[0] + bedErrorRaycaster.x, bedErrorRaycaster.y, bedData.position[2] + bedErrorRaycaster.z);
+                bedRaycaster.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
+                bedRaycaster.position.set(bedData.position[0] + bedErrorRaycaster.x, bedErrorRaycaster.y, bedData.position[2] + bedErrorRaycaster.z + 0.3);
                 this.raycasterArray.push(bedRaycaster);
                 this.object.add(bedRaycaster);
             });

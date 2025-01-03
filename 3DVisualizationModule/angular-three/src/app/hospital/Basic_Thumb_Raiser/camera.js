@@ -255,7 +255,7 @@ export default class Camera {
         gsap.to(this.object.position, {
             x: targetPosition.position.x,
             y: targetPosition.position.y,
-            z: targetPosition.position.z, // Ajustar distância, se necessário
+            z: targetPosition.position.z - 0.3, // Ajustar distância, se necessário
             duration: duration,
             ease: "power2.out", // Suavização da animação
             onUpdate: () => {
