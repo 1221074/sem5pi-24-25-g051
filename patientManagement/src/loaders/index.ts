@@ -26,7 +26,7 @@ export default async ({ expressApp }) => {
 
   const freeTextSchema = {
     name: "FreeTextSchema",
-    schema: "../persistence/schemas/freetextSchema"
+    schema: "../persistence/schemas/freeTextSchema"
   }
 
 
