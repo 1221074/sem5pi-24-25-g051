@@ -59,7 +59,7 @@ export default {
 
     freeText: {
       name: "FreeTextController",
-      path: "../controllers/freeTextController"
+      path: "../controllers/FreeTextController"
     },
   },
 
