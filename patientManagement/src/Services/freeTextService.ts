@@ -97,4 +97,21 @@ export default class FreeTextService implements IFreeTextService {
       throw new Error(`Error fetching free texts: ${error.message}`);
     }
   }
+
+  public async getFreeText(id: string): Promise<Result<IfreeTextDTO>> {
+    try {
+      const freeText = await this.freeTextRepo.findByDomainId(id);
+
+      if (!freeText) {
+        throw new Error('Free Text not found');
+      }
+
+      const freeTextDTOResult = FreeTextMap.toDTO(freeText) as IfreeTextDTO;
+
+      return Result.ok<IfreeTextDTO>(freeTextDTOResult);
+    } catch (error) {
+      this.logger.error(`Error fetching free text: ${error.message}`);
+      throw new Error(`Error fetching free text: ${error.message}`);
+    }
+  }
 }
