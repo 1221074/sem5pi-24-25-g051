@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant MedicalConditionComponent as comp
+participant MedicalConditionService as ser
+participant "HTTPService" as http
+
+adm -> ui : Requests to list all medical conditions
+activate adm
+activate ui
+
+ui -> comp : getAllMedicalConditions()
+activate comp
+
+comp -> ser : fetchAllMedicalConditions()
+activate ser
+
+ser -> http : GET environment.apiURL/medical-condition
+activate http
+
+http -> MedicalConditionService : getAllMedicalConditions()
+deactivate http
+
+MedicalConditionService -> Repository : findAll()
+activate Repository
+
+Repository -> MongoDB : findAll()
+activate MongoDB
+
+MongoDB -> Repository : medical condition data
+deactivate MongoDB
+
+Repository -> MedicalConditionService : medical condition data
+deactivate Repository
+MedicalConditionService -> ser : medical condition data
+deactivate MedicalConditionService
+
+deactivate http
+ser -> comp : medical condition data
+deactivate ser
+comp -> ui : medical condition data
+
+deactivate comp
+ui -> adm : Displays the list of medical conditions
+
+adm -> ui : Types a search term in the search box
+ui -> comp : filterMedicalConditions(searchTerm)
+activate comp
+
+comp -> comp : Filters conditions using local variable
+comp -> ui : filtered medical condition data
+
+deactivate comp
+ui -> adm : Displays the filtered list of medical conditions
+deactivate adm
+@enduml
