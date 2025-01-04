@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     const token = response.credential;
     const decodedToken: any = jwtDecode(token);
     const email = decodedToken.email;
+    localStorage.setItem('email', email);
 
     //put the token in localStorage
     localStorage.setItem('token', token);

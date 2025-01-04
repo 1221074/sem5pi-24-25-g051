@@ -108,7 +108,7 @@ export default class MedicalRecordController implements IMedicalRecordController
       // generate a password
       const password = Math.random().toString(36).slice(-8);
   
-      const encryptedZip = await createEncryptedZip(data, password);
+      const encryptedZip = await createEncryptedZip(jsonData, password);
 
       // Send email
       const mailOptions = {
