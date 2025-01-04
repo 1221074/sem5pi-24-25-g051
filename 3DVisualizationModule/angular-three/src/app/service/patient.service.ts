@@ -143,4 +143,29 @@ export class PatientService {
       throw error;
     }
   }
+
+  async downloadMedicalRecordData(patientId: string):  Promise<Observable<any>> {
+    try {
+      const response = await fetch(environment.apiURL2 + `/medicalrecord/${patientId}/sendEncryptedData`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //body: JSON.stringify(patientId),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        // Handle non-200 responses
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error sending your data');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle or rethrow the error as appropriate
+      throw error;
+    }
+  }
 }
