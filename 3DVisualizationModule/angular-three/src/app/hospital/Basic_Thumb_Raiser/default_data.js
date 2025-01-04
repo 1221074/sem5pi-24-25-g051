@@ -20,7 +20,7 @@ export const playerData = {
     initialDirection: 0.0, // Expressed in degrees
     turningSpeed: 100.0, // Expressed in degrees / second
     runningFactor: 2.0, // Affects walking speed and turning speed
-    keyCodes: { fixedView: "Digit1", firstPersonView: "Digit2", thirdPersonView: "Digit3", topView: "Digit4", viewMode: "KeyV", userInterface: "KeyU", miniMap: "KeyM", help: "KeyH", statistics: "KeyS", run: "KeyR", left: "ArrowLeft", right: "ArrowRight", backward: "ArrowDown", forward: "ArrowUp", jump: "KeyJ", yes: "KeyY", no: "KeyN", wave: "KeyW", punch: "KeyP", thumbsUp: "KeyT", roomInfo: "KeyI" }
+    keyCodes: { fixedView: "Digit1", firstPersonView: "Digit2", thirdPersonView: "Digit3", topView: "Digit4", viewMode: "KeyV", userInterface: "KeyU", miniMap: "KeyM", help: "KeyH", statistics: "KeyS", run: "KeyR", left: "ArrowLeft", right: "ArrowRight", backward: "ArrowDown", forward: "ArrowUp", jump: "KeyJ", yes: "KeyY", no: "KeyN", wave: "KeyW", punch: "KeyP", thumbsUp: "KeyT"/*, roomInfo: "KeyI"*/ }
 }
 
 export const lightsData = {
@@ -42,7 +42,7 @@ export const cameraData = {
     multipleViewsViewport: new THREE.Vector4(0.0, 0.0, 1.0, 1.0), // Viewport position and size: fraction of window width and window height; MUST BE REDEFINED when creating an instance of ThumbRaiser() so that each view is assigned a different viewport
     target: new THREE.Vector3(0.0, 0.0, 0.0), // Target position
     initialOrientation: new Orientation(180.0, -45.0), // Horizontal and vertical orientation and associated limits (expressed in degrees)
-    orientationMin: new Orientation(-360.0, -90.0),
+    orientationMin: new Orientation(-540.0, -90.0),
     orientationMax: new Orientation(360.0, 0.0),
     initialDistance: 8.0, // Distance to the target and associated limits
     distanceMin: 4.0,

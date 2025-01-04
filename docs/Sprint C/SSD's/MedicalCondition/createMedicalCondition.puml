@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant MedicalConditionComponent as comp
+participant MedicalConditionService as ser
+participant "HTTPService" as http
+
+adm -> ui : Requests to add a medical condition
+activate adm
+activate ui
+
+ui -> adm : Presents the menu to fill the medical condition data
+
+adm -> ui : Admin fills the data and clicks on the button to add
+
+ui -> comp : registerMedicalCondition(newConditionName, newConditionDescription)
+activate comp
+
+comp -> ser : createMedicalCondition(conditionData)
+activate ser
+
+ser -> http : POST environment.apiURL/medical-condition
+activate http
+
+http -> MedicalConditionService : createMedicalCondition(conditionData)
+deactivate http
+
+MedicalConditionService -> MedicalCondition : create(conditionData)
+activate MedicalCondition
+
+MedicalCondition -> MedicalConditionService : data
+deactivate MedicalCondition
+activate MedicalConditionService
+
+MedicalConditionService -> Repository : save(data)
+activate Repository
+
+Repository -> MongoDB : save(data)
+activate MongoDB
+
+MongoDB -> Repository : 201 status code
+deactivate MongoDB
+
+Repository -> MedicalConditionService : success
+deactivate Repository
+MedicalConditionService -> ser : success
+deactivate MedicalConditionService
+
+deactivate http
+ser -> comp : success
+deactivate ser
+comp -> ui : successfully created a medical condition
+
+ui -> adm : Shows a success message
+deactivate adm
+deactivate ui
+@enduml

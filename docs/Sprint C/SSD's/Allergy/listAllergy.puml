@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant XComponent as comp
+participant XService as ser
+participant "HTTPService" as http
+
+adm -> ui : Requests to list all allergies
+activate adm
+activate ui
+
+ui -> comp : searchAllergies()
+activate comp
+
+comp -> ser : fetchAllAllergies()
+activate ser
+
+ser -> http : GET environment.apiURL/allergy
+activate http
+
+http -> AllergyService : getAllAllergies()
+deactivate http
+
+AllergyService -> Repository : findAll()
+activate Repository
+
+Repository -> MongoDB : findAll()
+activate MongoDB
+
+MongoDB -> Repository : allergy data
+deactivate MongoDB
+
+Repository -> AllergyService : allergy data
+deactivate Repository
+AllergyService -> ser : allergy data
+deactivate AllergyService
+
+deactivate http
+ser -> comp : allergy data
+deactivate ser
+comp -> ui : allergy data
+
+deactivate comp
+ui -> adm : Displays the list of allergies
+
+adm -> ui : Types a search term in the search box
+ui -> comp : filterAllergies(searchTerm)
+activate comp
+
+comp -> comp : Filters allergies using local variable
+comp -> ui : filtered allergy data
+
+deactivate comp
+ui -> adm : Displays the filtered list of allergies
+deactivate adm
+
+@enduml

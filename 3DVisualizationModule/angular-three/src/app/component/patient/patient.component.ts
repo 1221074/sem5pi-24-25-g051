@@ -107,13 +107,18 @@ export class PatientComponent implements OnInit {
   }
 
   async downloadData() {
-    await this.patientService.downloadPersonalData(this.patient.id.toString()).then(() => {
-      this.successMessage = 'Your data is being prepared. Check your email soon.';
+
+    await this.patientService.downloadMedicalRecordData(this.patient.id.toString()).then(() => {
     }).catch(error => {
       this.errorMessage = 'There was an error sending your data. Please try again later.';
     });
 
-    //await this.patientService.downloadMedicalRecordData(this.patient.id.toString()).then(() => {
+    await this.patientService.downloadPersonalData(this.patient.id.toString()).then(() => {
+    }).catch(error => {
+      this.errorMessage = 'There was an error sending your data. Please try again later.';
+    });
+
+    this.successMessage = 'Your data is being sent to your email. Please check your inbox.';
   }
 
   // NAVIGATION METHODS
