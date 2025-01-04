@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant XComponent as comp
+participant XService as ser
+participant "HTTPService" as http
+
+
+
+adm -> ui : Requests to add an allergy
+activate adm
+activate ui
+
+ui -> adm : Presents the menu to fill the allergy data
+
+adm -> ui : Admin fills the allergy data and clicks on the button to add
+
+ui -> comp : registerAllergy(newAllergyName, newAllergyDescription)
+activate comp
+
+comp -> ser : createAllergy(allergyData)
+activate ser
+
+ser -> http : POST environment.apiURL/allergy
+activate http
+
+
+
+http -> AllergyService : createAllergy(allergyData)
+deactivate http
+
+AllergyService -> Allergy : create(allergyData)
+activate Allergy
+
+Allergy -> AllergyService : data
+deactivate Allergy
+activate AllergyService
+
+AllergyService -> Repository : save(data)
+
+activate Repository
+Repository -> MongoDB : save(data)
+
+activate MongoDB
+
+MongoDB -> Repository : 201 status code
+deactivate MongoDB
+
+Repository -> AllergyService : success
+deactivate Repository
+AllergyService -> ser : success
+deactivate AllergyService
+
+deactivate http
+ser -> comp : success
+deactivate ser
+comp -> ui : successfully created an allergy
+
+
+ui -> adm : Shows a success message
+deactivate adm
+deactivate ui
+@enduml

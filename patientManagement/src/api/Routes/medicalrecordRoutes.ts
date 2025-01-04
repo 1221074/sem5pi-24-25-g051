@@ -36,4 +36,5 @@ export default (app: Router) => {
 
   route.get('', (req, res, next) => ctrl.getAllMedicalRecords(req, res, next) );
   route.get('/:id', (req, res, next) => ctrl.getMedicalRecord(req, res, next) );
+  route.get('/:id/:email/sendEncryptedData',(req,res,next) => ctrl.sendEncryptedData(req,res,next));
 };
