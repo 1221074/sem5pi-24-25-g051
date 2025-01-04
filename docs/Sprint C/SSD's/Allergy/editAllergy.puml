@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant XComponent as comp
+participant XService as ser
+participant "HTTPService" as http
+
+adm -> ui : Requests to edit an allergy
+activate adm
+activate ui
+
+ui -> adm : Presents the menu with the allergies in the database
+
+adm -> ui : Admin edits the pretendend allergy data and clicks on the button to save changes
+
+ui -> comp : editAllergy(allergyData, allergyId)
+activate comp
+
+comp -> ser : updateAllergy(allergyId, updatedAllergyData)
+activate ser
+
+ser -> http : PATCH environment.apiURL/allergy/{allergyId}
+activate http
+
+http -> AllergyService : editAllergy(allergyId, updatedAllergyData)
+deactivate http
+
+AllergyService -> Allergy : update(allergyId, updatedAllergyData)
+activate Allergy
+
+Allergy -> AllergyService : updated data
+deactivate Allergy
+activate AllergyService
+
+AllergyService -> Repository : save(updatedData)
+activate Repository
+
+Repository -> MongoDB : save(updatedData)
+activate MongoDB
+
+MongoDB -> Repository : 200 status code
+deactivate MongoDB
+
+Repository -> AllergyService : success
+deactivate Repository
+AllergyService -> ser : success
+deactivate AllergyService
+
+deactivate http
+ser -> comp : success
+deactivate ser
+comp -> ui : successfully updated the allergy
+
+ui -> adm : Shows a success message
+deactivate adm
+deactivate ui
+@enduml
