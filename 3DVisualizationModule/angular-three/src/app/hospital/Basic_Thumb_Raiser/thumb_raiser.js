@@ -540,7 +540,7 @@ export default class ThumbRaiser {
                 (this.mousePosition.y / window.innerHeight) * 2 - 1
               );
             
-            console.log("Clique");
+            console.log("Click: ");
             console.log(this.mousePosition);
             this.raycaster.setFromCamera(normalizedMouse, this.activeViewCamera.perspective);
             this.primaryButtonBedClick();
@@ -822,12 +822,24 @@ export default class ThumbRaiser {
                 this.renderer.render(this.scene3D, this.miniMapCamera.object);
                 this.renderer.render(this.scene2D, this.camera2D);
             }
+            if (!this.keyListenerRegistered) {
+                this.keyListenerRegistered = true;
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'i' || event.key === 'I') {
+                        const roomInfoPanel = document.getElementById('room-info-panel');
+                        if (roomInfoPanel.style.visibility === 'visible') {
+                            this.hideRoomInfo();
+                        } else {
+                            this.showRoomInfo();
+                        }
+                    }
+                });
+            }
         }
     }
 
     primaryButtonBedClick() {
         let bed = null;
-        console.log("--------------------");
         bed = this.maze.raycasterInterception(this.raycaster);
 
         if (bed) {
@@ -838,5 +850,42 @@ export default class ThumbRaiser {
             this.activeViewCamera.setDistance(10);
             this.activeViewCamera.setZoom(1);
         }
+    }
+    
+    showRoomInfo() {
+        const roomInfoPanel = document.getElementById('room-info-panel');
+        const roomInfoContent = document.getElementById('room-info-content');
+    
+        if (roomInfoPanel.style.visibility === 'visible') {
+            // Hide the panel if it is already visible
+            roomInfoContent.innerHTML = '';
+            roomInfoPanel.style.visibility = 'hidden';
+        } else if (this.maze.selectedRoom) {
+            // Show the panel with room information if it is not visible
+            const roomId = this.maze.selectedRoom.id;
+            const isOccupied = this.maze.selectedRoom.occupied;
+            const operationType = this.maze.selectedRoom.operationType;
+            const patientName = this.maze.selectedRoom.patientName || "N/A"; // Adiciona o nome do paciente ou "N/A" se não houver
+    
+            const roomInfoHtml = `
+                <table class="room-info-table">
+                    <tr><th>Room Number:</th><td>${roomId}</td></tr>
+                    <tr><th>Occupied:</th><td>${isOccupied ? "Yes" : "No"}</td></tr>
+                    <tr><th>Patient:</th><td>${patientName}</td></tr>
+                    <tr><th>Surgery:</th><td>${operationType}</td></tr>
+                </table>
+            `;
+    
+            roomInfoContent.innerHTML = roomInfoHtml;
+            roomInfoPanel.style.visibility = 'visible';
+        }
+    }
+
+    hideRoomInfo() {
+        const roomInfoPanel = document.getElementById('room-info-panel');
+        const roomInfoContent = document.getElementById('room-info-content');
+        this.maze.selectedRoom = null;
+        roomInfoContent.innerHTML = '';
+        roomInfoPanel.style.visibility = 'hidden';
     }
 }

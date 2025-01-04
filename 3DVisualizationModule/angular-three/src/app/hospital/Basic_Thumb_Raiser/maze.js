@@ -218,6 +218,8 @@ export default class Maze {
         this.parkingLotModels = [];
         this.cristianoModels = [];
         let bedErrorRaycaster = { x: 1.73, y: 0.5, z: 2.6 };
+        this.selectedRoom = null;
+
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
 
@@ -1567,6 +1569,9 @@ loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
         const intersects = raycasterParam.intersectObjects(this.raycasterArray, false);
         if (intersects.length > 0) {
             console.log('Intersection detected with:', intersects[0].object);
+            
+            this.selectedRoom = intersects[0].object;
+
             return intersects[0].object;
         }
         console.log('No intersection detected');

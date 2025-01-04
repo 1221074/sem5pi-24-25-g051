@@ -55,7 +55,7 @@
         }
 
         table.views {
-            background-color: #70707070;
+            background-color: #44a5fa;
             text-align: right;
         }
 
@@ -66,7 +66,7 @@
 
         table.subwindows {
             position: absolute;
-            background-color: #70707070;
+            background-color: #44a5fa;
             text-align: right;
         }
 
@@ -107,6 +107,26 @@
         canvas {
             display: block;
         }
+
+        #room-info-panel {
+            position: absolute;
+            top: 120%;
+            left: 29%;
+            width: 300px;
+            background-color: #44a5fa;
+            color: white;
+            border: 1px solid black;
+            padding: 10px;
+            visibility: hidden;
+            text-align: left;
+            font-size: 1.7vmin;
+
+            h3 {
+                font-size: 2vmin;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 
@@ -160,6 +180,10 @@
                     </td>
                 </tr>
             </table>
+                <div id="room-info-panel" >
+                    <h3>Room Information</h3>
+                    <div id="room-info-content"></div>
+                </div>
         </div>
         <div id="help-panel">
             <table class="help" id="help-table">
@@ -267,11 +291,6 @@
                     <td colspan="2" style="text-align: right"></td>
                 </tr>
             </table>
-        </div>
-        <div id="room-info-panel">
-            <h3>Room Information</h3>
-            <p id="room-info-content">Information about the room will be displayed here.</p>
-            <button onclick="thumbRaiser.hideRoomInfo()">Close</button>
         </div>
         <div id="subwindows-panel">
             <table class="subwindows">
