@@ -6,7 +6,7 @@ import IMedicalRecordService from '../Services/IServices/IMedicalRecordService';
 import { IMedicalRecordDTO } from '../dto/IMedicalRecordDTO';
 import IMedicalRecordController from './IControllers/IMedicalRecordController';
 import { createEncryptedZip } from '../utils/ZipHelper';
-import { sendEmail } from '../utils/EmailService';
+import { sendEmailWithAttachmentUsingGmailApi} from '../utils/EmailService';
 
 @Service()
 export default class MedicalRecordController implements IMedicalRecordController {
@@ -91,42 +91,43 @@ export default class MedicalRecordController implements IMedicalRecordController
 
   public async sendEncryptedData(req: Request, res: Response, next: NextFunction) {
     try {
+       // Retrieve params
       const patientId = req.params.id;
+      const email = req.params.email;
 
-      const medicalRecordData = await this.medicalRecordServiceInstance.getMedicalRecord(patientId);
+      const medicalRecordData = (await this.medicalRecordServiceInstance.getMedicalRecordByPatientId(patientId)).getValue();
 
+      const data ={
+        allergies: medicalRecordData.allergies,
+        medicalConditions: medicalRecordData.medicalConditions,
+        freeText: medicalRecordData.freeText
+      }
+
+      console.log(data);
+    
       if (!medicalRecordData) return res.status(404).json({ message: 'Medical record not found' });
 
-      // Combine data
-      const data = {
-        MedicalRecord: medicalRecordData,
-      };
+      if (!email) {
+        return res.status(400).json({ message: 'Recipient email is required' });
+    }
 
-      // Convert to JSON
-      const jsonData = JSON.stringify(data);
+     // Generate encrypted ZIP
+     const password = Math.random().toString(36).slice(-8); // Generate a random password
 
-      // generate a password
-      const password = Math.random().toString(36).slice(-8);
-  
-      const encryptedZip = await createEncryptedZip(jsonData, password);
+       // Prepare email content
+        const subject = 'Your Encrypted Medical Record';
+        const htmlBody = `<p>Hello,</p>
+                          <p>Attached is your encrypted medical record. The password is ${password}</p>
+                          <p>Thank you!</p>`;
 
-      // Send email
-      const mailOptions = {
-        from: 'sem5pi2425g051@gmail.com',
-        to: localStorage.getItem('email'),
-        subject: 'Your Encrypted Personal Data',
-        text: 'In this encrypted zip, you have the file that correponds to your medical history. The password is '+password,
-        attachments: [
-          {
-            filename: 'MedicalHistory.zip',
-            content: encryptedZip,
-          },
-        ],
-      };
+        const attachment = await createEncryptedZip(JSON.stringify(data), password);
+        const attachmentFileName = 'MedicalRecord.zip';
 
-      await sendEmail(mailOptions);
+        // Send the email with attachment
+        await sendEmailWithAttachmentUsingGmailApi(email.toString(), subject, htmlBody, attachment, attachmentFileName);
 
-      return res.status(200).json({ message: 'Encrypted data sent to your email successfully.' });
+        // Respond with success
+        return res.status(200).json({ message: 'Email sent successfully!', password });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'An error occurred while sending your data.' });

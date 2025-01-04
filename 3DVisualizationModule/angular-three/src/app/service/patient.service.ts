@@ -146,7 +146,7 @@ export class PatientService {
 
   async downloadMedicalRecordData(patientId: string):  Promise<Observable<any>> {
     try {
-      const response = await fetch(environment.apiURL2 + `/medicalrecord/${patientId}/sendEncryptedData`, {
+      const response = await fetch(environment.apiURL2 + `/medicalrecord/${patientId}/${localStorage.getItem('email')}/sendEncryptedData`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

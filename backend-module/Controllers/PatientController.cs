@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using backend_module.Models.Patient;
 using backend_module.Models.Shared;
 using backend_module.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace backend_module.Controllers
@@ -49,34 +51,29 @@ namespace backend_module.Controllers
             {
                 // 1. Retrieve patient data (including any cross-service calls to Node.js if needed)
                 var patientData = await _service.GetByIdAsync(new PatientId(id));
-                var patientMedicalRecordData = await _service.GetMedicalRecordByPatientIdAsync(id);
-                System.Diagnostics.Debug.WriteLine(patientMedicalRecordData);
-
+               
                 if (patientData == null)
                     return NotFound("Patient not found");
 
-                if (patientMedicalRecordData == null)
-                    return NotFound("Medical record not found");
-
-                    // 3. Combine both into a single object
+                // 3. Combine both into a single object
                 var combinedData = new {
                     Patient = patientData,
-                    MedicalRecord = patientMedicalRecordData
                 };
 
                 // 4. Convert combined data to JSON
                 string jsonData = System.Text.Json.JsonSerializer.Serialize(combinedData);
 
-                
+                //generate a random password
+                string password = GenerateRandomPassword(10);
+
                 // 3. Generate an encrypted ZIP file from the JSON
-                byte[] zipBytes = ZipEncryptionHelper.CreateEncryptedZip(jsonData, id);
+                byte[] zipBytes = ZipEncryptionHelper.CreateEncryptedZip(jsonData, password);
 
                 // 4. Assign email parameters
                 string toEmail = patientData.Email;
                 string subject = "Your Encrypted Personal Data";
                 string body = "In the encrypted zip you have the files that belong to you." +
-                              "The Password is your nif number.";
-
+                              "The Password is:"+password;
 
                 // 5. Send the ZIP via email
                 await GetGmailService.SendEmailWithAttachmentUsingGmailApi(
@@ -94,6 +91,24 @@ namespace backend_module.Controllers
                 return StatusCode(500, "An error occurred while sending your data.");
             }
         }
+        private string GenerateRandomPassword(int length)
+    {
+        const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder password = new StringBuilder();
+        using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+        {
+            byte[] uintBuffer = new byte[sizeof(uint)];
+
+            while (length-- > 0)
+            {
+                rng.GetBytes(uintBuffer);
+                uint num = BitConverter.ToUInt32(uintBuffer, 0);
+                password.Append(validChars[(int)(num % (uint)validChars.Length)]);
+            }
+        }
+
+        return password.ToString();
+    }
 
         [HttpGet("/api/patient/firstname/{name}")]
      //   [Authorize(Roles = "Admin")]
