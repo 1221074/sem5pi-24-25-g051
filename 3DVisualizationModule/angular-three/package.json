@@ -30,6 +30,7 @@
     "angular-three": "file:",
     "express": "^4.21.1",
     "gapi-script": "^1.2.0",
+    "gsap": "^3.12.5",
     "jwt-decode": "^4.0.0",
     "lil-gui": "^0.20.0",
     "lodash": "^4.17.21",

@@ -144,6 +144,15 @@ export default class Maze {
             this.object.add(directionalLight);
             */
 
+            // Raycaster
+
+            const raycasterGeometry = new THREE.BoxGeometry(1.5, 0.7, 1);
+            const raycasterMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            this.raycaster = new THREE.Mesh(raycasterGeometry, raycasterMaterial);
+            this.raycasterArray = [];
+            //this.raycaster.position.set(-1, 0.5, -1.65);
+            //this.object.add(this.raycaster);
+
             this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
             this.loaded = true;
         }
@@ -208,7 +217,7 @@ export default class Maze {
         this.bedroomModels = [];
         this.parkingLotModels = [];
         this.cristianoModels = [];
-
+        let bedErrorRaycaster = { x: 1.73, y: 0.5, z: 2.6 };
         // Create a resource .gltf or .glb file loader
         const loaderGLTF = new GLTFLoader();
 
@@ -243,7 +252,7 @@ export default class Maze {
             });
         });
 
-
+/*
         //=======================================================================================================
         // Reception desk
         loaderGLTF.load('./models/reception_desk/scene.gltf', (gltf) => {
@@ -999,7 +1008,7 @@ export default class Maze {
         });
         
 
-
+*/
         //=======================================================================================================
         // Consultório
 
@@ -1174,6 +1183,7 @@ export default class Maze {
         loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
             const originalBed = gltf.scene;
             originalBed.visible = false; // Hide the original model for cloning
+            let bedRaycaster; // Create a raycaster for the bed model
         
             // Iterate over the surgicalBeds configuration and create clones for each
             this.surgicalBeds.forEach((bedData) => {
@@ -1191,6 +1201,12 @@ export default class Maze {
                 this.object.add(bedClone); // Add the clone to the object
         
                 this.surgeryRoomModels.push(bedClone); // Add the cloned bed to the surgery room models array
+
+                bedRaycaster = this.raycaster.clone();
+                bedRaycaster.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
+                bedRaycaster.position.set(bedData.position[0] + bedErrorRaycaster.x, bedErrorRaycaster.y, bedData.position[2] + bedErrorRaycaster.z + 0.3);
+                this.raycasterArray.push(bedRaycaster);
+                this.object.add(bedRaycaster);
             });
         });
         
@@ -1545,4 +1561,15 @@ loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
     foundExit(position) {
         return Math.abs(position.x - this.exitLocation.x) < 0.5 * this.scale.x && Math.abs(position.z - this.exitLocation.z) < 0.5 * this.scale.z
     };
+
+    raycasterInterception(raycasterParam) {
+
+        const intersects = raycasterParam.intersectObjects(this.raycasterArray, false);
+        if (intersects.length > 0) {
+            console.log('Intersection detected with:', intersects[0].object);
+            return intersects[0].object;
+        }
+        console.log('No intersection detected');
+        return null;
+    }
 }
