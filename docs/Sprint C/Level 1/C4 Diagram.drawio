@@ -1,0 +1,49 @@
+<mxfile host="drawio-plugin" modified="2025-01-05T15:33:28.332Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" version="22.1.22" etag="JlONOCrOKJ7X7ftT0Urw" type="embed">
+  <diagram id="GrhaHlsVq-q_qrzSCBWU" name="Page-1">
+    <mxGraphModel dx="1707" dy="643" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Surgical Appointment and &lt;br&gt;Resource &lt;br&gt;Management&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="140" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=-0.005;entryY=0.639;entryDx=0;entryDy=0;entryPerimeter=0;endFill=0;startArrow=block;startFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="4" target="2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="316.03" as="sourcePoint" />
+            <mxPoint x="367.4000000000001" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4" value="Email System&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;The internal Gmail email system&amp;nbsp;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-20" y="170" width="185" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="sends mails using" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="185" y="165" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.616;entryY=0.987;entryDx=0;entryDy=0;entryPerimeter=0;endFill=0;startArrow=block;startFill=1;exitX=0.1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="7" target="4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="360" as="sourcePoint" />
+            <mxPoint x="126" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7" value="&lt;br&gt;User&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;In order to confirm the creation of account in the app&lt;/font&gt;" style="shape=actor;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="320" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endFill=0;startArrow=block;startFill=1;exitX=0.328;exitY=-0.027;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="12" target="2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="326" as="sourcePoint" />
+            <mxPoint x="476" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="10" value="Gets user &lt;br&gt;information from&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="402.5" y="280" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="385" y="340" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Databases&#39;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="465" y="340" width="80" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
