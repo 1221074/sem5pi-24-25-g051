@@ -15,9 +15,17 @@ async function startServer() {
         credentials: false, // Allow cookies if needed
     };
 
+    const corsOptions2: cors.CorsOptions = {
+        origin: 'http://localhost:4000', // Allow requests only from this origin
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed request methods
+        allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+        credentials: false, // Allow cookies
+    }
+
 
     // Middleware
     app.use(cors(corsOptions));
+    app.use(cors(corsOptions2));
 
      // Opcional: Para permitir pré-verificações CORS (preflight requests)
      app.options('*', cors(corsOptions));

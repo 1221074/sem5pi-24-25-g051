@@ -77,7 +77,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost4000",
+    options.AddPolicy("ServerFrontend",
         builder => builder.WithOrigins("http://vs743.dei.isep.ipp.pt:4000")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
@@ -88,6 +88,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost5000",
     builder => builder.WithOrigins("http://localhost:5000")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials());
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost4000",
+    builder => builder.WithOrigins("http://localhost:4000")
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials());
@@ -193,6 +202,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowLocalhost4000");
+app.UseCors("AllowLocalhost5000");
+app.UseCors("ServerFrontend");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

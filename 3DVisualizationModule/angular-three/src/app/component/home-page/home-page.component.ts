@@ -13,15 +13,15 @@ import { Router } from '@angular/router';
 export class HomePageComponent {
   //  homePageService: HomePageService = inject(HomePageService);
 
+  selectedSection = '';
 
-    constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-    onClickToLogin() {
-      this.router.navigate(['/login']);
-  }
-  onClickToPolicyPrivacy() {
-    //this.router.navigate(['/policy-privacy']);
+  onClickToLogin() {
+    this.router.navigate(['/login']);
   }
 
-
+  showSection(section: string) {
+    this.selectedSection = section;
+  }
 }

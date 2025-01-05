@@ -2,7 +2,83 @@
   <section>
     <button (click)="onClickToLogin()">Go to Login</button>
   </section>
-  <section>
-    <button (click)="onClickToPolicyPrivacy()"> Privacy Policy</button>
+<section class="admin-3d-visualization" [style.display]="selectedSection ? 'none' : 'block'">
+    <button (click)="showSection('privacyPolicy')"> Privacy Policy</button>
+  </section>
+
+  <section [style.display]="selectedSection === 'privacyPolicy' ? 'block' : 'none'">
+    <h2>User Data Usage</h2>
+    <p>
+      We value your privacy and are commited to providing clear information about how your personal data is handled
+      in compliance with the General Data Protection Regulation (GDPR). Below, we explain what data is processed,
+      how it is processed, your rights under the GDPR and how long we will keep your data.
+    </p>
+
+    <h2>What data is processed?</h2>
+    <p>We process the following data:</p>
+    <ul>
+      <li>First Name</li>
+      <li>Last Name</li>
+      <li>Full Name</li>
+      <li>Birth Date</li>
+      <li>Sex</li>
+      <li>Email</li>
+      <li>Phone Number</li>
+      <li>Emergency Contact</li>
+      <li>Medical Record (allergies and medical conditions)</li>
+      <li>Medical History</li>
+    </ul>
+
+    <h2>How is the data processed?</h2>
+    <p>We process your data for the following purposes:</p>
+    <ul>
+      <li>Providing medical care and treatment</li>
+      <li>Administrative tasks, such as scheduling appointments</li>
+      <li>Providing you with access to your own data</li>
+      <li>Compliance with legal and regulatory requirements</li>
+    </ul>
+
+    <p>
+      All data processing activities are carried out in accordance with the General Data Protection Regulation (GDPR),
+      ensuring that your data is processed securely and confidentially while respecting your rights.
+    </p>
+
+    <h2>What are your rights under the GDPR</h2>
+    <p>
+      Under the GDPR, you have the following rights regarding your personal data:
+    </p>
+    <ul>
+      <li>Right to access (Article 15): You can request a copy of your personal data and supplementary information.</li>
+      <li>Right to rectification (Article 16): You can ask us to correct inaccurate or incomplete data.</li>
+      <li>Right to erasure (Article 17): You can request the deletion of your data, subject to legal requirements.</li>
+      <li>Right to restriction of processing (Article 18): You can limit how your data is used in certain circumstances.
+      </li>
+      <li>Right to data portability (Article 20): You can request your data in a structured, machine-readable format to
+        transfer to another controller.</li>
+    </ul>
+
+    <p>You can request a copy, an update and the deletion of your personal data in your user page.</p>
+    <p>If you have any question on how to exercise your rights, please contact our staff team. We will respond to your
+      request promptly and in compliance with GDPR timelines.</p>
+
+    <h2>How long will we keep your data?</h2>
+    <p>
+      While you are a registered user, we will keep your data for as long as necessary to provide you with medical care
+      and treatment,
+      as well as to comply with legal and regulatory requirements, or for 5 years after the last patient interaction.
+      After this period, your data will be securely deleted.
+      If you deactivate your account, your data will be kept for a period of 30 days. After this period, your data will
+      be securely deleted.
+    </p>
+
+    <br>
+
+    <p>
+      If you have any questions or concerns about how your data is processed, please contact our staff team.
+      We are here to help and ensure that your data is handled securely and confidentially.
+    </p>
+
+    <br>
+    <button class="backBtn" (click)="showSection('')">Back to Main Menu</button>
   </section>
 </div>
