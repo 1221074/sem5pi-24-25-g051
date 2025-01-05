@@ -9,7 +9,7 @@ async function startServer() {
 
     // CORS Configuration
     const corsOptions: cors.CorsOptions = {
-        origin: 'http://vs743:4000', // Allow requests only from this origin
+        origin: 'http://vs743.dei.isep.ipp.pt:4000', // Allow requests only from this origin
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed request methods
         allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
         credentials: false, // Allow cookies if needed
