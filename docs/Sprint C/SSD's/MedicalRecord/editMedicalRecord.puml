@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Doctor" as doc
+participant UI as ui
+participant MedicalRecordComponent as comp
+participant MedicalRecordService as ser
+participant "HTTPService" as http
+
+doc -> ui : Requests to edit a medical record
+activate doc
+activate ui
+
+ui -> doc : Presents the current medical record data
+
+doc -> ui : Admin modifies the data and clicks on the button to save changes
+
+ui -> comp : updateMedicalRecord(recordId, updatedRecordData)
+activate comp
+
+comp -> ser : editMedicalRecord(recordId, updatedRecordData)
+activate ser
+
+ser -> http : PATCH environment.apiURL/medical-record/{recordId}
+activate http
+
+http -> MedicalRecordService : editMedicalRecord(recordId, updatedRecordData)
+deactivate http
+activate MedicalRecordService
+MedicalRecordService -> MedicalRecord : update(recordId, updatedRecordData)
+activate MedicalRecord
+
+MedicalRecord -> MedicalRecordService : updated data
+deactivate MedicalRecord
+
+
+MedicalRecordService -> Repository : save(updatedData)
+activate Repository
+
+Repository -> MongoDB : save(updatedData)
+activate MongoDB
+
+MongoDB -> Repository : 200 status code
+deactivate MongoDB
+
+Repository -> MedicalRecordService : success
+deactivate Repository
+MedicalRecordService -> ser : success
+deactivate MedicalRecordService
+
+deactivate http
+ser -> comp : success
+deactivate ser
+comp -> ui : successfully updated the medical record
+
+ui -> doc : Shows a success message
+deactivate doc
+deactivate ui
+@enduml
