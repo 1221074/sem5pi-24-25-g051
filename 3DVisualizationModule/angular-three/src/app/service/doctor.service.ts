@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Allergy } from '../interface/allergy';
 import { MedicalCondition } from '../interface/medical-condition';
 import { MedicalRecord } from '../interface/medical-record';
+import { Appointment } from '../interface/appointment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,11 @@ export class DoctorService {
   async getOperationOfDoctorById(id: string): Promise<Operationrequest | undefined> {
     const data = await fetch(`${this.url}/${id}`);
         return await data.json() ?? [];
+  }
+
+  async getAllAppointments(): Promise<Appointment[]> {
+    const data = await fetch(environment.apiURL + '/appointment');
+    return await data.json() ?? [];
   }
 
 // SYSTEM DATA =================================================================================================
@@ -160,4 +166,29 @@ export class DoctorService {
       throw error;
     }
   }
+
+  async updateAppointment(appointmentData: any) {
+    try {
+      const response = await fetch(environment.apiURL + '/appointment/' + appointmentData.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(appointmentData),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error updating appointment');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
 }
+
+  

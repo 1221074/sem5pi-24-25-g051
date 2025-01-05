@@ -17,6 +17,8 @@ import { DoctorService } from '../../service/doctor.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { OperationTypeService } from '../../service/operation-type.service';
 import { PatientService } from '../../service/patient.service';
+import { Appointment } from 'src/app/interface/appointment';
+import { StringKeyframeTrack } from 'three';
 
 @Component({
   selector: 'app-doctor',
@@ -50,6 +52,7 @@ export class DoctorComponent implements OnInit {
   selectedSection: string = '';
   selectedConditionId: string = '';
   selectedPriorityState: string = '';
+  selectedAppointment: Appointment | null = null;
 
   // Operation Lists
   filteredOperationList: Operationrequest[] = [];
@@ -64,6 +67,7 @@ export class DoctorComponent implements OnInit {
   filteredMedicalConditionList: MedicalCondition[] = [];
   patients: Patient[] = [];
   patientsWithoutMedicalRecord: Patient[] = [];
+  appointmentList: Appointment[] = [];
 
   // Patient Data
   patientMedicalRecord: MedicalRecord | undefined;
@@ -95,10 +99,12 @@ export class DoctorComponent implements OnInit {
     this.loadPatients();
     this.loadAllergies();
     this.loadMedicalConditions();
+    this.loadAppointments();
     this.updateList();
     this.filteredAllergyList = this.availableAllergies;
     this.filteredMedicalConditionList = this.availableMedicalConditions;
   }
+
 
   // =========================
   // === Data Loaders ===
@@ -117,7 +123,14 @@ export class DoctorComponent implements OnInit {
       this.errorMessage = 'Failed to load patients. Please try again.';
     }
   }
-
+  
+  async loadAppointments() {
+    try {
+      this.appointmentList = await this.doctorService.getAllAppointments();
+    } catch (error) {
+      this.errorMessage = 'Failed to load appointments. Please try again.';
+  }
+}
   /**
    * Loads all operation types from the OperationTypeService.
    */
@@ -537,6 +550,64 @@ export class DoctorComponent implements OnInit {
         this.errorMessage = 'An error occurred while updating the free text. Please try again.';
       }
     }
+
+    async selectAppointmentForUpdate(appointment: Appointment) {
+      // Reset messages
+      this.errorMessage = '';
+      this.successMessage = '';
+      // Find the corresponding operation in the operationList
+      const selectedAppointment = this.appointmentList.find(app => app.id === appointment.id);
+      if (selectedAppointment) {
+        this.selectedAppointment = { ...selectedAppointment }; // Create a copy for editing
+      } else {
+        this.errorMessage = 'Appointment not found for editing.';
+      }
+    }
+
+    async updateSurgeryAppointment(updatedRoomID: string, updatedDateTime: string, updatedDescription: string) {
+      // Reset messages
+      this.errorMessage = '';
+      this.successMessage = '';
+
+      // Validate required fields
+      if (!this.selectedAppointment || !updatedRoomID || !updatedDateTime || !updatedDescription) {
+        this.errorMessage = 'Please fill in all required fields.';
+        return;
+      }
+
+      const appointmentData = {
+        id: this.selectedAppointment.id,
+        requestID: this.selectedAppointment.requestID,
+        roomID: updatedRoomID,
+        dateTime: updatedDateTime,
+        status: this.selectedAppointment.status,
+        description: updatedDescription
+      }
+
+      try {
+        // Update the Appointment via service
+        await this.doctorService.updateAppointment(appointmentData);
+        this.successMessage = 'Appointment updated successfully.';
+        this.selectedAppointment = null;
+        this.loadAppointments();
+      } catch (error: any) {
+        // Handle different error statuses
+        if (error.status === 400) {
+          this.errorMessage = error.error.message || 'Invalid input. Please check your data.';
+        } else if (error.status === 404) {
+          this.errorMessage = 'Appointment not found.';
+        } else {
+          this.errorMessage = 'An error occurred while updating the appointment. Please try again.';
+        }
+      }
+    }
+
+    async cancelAppointmentUpdate() {
+      this.selectedAppointment = null;
+      this.errorMessage = '';
+      this.successMessage = '';
+    }
+
 
   // ===========================================================================================================
   // === Remove Methods ===
