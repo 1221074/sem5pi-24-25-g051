@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Admin" as adm
+participant UI as ui
+participant MedicalRecordComponent as comp
+participant MedicalRecordService as ser
+participant "HTTPService" as http
+
+adm -> ui : Requests to list a patient medical records
+activate adm
+activate ui
+
+ui -> comp : onPatientSelectChange()
+activate comp
+
+comp -> ser : showPatientMedicalRecord(patientId)
+activate ser
+
+ser -> http : GET environment.apiURL/medical-record/{patientId}
+activate http
+
+http -> MedicalRecordService : getMedicalRecord()
+deactivate http
+
+MedicalRecordService -> Repository : findAll()
+activate Repository
+
+Repository -> MongoDB : findAll()
+activate MongoDB
+
+MongoDB -> Repository : medical record data
+deactivate MongoDB
+
+Repository -> MedicalRecordService : medical record data
+deactivate Repository
+MedicalRecordService -> ser : medical record data
+deactivate MedicalRecordService
+
+deactivate http
+ser -> comp : medical record data
+deactivate ser
+comp -> ui : show patient medical record data
+
+deactivate comp
+ui -> adm : Displays the correct patient medical record
+@enduml

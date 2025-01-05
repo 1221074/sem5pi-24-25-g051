@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Doctor" as doc
+participant UI as ui
+participant MedicalRecordComponent as comp
+participant MedicalRecordService as ser
+participant "HTTPService" as http
+
+doc -> ui : Requests to add a patient medical record
+activate doc
+activate ui
+
+ui -> doc : Presents the menu to select the pretended patient
+
+doc -> ui : Admin selects and clicks on the button to add
+
+ui -> comp : registerPatientMedicalRecord(selectedPatientId)
+activate comp
+
+comp -> ser : createMedicalRecord(recordData)
+activate ser
+
+ser -> http : POST environment.apiURL/medical-record
+activate http
+
+http -> MedicalRecordService : createMedicalRecord(recordData)
+deactivate http
+
+MedicalRecordService -> MedicalRecord : create(recordData)
+activate MedicalRecord
+
+MedicalRecord -> MedicalRecordService : data
+deactivate MedicalRecord
+activate MedicalRecordService
+
+MedicalRecordService -> Repository : save(data)
+activate Repository
+
+Repository -> MongoDB : save(data)
+activate MongoDB
+
+MongoDB -> Repository : 201 status code
+deactivate MongoDB
+
+Repository -> MedicalRecordService : success
+deactivate Repository
+MedicalRecordService -> ser : success
+deactivate MedicalRecordService
+
+deactivate http
+ser -> comp : success
+deactivate ser
+comp -> ui : successfully created a medical record
+
+ui -> doc : Shows a success message
+deactivate doc
+deactivate ui
+@enduml

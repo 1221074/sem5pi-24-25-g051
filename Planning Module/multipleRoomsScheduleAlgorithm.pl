@@ -182,17 +182,6 @@ schedule_all_surgeries(Room,Day):-
                         format(" Schedule for ~w in the day ~w: ~w~n", [Room, Day, AgendaRoom]));
                         write(" No room was used.\n")
                     ),
-
-    write("Staff schedules:\n"),
-    findall(Doctor, agenda_staff1(Doctor, Day, _), Doctors),
-    forall(member(Doctor, Doctors),
-    (
-        agenda_staff1(Doctor, Day, AgendaDoc),
-        (is_doctor(Doctor) ->
-            format(" Schedule for the doctor ~w in the day ~w: ~w~n", [Doctor, Day, AgendaDoc]);
-        format( " Schedule for the staff ~w in the day ~w: ~w~n", [Doctor, Day, AgendaDoc])
-        )
-    )),
     get_time(Tf),
     T is Tf-Ti,
     write('Time to generate solution: '),write(T),write("\n").
@@ -302,9 +291,8 @@ treatfin(FinTime, [(In, _) | _], []) :- FinTime =< In, !.
 treatfin(FinTime, [(In, _) | _], [(In, FinTime)]).
 treatfin(_, [], []).
 
-% Intersect agendas
-
-intersect_all_agendas([Name], Date, LA) :- !,
+% Intersect agendas       
+intersect_all_agendas([Name], Date, LA) :- !, 
     availability(Name, Date, LA).
 intersect_all_agendas([Name | LNames], Date, LI) :-
     availability(Name, Date, LA),
@@ -339,7 +327,9 @@ min_max(I, I1, I1, I).
 
 % Remove unfeasible intervals
 remove_unf_intervals(_, [], []).
-remove_unf_intervals(TSurgery, [(Tin, Tfin) | LA], [(Tin, Tfin) | LA1]) :- DT is Tfin - Tin + 1, TSurgery =< DT, !,
+remove_unf_intervals(TSurgery, [(Tin, Tfin) | LA], [(Tin, Tfin) | LA1]) :- 
+    DT is Tfin - Tin + 1, 
+    TSurgery =< DT, !,
     remove_unf_intervals(TSurgery, LA, LA1).
 remove_unf_intervals(TSurgery, [_ | LA], LA1) :- remove_unf_intervals(TSurgery, LA, LA1).
 
