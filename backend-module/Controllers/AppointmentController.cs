@@ -57,6 +57,7 @@ namespace backend_module.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok(appointment);
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -13,6 +13,7 @@
     <button (click)="showSection('updateOperation')">Update Operations</button>
     <button (click)="showSection('removeOperation')">Remove Operations</button>
     <button (click)="showSection('registerSurgeryAppointment')">Create Surgery Appointment</button>
+    <button (click)="showSection('updateSurgeryAppointment')">Override Surgery Appointment</button>
     <button (click)="showSection('listOperation')">Search Operations</button>
     <button (click)="showSection('searchAllergies')">Search Allergies</button>
     <button (click)="showSection('searchMedicalConditions')">Search Medical Conditions</button>
@@ -318,6 +319,68 @@
       )">Create Appointment
       </button>
     </form>
+
+    <button (click)="showSection('')">Back to Main Menu</button>
+  </section>
+
+  <!-- Appointment Update Section -->
+  <section [style.display]="selectedSection === 'updateSurgeryAppointment' ? 'block' : 'none'">
+    <h2>Edit Surgery Appointment</h2>
+    <p>Here you can override an existing surgery appointment.</p>
+
+    <!-- Display success or error messages -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <!-- Table for Appointments -->
+    <table class="table-display">
+      <tr>
+        <th>Room</th>
+        <th>Date & Time</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let appointment of appointmentList">
+        <td>{{ appointment.roomId }}</td>
+        <td>{{ appointment.dateTime }}</td>
+        <td>{{ appointment.description}}</td>
+        
+        <td>
+          <button class="table-button" (click)="selectAppointmentForUpdate(appointment)">Edit</button>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Update Form -->
+    <div *ngIf="selectedAppointment">
+      <form>
+        <div class="form-field">
+          <label for="room">Room ID:</label>
+          <input type="text" id="addRoom" #updatedRoomIDRef />
+        </div>
+
+        <div class="form-field">
+          <label for="appointmentDate">Appointment Date:</label>
+          <input type="datetime-local" id="appointmentDate" #updatedAppointmentDateRef required />
+        </div>
+  
+        <div class="form-field">
+          <label for="description">Description:</label>
+          <input type="text" id="addDescription" #updatedDescriptionRef />
+        </div>
+  
+        <button type="button" class="allergyBtn" (click)="updateSurgeryAppointment(
+          updatedRoomIDRef.value,
+          updatedAppointmentDateRef.value,
+          updatedDescriptionRef.value
+        )">Update Appointment
+        </button>
+      </form>
+      <br />
+      <button type="button" (click)="cancelAppointmentUpdate()">Cancel</button>
+    </div>
+
 
     <button (click)="showSection('')">Back to Main Menu</button>
   </section>
