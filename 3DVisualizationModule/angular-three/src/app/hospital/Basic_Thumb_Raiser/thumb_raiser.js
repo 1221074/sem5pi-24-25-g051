@@ -862,15 +862,24 @@ export default class ThumbRaiser {
             roomInfoPanel.style.visibility = 'hidden';
         } else if (this.maze.selectedRoom) {
             // Show the panel with room information if it is not visible
-            const roomId = this.maze.selectedRoom.id;
-            const isOccupied = this.maze.selectedRoom.occupied;
+            const roomId = this.maze.selectedRoom.roomNumber;
+            const capacity = this.maze.selectedRoom.capacity;
+            let status = "";
+            if (this.maze.selectedRoom.status == 0) {
+                status = "Free";
+            } else if (this.maze.selectedRoom.status == 1) {
+                status = "Occupied";
+            } else if (this.maze.selectedRoom.status == 2) {
+                status = "In Maintenance";
+            }
             const operationType = this.maze.selectedRoom.operationType;
             const patientName = this.maze.selectedRoom.patientName || "N/A"; // Adiciona o nome do paciente ou "N/A" se não houver
     
             const roomInfoHtml = `
                 <table class="room-info-table">
                     <tr><th>Room Number:</th><td>${roomId}</td></tr>
-                    <tr><th>Occupied:</th><td>${isOccupied ? "Yes" : "No"}</td></tr>
+                    <tr><th>Capacity:</th><td>${capacity}</td></tr>
+                    <tr><th>Status:</th><td>${status}</td></tr>
                     <tr><th>Patient:</th><td>${patientName}</td></tr>
                     <tr><th>Surgery:</th><td>${operationType}</td></tr>
                 </table>

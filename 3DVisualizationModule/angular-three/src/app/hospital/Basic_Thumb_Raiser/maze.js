@@ -153,6 +153,8 @@ export default class Maze {
             //this.raycaster.position.set(-1, 0.5, -1.65);
             //this.object.add(this.raycaster);
 
+            this.roomsArray = [];
+
             this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
             this.loaded = true;
         }
@@ -1181,12 +1183,17 @@ export default class Maze {
         });
         });
 
+        // Função para carregar o JSON e tratar os dados
+        fetch('https://vs550:7252/api/surgeryroom').then((response) => response.json()).then((roomsData) => {
+            this.roomsArray = roomsData;
+        });
 
         loaderGLTF.load('./models/surgical_bed/scene.gltf', (gltf) => {
             const originalBed = gltf.scene;
             originalBed.visible = false; // Hide the original model for cloning
             let bedRaycaster; // Create a raycaster for the bed model
-        
+            let index = 0; // Initialize the index for the rooms array
+
             // Iterate over the surgicalBeds configuration and create clones for each
             this.surgicalBeds.forEach((bedData) => {
                 let bedClone = originalBed.clone(true); // Clone the original bed
@@ -1207,6 +1214,12 @@ export default class Maze {
                 bedRaycaster = this.raycaster.clone();
                 bedRaycaster.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
                 bedRaycaster.position.set(bedData.position[0] + bedErrorRaycaster.x, bedErrorRaycaster.y, bedData.position[2] + bedErrorRaycaster.z + 0.3);
+                bedRaycaster.roomNumber = this.roomsArray[index].roomNumber;
+                bedRaycaster.status = this.roomsArray[index].currentStatus;
+                bedRaycaster.capacity = this.roomsArray[index].capacity;
+
+                index++;
+
                 this.raycasterArray.push(bedRaycaster);
                 this.object.add(bedRaycaster);
             });
@@ -1565,16 +1578,29 @@ loaderGLTF.load('./models/hospitaldoor_double_swing/scene.gltf', (gltf) => {
     };
 
     raycasterInterception(raycasterParam) {
-
+        // Obter as interseções
         const intersects = raycasterParam.intersectObjects(this.raycasterArray, false);
+    
         if (intersects.length > 0) {
             console.log('Intersection detected with:', intersects[0].object);
-            
-            this.selectedRoom = intersects[0].object;
-
-            return intersects[0].object;
+    
+            // Encontrar a entrada completa do raycaster associado no array
+            const intersectedEntry = this.raycasterArray.find(
+                (raycaster) => raycaster === intersects[0].object
+            );
+    
+            // Atualizar a sala selecionada com todos os dados relevantes
+            this.selectedRoom = {
+                roomNumber: intersectedEntry.roomNumber,
+                status: intersectedEntry.status,
+                capacity: intersectedEntry.capacity,
+            };
+    
+            return intersectedEntry; // Retorna a entrada completa
         }
+    
         console.log('No intersection detected');
-        return null;
+        return null; // Nenhuma interseção detectada
     }
+    
 }
