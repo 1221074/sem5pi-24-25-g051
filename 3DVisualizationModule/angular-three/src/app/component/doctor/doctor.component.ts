@@ -11,6 +11,7 @@ import { Patient } from '../../interface/patient';
 import { Allergy } from 'src/app/interface/allergy';
 import { MedicalCondition } from 'src/app/interface/medical-condition';
 import { MedicalRecord } from 'src/app/interface/medical-record';
+import { SurgeryRoom } from 'src/app/interface/surgeryroom';
 
 // Services
 import { DoctorService } from '../../service/doctor.service';
@@ -18,7 +19,6 @@ import { AuthenticationService } from '../../service/authentication.service';
 import { OperationTypeService } from '../../service/operation-type.service';
 import { PatientService } from '../../service/patient.service';
 import { Appointment } from 'src/app/interface/appointment';
-import { StringKeyframeTrack } from 'three';
 
 @Component({
   selector: 'app-doctor',
@@ -53,6 +53,9 @@ export class DoctorComponent implements OnInit {
   selectedConditionId: string = '';
   selectedPriorityState: string = '';
   selectedAppointment: Appointment | null = null;
+  selectedRoomNumber: string = '';
+  selectedRequestId : string = '';
+  selectedStatus : string = '';
 
   // Operation Lists
   filteredOperationList: Operationrequest[] = [];
@@ -77,6 +80,8 @@ export class DoctorComponent implements OnInit {
 
   // Operation Types
   operationTypes: OperationType[] = [];
+  operationRequests: Operationrequest[] = [];
+  surgeryRooms: SurgeryRoom[] = [];
 
   // UI State Variables
   errorMessage: string = '';
@@ -96,6 +101,7 @@ export class DoctorComponent implements OnInit {
   ngOnInit() {
     // Initial data loading
     this.loadOperationTypes();
+    this.loadSurgeryRooms();
     this.loadPatients();
     this.loadAllergies();
     this.loadMedicalConditions();
@@ -123,7 +129,7 @@ export class DoctorComponent implements OnInit {
       this.errorMessage = 'Failed to load patients. Please try again.';
     }
   }
-  
+
   async loadAppointments() {
     try {
       this.appointmentList = await this.doctorService.getAllAppointments();
@@ -165,7 +171,22 @@ export class DoctorComponent implements OnInit {
       this.errorMessage = 'Failed to load medical conditions. Please try again.';
     }
   }
+  async loadSurgeryRooms() {
+    try {
+      // Fetch the rooms from your service call
+      this.surgeryRooms = await this.doctorService.getAllSurgeryRooms();
+    } catch (error) {
+      // Set an appropriate error message if the call fails
+      this.errorMessage = 'Failed to load surgery rooms. Please try again.';
+      console.error('Error loading surgery rooms:', error);
+    }
+  }
 
+
+  getPatientName(patientId: string): string {
+    const patient = this.patients.find(p => p.id.toString() === patientId);
+    return patient ? patient.fullName : 'Unknown Patient';
+  }
 
   // ===========================================================================================================
   // === UI Methods ===
@@ -309,46 +330,54 @@ export class DoctorComponent implements OnInit {
    * @param appointmentDate - The date of the appointment.
    */
   async registerSurgeryAppointment(
-    patientId: string,
-    operationTypeId: string,
-    deadlineDate: string,
-    priorityState: string
+    requestId: string,
+    roomId: string,
+    dateTime: string,
+    status: string,
+    description: string
   ) {
     // Reset messages
     this.errorMessage = '';
     this.successMessage = '';
 
+    // Optional: Map status from string to a number, if your backend needs it
+    let numericStatus = 0;
+    if (status === 'Scheduled') {
+      numericStatus = 1;
+    } else if (status === 'Completed') {
+      numericStatus = 2;
+    } else if (status === 'Canceled') {
+      numericStatus = 3;
+    }
+
     // Validate required fields
-    if (!patientId || !operationTypeId || !deadlineDate || !priorityState) {
+    if (!requestId || !roomId || !dateTime || !status || !description) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }
 
     // Validate appointment date is in the future
-    if (new Date(deadlineDate) <= new Date()) {
+    if (new Date(dateTime) <= new Date()) {
       this.errorMessage = 'Appointment date must be in the future.';
       return;
     }
 
-    const doctorId = this.authService.getUserId() as string;
+    	//generate random number
+      const randomNumber = Math.floor(Math.random() * 1000000) + 1;
 
-    //Operation Request Data
+    // Prepare data for the backend
     const appointmentData = {
-      patientId,
-      doctorId,
-      operationTypeId,
-      deadlineDate,
-      priorityState
+      requestId: randomNumber,
+      roomId: Number(roomId),
+      dateTime: dateTime,
+      status: numericStatus,
+      description: description,
     };
 
     console.log(appointmentData);
 
-    this.selectedPatient = await this.patientService.getPatientById(patientId);
-    this.selectedPatient.appointmentList.push(deadlineDate);
-
     try {
-      await this.doctorService.postOperationRequest(appointmentData);
-      await this.patientService.updatePatient(appointmentData.patientId, this.selectedPatient);
+      await this.doctorService.createAppointment(appointmentData);
       this.clearAppointmentValue();
       this.successMessage = 'Surgery appointment created successfully.';
     } catch (error) {
@@ -799,9 +828,6 @@ export class DoctorComponent implements OnInit {
   }
 
   clearAppointmentValue() {
-    this.selectedPatientId = '';
-    this.selectedPriorityState = '';
-    this.selectedOperationTypeId = '';
   }
 
   /**

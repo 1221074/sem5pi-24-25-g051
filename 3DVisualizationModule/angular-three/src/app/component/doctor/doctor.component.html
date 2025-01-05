@@ -270,58 +270,111 @@
     <br><button (click)="showSection('')">Back to Main Menu</button>
   </section>
 
-  <!-- Create Surgery Appointment Section-->
-  <section [style.display]="selectedSection === 'registerSurgeryAppointment' ? 'block' : 'none'">
-    <h2>Create Surgery Appointment</h2>
-    <p>Create a surgery appointment for a patient, bypassing automatic planning.</p>
+<!-- Create Surgery Appointment Section-->
+<section [style.display]="selectedSection === 'registerSurgeryAppointment' ? 'block' : 'none'">
+  <h2>Create Surgery Appointment</h2>
+  <p>Create a surgery appointment, bypassing automatic planning.</p>
 
-    <!-- Display success or error messages -->
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <!-- Display success or error messages -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
 
-    <form>
-      <div class="form-field">
-        <label for="patientId">Patient:</label>
-        <select id="patientId" [(ngModel)]="selectedPatientId" name="patientId" required>
-          <option *ngFor="let patient of patients" [value]="patient.id">
-            {{ patient.fullName }}
-          </option>
-        </select>
-      </div>
+  <form>
+    <!-- Operation Request => requestId -->
+    <div class="form-field">
+      <label for="operationRequestId">Operation Request:</label>
+      <select
+        id="operationRequestId"
+        [(ngModel)]="selectedRequestId"
+        name="operationRequestId"
+        required
+      >
+        <!-- Replace 'operationRequests' with your array of operation requests -->
+        <option
+          *ngFor="let opRequest of operationListToBeDisplayed"
+          [value]="opRequest.id"
+        >
+          <!-- Display patient’s name here -->
+          {{ opRequest.patientName }}
+        </option>
+      </select>
+    </div>
 
-      <div class="form-field">
-        <label for="operationTypeId">Operation Type:</label>
-        <select id="operationTypeId" [(ngModel)]="selectedOperationTypeId" name="operationTypeId" required>
-          <option *ngFor="let operationType of operationTypes" [value]="operationType.id">
-            {{ operationType.name }}
-          </option>
-        </select>
-      </div>
+    <!-- Surgery Room => roomId -->
+    <div class="form-field">
+      <label for="surgeryRoomId">Surgery Room:</label>
+      <select
+        id="surgeryRoomId"
+        [(ngModel)]="selectedRoomNumber"
+        name="surgeryRoomId"
+        required>
 
-      <div class="form-field">
-        <label for="appointmentDate">Appointment Date:</label>
-        <input type="datetime-local" id="appointmentDate" #appointmentDateRef required />
-      </div>
+        <option
+          *ngFor="let room of surgeryRooms"
+          [value]="room.roomNumber"
+        >
+          Room {{ room.roomNumber }}
+        </option>
+      </select>
+    </div>
 
-      <div class="form-field">
-        <label for="priorityState">Priority State:</label>
-        <select id="priorityState" [(ngModel)]="selectedPriorityState" name="priorityState" required>
-          <option value="Urgent">Urgent</option>
-          <option value="Elective">Elective</option>
-          <option value="Emergency">Emergency</option>
-        </select>
-      </div>
+    <!-- Appointment Date -->
+    <div class="form-field">
+      <label for="appointmentDate">Appointment Date:</label>
+      <input
+        type="datetime-local"
+        id="appointmentDate"
+        #appointmentDateRef
+        required
+      />
+    </div>
 
-      <button type="button" class="allergyBtn" (click)="registerSurgeryAppointment(
-        selectedPatientId,
-        selectedOperationTypeId,
-        appointmentDateRef.value, selectedPriorityState
-      )">Create Appointment
-      </button>
-    </form>
+    <!-- Status (Scheduled, Completed, Canceled) -->
+    <div class="form-field">
+      <label for="appointmentStatus">Status:</label>
+      <select
+        id="appointmentStatus"
+        [(ngModel)]="selectedStatus"
+        name="appointmentStatus"
+        required
+      >
+        <option value="Scheduled">Scheduled</option>
+        <option value="Completed">Completed</option>
+        <option value="Canceled">Canceled</option>
+      </select>
+    </div>
 
-    <button (click)="showSection('')">Back to Main Menu</button>
-  </section>
+    <!-- Description -->
+    <div class="form-field">
+      <label for="description">Description:</label>
+      <input
+        type="text"
+        id="description"
+        #appointmentDescriptionRef
+        required
+      />
+    </div>
+
+    <!-- Button: Calls registerSurgeryAppointment with 5 arguments -->
+    <button
+      type="button"
+      class="allergyBtn"
+      (click)="registerSurgeryAppointment(
+        selectedRequestId,
+        selectedRoomNumber,
+        appointmentDateRef.value,
+        selectedStatus,
+        appointmentDescriptionRef.value
+      )"
+    >
+      Create Appointment
+    </button>
+  </form>
+
+  <button (click)="showSection('')">Back to Main Menu</button>
+</section>
+
+
 
   <!-- Appointment Update Section -->
   <section [style.display]="selectedSection === 'updateSurgeryAppointment' ? 'block' : 'none'">
@@ -345,7 +398,7 @@
         <td>{{ appointment.roomId }}</td>
         <td>{{ appointment.dateTime }}</td>
         <td>{{ appointment.description}}</td>
-        
+
         <td>
           <button class="table-button" (click)="selectAppointmentForUpdate(appointment)">Edit</button>
         </td>
@@ -364,12 +417,12 @@
           <label for="appointmentDate">Appointment Date:</label>
           <input type="datetime-local" id="appointmentDate" #updatedAppointmentDateRef required />
         </div>
-  
+
         <div class="form-field">
           <label for="description">Description:</label>
           <input type="text" id="addDescription" #updatedDescriptionRef />
         </div>
-  
+
         <button type="button" class="allergyBtn" (click)="updateSurgeryAppointment(
           updatedRoomIDRef.value,
           updatedAppointmentDateRef.value,

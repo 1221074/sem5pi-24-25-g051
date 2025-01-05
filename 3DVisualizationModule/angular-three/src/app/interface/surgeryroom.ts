@@ -1,4 +1,8 @@
 export interface SurgeryRoom {
-  id: number;
-  name: string;
+  roomNumber: number;
+  type: string;
+  capacity: string;
+  assignedEquipment: string[];
+  currentStatus: string;
+  maintenanceSlots: string[];
 }

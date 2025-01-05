@@ -1440,7 +1440,7 @@
       <label for="roomNumber">Room Number</label>
       <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
         <option value="" disabled selected>Select Room Number</option>
-        <option *ngFor="let room of roomNumbers" [value]="room.name">{{ room.name }}</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.roomNumber">{{ room.roomNumber }}</option>
       </select>
 
       <label for="planningDate">Date</label>
@@ -1499,7 +1499,7 @@
       <label for="roomNumber">Room Number</label>
       <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
         <option value="" disabled selected>Select Room Number</option>
-        <option *ngFor="let room of roomNumbers" [value]="room.id">{{ room.name }}</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.roomNumber">{{ room.roomNumber }}</option>
       </select>
 
       <label for="planningDate">Date</label>
@@ -1549,7 +1549,7 @@
       <label for="roomNumber">Room Number</label>
       <select id="roomNumber" [(ngModel)]="roomNumber" name="roomNumber" required>
         <option value="" disabled selected>Select Room Number</option>
-        <option *ngFor="let room of roomNumbers" [value]="room.name">{{ room.name }}</option>
+        <option *ngFor="let room of roomNumbers" [value]="room.roomNumber">{{ room.roomNumber }}</option>
       </select>
 
       <label for="planningDate">Date</label>

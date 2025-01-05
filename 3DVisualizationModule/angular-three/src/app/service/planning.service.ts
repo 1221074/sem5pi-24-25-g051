@@ -107,16 +107,7 @@ export class PlanningService {
   getAllRooms(): Promise<SurgeryRoom[]> {
     //declare an array so i can place data
     let rooms: SurgeryRoom[] = [
-      {"id": 1, "name": "or1"},
-      {"id": 2, "name": "or2"},
-      {"id": 3, "name": "or3"},
-      {"id": 4, "name": "or4"},
-      {"id": 5, "name": "or5"},
-      {"id": 6, "name": "or6"},
-      {"id": 7, "name": "or7"},
-      {"id": 8, "name": "or8"},
-      {"id": 9, "name": "or9"},
-      {"id": 10, "name": "or10"},
+      
     ];
 
     return Promise.resolve(rooms);
