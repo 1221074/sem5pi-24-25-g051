@@ -126,24 +126,6 @@ export default class Maze {
                 }
             }
 
-            /*
-            // Adicionar o retângulo à cena
-            const wallGeometry = new THREE.BoxGeometry(1, 2, 0.1); // Largura, altura, profundidade da parede
-            const textureLoader = new THREE.TextureLoader();
-            const wallTexture = textureLoader.load('./texture/wall.jpg');
-            const wallMaterial = new THREE.MeshPhongMaterial({ map: wallTexture }); // Material com textura
-            const wallCaf = new THREE.Mesh(wallGeometry, wallMaterial);
-            wallCaf.position.set(0, 1, 0); // Ajuste a posição conforme necessário//rectangle.rotateY(Math.PI / 2); // Rotaciona o plano para ficar na vertical
-            this.object.add(wallCaf);
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Luz ambiente
-            this.object.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Luz direcional
-            directionalLight.position.set(5, 10, 7.5);
-            this.object.add(directionalLight);
-            */
-
             // Raycaster
 
             const raycasterGeometry = new THREE.BoxGeometry(1.5, 0.7, 1);
@@ -153,6 +135,7 @@ export default class Maze {
             //this.raycaster.position.set(-1, 0.5, -1.65);
             //this.object.add(this.raycaster);
 
+            // Create the rooms
             this.roomsArray = [];
 
             this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
@@ -256,7 +239,7 @@ export default class Maze {
             });
         });
 
-/*
+
         //=======================================================================================================
         // Reception desk
         loaderGLTF.load('./models/reception_desk/scene.gltf', (gltf) => {
@@ -662,7 +645,7 @@ export default class Maze {
             });
         });
 
-
+/*
 
         //=======================================================================================================
         // Cafeteria
@@ -833,7 +816,7 @@ export default class Maze {
             });
         });
         
-
+*/
         //=======================================================================================================
         // Bedroom
 
@@ -886,7 +869,7 @@ export default class Maze {
         });
         
 
-
+/*
 
         //=======================================================================================================
         // Parking lot
@@ -977,7 +960,7 @@ export default class Maze {
             });
         });
         
-
+*/
         loaderGLTF.load('./models/concrete_road_barrier_photoscanned/scene.gltf', (gltf) => {
             const roadBarrierModel = gltf.scene;
             roadBarrierModel.visible = false; // Hide the original model for cloning.
@@ -1012,7 +995,7 @@ export default class Maze {
         });
         
 
-*/
+
         //=======================================================================================================
         // Consultório
 
