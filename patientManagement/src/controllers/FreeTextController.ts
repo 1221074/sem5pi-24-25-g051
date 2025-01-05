@@ -22,7 +22,7 @@ export default class FreeTextController implements IFreeTextController {
       }
 
       const freeTextDTO = FreeTextOrError.getValue();
-      return res.status(201).json(freeTextDTO);
+      return res.status(200).json(freeTextDTO);
     }
     catch (e) {
       return next(e);
@@ -38,7 +38,7 @@ export default class FreeTextController implements IFreeTextController {
       }
 
       const freeTextDTO = FreeTextOrError.getValue();
-      return res.status(201).json(freeTextDTO);
+      return res.status(200).json(freeTextDTO);
     }
     catch (e) {
       return next(e);
