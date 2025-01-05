@@ -78,7 +78,7 @@ builder.Logging.AddConsole();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost4000",
-        builder => builder.WithOrigins("http://localhost:4000")
+        builder => builder.WithOrigins("http://vs743:4000")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials());
