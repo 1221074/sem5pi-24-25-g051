@@ -1,4 +1,4 @@
-Steps towards Definition of Done (DoD) for a User Story !
+Steps towards Definition of Done (DoD) for a User Story!
 -----------------------------------------
 - Code is written, reviewed, and checked into a version control system.
 - Acceptance criteria are met.
